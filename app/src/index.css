@@ -4,6 +4,11 @@ body {
   font-family: sans-serif;
 }
 
+a {
+  color: white;
+  font-weight: bold;
+}
+
 .landing-page {
   height: 100vh;
   width: 100%;
@@ -17,7 +22,7 @@ body {
 .white-box {
   width: 30%;
   height: 60%;
-  background-color: white;
+  background-color: #DF3940;
   color: black;
   font-weight: bold;
   position: relative;

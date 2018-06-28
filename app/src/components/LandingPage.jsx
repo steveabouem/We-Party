@@ -5,8 +5,11 @@ class HomePage extends React.Component {
     return( 
       <div className="landing-page">
         <div className="white-box">
-          <h1> Welcome to WeParty </h1>
-          <p> LOREM IPSUM WELCOME </p>
+          <h1> WeParty </h1>
+          <p> Our goal? Allow people to organise group activities on one single platform
+              Location? Prices? Suggestions? We got you covered!
+              Take a <a> tour </a>? 
+          </p>
         </div>
       </div>
     )
