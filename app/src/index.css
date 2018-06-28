@@ -7,6 +7,22 @@ body {
 a {
   color: white;
   font-weight: bold;
+  text-decoration: none;
+  transition: all 0.5;
+}
+
+a:hover {
+  color: rgb(238, 236, 98);
+  font-size: 1.03em;
+}
+
+#MainContainer {
+  background-color: #ffffff;
+  height: 100vh;
+  width: 100%;
+  position: absolute;
+  margin: auto;
+  text-align: center;
 }
 
 .landing-page {
