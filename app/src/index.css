@@ -1,0 +1,27 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+.landing-page {
+  height: 100vh;
+  width: 100%;
+  position: absolute;
+  background-color: #412D3C;
+  background-blend-mode: multiply;
+  color: #EE6562;
+  /* background-image :   url("https://images.unsplash.com/photo-1504310578167-435ac09e69f3?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=b710c3d382a92bac1a4c3aa674572a6b&auto=format&fit=crop&w=634&q=80"); */
+}
+
+.white-box {
+  width: 30%;
+  height: 60%;
+  background-color: white;
+  color: black;
+  font-weight: bold;
+  position: relative;
+  top: 20%;
+  left: 60%;
+  text-align: justify;
+}
