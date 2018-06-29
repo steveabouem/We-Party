@@ -25,6 +25,16 @@ a:hover {
   text-align: center;
 }
 
+.navigation {
+  position: fixed;
+  top: 0;
+  height: 10%;
+  width: 100%;
+  background-color: white;
+  z-index: 1;
+  
+}
+
 .landing-page {
   height: 100vh;
   width: 100%;
@@ -32,17 +42,32 @@ a:hover {
   background-color: #412D3C;
   background-blend-mode: multiply;
   color: #EE6562;
-  /* background-image :   url("https://images.unsplash.com/photo-1504310578167-435ac09e69f3?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=b710c3d382a92bac1a4c3aa674572a6b&auto=format&fit=crop&w=634&q=80"); */
+  z-index: 0;
 }
 
 .white-box {
+  background-repeat: no-repeat;
   width: 30%;
   height: 60%;
-  background-color: #DF3940;
-  color: black;
+  background-color: rgb(222, 57, 65);
+  color: white;
   font-weight: bold;
   position: relative;
   top: 20%;
   left: 60%;
   text-align: justify;
+  background-image: url(https://images.unsplash.com/photo-1504310578167-435ac09e69f3?ixlib=rb-0.3.5…jEyMDd9&s=b710c3d…&auto=format&fit=crop&w=634&q=80);
+  background-size: cover;
+  background-blend-mode: multiply;
+  border-radius: 120px;
+  padding: 3%;
+}
+
+.white-box h1 {
+  color: black;
+  font-size: 2.8rem;
+}
+
+.white-box a {
+  font-size: 2rem;
 }
