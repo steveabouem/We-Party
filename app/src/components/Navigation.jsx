@@ -31,11 +31,11 @@ class Navigation extends React.Component {
     return (
       <div className="navigation">
         <nav>
-          <NavbarBrand> WeParty! </NavbarBrand>
-          <NavLink> Tour </NavLink>
-          <NavLink> Groups </NavLink>
-          <NavLink> Activities </NavLink>
-          <NavLink id="login"> Login/Register </NavLink>
+          <a className="navbar-brand" href="/home"> WeParty! </a>
+          <a href="/tour"> Tour </a>
+          <a href="/groups"> Groups </a>
+          <a href="/activities"> Activities </a>
+          <a href="/authenticate" id="login"> Login/Register </a>
         </nav>
       </div>
     )
