@@ -21,7 +21,7 @@ class Navigation extends React.Component {
     this.toggle = this.toggle.bind(this);
     this.state = {
       isOpen: false,
-      userStatus: "test"
+      userStatus: null
     };
   }
   toggle() {
@@ -30,15 +30,16 @@ class Navigation extends React.Component {
     });
   }
 
-   componentWillMount(){
-    if(store.getState().userInfo.user.loggedIn)
-    this.state.userStatus = store.getState().userInfo.user.loggedIn
-    console.log(store.getState().userInfo.user)
-
+  async componentWillMount(){
+    await store.getState().userInfo.user.loggedIn;
+    this.setState({userStatus: store.getState().userInfo.user.loggedIn});
+    console.log(store.getState().userInfo.user);
   }
   
   render () {
-    return (
+    console.log("state, ", this.state);
+    
+    return (!this.state.userStatus? <h1> loading ... </h1> :
       <div className="navigation">
         <nav>
           <a className="navbar-brand" href="/home"> WeParty! </a>
