@@ -1,14 +1,11 @@
 import { LOGIN, LOGOUT } from "./types";
 import axios from "axios";
 
-export const userSession = () => dispatch => {
-  axios
-  .get("http://google.com")
-  .then(res => {
-    console.log("response: ", res);
-
+export const userSession = (user) => dispatch => {
+  console.log("starting userSession for ", user);
+  dispatch({
+    type: LOGIN,
+    payload: user
   })
-  .catch(err => {
-    console.log("LOGIN action error: ", err)
-  });
 };
+

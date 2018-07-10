@@ -48,7 +48,7 @@ nav a {
   font-size: 1.3rem;  
 }
 
-.landing-page {
+.landing-page, .login-page {
   height: 100vh;
   width: 100%;
   position: absolute;
@@ -60,27 +60,99 @@ nav a {
 
 .white-box {
   background-repeat: no-repeat;
-  width: 30%;
-  height: 60%;
-  background-color: rgb(222, 57, 65);
-  color: white;
-  font-weight: bold;
-  position: relative;
-  top: 20%;
-  left: 60%;
-  text-align: justify;
-  background-image: url(https://images.unsplash.com/photo-1504310578167-435ac09e69f3?ixlib=rb-0.3.5…jEyMDd9&s=b710c3d…&auto=format&fit=crop&w=634&q=80);
-  background-size: cover;
-  background-blend-mode: multiply;
-  border-radius: 120px;
-  padding: 3%;
+    width: 30%;
+    height: 60%;
+    background-color: rgb(222, 57, 65);
+    color: white;
+    font-weight: bold;
+    position: absolute;
+    top: 20%;
+    left: 60%;
+    text-align: justify;
+    background-image: url(https://images.unsplash.com/photo-1504310578167-435ac09e69f3?ixlib=rb-0.3.5…jEyMDd9&s=b710c3d…&auto=format&fit=crop&w=634&q=80);
+    background-size: cover;
+    background-blend-mode: multiply;
+    /* border-radius: 120px; */
+    padding: 3%;
 }
 
 .white-box h1 {
-  color: black;
+  color: #d0353d;
   font-size: 2.8rem;
+  animation: revealTitle 2s;
+  animation-fill-mode: forwards;
 }
 
+.white-box p {
+  color: #d2353c;
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
 .white-box a {
   font-size: 2rem;
+}
+
+.text {
+  position: absolute;
+  z-index: 2;
+  top: 20%;
+  width: 75%;
+}
+
+.shadows {
+  padding: 3%;
+  background-color: black;
+  height: 29%;
+  animation: expandShadows 3s;
+  animation-fill-mode: forwards;
+}
+
+
+
+.login-page {
+  text-align: center;
+}
+
+.login-page .row {
+  background-color: white;
+  top: 0%;
+  position: absolute;
+  height: 50%;
+  padding-top: 5%;
+}
+
+.login-page .btn-secondary{
+  margin: auto;
+  position: relative;
+  margin-top: 10px;
+  color: white;
+  transition: all 0.4s;
+}
+
+.btn-secondary:hover {
+  background-color: black!important;
+  color: rgb(156, 156, 156);
+}
+
+@keyframes expandShadows {
+  0% {
+    height: 29%;
+    transform: scale(1.3);
+  }
+  
+  50% {
+    height: 100%;
+  }
+
+  100% {
+    height: 100%;
+    transform: scale(1.1);
+  }
+}
+
+@keyframes revealTitle {
+
+  100% {
+    color: white;
+  }
 }

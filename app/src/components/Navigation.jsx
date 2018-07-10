@@ -12,6 +12,7 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem } from 'reactstrap';
+  import store from "../store";
 
 class Navigation extends React.Component {
   constructor(props) {
@@ -19,7 +20,8 @@ class Navigation extends React.Component {
 
     this.toggle = this.toggle.bind(this);
     this.state = {
-      isOpen: false
+      isOpen: false,
+      userStatus: "test"
     };
   }
   toggle() {
@@ -27,6 +29,14 @@ class Navigation extends React.Component {
       isOpen: !this.state.isOpen
     });
   }
+
+   componentWillMount(){
+    if(store.getState().userInfo.user.loggedIn)
+    this.state.userStatus = store.getState().userInfo.user.loggedIn
+    console.log(store.getState().userInfo.user)
+
+  }
+  
   render () {
     return (
       <div className="navigation">
@@ -36,6 +46,9 @@ class Navigation extends React.Component {
           <a href="/groups"> Groups </a>
           <a href="/activities"> Activities </a>
           <a href="/authenticate" id="login"> Login/Register </a>
+          <span className="user-info">
+            {this.state.userStatus}
+          </span>
         </nav>
       </div>
     )
