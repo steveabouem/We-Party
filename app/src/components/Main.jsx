@@ -14,7 +14,7 @@ class Main extends React.Component {
         <Switch>
           <Route exact path ="/" component = {LandingPage} />
           <Route path = "/home" component = {HomePage} />
-          <Route path = "/login" component = {LoginPage} />
+          <Route path = "/authenticate" component = {LoginPage} />
           <Route path = "/tour" component = { Tour } />
           <Route path = "/groups" commponent = {Groups} />
         </Switch>

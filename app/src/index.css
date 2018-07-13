@@ -4,6 +4,16 @@ body {
   font-family: sans-serif;
 }
 
+.loading {
+  margin: auto;
+  color: #EE6562;
+  animation: loadingAnimation 2s;
+  animation-iteration-count: infinite;
+  position: absolute;
+  top: 20%;
+  left: 20%;
+}
+
 a {
   color:#EE6562;
   font-weight: bold;
@@ -48,39 +58,157 @@ nav a {
   font-size: 1.3rem;  
 }
 
-.landing-page {
+nav {
+  line-height: 2;
+}
+
+
+.landing-page, .login-page {
   height: 100vh;
   width: 100%;
   position: absolute;
-  background-color: #412D3C;
-  background-blend-mode: multiply;
+  background: rgb(238,101,98);
+  background: linear-gradient(180deg, rgba(238,101,98,1) 50%, rgba(65,45,60,1) 50%);
   color: #EE6562;
   z-index: 0;
 }
 
 .white-box {
+  margin: auto;
+  margin-top: 15%;
   background-repeat: no-repeat;
   width: 30%;
   height: 60%;
   background-color: rgb(222, 57, 65);
-  color: white;
+  color: #412d3c;
   font-weight: bold;
-  position: relative;
-  top: 20%;
-  left: 60%;
   text-align: justify;
-  background-image: url(https://images.unsplash.com/photo-1504310578167-435ac09e69f3?ixlib=rb-0.3.5…jEyMDd9&s=b710c3d…&auto=format&fit=crop&w=634&q=80);
   background-size: cover;
   background-blend-mode: multiply;
-  border-radius: 120px;
   padding: 3%;
+  animation: animateWhiteBox 0.5s;
 }
 
 .white-box h1 {
-  color: black;
+  font-family: 'Josefin Sans', sans-serif;
+  color: #d0353d;
   font-size: 2.8rem;
+  animation: revealTitle 2s;
+  animation-fill-mode: forwards;
 }
 
-.white-box a {
-  font-size: 2rem;
+.white-box p {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+.white-box a, .navbar-brand a {
+  font-size: 1rem;
+  color: white;
+}
+
+.white-box a:hover{ 
+  color: #FFD951;
+  text-decoration: none;
+}
+
+.login-page {
+  text-align: center;
+}
+
+.login-page .row {
+  background-color: #ee6562;
+  top: 0%;
+  position: absolute;
+  height: 50%;
+  padding-top: 5%;
+}
+
+.landing-page label {
+  color: rgb(255, 255, 255)!important;
+}
+
+.login-page .btn-secondary{
+  margin: auto;
+  position: relative;
+  margin-top: 10px;
+  color: white;
+  transition: all 0.4s;
+}
+
+.btn-secondary:hover {
+  background-color: black!important;
+  color: rgb(156, 156, 156);
+}
+
+@keyframes animateWhiteBox {
+  0% {
+    background: rgb(222,57,65);
+    height: 10%;
+    transform: scale(1.05);
+    border: 3px solid;
+    border-color: #00000054;
+    padding: 10%;
+    color: #412d3c;
+  }
+  
+  50% {
+    background: #412d3c;
+    height: 60%;
+    transform: scale(1.1);
+    border: 6px solid;
+    border-color: #00000054;
+    padding: 5%;
+    color: #412d3c;
+    
+  }
+  
+  100% {
+    background: rgb(222,57,65);
+    height: 60%;
+    transform: scale(1);
+    border: none;
+  }  
+}
+@keyframes expandShadows {
+  0% {
+    height: 29%;
+    transform: scale(1.3);
+  }
+  
+  50% {
+    height: 100%;
+  }
+  
+  100% {
+    height: 100%;
+    transform: scale(1.1);
+  }
+}
+
+@keyframes animateBackground {
+  0% {
+    background: rgb(238,101,98);
+    background: linear-gradient(180deg, rgba(238,101,98,1) 10%, rgba(65,45,60,1) 10%);
+  }
+}
+
+@keyframes revealTitle {
+  100% {
+    color: white;
+  }
+}
+
+@keyframes loadingAnimation {
+  0% {
+    transform: scale(1.2);
+  }
+  
+  50% {
+    transform: scale(1);
+  }
+  
+  100% {
+    transform: scale(1.2);
+  }
 }
