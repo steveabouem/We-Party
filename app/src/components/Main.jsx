@@ -5,6 +5,8 @@ import LoginPage from "./LoginPage.jsx";
 import HomePage from "./HomePage.jsx";
 import Tour from "./Tour.jsx";
 import Groups from "./Groups.jsx";
+import Budget from "./Budget.jsx";
+import Activities from "./Activities.jsx";
 
 
 class Main extends React.Component {
@@ -12,12 +14,13 @@ class Main extends React.Component {
     return (
       <main id = "MainContainer">
         <Switch>
-          <Route exact path ="/" component = {LandingPage} />
           <Route path = "/home" component = {HomePage} />
+          <Route path = "/activities" component = {Activities} />
           <Route path = "/authenticate" component = {LoginPage} />
+          <Route exact path = "/groups" commponent = {Groups} />
           <Route path = "/tour" component = { Tour } />
-          <Route path = "/groups" commponent = {Groups} />
-          <Route path = "/budget" commponent = {Groups} />
+          <Route path = "/budget" commponent = {Budget} />
+          <Route exact path ="/" component = {LandingPage} />
         </Switch>
       </main>
     )
