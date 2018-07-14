@@ -28,7 +28,7 @@ class MenuButton extends React.Component {
           onClick={this.handleClick}
           style={{color: "#FFD951"}}
         >
-         Menu
+         {this.props.button}
         </span>
         <Menu
           id="simple-menu"
@@ -36,18 +36,11 @@ class MenuButton extends React.Component {
           open={Boolean(anchorEl)}
           onClose={this.handleClose}
         >
-          <MenuItem onClick={this.handleClose}>
-           <a href="/activities">My Activities</a>
-          </MenuItem>
-          <MenuItem onClick={this.handleClose}>
-            <a href="/groups">My Groups</a>
-          </MenuItem>
-          <MenuItem onClick={this.handleClose}>
-            <a href="/budget">My Budget</a>
-          </MenuItem>
-          <MenuItem onClick={this.handleClose}>
-            <a href="/tour">Tour</a>
-          </MenuItem>
+         {this.props.items.map(item => {
+           return (<MenuItem onClick={this.handleClose}>
+            <a href={item.ref}>{item.name}</a>
+           </MenuItem>)
+         })} 
         </Menu>
       </div>
     );

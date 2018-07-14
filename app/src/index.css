@@ -41,20 +41,28 @@ header[class^='MuiPaper-root'] {
 
 button[class^="MuiButtonBase-root"]:hover {
   background-color: #d0353d;
+  
 }
 
 button[class^="MuiButtonBase-root"]:hover {
   background-color: #d0353d;
 }
+li[class^="MuiButtonBase-root"]:hover {
+  background-color: #FFD951;
+}
 
 #menu-button {
   transition: all 0.5s;
 }
-#menu-button:hover{
-  padding: 10px;
+#menu-button:hover, .login-link:hover{
+  padding: 5px;
   background-color: #FFD951;
+  color: #d0353d!important;
 }
 
+.login-link:hover {
+  transition: all 0.5s;
+}
 
 .landing-page, .login-page {
   height: 100vh;

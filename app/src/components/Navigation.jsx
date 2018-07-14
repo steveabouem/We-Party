@@ -29,12 +29,11 @@ function Navigation(props) {
       <AppBar position="static">
         <Toolbar>
           <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
-            <MenuButton/>
+            <MenuButton items={[{ref: "/activities", name:"My Activities"}, {ref: "/groups", name:"My Groups"}, {ref: "/budget", name:"My Budget"}, {ref: "/tour", name:"Tour"}]} button={"WeParty"}/>
           </IconButton>
-          <Typography style={{color: "#FFD951"}} variant="title" color="inherit" className={classes.flex}>
-            We Party
-          </Typography>
-          <Button style={{color: "#FFD951"}}>user/guest</Button>
+          <span className="login-link" style={{position: "absolute", right: "1%"}}>
+            <a href="/authenticate">Login</a>
+          </span>
         </Toolbar>
       </AppBar>
     </div>
