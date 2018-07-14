@@ -1,0 +1,3 @@
+var faker = require('faker');
+
+export const groups = [{group: faker.commerce.productAdjective(), names: [faker.name.findName(), faker.name.findName(), faker.name.findName()], common: faker.lorem.words()}, {group: faker.commerce.productAdjective(), names: [faker.name.findName(), faker.name.findName(), faker.name.findName()], common: faker.lorem.words()},{group: faker.commerce.productAdjective(), names: [faker.name.findName(), faker.name.findName(), faker.name.findName()], common: faker.lorem.words()},{group: faker.commerce.productAdjective(), names: [faker.name.findName(), faker.name.findName(), faker.name.findName()], common: faker.lorem.words()}]

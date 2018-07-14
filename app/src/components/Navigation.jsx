@@ -1,74 +1,48 @@
-import React from "react";
-import { Link } from 'react-router-dom';
-import {
-  Collapse,
-  Navbar,
-  NavbarToggler,
-  NavbarBrand,
-  Nav,
-  NavItem,
-  NavLink,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem } from 'reactstrap';
-  import store from "../store";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+import MenuButton from "./Menu.jsx";
 
-class Navigation extends React.Component {
-  constructor(props) {
-    super(props);
+const styles = {
+  root: {
+    flexGrow: 1,
+  },
+  flex: {
+    flex: 1,
+  },
+  menuButton: {
+    marginLeft: -12,
+    marginRight: 20,
+  },
+};
 
-    this.toggle = this.toggle.bind(this);
-    this.state = {
-      isOpen: false,
-      userStatus: null
-    };
-  }
-  toggle() {
-    this.setState({
-      isOpen: !this.state.isOpen
-    });
-  }
-   async getUser(){
-    if (store.getState().userInfo.user.loggedIn)
-      return store.getState().userInfo.user.loggedIn
-  }
-  async componentWillMount(){
-    await store.getState().userInfo.user.loggedIn;
-    this.setState({userStatus: store.getState().userInfo.user.loggedIn});
-    console.log(store.getState().userInfo.user.loggedIn);
-  }
-  
-  render () {
-    this.getUser()
-    return (
-      this.state.userStatus?
-      <div className="navigation">
-        <nav>
-          <a className="navbar-brand" href="/home"> We-Party </a>
-          <a href="/tour"> Tour </a>
-          <a href="/groups"> Groups </a>
-          <a href="/activities"> Activities </a>
-          <a href="/authenticate" id="login"> Login/Register </a>
-          <span className="user-info">
-            {store.getState().userInfo.user.loggedIn} 
-          </span>
-        </nav>
-      </div>
-      : <div className="navigation">
-      <nav>
-        <a className="navbar-brand" href="/home"> We-Party </a>
-        <a href="/tour"> Tour </a>
-        <a href="/groups"> Groups </a>
-        <a href="/activities"> Activities </a>
-        <a href="/authenticate" id="login"> Login/Register </a>
-        <span className="user-info">
-          Guest
-        </span>
-      </nav>
+function Navigation(props) {
+  const { classes } = props;
+  return (
+    <div className={classes.root}>
+      <AppBar position="static">
+        <Toolbar>
+          <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
+            <MenuButton/>
+          </IconButton>
+          <Typography style={{color: "#FFD951"}} variant="title" color="inherit" className={classes.flex}>
+            We Party
+          </Typography>
+          <Button style={{color: "#FFD951"}}>user/guest</Button>
+        </Toolbar>
+      </AppBar>
     </div>
-    )
-  }
+  );
 }
 
-export default Navigation
+Navigation.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(Navigation);

@@ -15,7 +15,7 @@ body {
 }
 
 a {
-  color:#EE6562;
+  color:#EE6562!important;
   font-weight: bold;
   text-decoration: none;
   transition: all 0.5;
@@ -35,31 +35,24 @@ a:hover {
   text-align: center;
 }
 
-.navigation {
-  line-height: 2;
-  background: #A13842;
-  position: fixed;
-  overflow: hidden;
-  height: 8%;
-  width: 100%;
-  z-index: 1;
-  line-height: 3;
+header[class^='MuiPaper-root'] {
+  background: #d0353d;
 }
 
-.navbar-brand {
-  color:white;
-  float: left;
-  padding-left: 1%;
-  font-size: 1.3rem;  
+button[class^="MuiButtonBase-root"]:hover {
+  background-color: #d0353d;
 }
 
-nav a {
-  color: white;
-  font-size: 1.3rem;  
+button[class^="MuiButtonBase-root"]:hover {
+  background-color: #d0353d;
 }
 
-nav {
-  line-height: 2;
+#menu-button {
+  transition: all 0.5s;
+}
+#menu-button:hover{
+  padding: 10px;
+  background-color: #FFD951;
 }
 
 
@@ -116,30 +109,25 @@ nav {
   text-align: center;
 }
 
-.login-page .row {
-  background-color: #ee6562;
-  top: 0%;
-  position: absolute;
-  height: 50%;
-  padding-top: 5%;
+.google-button{
+  color: rgb(255, 255, 255);
+  width: 125px!important;
+  height: 125px!important;
+  padding-top: 10px!important;
+  padding-bottom: 10px!important;
+  border: 1px solid transparent;
+  font-size: 1.3em!important;
+  font-weight: bold;
 }
 
-.landing-page label {
-  color: rgb(255, 255, 255)!important;
+.kep-login-facebook {
+  background-color: #4267b2!important;
+  width: 125px!important;
+  height: 125px!important;
+  padding-top: 10px!important;
+  padding-bottom: 10px!important;
 }
 
-.login-page .btn-secondary{
-  margin: auto;
-  position: relative;
-  margin-top: 10px;
-  color: white;
-  transition: all 0.4s;
-}
-
-.btn-secondary:hover {
-  background-color: black!important;
-  color: rgb(156, 156, 156);
-}
 
 @keyframes animateWhiteBox {
   0% {
