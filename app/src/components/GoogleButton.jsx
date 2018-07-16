@@ -11,7 +11,7 @@ class GoogleButton extends React.Component {
   render(){
     return (
       <GoogleLogin
-      clientId={process.env.GOOGLE_ID} not working
+      clientId="489475258388-c3lsm1ejc3csalbl5vmfdamaahous9sf.apps.googleusercontent.com"
       buttonText="Google"
       ux_mode='redirect'
       redirectUri='/home'
