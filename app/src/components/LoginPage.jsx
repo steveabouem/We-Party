@@ -19,16 +19,24 @@ class LoginPage extends React.Component {
   labelStyle = {
     color: "white"
   }
+  googleStyle = {
+    position:"absolute",
+    top: "40%"
+  }
+  facebookStyle = {
+    position:"absolute",
+    top: "52%"
+  }
 
   render(){
     console.log(this.props.userSession)
     return(
       <div className="login-page">
         <Row>
-          <Col>
-            <GoogleButton />
+          <Col style={this.googleStyle}>
+            <GoogleButton className="google-button"/>
           </Col>
-          <Col>
+          <Col style={this.facebookStyle}>
             <FacebookButton />
           </Col>
         </Row>
