@@ -1,7 +1,5 @@
 import React from "react";
 import Navigation from "./Navigation.jsx";
-import  {activities} from "../helpers/activities";
-import  {groups} from "../helpers/groups";
 import PaperSheet from "../utils/PaperSheet";
 import { searchResults } from "../helpers/searchResults";
 import { Card, CardImg, CardText, CardBody,
@@ -16,6 +14,10 @@ export default class HomePage extends React.Component {
       searchResults: [],
       loggedIn: null
     }
+  }
+  componentDidMount(){
+    fetch("/home")
+      .then(res => {console.log("mount res: ", res)});
   }
   getActivity(e){
     let input = e.target.value;
