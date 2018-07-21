@@ -10,7 +10,7 @@ class FacebookButton extends React.Component {
   render(){
     return(
     <FacebookLogin
-      appId={process.env.FACEBOOK_ID}
+      appId='472475886498825'
       autoLoad={true}
       fields="name,email,picture"
       textButton="Facebook"

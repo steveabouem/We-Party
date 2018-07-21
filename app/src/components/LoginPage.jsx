@@ -1,7 +1,7 @@
 import React from "react";
 import { userSession } from "../actions/index";
 import { connect } from "react-redux";
-import { Button, Form, FormGroup, Label, Input, Row, Col } from 'reactstrap';
+import { Row, Col } from 'reactstrap';
 import store from "../store";
 import GoogleButton from "./GoogleButton.jsx";
 import FacebookButton from "./FacebookButton";
