@@ -1,11 +1,21 @@
-import React from 'react';
-import { GoogleLogin } from 'react-google-login';
+import React from "react";
+import { GoogleLogin } from "react-google-login";
+import firebase from "firebase/app";
+import "firebase/database";
+import { dbConfig } from "../config/firebase";
 
  
 class GoogleButton extends React.Component {
-  responseGoogle = (response) => {
-    console.log(response);
+  constructor(props){
+    super(props)
+    this.app = firebase.initializeApp(dbConfig);
+    this.database = this.app.database().ref().child('users');
 
+  }
+
+  responseGoogle = (response) => {
+    const userInfo = response.profileObj;
+    this.database.push().set({ firstName: userInfo.givenName, lastName: userInfo.familyName });
   }
   
   render(){
@@ -13,9 +23,9 @@ class GoogleButton extends React.Component {
       <GoogleLogin
       clientId="489475258388-c3lsm1ejc3csalbl5vmfdamaahous9sf.apps.googleusercontent.com"
       buttonText="Google"
-      ux_mode='redirect'
-      redirectUri='/home'
-      accessType='online'
+      ux_mode="redirect"
+      redirectUri="/home"
+      accessType="online"
       onSuccess={this.responseGoogle}
       onFailure={this.responseGoogle}
       />

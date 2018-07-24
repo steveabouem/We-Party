@@ -1,4 +1,7 @@
 import React from "react";
+import firebase from "firebase/app";
+import "firebase/database";
+import { dbConfig } from "../config/firebase";
 import Navigation from "./Navigation.jsx";
 import PaperSheet from "../utils/PaperSheet";
 import { searchResults } from "../helpers/searchResults";
@@ -16,22 +19,21 @@ export default class HomePage extends React.Component {
     }
   }
   componentDidMount(){
-    fetch("/home")
-      .then(res => {console.log("mount res: ", res)});
+    
   }
   getActivity(e){
     let input = e.target.value;
-    let resultHolder = [];
-    if(input.length > 2){
-    searchResults.forEach( object =>{
-      if(object.category.toLocaleLowerCase().indexOf(input.toLocaleLowerCase()) !== -1) {
-        resultHolder.push(object)
-      }
-      this.setState({searchResults: resultHolder})
-    })
-  } if(input.length < 2){
-    this.setState({searchResults:[]})
-  }
+  //   let resultHolder = [];
+  //   if(input.length > 2){
+  //   searchResults.forEach( object =>{
+  //     if(object.category.toLocaleLowerCase().indexOf(input.toLocaleLowerCase()) !== -1) {
+  //       resultHolder.push(object)
+  //     }
+  //     this.setState({searchResults: resultHolder})
+  //   })
+  // } if(input.length < 2){
+  //   this.setState({searchResults:[]})
+  // }
   }
 
   render (){
