@@ -10,15 +10,17 @@ class GoogleButton extends React.Component {
     super(props)
     this.app = firebase.initializeApp(dbConfig);
     this.database = this.app.database().ref().child('users');
-
+    this.responseGoogle = this.responseGoogle.bind(this)
   }
 
   responseGoogle = (response) => {
     const userInfo = response.profileObj;
+    this.props.getUser(userInfo);
     this.database.push().set({ firstName: userInfo.givenName, lastName: userInfo.familyName });
   }
   
   render(){
+    console.log("button props", this.props)
     return (
       <GoogleLogin
       clientId="489475258388-c3lsm1ejc3csalbl5vmfdamaahous9sf.apps.googleusercontent.com"
@@ -32,5 +34,6 @@ class GoogleButton extends React.Component {
       )
   }
 }
+
 
 export default GoogleButton

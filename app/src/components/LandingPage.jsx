@@ -1,5 +1,4 @@
 import React from "react";
-import Navigation from "./Navigation.jsx";
 
 
 class HomePage extends React.Component {

@@ -1,5 +1,6 @@
 import React from "react";
 import firebase from "firebase/app";
+import { connect } from "react-redux";
 import "firebase/database";
 import { dbConfig } from "../config/firebase";
 import Navigation from "./Navigation.jsx";
@@ -8,9 +9,7 @@ import { searchResults } from "../helpers/searchResults";
 import { Card, CardImg, CardText, CardBody,
   CardTitle, CardSubtitle, Button, Col } from 'reactstrap';
 
-
-
-export default class HomePage extends React.Component {
+class HomePage extends React.Component {
   constructor (props){
     super(props)
     this.state = {
@@ -23,20 +22,11 @@ export default class HomePage extends React.Component {
   }
   getActivity(e){
     let input = e.target.value;
-  //   let resultHolder = [];
-  //   if(input.length > 2){
-  //   searchResults.forEach( object =>{
-  //     if(object.category.toLocaleLowerCase().indexOf(input.toLocaleLowerCase()) !== -1) {
-  //       resultHolder.push(object)
-  //     }
-  //     this.setState({searchResults: resultHolder})
-  //   })
-  // } if(input.length < 2){
-  //   this.setState({searchResults:[]})
-  // }
+  
   }
 
   render (){
+    console.log("home props: ", this.props)
     return(
       <div>
         <Navigation />
@@ -72,4 +62,8 @@ export default class HomePage extends React.Component {
                  
   }
 }
+const mapStateToProps = state => ({
+  userInfo: state.userInfo
+})
 
+export default connect(mapStateToProps) (HomePage)

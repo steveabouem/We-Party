@@ -3,10 +3,8 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
+import { connect } from "react-redux";
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 import MenuButton from "./Menu.jsx";
 
 const styles = {
@@ -23,6 +21,9 @@ const styles = {
 };
 
 function Navigation(props) {
+  if(props.userInfo.userInfo.givenName){
+  const displayName = props.userInfo.userInfo.givenname;
+  }
   const { classes } = props;
   return (
     <div className={classes.root}>
@@ -32,6 +33,7 @@ function Navigation(props) {
             <MenuButton items={[{ref: "/activities", name:"My Activities"}, {ref: "/groups", name:"My Groups"}, {ref: "/budget", name:"My Budget"}, {ref: "/tour", name:"Tour"}]} button={"WeParty"}/>
           </IconButton>
           <span className="login-link" style={{position: "absolute", right: "1%"}}>
+            <span className="display-name">{(props.userInfo.userInfo.userInfo? "Guest" : props.userInfo.userInfo.givenName)}</span>
             <a href="/authenticate">Login</a>
           </span>
         </Toolbar>
@@ -43,5 +45,7 @@ function Navigation(props) {
 Navigation.propTypes = {
   classes: PropTypes.object.isRequired,
 };
-
-export default withStyles(styles)(Navigation);
+const mapStateToProps = state => ({
+  userInfo: state.userInfo
+})
+export default connect(mapStateToProps) (withStyles(styles)(Navigation));
