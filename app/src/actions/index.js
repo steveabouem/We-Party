@@ -10,6 +10,8 @@ export const saveUser = (user) => dispatch => {
   })
 };
 
-// export const displayUser = (value) in nav componenet
-
+export const searchActivities = (input) => dispatch => {
+  fetch("/home")
+      .then(res => {console.log("mount res: ", res)});
+}
 

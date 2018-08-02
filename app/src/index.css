@@ -128,6 +128,21 @@ li[class^="MuiButtonBase-root"]:hover {
   font-weight: bold;
 }
 
+.image-holder {
+  justify-content: center;
+  display: flex;
+  background-position-y: 57%;
+  background-image: url(https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?ixlib=rb-0.3.5…EyMDd9&s=5b81126…&auto=format&fit=crop&w=1050&q=80);
+  height: 60vh;
+  width: 80%;
+  margin: 1% auto auto;
+}
+.input-group {
+  margin-top: 30%!important;
+  color: white;
+  position: relative;
+  align-content: center;
+}
 .kep-login-facebook {
   background-color: #4267b2!important;
   width: 125px!important;
@@ -145,11 +160,15 @@ li[class^="MuiButtonBase-root"]:hover {
   margin: auto;
   margin-top: 1%;
 }
+form label {
+  color: white!important;
+}
 
 .results-cards {
   width: 80%;
   margin: auto;
 }
+
 
 @keyframes animateWhiteBox {
   0% {

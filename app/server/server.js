@@ -1,53 +1,31 @@
-import path from 'path'
-import Express from 'express'
-import React from 'react'
-import { createStore } from 'redux'
-import { Provider } from 'react-redux'
-import counterApp from './reducers'
-import App from './containers/App'
-​
-const app = Express()
-const port = 3000
-​
-//Serve static files
-app.use('/static', Express.static('static'))
-​
-// This is fired every time the server side receives a request
-app.use(handleRender)
-​
-// We are going to fill these out in the sections to follow
-function handleRender(req, res) {  // Create a new Redux store instance
-  const store = createStore(counterApp)
-  ​coonsole.log('server active');
-  // Render the component to a string
-  const html = renderToString(
-    <Provider store={store}>
-    <App />
-    </Provider>
-  )
-  ​
-  // Grab the initial state from our Redux store
-  const preloadedState = store.getState()
-  ​
-  // Send the rendered page back to the client
-  res.send(renderFullPage(html, preloadedState)) }
-  function renderFullPage(html, preloadedState) { `<!DOCTYPE html>
-  <html lang="en">
-    <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-      <meta name="theme-color" content="#000000">
-      <link href="https://fonts.googleapis.com/css?family=Josefin+Sans" rel="stylesheet">
-      <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
-      <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
-      <title>React App</title>
-    </head>
-    <body>
-      <noscript>
-        You need to enable JavaScript to run this app.
-      </noscript>
-      <div id="root"></div>
-    </body>
-  </html>` }
-  ​
-  app.listen(port)
+const express = require('express');
+const os = require('os');
+const app = express();
+const axios = require('axios');
+
+app.use(express.static('dist'));
+app.get('/home:query', (req, res) => {
+  const params = req.params.query;
+  const search = params.split("").slice(1, params.length).join("");
+  console.log("search: ", search)
+  const yelpConfig = {
+    headers: { Authorization: "Bearer woO7hOWfngBu9aeNH8cMaN0g4p7_u0IzDZ5JFvjwhu0aqAItRM-5HijZhO3JY_TwmEVq3kFpnh0Ss5yBBHYYFTZPeCtuXStFKtdmO93SILH3b-RNgeyvOisyIWpNW3Yx" },
+    params: {
+      name: `${search}`,
+      location: "Montreal"
+    }
+  };
+  if(params.length > 3)
+  axios
+  .get(`https://api.yelp.com/v3/categories/${search}`, yelpConfig)
+  .then(response => {
+    console.log("food done: ", response.data);
+  })
+  .catch(err => console.log("error: ", err));
+});
+
+app.get('/activities', (req, res) => console.log("activities", Object.keys(res)));
+
+
+
+app.listen(3001, () => console.log('Listening on port 3001!'));

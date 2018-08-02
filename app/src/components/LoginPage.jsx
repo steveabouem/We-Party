@@ -12,7 +12,6 @@ class LoginPage extends React.Component {
     const user = e.target.loginemail.value;
     this.props.saveUser(user);
     this.props.history.push('/home');
-    
   }
 
   labelStyle = {

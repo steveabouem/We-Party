@@ -1,4 +1,4 @@
-import { LOGIN, LOGOUT } from "../actions/types";
+import { LOGIN, LOGOUT, SEARCH_ACTIVITIES } from "../actions/types";
 
 const initialState = {
   userInfo:{userInfo:{givenName:"Guest"} }
@@ -13,6 +13,12 @@ export default function(state = initialState, action){
         ...state,
         userInfo: action.payload
       };
+    case SEARCH_ACTIVITIES:{
+      return{
+        ...state,
+        searchResults:[...action.payload]
+      }
+    };
     default:
     return state;
       }

@@ -4,8 +4,8 @@ import { connect } from "react-redux";
 import "firebase/database";
 import { dbConfig } from "../config/firebase";
 import Navigation from "./Navigation.jsx";
-import PaperSheet from "../utils/PaperSheet";
-import { searchResults } from "../helpers/searchResults";
+import TextField from "../utils/TextField";
+import { searchActivities } from "../actions";
 import { Card, CardImg, CardText, CardBody,
   CardTitle, CardSubtitle, Button, Col } from 'reactstrap';
 
@@ -17,12 +17,11 @@ class HomePage extends React.Component {
       loggedIn: null
     }
   }
-  componentDidMount(){
-    
-  }
-  getActivity(e){
-    let input = e.target.value;
   
+  recordSearch(e){
+    let input = e.target.value;
+      if(input.length > 3)
+      this.props.searchActivities(input);
   }
 
   render (){
@@ -30,14 +29,17 @@ class HomePage extends React.Component {
     return(
       <div>
         <Navigation />
-        <PaperSheet />
+        <div className="image-holder">
         {/* Photo by Ethan Hu on Unsplash */}
         <div class="row">
           <div class="col-lg-8">
             <div class="input-group">
-              <input type="text" class="form-control" placeholder="Look for..." onChange={(e) => this.getActivity(e)}/>
+            <p>CATCH PHRASE FOR WE PARTY, LIKE TURO.COM</p>
+            {/* <input type="text" class="form-control" placeholder="Where to go?" onChange={(e) => this.recordSearch(e)}/> */}
+            <TextField recordSearch={this.recordSearch}/>
             </div>
           </div>
+        </div>
         </div>
         <div className="results-cards">
           {(this.state.searchResults.length > 0? this.state.searchResults.map(result => {
@@ -66,4 +68,4 @@ const mapStateToProps = state => ({
   userInfo: state.userInfo
 })
 
-export default connect(mapStateToProps) (HomePage)
+export default connect(mapStateToProps, {searchActivities}) (HomePage)
