@@ -31,9 +31,9 @@ class HomePage extends React.Component {
         <Navigation />
         <div className="image-holder">
         {/* Photo by Ethan Hu on Unsplash */}
-        <div class="row">
-          <div class="col-lg-8">
-            <div class="input-group">
+        <div className="row">
+          <div className="col-lg-8">
+            <div className="input-group">
             <p>CATCH PHRASE FOR WE PARTY, LIKE TURO.COM</p>
             {/* <input type="text" class="form-control" placeholder="Where to go?" onChange={(e) => this.recordSearch(e)}/> */}
             <TextField recordSearch={this.recordSearch}/>

@@ -34,8 +34,6 @@ class TextFields extends React.Component {
   };
 
   render() {
-    console.log(this.props);
-    
     const { ...classes } = this.props;
     return (
       <form className={classes.container} noValidate autoComplete="off">

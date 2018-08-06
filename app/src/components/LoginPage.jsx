@@ -1,5 +1,5 @@
 import React from "react";
-import { saveUser } from "../actions/index";
+import { saveUser,loadUsersCollection } from "../actions/index";
 import { connect } from "react-redux";
 import { Row, Col } from 'reactstrap';
 import GoogleButton from "./GoogleButton.jsx";
@@ -8,6 +8,10 @@ import FacebookButton from "./FacebookButton";
 
 class LoginPage extends React.Component {
   
+  componentDidMount() {
+    this.props.loadUsersCollection()
+    console.log('props with db?', this.props);
+  }
   onSubmit = async(e) => {
     const user = e.target.loginemail.value;
     this.props.saveUser(user);
@@ -27,6 +31,7 @@ class LoginPage extends React.Component {
   }
 
   getUser =(userInfo) =>{
+    if (userInfo !== undefined)
     this.props.saveUser(userInfo);
     this.props.history.push("/home")
   }
@@ -50,4 +55,4 @@ class LoginPage extends React.Component {
 const mapStateToProps = state => ({
   userInfo: state.userInfo
 })
-export default connect(mapStateToProps, { saveUser })(LoginPage);
+export default connect(mapStateToProps, { saveUser, loadUsersCollection })(LoginPage);

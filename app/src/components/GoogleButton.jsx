@@ -18,7 +18,6 @@ class GoogleButton extends React.Component {
     this.props.getUser(userInfo);
     this.database.push().set({ firstName: userInfo.givenName, lastName: userInfo.familyName });
   }
-  
   render(){
     console.log("button props", this.props)
     return (
