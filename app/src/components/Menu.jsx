@@ -36,7 +36,7 @@ class MenuButton extends React.Component {
           onClose={this.handleClose}
         >
          {this.props.items.map(item => {
-           return (<MenuItem onClick={this.handleClose}>
+           return (<MenuItem onClick={this.handleClose} key={item.name}>
             <a href={item.ref}>{item.name}</a>
            </MenuItem>)
          })} 

@@ -18,9 +18,10 @@ class HomePage extends React.Component {
     }
   }
   
-  recordSearch(e){
+  recordSearch = (e) =>{
     let input = e.target.value;
       if(input.length > 3)
+      return
       this.props.searchActivities(input);
   }
 
@@ -57,7 +58,6 @@ class HomePage extends React.Component {
                }) :
                <p>
                </p>
-            
           )}   
         </div>
       </div>)

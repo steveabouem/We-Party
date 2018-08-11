@@ -169,6 +169,9 @@ form label {
   margin: auto;
 }
 
+#what-todo, #how-many, #budget-dropdown {
+  color: white!important;
+}
 
 @keyframes animateWhiteBox {
   0% {

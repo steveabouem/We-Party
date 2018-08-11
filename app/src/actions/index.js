@@ -11,8 +11,30 @@ export const saveUser = (user) => dispatch => {
 };
 
 export const searchActivities = (input) => dispatch => {
-  fetch("/home")
-  .then(res => {console.log("mount res: ", res)});
+  console.log("actions input", input);
+  
+  // exports.activities = functions.https.onRequest((req, res, input) => {
+  //   const express = require('express');
+  //   const cors = require('cors');
+    
+  //   const app = express();
+  //   console.log("input", input);
+  // });
+//   console.log("input", input);
+  
+//   const yelpConfig = {
+//     headers: { Authorization: "Bearer woO7hOWfngBu9aeNH8cMaN0g4p7_u0IzDZ5JFvjwhu0aqAItRM-5HijZhO3JY_TwmEVq3kFpnh0Ss5yBBHYYFTZPeCtuXStFKtdmO93SILH3b-RNgeyvOisyIWpNW3Yx", "Access-Control-Allow-Origin": "*" },
+//     params: {
+//       name: `${input}`,
+//       location: "Montreal"
+//     }
+//   };
+//   axios
+//   .get(`https://api.yelp.com/v3/categories/${input}`, yelpConfig)
+//   .then(response => {
+//     console.log("food done: ", response.data);
+//   })
+//   .catch(err => console.log("Yelp call error: ", err));
 }
 
 export const loadUsersCollection = () => dispatch => {//thyere still not unique
@@ -23,9 +45,9 @@ export const loadUsersCollection = () => dispatch => {//thyere still not unique
       usersList.push(snapshot.val()[user]);
     }
     // console.log(usersList);
-        dispatch({
-          type: LOAD_USERS,
-          payload: usersList
-        })
+    dispatch({
+      type: LOAD_USERS,
+      payload: usersList
+    })
   });
 }
