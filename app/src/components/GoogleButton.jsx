@@ -7,8 +7,8 @@ import { dbConfig } from "../config/firebase";
 class GoogleButton extends React.Component {
   constructor(props){
     super(props)
-    this.app = firebase.initializeApp(dbConfig);
-    this.database = this.app.database().ref().child('users');
+    // this.app = firebase.initializeApp(dbConfig);
+    // this.database = this.app.database().ref().child('users');
     this.responseGoogle = this.responseGoogle.bind(this)
   }
 

@@ -28,25 +28,11 @@ class TextFields extends React.Component {
   
   handleChange = name => event => {
     
-    // if(event.target.target.value > 0) {
-    // let amount =event.target.value * 10
-
-    // if(name === 'amount'){
-    //   this.setState({
-    //     [name]: amount ,
-    //   });
-    // } else {
+    if(event.target.target.value.length > 4)
       this.setState({
         [name]: event.target.value ,
       });
-      console.log("textfield props", this.props);
-      
       this.props.recordSearch(event.target.value)
-    // }
-    
-    // } else {
-    // alert('Only positive values:)')
-    // }
   };
   
   render() {
@@ -54,8 +40,19 @@ class TextFields extends React.Component {
     return (
       <form className={classes.container} noValidate autoComplete="off">
       <TextField
-      id="what-todo"
-      label="What to do?"
+      id="clubs-search"
+      label="Clubs?"
+      type="search"
+      className={classes.textField}
+      margin="normal"
+      InputLabelProps={{
+        autoFocus: true,
+      }}
+      onChange={(evt)=>this.props.recordSearch(evt)}
+      />
+      <TextField
+      id="restaurants-search"
+      label="Food?"
       type="search"
       className={classes.textField}
       margin="normal"
