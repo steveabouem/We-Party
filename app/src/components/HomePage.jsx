@@ -20,13 +20,11 @@ class HomePage extends React.Component {
   
   recordSearch = (e) =>{
     let input = e.target.value;
-      if(input.length > 3)
-      return
-      this.props.searchActivities(input);
+    this.props.searchActivities(input);
   }
 
   render (){
-    console.log("home props: ", this.props)
+    // console.log("home props: ", this.props)
     return(
       <div>
         <Navigation />

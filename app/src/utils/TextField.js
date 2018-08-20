@@ -27,12 +27,10 @@ class TextFields extends React.Component {
   };
   
   handleChange = name => event => {
-    
-    if(event.target.target.value.length > 4)
-      this.setState({
+        this.setState({
         [name]: event.target.value ,
       });
-      this.props.recordSearch(event.target.value)
+      debounce(this.props.recordSearch(event.target.value), 500)
   };
   
   render() {
