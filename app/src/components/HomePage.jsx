@@ -1,71 +1,86 @@
 import React from "react";
+import { connect } from "react-redux";
+import "firebase/database";
 import Navigation from "./Navigation.jsx";
-import  {activities} from "../helpers/activities";
-import  {groups} from "../helpers/groups";
-import PaperSheet from "../utils/PaperSheet";
-import { searchResults } from "../helpers/searchResults";
+import TextField from "../utils/TextField";
+import { searchActivities, saveActivity } from "../actions";
 import { Card, CardImg, CardText, CardBody,
   CardTitle, CardSubtitle, Button, Col } from 'reactstrap';
 
-
-
-export default class HomePage extends React.Component {
+class HomePage extends React.Component {
   constructor (props){
     super(props)
     this.state = {
-      searchResults: [],
-      loggedIn: null
+      loggedIn: null,
     }
   }
-  getActivity(e){
+  
+  recordSearch = async(e) => {
     let input = e.target.value;
-    let resultHolder = [];
-    if(input.length > 2){
-    searchResults.forEach( object =>{
-      if(object.category.toLocaleLowerCase().indexOf(input.toLocaleLowerCase()) !== -1) {
-        resultHolder.push(object)
-      }
-      this.setState({searchResults: resultHolder})
-    })
-  } if(input.length < 2){
-    this.setState({searchResults:[]})
+    await this.props.searchActivities(input);
+    this.props.searchResults;
   }
+
+  saveActivity = (e, object) => {
+    const  groupTotal = document.getElementById("how-many").value;
+    const budget = document.getElementById("budget-selected").innerHTML;
+    const activityObject = { venue: object.name, location:object.location.address1, budget: budget, group: groupTotal};
+
+    this.props.saveActivity(activityObject);
   }
 
   render (){
+    const ApiResponse =this.props.userInfo.searchResults;
     return(
       <div>
         <Navigation />
-        <PaperSheet />
+        <div className="image-holder">
         {/* Photo by Ethan Hu on Unsplash */}
-        <div class="row">
-          <div class="col-lg-8">
-            <div class="input-group">
-              <input type="text" class="form-control" placeholder="Look for..." onChange={(e) => this.getActivity(e)}/>
+        <div className="row">
+          <div className="col-lg-8">
+            <div className="input-group">
+            <p>Make it happen. Create your party!</p>
+            <TextField recordSearch={this.recordSearch}/>
             </div>
           </div>
         </div>
-        <div className="results-cards">
-          {(this.state.searchResults.length > 0? this.state.searchResults.map(result => {
+        </div>
+        <div id="results-cards">
+          {ApiResponse !== undefined? ApiResponse.results.map(result => {
             return(
-              <Col md={{ size: 10 }}>
-                <Card>
+              <Col md={{ size: 10 }} key={result.alias}>
+                <Card className="result-cards">
+                  <span>
+                    <button key={result.id} className="add-activity" onClick={(e) => {this.saveActivity(e, result)}}>
+                      Save it
+                    </button>
+                  </span>
+                  <CardImg top width="100%" height="200px" src={result.image_url} />
                   <CardBody>
-                    <CardTitle>Activity: {result.name}</CardTitle>
-                    <CardSubtitle>Category {result.category}</CardSubtitle>
-                    <CardText>Description: { result.description}</CardText>
-                    <Button>Learn more...</Button>
+                    <CardTitle> Establishment: {result.name} </CardTitle>
+                    <CardSubtitle>Category: {result.categories[0].title} </CardSubtitle>
+                    <CardText>
+                      Description: <br/>
+                      Yelp rating: {result.rating} <br/>
+                      Contact: (phone icon){result.display_phone} <br/>
+                      Location: (address icon) {result.location.address1} <br/>
+                      distance: (icon) {result.distance} <br/>
+                    </CardText>
+                    <a href={result.url} target="blank">
+                     <Button>Learn more...</Button> 
+                    </a>
                   </CardBody>
                 </Card>
-              </Col>)
-               }) :
-               <p>
-               </p>
-            
+              </Col>
           )}   
+           ) :<p></p>}
         </div>
       </div>)
                  
   }
 }
+const mapStateToProps = state => ({
+  userInfo: state.userInfo
+})
 
+export default connect(mapStateToProps, {searchActivities, saveActivity}) (HomePage)

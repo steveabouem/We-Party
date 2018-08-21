@@ -4,6 +4,10 @@ body {
   font-family: sans-serif;
 }
 
+img {
+  object-fit: cover;
+}
+
 .loading {
   margin: auto;
   color: #EE6562;
@@ -41,12 +45,17 @@ header[class^='MuiPaper-root'] {
 
 button[class^="MuiButtonBase-root"]:hover {
   background-color: #d0353d;
-  
+}
+
+.row {
+  margin-right: 0px!important; 
+  margin-left: 0px!important;
 }
 
 button[class^="MuiButtonBase-root"]:hover {
   background-color: #d0353d;
 }
+
 li[class^="MuiButtonBase-root"]:hover {
   background-color: #FFD951;
 }
@@ -54,6 +63,7 @@ li[class^="MuiButtonBase-root"]:hover {
 #menu-button {
   transition: all 0.5s;
 }
+
 #menu-button:hover, .login-link:hover{
   padding: 5px;
   background-color: #FFD951;
@@ -87,7 +97,7 @@ li[class^="MuiButtonBase-root"]:hover {
   background-size: cover;
   background-blend-mode: multiply;
   padding: 3%;
-  animation: animateWhiteBox 0.5s;
+  animation: animateWhiteBox 0.5s cubic-bezier(0,0,1,1);
 }
 
 .white-box h1 {
@@ -128,6 +138,25 @@ li[class^="MuiButtonBase-root"]:hover {
   font-weight: bold;
 }
 
+.image-holder {
+  justify-content: center;
+  display: flex;
+  background-position-y: 57%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-image: url(https://images.unsplash.com/photo-1517457373958-b7bdd4587205?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=f9b9cb51ea58b136b1ccfc012192afcc&auto=format&fit=crop&w=1050&q=80);
+  height: 100vh;
+  width: 100%;
+}
+
+.input-group {
+  height: 15%;
+  margin-top: 30%!important;
+  color: white!important;
+  position: relative;
+  align-content: center;
+}
+
 .kep-login-facebook {
   background-color: #4267b2!important;
   width: 125px!important;
@@ -142,13 +171,101 @@ li[class^="MuiButtonBase-root"]:hover {
 }
 
 .col-lg-8, .col-md-10 {
+  max-width: 80%!important;
   margin: auto;
   margin-top: 1%;
 }
 
-.results-cards {
-  width: 80%;
+form label {
+  color: white!important;
+}
+
+.dropdown {
+  float: right;
+  border-bottom: 1.5px solid!important;
+  border-bottom-color: #0000005b!important;
+  height: 90%;
+}
+
+.dropdown::after {
+  float: right;
+  border-bottom:  2px solid #303f9f;
+  height: 90%;
+}
+
+.dropdown p {
+  display: inline-block;
+  color: black;
+}
+
+.dropdown > button {
+  border: 0;
+  color: black;
+  padding: 0;
+  float: right;
+  background: white;
+}
+
+#results-cards {
+  width: 50%;
   margin: auto;
+  display: flex;
+  flex-direction: row;
+  flex-flow: wrap ;
+  transition: all 1s;
+  overflow: hidden;
+}
+
+#results-cards div {
+  flex-grow: 1;
+  display: grid;
+  opacity: 0.8;
+  transition: all 1s;
+}
+
+#results-cards  div:hover{
+  transform: scale(1.01);
+  opacity: 1.051;
+}
+
+#clubs-search, #how-many, #budget-dropdown, #restaurants-search {
+  color: black!important;
+}
+
+#search-activity-form  label {
+  color: black!important;
+}
+
+#search-activity-form {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  background: #ffffff;
+  padding: 1em;
+  width: 100%;
+}
+
+.sarch-separator {
+  width: 1px;
+  height: 80%;
+  background: #00000050;
+}
+
+.add-activity {
+  right: 0.5em;
+  position: absolute;
+  background: #EE6562;
+  color: #FFD951;
+  border-color: #FFD951;
+  border: 1px solid;
+  transition: all 0.3s;
+}
+
+.add-activity:hover, .add-activity:active {
+  color: #EE6562;
+  background: #FFD951;
+  border-color: #EE6562;
+  transform: scale(1.1);
 }
 
 @keyframes animateWhiteBox {
@@ -180,6 +297,7 @@ li[class^="MuiButtonBase-root"]:hover {
     border: none;
   }  
 }
+
 @keyframes expandShadows {
   0% {
     height: 29%;
