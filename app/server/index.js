@@ -25,10 +25,10 @@ app.get('/home:query', async (req, res) => {
       .then(async response => {
         if(response.data.businesses){
           let results = response.data.businesses;
-          console.log("search done: ", search);
+          // console.log("search done: ", search);
           for( let i =0; i < 4; i ++ ){
             if(results[i].name)
-            console.log('result:', results[i].name);
+            // console.log('result:', results[i].name);
             topResults.push(results[i]);
           }
         }
