@@ -1,4 +1,6 @@
 export const LOGIN = "LOGIN"
 export const LOGOUT = "LOGOUT"
-export const SEARCH_ACTIVITIES = "SEARCH_ACTIVITIES"
+export const SEARCH_CLUBS = "SEARCH_CLUBS"
+export const SEARCH_RESTAURANTS = "SEARCH_RESTAURANTS"
 export const LOAD_USERS = "LOAD_USERS"
+export const SAVE_VENUE = "SAVE_VENUE"
