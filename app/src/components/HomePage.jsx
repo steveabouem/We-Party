@@ -35,13 +35,18 @@ class HomePage extends React.Component {
       <div>
         <Navigation />
         <div className="image-holder">
-        {/* Photo by Ethan Hu on Unsplash */}
-        <div className="row">
+          <div className="row">
           <div className="col-lg-8">
             <div className="input-group">
-            <p>Make it happen. Create your party!</p>
-            <TextField recordSearch={this.recordSearch}/>
+            <span className="instructions-primary">
+              <p>Make it happen. Create your party!</p>
+            </span>
+            <span className="form-wrapper" style={{padding: "1%"}}>
+              <TextField recordSearch={this.recordSearch} style={{margin: "1%"}}/>
+              <button style={{margin: "1%", height: "90%"}}> Find Match! </button>
+            </span>
             </div>
+            <span style={{opacity: "0.5", color: "white", fontSize: "0.5em"}}> Photo by Gades Photography on Unsplash </span>
           </div>
         </div>
         </div>

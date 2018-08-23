@@ -21,9 +21,8 @@ const styles = {
 };
 
 function Navigation(props) {
-  if(props.userInfo.userInfo.givenName){
-  const displayName = props.userInfo.userInfo.givenname;
-  }
+  console.log(props);
+  
   const { classes } = props;
   return (
     <div className={classes.root}>
@@ -32,9 +31,9 @@ function Navigation(props) {
           <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
             <MenuButton items={[{ref: "/activities", name:"My Activities"}, {ref: "/groups", name:"My Groups"}, {ref: "/budget", name:"My Budget"}, {ref: "/tour", name:"Tour"}]} button={"WeParty"}/>
           </IconButton>
-          <span className="login-link" style={{position: "absolute", right: "1%"}}>
-            <span className="display-name">{(props.userInfo.userInfo.userInfo? "Guest" : props.userInfo.userInfo.givenName)}</span>
-            <a href="/authenticate">Login</a>
+          <span style={{position: "absolute", right: "1%"}}>
+            <span className="display-name" style={{padding: "1em"}}> {(props.userInfo.userInfo.userInfo? "Guest" : props.userInfo.userInfo.name)}</span>
+            <a href="/authenticate" className="link-primary">Login</a>
           </span>
         </Toolbar>
       </AppBar>

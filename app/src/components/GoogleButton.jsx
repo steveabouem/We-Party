@@ -2,20 +2,21 @@ import React from "react";
 import { GoogleLogin } from "react-google-login";
 import "firebase/database";
 import { gToken } from "../utils/secrets"
-
+const firebase = require("firebase");
  
 class GoogleButton extends React.Component {
   constructor(props){
     super(props)
-    // this.app = firebase.initializeApp(dbConfig);
-    // this.database = this.app.database().ref().child('users');
     this.responseGoogle = this.responseGoogle.bind(this)
   }
 
-  responseGoogle = (response) => {
-    const userInfo = response.profileObj;
-    this.props.getUser(userInfo);
-    this.database.push().set({ firstName: userInfo.givenName, lastName: userInfo.familyName });
+  responseGoogle = async () => {
+    var provider = new firebase.auth.GoogleAuthProvider();
+    await firebase.auth().signInWithPopup(provider)
+    .then( res => {
+      const userInfo = { name: res.user.displayName, email: res.user.email, oAuth: "google", picture: res.user.photoURL }
+      this.props.getUser(userInfo)
+    })
   }
   
   render(){
