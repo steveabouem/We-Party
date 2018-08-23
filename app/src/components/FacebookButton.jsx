@@ -1,5 +1,6 @@
 import React from 'react';
 import FacebookLogin from 'react-facebook-login';
+import { fbToken } from "../utils/secrets"
 
  
 class FacebookButton extends React.Component {
@@ -10,7 +11,7 @@ class FacebookButton extends React.Component {
   render(){
     return(
     <FacebookLogin
-      appId={process.env.FACEBOOK_ID}
+      appId={fbToken}
       autoLoad={true}
       fields="name,email,picture"
       textButton="Facebook"

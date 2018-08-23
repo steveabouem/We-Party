@@ -1,8 +1,8 @@
 import React from "react";
 import { GoogleLogin } from "react-google-login";
-import firebase from "firebase/app";
 import "firebase/database";
-import { dbConfig } from "../config/firebase";
+import { gToken } from "../utils/secrets"
+
  
 class GoogleButton extends React.Component {
   constructor(props){
@@ -21,7 +21,7 @@ class GoogleButton extends React.Component {
   render(){
     return (
       <GoogleLogin
-      clientId="489475258388-c3lsm1ejc3csalbl5vmfdamaahous9sf.apps.googleusercontent.com"
+      clientId={gToken}
       buttonText="Google"
       ux_mode="redirect"
       redirectUri="/home"
