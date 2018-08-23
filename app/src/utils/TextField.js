@@ -25,7 +25,7 @@ class TextFields extends React.Component {
   state = {
     name: 'Cat in the Hat',
     amount: '',
-    people: ''
+    people: '',
   };
   
   handleChange = name => event => {
@@ -85,18 +85,6 @@ class TextFields extends React.Component {
         />
         <div className="sarch-separator" />
         <Dropdown />
-        {/* <TextField
-        id="budget-dropdown"
-        label="Your budget(CAD)"
-        value={this.state.amount}
-        onChange={this.handleChange('amount')}
-        type="number"
-        className={classes.textField}
-        InputLabelProps={{
-          shrink: true,
-        }}
-        margin="normal"
-        /> */}
       </form>
     );
   }

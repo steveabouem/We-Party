@@ -33,7 +33,7 @@ function Navigation(props) {
           </IconButton>
           <span style={{position: "absolute", right: "1%"}}>
             <span className="display-name" style={{padding: "1em"}}> {(props.userInfo.userInfo.userInfo? "Guest" : props.userInfo.userInfo.name)}</span>
-            <a href="/authenticate" className="link-primary">Login</a>
+            <a href="/authenticate" className="link-primary" style={{padding: "0.5em"}}>Login</a>
           </span>
         </Toolbar>
       </AppBar>

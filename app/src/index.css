@@ -4,10 +4,6 @@ body {
   font-family: 'Josefin Sans', sans-serif!important;
 }
 
-img {
-  object-fit: cover;
-}
-
 .loading {
   margin: auto;
   color: #EE6562;
@@ -16,18 +12,6 @@ img {
   position: absolute;
   top: 20%;
   left: 20%;
-}
-
-a {
-  color:#EE6562!important;
-  font-weight: bold;
-  text-decoration: none;
-  transition: all 0.5;
-}
-
-a:hover {
-  color: rgb(238, 236, 98);
-  font-size: 1.03em;
 }
 
 #MainContainer {
@@ -63,14 +47,9 @@ li[class^="MuiButtonBase-root"]:hover {
   transition: all 0.5s;
 }
 
-#menu-button:hover, .link-primary:hover{
-  padding: 5px;
+#menu-button:hoverr{
   background-color: #FFD951;
   color: #d0353d!important;
-}
-
-.login-link:hover {
-  transition: all 0.5s;
 }
 
 .landing-page, .login-page {
@@ -159,18 +138,18 @@ li[class^="MuiButtonBase-root"]:hover {
   transform: scale(1.01)
 }
 
-.form-wrapper button {
+.form-wrapper button, .link-primary {
   padding: 1em;
-  width: 150px;
-  background: #FFD951;
+  border-radius: 0;
+  width: 100%;
+  background: #FFD951!important;
   color: #d0353da2;
   transition: all 0.3s;
   align-self: center;
 }
 
-.form-wrapper button:hover {
+.form-wrapper button:hover, .link-primary:hover, .login-link:hover  {
   color: white;
-  /* height: 100%; */
   transform: scale(1.05);
   background: rgba(255, 217, 81, 0.562);
 }
@@ -179,6 +158,7 @@ li[class^="MuiButtonBase-root"]:hover {
   background: white;
   color: greenyellow;
 }
+
 .image-holder {
   justify-content: center;
   display: flex;
