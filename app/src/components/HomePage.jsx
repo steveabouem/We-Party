@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import "firebase/database";
 import Navigation from "./Navigation.jsx";
 import TextField from "../utils/TextField";
-import { searchActivities, saveActivity } from "../actions";
+import { searchActivities, saveActivity, findMatches, loadUsersCollection } from "../actions";
 import { Card, CardImg, CardText, CardBody,
   CardTitle, CardSubtitle, Button, Col } from 'reactstrap';
 
@@ -12,25 +12,47 @@ class HomePage extends React.Component {
     super(props)
     this.state = {
       loggedIn: null,
+      list: null
     }
+  }
+
+  async componentDidMount() {
+    await this.props.loadUsersCollection();
   }
   
   recordSearch = async(e) => {
+    let firstResult = document.getElementsByClassName("add-activity"); 
     let input = e.target.value;
+    // console.log(firstResult);
+    
     await this.props.searchActivities(input);
-    this.props.searchResults;
+    await this.props.searchResults;
+    if(firstResult[0]){
+      firstResult[0].focus(); // look if delaying possible. Focus() method takes no arguments :( )
+    }
   }
-
+  
   saveActivity = (e, object) => {
+    const existingUsers = this.props.userInfo.usersList;
     const  groupTotal = document.getElementById("how-many").value;
     const budget = document.getElementById("budget-selected").innerHTML;
-    const activityObject = { venue: object.name, location:object.location.address1, budget: budget, group: groupTotal};
+    const activityObject = { user: existingUsers[existingUsers.length -1] , venue: object.name, location:object.location.address1, budget: budget, group: groupTotal};
+    this.props.saveActivity(activityObject,existingUsers[existingUsers.length -1]);
+  }
 
-    this.props.saveActivity(activityObject);
+  findMatches = async () => {
+    await this.props.findMatches
+  }
+
+  focus = () => {
+    let loginButton = document.getElementsByClassName('link-primary')[0];
+    loginButton.focus();
   }
 
   render (){
     const ApiResponse =this.props.userInfo.searchResults;
+    console.log(this.props);
+    
     return(
       <div>
         <Navigation />
@@ -43,7 +65,15 @@ class HomePage extends React.Component {
             </span>
             <span className="form-wrapper" style={{padding: "1%"}}>
               <TextField recordSearch={this.recordSearch} style={{margin: "1%"}}/>
-              <button style={{margin: "1%", height: "90%"}}> Find Match! </button>
+              {this.props.userInfo.userInfo.userInfo?
+              <button style={{margin: "1%", height: "90%"}} id="disabled-button" onClick={this.focus}>
+                Login first
+              </button>
+              :
+              <button style={{margin: "1%", height: "90%"}} onClick={this.findMatches}>
+                Find Match!
+              </button>
+              }
             </span>
             </div>
             <span style={{opacity: "0.5", color: "white", fontSize: "0.5em"}}> Photo by Gades Photography on Unsplash </span>
@@ -63,7 +93,7 @@ class HomePage extends React.Component {
                   <CardImg top width="100%" height="200px" src={result.image_url} />
                   <CardBody>
                     <CardTitle> Establishment: {result.name} </CardTitle>
-                    <CardSubtitle>Category: {result.categories[0].title} </CardSubtitle>
+                    {/* <CardSubtitle>Category: {result.categories[0].title} </CardSubtitle> */}
                     <CardText>
                       Description: <br/>
                       Yelp rating: {result.rating} <br/>
@@ -81,11 +111,11 @@ class HomePage extends React.Component {
            ) :<p></p>}
         </div>
       </div>)
-                 
   }
 }
+
 const mapStateToProps = state => ({
   userInfo: state.userInfo
 })
 
-export default connect(mapStateToProps, {searchActivities, saveActivity}) (HomePage)
+export default connect(mapStateToProps, {searchActivities, saveActivity, findMatches, loadUsersCollection}) (HomePage)

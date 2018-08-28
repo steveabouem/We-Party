@@ -4,8 +4,6 @@ import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Dropdown from '../utils/Dropdown';
 
-var debounce = require('debounce');
-
 const styles = theme => ({
   container: {
     display: 'flex',
@@ -85,6 +83,7 @@ class TextFields extends React.Component {
         />
         <div className="sarch-separator" />
         <Dropdown />
+        <div className="sarch-separator" />
       </form>
     );
   }

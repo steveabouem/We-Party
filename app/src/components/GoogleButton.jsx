@@ -1,6 +1,8 @@
 import React from "react";
 import { GoogleLogin } from "react-google-login";
 import "firebase/database";
+import { connect } from "react-redux";
+import { saveUser } from "../actions/index";
 import { gToken } from "../utils/secrets"
 const firebase = require("firebase");
  
@@ -14,7 +16,7 @@ class GoogleButton extends React.Component {
     var provider = new firebase.auth.GoogleAuthProvider();
     await firebase.auth().signInWithPopup(provider)
     .then( res => {
-      const userInfo = { name: res.user.displayName, email: res.user.email, oAuth: "google", picture: res.user.photoURL }
+      const userInfo = { name: res.user.displayName, email: res.user.email, oAuth: "google", picture: res.user.photoURL, activities:[] }
       this.props.getUser(userInfo)
     })
   }
@@ -34,5 +36,8 @@ class GoogleButton extends React.Component {
   }
 }
 
+const mapStateToProps = state => ({
+  userInfo: state.userInfo
+})
 
-export default GoogleButton
+export default connect (mapStateToProps, {saveUser}) (GoogleButton)

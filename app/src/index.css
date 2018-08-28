@@ -28,28 +28,46 @@ header[class^='MuiPaper-root'] {
 }
 
 button[class^="MuiButtonBase-root"]:hover {
-  background-color: #d0353d;
+  color: white;
+  transform: scale(1.05);
+}
+
+button:focus, span:focus, div:focus {
+  outline: none!important; 
 }
 
 .row {
   justify-content: center;
 }
 
-button[class^="MuiButtonBase-root"]:hover {
-  background-color: #d0353d;
+li[class^="MuiButtonBase-root"]:hover {
+  background-color: #FFD951!important;
+  color: white!important;
+  text-decoration: none!important;
+  
 }
 
-li[class^="MuiButtonBase-root"]:hover {
-  background-color: #FFD951;
+li[class^="MuiButtonBase-root"] a { /*Navmenu link*/
+  color: #ffd951!important;
+  text-decoration: none!important;
+}
+
+li[class^="MuiButtonBase-root"]:hover a{
+  color: white!important;
+}
+
+#simple-menu div, #dropdown {
+  padding-top: 2em;
+  background-color: #412d3c57!important;
 }
 
 #menu-button {
+  margin-left: 2em;
   transition: all 0.5s;
 }
 
-#menu-button:hoverr{
-  background-color: #FFD951;
-  color: #d0353d!important;
+#menu-button:hover{
+  color: white!important;
 }
 
 .landing-page, .login-page {
@@ -122,7 +140,7 @@ li[class^="MuiButtonBase-root"]:hover {
   justify-content: center;
 }
 
-.buttons-wrapper button{
+.buttons-wrapper button {
   color: rgb(255, 255, 255);
   width: 150px!important;
   height: 60px!important;
@@ -148,13 +166,18 @@ li[class^="MuiButtonBase-root"]:hover {
   align-self: center;
 }
 
-.form-wrapper button:hover, .link-primary:hover, .login-link:hover  {
-  color: white;
+.form-wrapper button:hover, .link-primary:hover, .login-link:hover, #dropdown button:hover  {
+  color: white!important;
   transform: scale(1.05);
-  background: rgba(255, 217, 81, 0.562);
+  background: rgba(255, 217, 81, 0.562)!important;
 }
 
-.form-wrapper button:active {
+#disabled-button:hover { /*no user loged in, disable find match button */
+  transform: scale(1)!important;
+  color: #d0353d!important;
+
+}
+.form-wrapper button:active, .buttons-wrapper button:active {
   background: white;
   color: greenyellow;
 }
@@ -201,7 +224,7 @@ form label {
   color: white!important;
 }
 
-.dropdown {
+.dropdown { /*class dropdown, ocntainer of the $ button who then displas the #dropdown list, with .dropdown-items */
   float: right;
   border-bottom: 1.5px solid!important;
   border-bottom-color: #0000005b!important;
@@ -225,6 +248,11 @@ form label {
   padding: 0;
   float: right;
   background: white;
+}
+
+#dropdown button {
+  background: transparent!important;
+  color: #ffd951;
 }
 
 #results-cards {
