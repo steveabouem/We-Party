@@ -29,7 +29,11 @@ class LoginPage extends React.Component {
       <div className="login-page">
         <Row>
           <span className="instructions-primary" style={{position: "absolute", top: "25%", background: "none"}}>
-            <p> Ensure to sign out of google in your browser </p>
+            <p> 
+              This will automatically sign you in with the current google credentials.
+              <br/> 
+              To use a different email, please log out of google in your browser. 
+            </p>
           </span>
           <Col style={this.googleStyle}>
             <span className="buttons-wrapper">

@@ -220,6 +220,10 @@ li[class^="MuiButtonBase-root"]:hover a{
   margin-top: 1%;
 }
 
+.col-md-10 {
+  flex: 1 1 200px!important;
+}
+
 form label {
   color: white!important;
 }
@@ -256,11 +260,11 @@ form label {
 }
 
 #results-cards {
-  width: 50%;
+  width: 95%;
   margin: auto;
   display: flex;
   flex-direction: row;
-  flex-flow: wrap ;
+  flex-flow: wrap;
   transition: all 1s;
   overflow: hidden;
 }
@@ -311,18 +315,19 @@ form label {
 .add-activity {
   right: 0.5em;
   position: absolute;
-  background: #EE6562;
-  color: #FFD951;
-  border-color: #FFD951;
-  border: 1px solid;
+  background: #FFD951;
+  color: #d0353d;
   transition: all 0.3s;
 }
 
-.add-activity:hover, .add-activity:active {
-  color: #EE6562;
-  background: #FFD951;
-  border-color: #EE6562;
+.add-activity:hover{
+  color: white;
   transform: scale(1.1);
+}
+
+.add-activity:active {
+  background: white;
+  color: greenyellow;
 }
 
 @keyframes animateWhiteBox {

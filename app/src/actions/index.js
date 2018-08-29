@@ -26,12 +26,28 @@ export const logout = async() => {
 }
 
 export const saveUser = user => dispatch => {
-  const usersCollection = firebase.database().ref().child('users')
-  usersCollection.push().set(user)
+  const usersCollection = firebase.database().ref().child('users');
 
-  dispatch({
-    type: LOGIN,
-    payload: user
+  usersCollection.orderByChild("email").equalTo(user.email).on( "value", async function (snapshot){
+    if(snapshot.val()){
+      const currentuserId = snapshot.node_.children_.root_.key;
+      usersCollection.orderByKey().equalTo(currentuserId).on("value", function (snapshot){
+        const currentuserObject = snapshot.val()[Object.keys(snapshot.val())[0]];
+        
+        dispatch({
+          type: LOGIN,
+          payload: currentuserObject
+        })
+      })
+        
+    } else {
+      // console.log("new", user);
+      usersCollection.push().set(user)
+      dispatch({
+        type: LOGIN,
+        payload: user
+      })
+    }
   })
 };
 
@@ -56,7 +72,7 @@ export const loadUsersCollection = () => async(dispatch) => {//thyere still not 
     let usersList = []
     // console.log("list", snapshot.val());
     for(const user in snapshot.val()) {
-       usersList.push(snapshot.val()[user]);
+      usersList.push(snapshot.val()[user]);
     }
     dispatch({
       type: LOAD_USERS,
@@ -78,7 +94,7 @@ export const saveActivity = (activity, user) => dispatch => {
   })
   
   // dispatch({
-    // type: SAVE_VENUE,
-    // payload: activity
+  // type: SAVE_VENUE,
+  // payload: activity
   // })
 }

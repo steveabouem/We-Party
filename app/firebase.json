@@ -11,5 +11,13 @@
   "firestore": {
     "rules": "y",
     "indexes": "y"
+  },
+  "hosting": {
+    "public": "npm i -g firebase-tools",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
   }
 }

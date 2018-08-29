@@ -95,7 +95,7 @@ class HomePage extends React.Component {
                   </span>
                   <CardImg top width="100%" height="200px" src={result.image_url} />
                   <CardBody>
-                    <CardTitle> Establishment: {result.name} </CardTitle>
+                    <CardTitle> Establishment: <br/> {result.name} </CardTitle>
                     {/* <CardSubtitle>Category: {result.categories[0].title} </CardSubtitle> */}
                     <CardText>
                       Description: <br/>
