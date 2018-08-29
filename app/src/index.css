@@ -300,6 +300,14 @@ form label {
   background: #00000050;
 }
 
+.result-icon {
+  vertical-align: middle;
+  border-style: none;
+  width: 1em;
+  background: #FFD951;
+  border-radius: 12px;
+}
+
 .add-activity {
   right: 0.5em;
   position: absolute;

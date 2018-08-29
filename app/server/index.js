@@ -14,7 +14,7 @@ app.get('/home:query', async (req, res) => {
   const params = req.params.query;
   const search = params.split("").slice(1, params.length).join("");
   const yelpConfig = {
-    headers: { Authorization: `Bearer ${yelpKey}` },
+    headers: { Authorization: `Bearer ${yelpKey.yelpKey}` },
     params: {
       term: search,
       location: "montreal"

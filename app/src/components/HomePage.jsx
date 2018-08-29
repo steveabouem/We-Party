@@ -6,6 +6,9 @@ import TextField from "../utils/TextField";
 import { searchActivities, saveActivity, findMatches, loadUsersCollection } from "../actions";
 import { Card, CardImg, CardText, CardBody,
   CardTitle, CardSubtitle, Button, Col } from 'reactstrap';
+import location  from "../utils/icons/location.svg"
+import phone  from "../utils/icons/smartphone.svg"
+
 
 class HomePage extends React.Component {
   constructor (props){
@@ -32,7 +35,7 @@ class HomePage extends React.Component {
     }
   }
   
-  saveActivity = (e, object) => {
+  saveActivity = (e, object) => {// use cookies upon deployment, this is just taking in the latest user logged in
     const existingUsers = this.props.userInfo.usersList;
     const  groupTotal = document.getElementById("how-many").value;
     const budget = document.getElementById("budget-selected").innerHTML;
@@ -97,9 +100,14 @@ class HomePage extends React.Component {
                     <CardText>
                       Description: <br/>
                       Yelp rating: {result.rating} <br/>
-                      Contact: (phone icon){result.display_phone} <br/>
-                      Location: (address icon) {result.location.address1} <br/>
-                      distance: (icon) {result.distance} <br/>
+                      <span>
+                      <img src={phone} alt="phone" className="result-icon" />: {result.display_phone} <br/>
+                      </span>
+                      <span>
+                        <img src={location} alt="location" className="result-icon" />: {result.location.address1} <br/>
+                        {/* Stephen Hutchings */}
+                      </span>
+                      distance:  {result.distance} <br/>
                     </CardText>
                     <a href={result.url} target="blank">
                      <Button>Learn more...</Button> 
