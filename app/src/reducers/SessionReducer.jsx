@@ -1,7 +1,7 @@
 import { LOGIN, LOGOUT, SEARCH_CLUBS, LOAD_USERS, SEARCH_RESTAURANTS } from "../actions/types";
 
 const initialState = {
-  userInfo:{userInfo:{givenName:"Guest"} },
+  userInfo:{userInfo:{name:"Guest"} },
 }
 
 export default function(state = initialState, action){

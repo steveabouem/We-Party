@@ -1,27 +1,30 @@
 import React from "react";
 import { GoogleLogin } from "react-google-login";
-import firebase from "firebase/app";
 import "firebase/database";
-import { dbConfig } from "../config/firebase";
+import { connect } from "react-redux";
+import { saveUser } from "../actions/index";
+import { gToken } from "../utils/secrets"
+const firebase = require("firebase");
  
 class GoogleButton extends React.Component {
   constructor(props){
     super(props)
-    // this.app = firebase.initializeApp(dbConfig);
-    // this.database = this.app.database().ref().child('users');
     this.responseGoogle = this.responseGoogle.bind(this)
   }
 
-  responseGoogle = (response) => {
-    const userInfo = response.profileObj;
-    this.props.getUser(userInfo);
-    this.database.push().set({ firstName: userInfo.givenName, lastName: userInfo.familyName });
+  responseGoogle = async () => {
+    var provider = new firebase.auth.GoogleAuthProvider();
+    await firebase.auth().signInWithPopup(provider)
+    .then( res => {
+      const userInfo = { name: res.user.displayName, email: res.user.email, oAuth: "google", picture: res.user.photoURL, activities:[] }
+      this.props.getUser(userInfo)
+    })
   }
   
   render(){
     return (
       <GoogleLogin
-      clientId="489475258388-c3lsm1ejc3csalbl5vmfdamaahous9sf.apps.googleusercontent.com"
+      clientId={gToken}
       buttonText="Google"
       ux_mode="redirect"
       redirectUri="/home"
@@ -33,5 +36,8 @@ class GoogleButton extends React.Component {
   }
 }
 
+const mapStateToProps = state => ({
+  userInfo: state.userInfo
+})
 
-export default GoogleButton
+export default connect (mapStateToProps, {saveUser}) (GoogleButton)

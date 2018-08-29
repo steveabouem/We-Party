@@ -33,7 +33,7 @@ export default class Example extends React.Component {
         <DropdownToggle caret>
           $
         </DropdownToggle>
-        <DropdownMenu>
+        <DropdownMenu id="dropdown">
           <DropdownItem onClick={ () => this.selectItem(10)}>10CAD</DropdownItem>
           <DropdownItem onClick={() => this.selectItem(20)}>20CAD</DropdownItem>
           <DropdownItem onClick={() => this.selectItem(30)}>30CAD</DropdownItem>

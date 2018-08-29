@@ -1,14 +1,53 @@
 import { dbConfig } from "../config/firebase";
-import { LOGIN, LOGOUT, LOAD_USERS, SEARCH_CLUBS, SAVE_VENUE } from "./types";
+import { LOGIN, LOAD_USERS, SEARCH_CLUBS, SAVE_VENUE } from "./types";
 import axios from "axios";
+
 const firebase = require("firebase");
-require("firebase/functions");
+
 firebase.initializeApp(dbConfig);
 
-export const saveUser = (user) => dispatch => {
-  dispatch({
-    type: LOGIN,
-    payload: user
+export const googleLogin = () => dispatch => {
+  //refactor google signin and userinfo() here
+}
+
+export const findMatches = (usersCollection) => dispatch => {
+  console.log("list in store:", usersCollection);
+  
+}
+
+export const logout = async() => {
+  await firebase.auth().signOut().then(function() {
+    console.log("logged out");
+    
+  }).catch(function(error) {
+    console.log(error);
+    
+  });
+}
+
+export const saveUser = user => dispatch => {
+  const usersCollection = firebase.database().ref().child('users');
+
+  usersCollection.orderByChild("email").equalTo(user.email).on( "value", async function (snapshot){
+    if(snapshot.val()){
+      const currentuserId = snapshot.node_.children_.root_.key;
+      usersCollection.orderByKey().equalTo(currentuserId).on("value", function (snapshot){
+        const currentuserObject = snapshot.val()[Object.keys(snapshot.val())[0]];
+        
+        dispatch({
+          type: LOGIN,
+          payload: currentuserObject
+        })
+      })
+        
+    } else {
+      // console.log("new", user);
+      usersCollection.push().set(user)
+      dispatch({
+        type: LOGIN,
+        payload: user
+      })
+    }
   })
 };
 
@@ -21,16 +60,20 @@ export const searchActivities = (search) => async(dispatch) => {
       payload: res.data
     })
   })
+  .catch( e => {
+    console.log("searchActivities error: ", e);
+    
+  })
 }
 
-export const loadUsersCollection = () => dispatch => {//thyere still not unique
+export const loadUsersCollection = () => async(dispatch) => {//thyere still not unique
   const usersCollection = firebase.database().ref().child('users')
-  usersCollection.once('value').then(function(snapshot) {
+  usersCollection.once('value').then( function(snapshot) {
     let usersList = []
+    // console.log("list", snapshot.val());
     for(const user in snapshot.val()) {
       usersList.push(snapshot.val()[user]);
     }
-    // console.log(usersList);
     dispatch({
       type: LOAD_USERS,
       payload: usersList
@@ -38,12 +81,20 @@ export const loadUsersCollection = () => dispatch => {//thyere still not unique
   });
 }
 
-export const saveActivity = (activity) => dispatch => { //no need to dispatch, call db if needed
-  const activitiesCollection = firebase.database().ref().child('activities')
-  activitiesCollection.push().set({ venue: activity.venue, location:activity.location, budget: activity.budget, group: activity.group });
-
-  dispatch({
-    type: SAVE_VENUE,
-    payload: activity
+export const saveActivity = (activity, user) => dispatch => {
+  // console.log(user);
+  
+  const usersCollection = firebase.database().ref().child('users')
+  usersCollection.orderByChild("email").equalTo(user.email).on( "child_added", async function(snapshot) {
+    const currentUserId = snapshot.key;
+    await currentUserId;
+    const currentUserRef = firebase.database().ref().child(`users/${currentUserId}/activities`);
+    
+    await currentUserRef.push({activity});
   })
+  
+  // dispatch({
+  // type: SAVE_VENUE,
+  // payload: activity
+  // })
 }

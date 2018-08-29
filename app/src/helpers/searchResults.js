@@ -1,3 +1,0 @@
-var faker = require('faker');
-
-export const searchResults = [{name: faker.lorem.words(), category: "sports", results: faker.random.number()*10, description: faker.lorem.text()}, {name: faker.lorem.words(), category: "party", results: faker.random.number()*10, description: faker.lorem.text()}, {name: faker.lorem.words(), category: "party", results: faker.random.number()*10, description: faker.lorem.text()},{name: faker.lorem.words(), category: "sports", results: faker.random.number()*10, description: faker.lorem.text()}, {name: faker.lorem.words(), category: "sports", results: faker.random.number()*10, description: faker.lorem.text()}]

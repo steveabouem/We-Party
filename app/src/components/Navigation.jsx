@@ -6,6 +6,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import { connect } from "react-redux";
 import IconButton from '@material-ui/core/IconButton';
 import MenuButton from "./Menu.jsx";
+import { logout } from "../actions/index";
 
 const styles = {
   root: {
@@ -21,20 +22,21 @@ const styles = {
 };
 
 function Navigation(props) {
-  if(props.userInfo.userInfo.givenName){
-  const displayName = props.userInfo.userInfo.givenname;
-  }
+  console.log(props);
+  
   const { classes } = props;
   return (
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
           <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
-            <MenuButton items={[{ref: "/activities", name:"My Activities"}, {ref: "/groups", name:"My Groups"}, {ref: "/budget", name:"My Budget"}, {ref: "/tour", name:"Tour"}]} button={"WeParty"}/>
+            <MenuButton items={[{ref: "/activities", name:"My Activities"}, {ref: "/groups", name:"My Groups"}, {ref: "/tour", name:"Tour"}, {ref: "/home", name:"Home page"}]} button={"WeParty"}/>
           </IconButton>
-          <span className="login-link" style={{position: "absolute", right: "1%"}}>
-            <span className="display-name">{(props.userInfo.userInfo.userInfo? "Guest" : props.userInfo.userInfo.givenName)}</span>
-            <a href="/authenticate">Login</a>
+          <span style={{position: "absolute", right: "1%"}}>
+            <span className="display-name" style={{padding: "1em"}}> {(props.userInfo.userInfo.userInfo? "Guest" : props.userInfo.userInfo.name)}</span>
+            {(props.userInfo.userInfo.name? <a href="/authenticate" className="link-primary" style={{padding: "0.5em"}}>Logout</a>
+            :
+            <a href="/authenticate" className="link-primary" style={{padding: "0.5em"}} onClick={props.logout}>Login</a>)}
           </span>
         </Toolbar>
       </AppBar>
@@ -48,4 +50,4 @@ Navigation.propTypes = {
 const mapStateToProps = state => ({
   userInfo: state.userInfo
 })
-export default connect(mapStateToProps) (withStyles(styles)(Navigation));
+export default connect(mapStateToProps, { logout }) (withStyles(styles)(Navigation));

@@ -8,19 +8,6 @@ import FacebookButton from "./FacebookButton";
 
 class LoginPage extends React.Component {
   
-  componentDidMount() {
-    this.props.loadUsersCollection()
-    console.log('props with db?', this.props);
-  }
-  onSubmit = async(e) => {
-    const user = e.target.loginemail.value;
-    this.props.saveUser(user);
-    this.props.history.push('/home');
-  }
-
-  labelStyle = {
-    color: "white"
-  }
   googleStyle = {
     position:"absolute",
     top: "40%"
@@ -29,9 +16,9 @@ class LoginPage extends React.Component {
     position:"absolute",
     top: "52%"
   }
-
-  getUser =(userInfo) =>{
-    if (userInfo !== undefined)
+  
+  getUser = async (userInfo) =>{
+    await this.props.loadUsersCollection()
     this.props.saveUser(userInfo);
     this.props.history.push("/home")
   }
@@ -41,11 +28,18 @@ class LoginPage extends React.Component {
     return(
       <div className="login-page">
         <Row>
+          <span className="instructions-primary" style={{position: "absolute", top: "25%", background: "none"}}>
+            <p> 
+              This will automatically sign you in with the current google credentials.
+              <br/> 
+              To use a different email, please log out of google in your browser. 
+            </p>
+          </span>
           <Col style={this.googleStyle}>
-            <GoogleButton className="google-button" getUser={this.getUser}/>
-          </Col>
-          <Col style={this.facebookStyle}>
-            <FacebookButton />
+            <span className="buttons-wrapper">
+              <GoogleButton className="google-button" getUser={this.getUser} />
+              <FacebookButton id="facebook-button" getUser={this.getUser} />
+            </span>
           </Col>
         </Row>
       </div>
