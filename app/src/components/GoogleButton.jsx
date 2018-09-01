@@ -14,10 +14,16 @@ class GoogleButton extends React.Component {
 
   responseGoogle = async () => {
     var provider = new firebase.auth.GoogleAuthProvider();
+    firebase.auth().setPersistence(firebase.auth.Auth.Persistence.NONE);
     await firebase.auth().signInWithPopup(provider)
     .then( res => {
+      console.log(res);
+      
       const userInfo = { name: res.user.displayName, email: res.user.email, oAuth: "google", picture: res.user.photoURL, activities:[] }
       this.props.getUser(userInfo)
+    })
+    .catch( e => {
+      console.log("Google login error", e);
     })
   }
   
