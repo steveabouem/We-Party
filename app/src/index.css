@@ -123,8 +123,6 @@ li[class^="MuiButtonBase-root"]:hover a{
   text-align: center;
 }
 
-
-
 .instructions-primary {
   display: flex;
   justify-content: center;
@@ -215,8 +213,12 @@ li[class^="MuiButtonBase-root"]:hover a{
 
 .all-activities {
   background: rgba(128, 128, 128, 0.411);
-  width: 95%;
+  width: 50%;
   margin: auto;
+  margin-top: 1%!important;
+  margin-right: auto;
+  margin-bottom: auto;
+  margin-left: 0px!important;
   margin-top: 1%!important;
 }
 
@@ -339,7 +341,7 @@ form label {
   border-radius: 12px;
 }
 
-.add-activity {
+.add-activity, .delete-activity {
   border: none;
   right: 0.5em;
   position: absolute;
@@ -348,12 +350,14 @@ form label {
   transition: all 0.3s;
 }
 
-.add-activity:hover{
+
+
+.add-activity:hover, .delete-activity:hover{
   color: white;
   transform: scale(1.1);
 }
 
-.add-activity:active {
+.add-activity:active, .delete-activity:active {
   background: white;
   color: greenyellow;
 }

@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import IconButton from '@material-ui/core/IconButton';
 import MenuButton from "./Menu.jsx";
 import { logout } from "../actions/index";
+import { Link } from "react-router-dom";
 
 const styles = {
   root: {
@@ -34,9 +35,9 @@ function Navigation(props) {
           </IconButton>
           <span style={{position: "absolute", right: "1%"}}>
             <span className="display-name" style={{padding: "1em"}}> {(props.userInfo.userInfo.userInfo? "Guest" : props.userInfo.userInfo.name)}</span>
-            {(props.userInfo.userInfo.name? <a href="/authenticate" className="link-primary" style={{padding: "0.5em"}}>Logout</a>
+            {(props.userInfo.userInfo.name? <Link to="/authenticate" className="link-primary" style={{padding: "0.5em"}}>Logout</Link>
             :
-            <a href="/authenticate" className="link-primary" style={{padding: "0.5em"}} onClick={props.logout}>Login</a>)}
+            <Link to="/authenticate" className="link-primary" style={{padding: "0.5em"}} onClick={props.logout}>Login</Link>)}
           </span>
         </Toolbar>
       </AppBar>

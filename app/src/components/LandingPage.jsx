@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 
 class HomePage extends React.Component {
@@ -11,7 +12,7 @@ class HomePage extends React.Component {
                   Location? Prices? Suggestions? We got you covered!
               </p>
               <p>
-                  Get started <a href="/authenticate"> here </a>. 
+                  Get started <Link to="/authenticate"> here </Link>. 
               </p>
         </div>
       </div>

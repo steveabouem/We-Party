@@ -1,6 +1,7 @@
 import React from 'react';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import { Link } from "react-router-dom";
 
 class MenuButton extends React.Component {
   state = {
@@ -37,7 +38,7 @@ class MenuButton extends React.Component {
         >
          {this.props.items.map(item => {
            return (<MenuItem onClick={this.handleClose} key={item.name}>
-            <a href={item.ref}>{item.name}</a>
+            <Link to={item.ref}>{item.name}</Link>
            </MenuItem>)
          })} 
         </Menu>
