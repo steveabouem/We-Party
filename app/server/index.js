@@ -24,6 +24,8 @@ app.get('/home:query', async (req, res) => {
       await axios
       .get(`https://api.yelp.com/v3/businesses/search`, yelpConfig)
       .then(async response => {
+        console.log("SERVER RESPONSE", response);
+        
         if(response.data.businesses){
           let results = response.data.businesses;
           for( let i =0; i < 4; i ++ ){

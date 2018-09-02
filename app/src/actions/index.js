@@ -92,9 +92,15 @@ export const saveActivity = (activity, user) => dispatch => {
     
     await currentUserRef.push({activity});
   })
-  
+  //YOU SHOULD DISPATCH THE LIst OF ACTIVITIES, WOULD LIMIT THE NUMBER OF CALLS TO FIREBASE
+  //COULD MAKE UPDATE EASIEr AS WELL
 }
 
 export const loadActivities = (users) => dispatch => {
   console.log("object 2 procss", users);
+}
+
+export const deleteActivity = (object) => dispatch => {
+  console.log("Object to delete: ", object);
+  
 }

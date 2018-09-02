@@ -27,7 +27,7 @@ class FacebookButton extends React.Component {
       autoLoad={true}
       fields="name,email,picture"
       textButton="Facebook"
-      callback={this.responseFacebook} />
+      callback={null} />
     )
   }
 }

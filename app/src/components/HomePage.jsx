@@ -6,8 +6,8 @@ import TextField from "../utils/TextField";
 import { searchActivities, saveActivity, findMatches, loadUsersCollection } from "../actions";
 import { Card, CardImg, CardText, CardBody,
   CardTitle, CardSubtitle, Button, Col } from 'reactstrap';
-import location  from "../utils/icons/location.svg"
-import phone  from "../utils/icons/smartphone.svg"
+import location  from "../utils/icons/location.svg";
+import phone  from "../utils/icons/smartphone.svg";
 
 
 class HomePage extends React.Component {
@@ -36,10 +36,12 @@ class HomePage extends React.Component {
   }
   
   saveActivity = (e, object) => {// use cookies upon deployment, this is just taking in the latest user logged in
+    console.log("phone", object);
+    
     const existingUsers = this.props.userInfo.usersList;
     const  groupTotal = document.getElementById("how-many").value;
     const budget = document.getElementById("budget-selected").innerHTML;
-    const activityObject = { user: existingUsers[existingUsers.length -1] , venue: object.name, location:object.location.address1, budget: budget, group: groupTotal};
+    const activityObject = { user: existingUsers[existingUsers.length -1] , venue: object.name, location:object.location.address1, contact: object.phone, budget: budget, group: groupTotal};
     this.props.saveActivity(activityObject,existingUsers[existingUsers.length -1]);
   }
 
