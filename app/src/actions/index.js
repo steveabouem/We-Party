@@ -27,7 +27,7 @@ export const logout = async() => {
 
 export const saveUser = user => dispatch => {
   const usersCollection = firebase.database().ref().child('users');
-
+  
   usersCollection.orderByChild("email").equalTo(user.email).on( "value", async function (snapshot){
     if(snapshot.val()){
       const currentuserId = snapshot.node_.children_.root_.key;
@@ -39,7 +39,7 @@ export const saveUser = user => dispatch => {
           payload: currentuserObject
         })
       })
-        
+      
     } else {
       // console.log("new", user);
       usersCollection.push().set(user)
@@ -93,8 +93,8 @@ export const saveActivity = (activity, user) => dispatch => {
     await currentUserRef.push({activity});
   })
   
-  // dispatch({
-  // type: SAVE_VENUE,
-  // payload: activity
-  // })
+}
+
+export const loadActivities = (users) => dispatch => {
+  console.log("object 2 procss", users);
 }

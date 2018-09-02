@@ -24,6 +24,7 @@
     "pg": "^7.4.3",
     "protobufjs": "^6.8.8",
     "react": "^16.2.0",
+    "react-cookie": "^3.0.4",
     "react-dom": "^16.4.1",
     "react-facebook-login": "^4.0.1",
     "react-google-login": "^3.2.1",

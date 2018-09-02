@@ -54,7 +54,7 @@ class HomePage extends React.Component {
 
   render (){
     const ApiResponse =this.props.userInfo.searchResults;
-    console.log(this.props);
+    // console.log(this.props);
     
     return(
       <div>
@@ -79,11 +79,11 @@ class HomePage extends React.Component {
               }
             </span>
             </div>
-            <span style={{opacity: "0.5", color: "white", fontSize: "0.5em"}}> Photo by Gades Photography on Unsplash </span>
+            <span className="photo-credentials"> Photo by Gades Photography on Unsplash </span>
           </div>
         </div>
         </div>
-        <div id="results-cards">
+        <div className="results-cards">
           {ApiResponse !== undefined? ApiResponse.results.map(result => {
             return(
               <Col md={{ size: 10 }} key={result.alias}>
@@ -107,7 +107,7 @@ class HomePage extends React.Component {
                         <img src={location} alt="location" className="result-icon" />: {result.location.address1} <br/>
                         {/* Stephen Hutchings */}
                       </span>
-                      distance:  {result.distance} <br/>
+                      {/* distance:  {result.distance} <br/> */}
                     </CardText>
                     <a href={result.url} target="blank">
                      <Button>Learn more...</Button> 
@@ -116,7 +116,7 @@ class HomePage extends React.Component {
                 </Card>
               </Col>
           )}   
-           ) :<p></p>}
+           ) :<p className="no-data-prompt"> </p>}
         </div>
       </div>)
   }
