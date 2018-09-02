@@ -123,6 +123,8 @@ li[class^="MuiButtonBase-root"]:hover a{
   text-align: center;
 }
 
+
+
 .instructions-primary {
   display: flex;
   justify-content: center;
@@ -182,7 +184,7 @@ li[class^="MuiButtonBase-root"]:hover a{
   color: greenyellow;
 }
 
-.image-holder {
+.image-holder { /* home page BG */
   justify-content: center;
   display: flex;
   background-position-y: 57%;
@@ -191,6 +193,31 @@ li[class^="MuiButtonBase-root"]:hover a{
   background-image: url(https://images.unsplash.com/photo-1517457373958-b7bdd4587205?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=f9b9cb51ea58b136b1ccfc012192afcc&auto=format&fit=crop&w=1050&q=80);
   height: 100vh;
   width: 100%;
+}
+
+.activities-page {
+  flex-direction: column;
+  justify-content: center;
+  display: flex;
+  background-position-y: 57%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-image: url(https://images.unsplash.com/photo-1511171735792-048024585d63?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=ea49b5f1bed667869fff90697b42b8ca&auto=format&fit=crop&w=1050&q=80);
+  height: 100vh;
+  width: 100%;
+}
+
+.photo-credentials {
+  opacity: 0.5;
+  color:  white;
+  font-size: 0.5em;
+}
+
+.all-activities {
+  background: rgba(128, 128, 128, 0.411);
+  width: 95%;
+  margin: auto;
+  margin-top: 1%!important;
 }
 
 .input-group {
@@ -259,7 +286,7 @@ form label {
   color: #ffd951;
 }
 
-#results-cards {
+.results-cards {
   width: 95%;
   margin: auto;
   display: flex;
@@ -269,14 +296,14 @@ form label {
   overflow: hidden;
 }
 
-#results-cards div {
+.results-cards div {
   flex-grow: 1;
   display: grid;
   opacity: 0.8;
   transition: all 1s;
 }
 
-#results-cards  div:hover{
+.results-cards  div:hover{
   transform: scale(1.01);
   opacity: 1.051;
 }
@@ -313,6 +340,7 @@ form label {
 }
 
 .add-activity {
+  border: none;
   right: 0.5em;
   position: absolute;
   background: #FFD951;
