@@ -3,7 +3,7 @@ const os = require('os');
 const app = express();
 const axios = require('axios');
 const bodyParser = require('body-parser');
-const yelpKey = require('../src/utils/serverSecrets')
+const yelpKey = require('../src/utils/serverSecrets');
 
 app.use(express.static('dist'));
 app.use(bodyParser.urlencoded({extended: true}));

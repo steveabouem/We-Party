@@ -133,6 +133,12 @@ li[class^="MuiButtonBase-root"]:hover a{
   padding: 1em;
 }
 
+.no-data-prompt {
+  position: absolute;
+  font-size: 2em;
+  width: 100%;
+}
+
 .buttons-wrapper, .form-wrapper {
   padding: 1em; /*add margin 1em to children for spacing */
   display: flex;
