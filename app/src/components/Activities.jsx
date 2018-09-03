@@ -23,22 +23,27 @@ class Activities extends React.Component {
   render(){
     
     return(
-      <div className="activities-page">
+      <div>
         <Navigation />
-        {( this.props.userInfo.userInfo.activities && 
+      {( !this.props.userInfo.userInfo.activities? 
+        <h1> Please log in to consult this page </h1>
+        :
+      <div className="activities-page">
+      
         <span className="instructions-primary">
           <p>
             Review, update or delete your activities here. 
             <br/> <b style={{textDecoration: "underline"}}> Note</b>: Unmatched activities are listed in the pending section.
           </p>
-        </span>)}
+        </span>
         <div className="all-activities" style={{overflow: "auto"}}>
-        {( this.props.userInfo.userInfo.activities? 
+        {( 
+          // this.props.userInfo.userInfo.activities? 
           Object.keys(this.props.userInfo.userInfo.activities).map(activityKey => {
             console.log(this.props.userInfo.userInfo.activities[activityKey].activity);
             const activity = this.props.userInfo.userInfo.activities[activityKey].activity;
-            return
-            (<div>
+            return(
+            <div>
               <div className="single-activity">
                 <Col md={{ size: 10 }} key={activity.alias}>
                   <Card className="single-activity">
@@ -46,11 +51,14 @@ class Activities extends React.Component {
                     <CardBody>
                       <CardTitle> {activity.venue} (Insert Creation Date Here) </CardTitle>
                       <CardText key={activityKey}>
+                        {/* <span> //SEND WITH RESPONSE, YOU NEED THIS
+                        <img src={phone} alt="phone" className="result-icon" />: {result.display_phone} <br/>
+                        </span> */}
                           Number of people: {activity.group} <br/>
                           Your budget: {activity.budget} <br/>
                           <img src={phone} alt="phone" className="result-icon" />: {activity.contact? activity.contact : "None saved"} <br/>
                           <span>
-                            <img src={location} alt="location" className="result-icon" key={activityKey}/>: {activity.location}
+                            <img src={location} alt="location" className="result-icon" key={activityKey}/>: Venue: {activity.location}
                           </span>
                       </CardText>
                       <button className="delete-activity" onClick={(e) => {this.deleteActivity(activity)}} style={{bottom:"0.5em"}}>
@@ -65,16 +73,17 @@ class Activities extends React.Component {
               </div>
            </div>
             )
-          
-        })
-      :
-          <p className="no-data-prompt" style={{top: "20%"}}> No activity saved, please save one first </p>
+          })
+          // :         
+          // <p className="no-data-prompt"> No activity saved, please save one first </p>
         )}
         
         </div>
         <span className="photo-credentials">
           Photo by Kym Ellis on Unsplash
         </span>
+      </div>
+      )}
       </div>
     )
   }
