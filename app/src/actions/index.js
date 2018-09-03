@@ -100,7 +100,19 @@ export const loadActivities = (users) => dispatch => {
   console.log("object 2 procss", users);
 }
 
-export const deleteActivity = (object) => dispatch => {
-  console.log("Object to delete: ", object);
+export const deleteActivity = (activity) => dispatch => {
+  console.log("Object to delete: ", activity.user.email);
+  const usersCollection = firebase.database().ref().child('users')
+usersCollection.orderByChild("email").equalTo(activity.user.email).on("child_added", function(snapshot) {
+  console.log("snap", snapshot.val().activities, activity);
+  const activityDatabase = snapshot.val().activities;
+
+  for(let key in activityDatabase) {
+    if(activity === activityDatabase[key].activity ){
+      console.log("match", activityDatabase[key]);
+      //INSERT REMOVE() METHOD ON CHILD HERE
+    }
+  }
+})  
   
 }

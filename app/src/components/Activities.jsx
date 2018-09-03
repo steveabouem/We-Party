@@ -17,11 +17,11 @@ class Activities extends React.Component {
   }
 
   
-  deleteActivity = (object) => {
-
+  deleteActivity = (activity) => {
+    this.props.deleteActivity(activity)    
   }
+  
   render(){
-    
     return(
       <div>
         <Navigation />
@@ -46,7 +46,7 @@ class Activities extends React.Component {
             <div>
               <div className="single-activity">
                 <Col md={{ size: 10 }} key={activity.alias}>
-                  <Card className="single-activity">
+                  <Card className="single-activity" key={activityKey}>
                     {/* <CardImg top width="100%" height="200px" src={result.image_url} /> //ICON Or IMG? */}
                     <CardBody>
                       <CardTitle> {activity.venue} (Insert Creation Date Here) </CardTitle>
@@ -56,12 +56,12 @@ class Activities extends React.Component {
                         </span> */}
                           Number of people: {activity.group} <br/>
                           Your budget: {activity.budget} <br/>
-                          <img src={phone} alt="phone" className="result-icon" />: {activity.contact? activity.contact : "None saved"} <br/>
+                          <img src={phone} alt="phone" className="result-icon" />: {activity.contact? activity.contact : "Not Available"} <br/>
                           <span>
                             <img src={location} alt="location" className="result-icon" key={activityKey}/>: Venue: {activity.location}
                           </span>
                       </CardText>
-                      <button className="delete-activity" onClick={(e) => {this.deleteActivity(activity)}} style={{bottom:"0.5em"}}>
+                      <button className="delete-activity" onClick={(e) => {this.deleteActivity(activity)}} style={{bottom:"0.5em"}} key={activityKey}>
                         <img src={trash} alt="trash" className="result-icon" />
                       </button>
                     </CardBody>
