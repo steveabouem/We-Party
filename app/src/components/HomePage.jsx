@@ -41,7 +41,8 @@ class HomePage extends React.Component {
     const existingUsers = this.props.userInfo.usersList;
     const  groupTotal = document.getElementById("how-many").value;
     const budget = document.getElementById("budget-selected").innerHTML;
-    const activityObject = { user: existingUsers[existingUsers.length -1] , venue: object.name, location:object.location.address1, contact: object.phone, budget: budget, group: groupTotal};
+    const gender = document.getElementById("gender-selected").innerHTML;
+    const activityObject = { user: existingUsers[existingUsers.length -1] , venue: object.name, location:object.location.address1, contact: object.phone, budget: budget, group: groupTotal, genders: gender};
     this.props.saveActivity(activityObject,existingUsers[existingUsers.length -1]);
   }
 

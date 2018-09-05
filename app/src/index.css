@@ -56,7 +56,7 @@ li[class^="MuiButtonBase-root"]:hover a{
   color: white!important;
 }
 
-#simple-menu div, #dropdown {
+#simple-menu div, #dropdown, #gender-mix {
   padding-top: 2em;
   background-color: #412d3c57!important;
 }
@@ -172,7 +172,7 @@ li[class^="MuiButtonBase-root"]:hover a{
   align-self: center;
 }
 
-.form-wrapper button:hover, .link-primary:hover, .login-link:hover, #dropdown button:hover  {
+.form-wrapper button:hover, .link-primary:hover, .login-link:hover, #dropdown button:hover, #gender-mix button:hover  {
   color: white!important;
   transform: scale(1.05);
   background: rgba(255, 217, 81, 0.562)!important;
@@ -181,7 +181,7 @@ li[class^="MuiButtonBase-root"]:hover a{
 #disabled-button:hover { /*no user loged in, disable find match button */
   transform: scale(1)!important;
   color: #d0353d!important;
-
+  
 }
 .form-wrapper button:active, .buttons-wrapper button:active {
   background: white;
@@ -209,6 +209,18 @@ li[class^="MuiButtonBase-root"]:hover a{
   background-image: url(https://images.unsplash.com/photo-1511171735792-048024585d63?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=ea49b5f1bed667869fff90697b42b8ca&auto=format&fit=crop&w=1050&q=80);
   height: 100vh;
   width: 100%;
+}
+
+.single-activity {
+  padding-bottom: 1em;
+  height: 6em;
+  margin: 1em 1em;
+  overflow: hidden;
+  transition: all 0.3s;
+}
+
+.single-activity:hover {
+  height: 100%;
 }
 
 .photo-credentials {
@@ -289,7 +301,7 @@ form label {
   background: white;
 }
 
-#dropdown button {
+#dropdown button, #gender-mix button {
   background: transparent!important;
   color: #ffd951;
 }
@@ -316,7 +328,7 @@ form label {
   opacity: 1.051;
 }
 
-#clubs-search, #how-many, #budget-dropdown, #restaurants-search {
+#clubs-search, #how-many, #restaurants-search {
   color: black!important;
 }
 
@@ -345,6 +357,13 @@ form label {
   width: 1em;
   background: #FFD951;
   border-radius: 12px;
+}
+
+.menu-icon {
+  vertical-align: middle;
+  border-style: none;
+  width: 1em;
+  background: transparent;
 }
 
 .add-activity, .delete-activity {

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Dropdown from '../utils/Dropdown';
+import GenderMix from "../utils/GenderMix";
 
 const styles = theme => ({
   container: {
@@ -28,7 +29,7 @@ class TextFields extends React.Component {
   
   handleChange = name => event => {
     const button = event.target;
-    console.log(button.id);
+    // console.log(button.id);
     (
       button.id === "budget-dropdown"?
       this.setState({
@@ -47,7 +48,7 @@ class TextFields extends React.Component {
       <form className={classes.container} noValidate autoComplete="off" id="search-activity-form">
         <TextField
         id="clubs-search"
-        label="Clubs?"
+        label="Nighclubs?"
         type="search"
         className={classes.textField}
         margin="normal"
@@ -59,7 +60,7 @@ class TextFields extends React.Component {
         <div className="sarch-separator" />
         <TextField
         id="restaurants-search"
-        label="Restaurants"
+        label="Bars/5@7?"
         type="search"
         className={classes.textField}
         margin="normal"
@@ -84,6 +85,7 @@ class TextFields extends React.Component {
         <div className="sarch-separator" />
         <Dropdown />
         <div className="sarch-separator" />
+        <GenderMix />
       </form>
     );
   }
