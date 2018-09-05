@@ -328,6 +328,9 @@ form label {
   opacity: 1.051;
 }
 
+.results-cards card {
+  width: 25%;
+}
 #clubs-search, #how-many, #restaurants-search {
   color: black!important;
 }

@@ -14,12 +14,14 @@ app.get('/home:query', async (req, res) => {
   const params = req.params.query;
   const search = params.split("").slice(1, params.length).join("");
   const yelpConfig = {
-    headers: { Authorization: `Bearer ${yelpKey.yelpKey}` },
+    headers: { Authorization: `Bearer ${yelpKey.yelpKey.yelpkey}` },
     params: {
       term: search,
       location: "montreal"
     }
   };
+  console.log("yelp", yelpKey.yelpKey.yelpkey );
+  
   if(search.length > 4){
       await axios
       .get(`https://api.yelp.com/v3/businesses/search`, yelpConfig)
