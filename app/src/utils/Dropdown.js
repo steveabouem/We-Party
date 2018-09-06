@@ -19,8 +19,8 @@ export default class Example extends React.Component {
   }
   
   async selectItem(amt){
-    this.setState({dropDownValue: amt + "CAD"})
-    console.log("item", amt);
+    this.setState({dropDownValue:`${amt}CAD`})
+    console.log("item",amt);
   }
 
   customizeItem() {
@@ -41,7 +41,7 @@ export default class Example extends React.Component {
           <DropdownItem onClick={() => this.selectItem(50)}>50CAD</DropdownItem>
           <DropdownItem onClick={() => this.selectItem(100)}>100CAD</DropdownItem>
         </DropdownMenu>
-        <p id="budget-selected"> {this.state.dropDownValue}</p>
+        <p id="budget-selected">{this.state.dropDownValue}</p>
       </Dropdown>
     );
   }

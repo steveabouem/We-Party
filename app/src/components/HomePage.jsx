@@ -72,11 +72,11 @@ class HomePage extends React.Component {
             <span className="form-wrapper" style={{padding: "1%"}}>
               <TextField recordSearch={this.recordSearch} style={{margin: "1%"}}/>
               {this.props.userInfo.userInfo.userInfo?
-              <button style={{margin: "1%", height: "90%"}} id="disabled-button" onClick={this.findMatches}>
+              <button style={{margin: "1%", height: "90%"}} id="disabled-button" onClick={this.focus}>
                 Login first
               </button>
               :
-              <button style={{margin: "1%", height: "90%"}} onClick={e => this.findMatches(e.target)}>
+              <button style={{margin: "1%", height: "90%"}} onClick={this.findMatches}>
                 Find Match!
               </button>
               }

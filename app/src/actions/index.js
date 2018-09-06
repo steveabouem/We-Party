@@ -1,5 +1,5 @@
 import { dbConfig } from "../config/firebase";
-import { LOGIN, LOAD_USERS, SEARCH_CLUBS, SAVE_VENUE } from "./types";
+import { LOGIN, LOAD_USERS, SEARCH_CLUBS, SAVE_VENUE, RETRIEVEMATCH } from "./types";
 import axios from "axios";
 
 const firebase = require("firebase");
@@ -11,32 +11,39 @@ export const googleLogin = () => dispatch => {
 }
 
 export const findMatches = () => dispatch => {
-  const contribution = document.getElementById("how-many").innerText;
-  const group = document.getElementById("budget-selected") .value;
+  const group = document.getElementById("how-many").value;
+  const budget = document.getElementById("budget-selected").innerText;
   const genders = document.getElementById("gender-selected").innerText;
-  const data = { group: group, genders: genders, contribution: contribution}
+  const data = { group: group, genders: genders, budget: budget}
   const usersCollection = firebase.database().ref().child('users');
-
+  
   usersCollection.orderByKey().once('value').then( async function(snapshot){
+    let matchingResults = [];
     console.log("users snap: ", snapshot.val());
     let usersList = snapshot.val();
     await usersList;
     for(let user in usersList) {
       let userActivities = usersList[user].activities;
       let activityKeys = Object.keys(userActivities);
-      console.log(activityKeys);
+      // console.log(activityKeys);
       activityKeys.forEach( activity => { 
-        console.log(userActivities[activity].activity.genders);
+        // console.log(userActivities[activity].activity.genders);
         const sample = userActivities[activity].activity;
-        if(sample.genders == data.genders){
-          console.log("match", data.genders);
+        console.log("compare: ", sample, data);
+        
+        if(sample.genders == data.genders && sample.budget == ` ${data.budget}`){
+          console.log("match for", data);
+          matchingResults.push(sample)
         }
         
       })
+      // console.log("match array", matchingResults);
+      dispatch({
+        type: RETRIEVEMATCH,
+        payload: matchingResults
+      })  
     }
   })
-  // console.log(`data: ${group}, users `);
-  
 }
 
 export const logout = async() => {
