@@ -47,7 +47,7 @@ class HomePage extends React.Component {
   }
 
   findMatches = async () => {
-    await this.props.findMatches
+    await this.props.findMatches()
   }
 
   focus = () => {
@@ -57,7 +57,7 @@ class HomePage extends React.Component {
 
   render (){
     const ApiResponse =this.props.userInfo.searchResults;
-    // console.log(this.props);
+    console.log(this.props);
     
     return(
       <div>
@@ -72,11 +72,11 @@ class HomePage extends React.Component {
             <span className="form-wrapper" style={{padding: "1%"}}>
               <TextField recordSearch={this.recordSearch} style={{margin: "1%"}}/>
               {this.props.userInfo.userInfo.userInfo?
-              <button style={{margin: "1%", height: "90%"}} id="disabled-button" onClick={this.focus}>
+              <button style={{margin: "1%", height: "90%"}} id="disabled-button" onClick={this.findMatches}>
                 Login first
               </button>
               :
-              <button style={{margin: "1%", height: "90%"}} onClick={this.findMatches}>
+              <button style={{margin: "1%", height: "90%"}} onClick={e => this.findMatches(e.target)}>
                 Find Match!
               </button>
               }

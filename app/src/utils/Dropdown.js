@@ -8,7 +8,7 @@ export default class Example extends React.Component {
     this.toggle = this.toggle.bind(this);
     this.state = {
       dropdownOpen: false,
-      dropDownValue: "Your Budget"
+      dropDownValue: "Input for each"
     };
   }
 
@@ -40,8 +40,6 @@ export default class Example extends React.Component {
           <DropdownItem onClick={() => this.selectItem(40)}>40CAD</DropdownItem>
           <DropdownItem onClick={() => this.selectItem(50)}>50CAD</DropdownItem>
           <DropdownItem onClick={() => this.selectItem(100)}>100CAD</DropdownItem>
-          <DropdownItem divider />
-          <DropdownItem onClick={() => this.customizeItem()}> Custom.. </DropdownItem>
         </DropdownMenu>
         <p id="budget-selected"> {this.state.dropDownValue}</p>
       </Dropdown>

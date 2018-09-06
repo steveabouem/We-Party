@@ -25,7 +25,7 @@ export default class Gender extends React.Component {
   
   async selectItem(selection){
     this.setState({dropDownValue: selection })
-    console.log("item", selection);
+    // console.log("item", selection);
   }
 
   customizeItem() {

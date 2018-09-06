@@ -10,8 +10,32 @@ export const googleLogin = () => dispatch => {
   //refactor google signin and userinfo() here
 }
 
-export const findMatches = (usersCollection) => dispatch => {
-  console.log("list in store:", usersCollection);
+export const findMatches = () => dispatch => {
+  const contribution = document.getElementById("how-many").innerText;
+  const group = document.getElementById("budget-selected") .value;
+  const genders = document.getElementById("gender-selected").innerText;
+  const data = { group: group, genders: genders, contribution: contribution}
+  const usersCollection = firebase.database().ref().child('users');
+
+  usersCollection.orderByKey().once('value').then( async function(snapshot){
+    console.log("users snap: ", snapshot.val());
+    let usersList = snapshot.val();
+    await usersList;
+    for(let user in usersList) {
+      let userActivities = usersList[user].activities;
+      let activityKeys = Object.keys(userActivities);
+      console.log(activityKeys);
+      activityKeys.forEach( activity => { 
+        console.log(userActivities[activity].activity.genders);
+        const sample = userActivities[activity].activity;
+        if(sample.genders == data.genders){
+          console.log("match", data.genders);
+        }
+        
+      })
+    }
+  })
+  // console.log(`data: ${group}, users `);
   
 }
 
@@ -89,7 +113,6 @@ export const saveActivity = (activity, user) => dispatch => {
     const currentUserId = snapshot.key;
     await currentUserId;
     const currentUserRef = firebase.database().ref().child(`users/${currentUserId}/activities`);
-    
     await currentUserRef.push({activity});
   })
   //YOU SHOULD DISPATCH THE LIst OF ACTIVITIES, WOULD LIMIT THE NUMBER OF CALLS TO FIREBASE
