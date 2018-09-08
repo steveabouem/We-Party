@@ -42,7 +42,7 @@ class HomePage extends React.Component {
     const  groupTotal = document.getElementById("how-many").value;
     const budget = document.getElementById("budget-selected").innerHTML;
     const gender = document.getElementById("gender-selected").innerHTML;
-    const activityObject = { user: existingUsers[existingUsers.length -1] , venue: object.name, location:object.location.address1, contact: object.phone, budget: budget, group: groupTotal, genders: gender};
+    const activityObject = { user: existingUsers[existingUsers.length -1] , venue: object.name, location:object.location.address1, contact: object.phone, budget: budget, group: groupTotal, genders: gender, match: "false"};
     this.props.saveActivity(activityObject,existingUsers[existingUsers.length -1]);
   }
 
@@ -57,7 +57,7 @@ class HomePage extends React.Component {
 
   render (){
     const ApiResponse =this.props.userInfo.searchResults;
-    console.log(this.props);
+    // console.log("homepage prps", this.props);
     
     return(
       <div>

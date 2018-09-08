@@ -33,6 +33,7 @@ export const findMatches = () => dispatch => {
         
         if(sample.genders == data.genders && sample.budget == ` ${data.budget}`){
           console.log("match for", data);
+          sample.match = "true";
           matchingResults.push(sample)
         }
         
@@ -113,7 +114,7 @@ export const loadUsersCollection = () => async(dispatch) => {//thyere still not 
 }
 
 export const saveActivity = (activity, user) => dispatch => {
-  console.log(user);
+  // console.log(user);
   
   const usersCollection = firebase.database().ref().child('users')
   usersCollection.orderByChild("email").equalTo(user.email).on( "child_added", async function(snapshot) {

@@ -22,6 +22,8 @@ class Activities extends React.Component {
   }
   
   render(){
+    console.log("activities props", this.props);
+    
     return(
       <div>
         <Navigation />
