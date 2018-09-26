@@ -14,13 +14,13 @@ app.get('/home:query', async (req, res) => {
   const params = req.params.query;
   const search = params.split("").slice(1, params.length).join("");
   const yelpConfig = {
-    headers: { Authorization: `Bearer ${yelpKey.yelpKey.yelpkey}` },
+    headers: { Authorization: `Bearer ${yelpKey.yelpKey}` },
     params: {
       term: search,
       location: "montreal"
     }
   };
-  console.log("yelp", yelpKey.yelpKey.yelpkey );
+  console.log("yelp", yelpKey.yelpKey );
   
   if(search.length > 4){
       await axios
@@ -43,4 +43,4 @@ app.get('/home:query', async (req, res) => {
 
 // app.get('/activities', (req, res) => console.log("activities", Object.keys(res)));
 
-app.listen(3001, () => console.log('Listening on port 3001!'));
+app.listen(3001, () => console.log('Listening on port 3001!', yelpKey.yelpKey));
