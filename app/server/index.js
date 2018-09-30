@@ -20,13 +20,13 @@ app.get('/home:query', async (req, res) => {
       location: "montreal"
     }
   };
-  console.log("yelp", yelpKey.yelpKey );
+  console.log("yelp", search );
   
   if(search.length > 4){
       await axios
       .get(`https://api.yelp.com/v3/businesses/search`, yelpConfig)
       .then(async response => {
-        console.log("SERVER RESPONSE", response);
+        console.log("SERVER RESPONSE", response.data.businesses);
         
         if(response.data.businesses){
           let results = response.data.businesses;
