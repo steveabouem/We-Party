@@ -70,6 +70,16 @@ li[class^="MuiButtonBase-root"]:hover a{
   color: white!important;
 }
 
+/* LOGIN PAGE */
+
+.LoginForm-root-1 {
+  flex-direction: column;
+  margin: 25% auto 0 auto;
+  width: 25%;
+  background: white;
+
+}
+
 .landing-page, .login-page {
   height: 100vh;
   width: 100%;
@@ -331,7 +341,7 @@ form label {
 .results-cards card {
   width: 25%;
 }
-#clubs-search, #how-many, #restaurants-search {
+#SEARCH_VENUE, #how-many, #restaurants-search {
   color: black!important;
 }
 

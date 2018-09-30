@@ -24,30 +24,40 @@ class HomePage extends React.Component {
   }
   
   recordSearch = async(e) => {
-    let firstResult = document.getElementsByClassName("add-activity"); 
-    let input = e.target.value;
-    // console.log(firstResult);
+    
+    let input = document.getElementById("SEARCH_VENUE").value; 
     
     await this.props.searchActivities(input);
-    await this.props.searchResults;
-    if(firstResult[0]){
-      firstResult[0].focus(); // look if delaying possible. Focus() method takes no arguments :( )
-    }
+    await this.props.userInfo.searchResults; 
+    const results = this.props.userInfo.searchResults;
+    // await this.saveActivity(results[0]);
+    // await this.props.findMatches;
+
+    // console.log("result props", this.props);
+    
   }
   
-  saveActivity = (e, object) => {// use cookies upon deployment, this is just taking in the latest user logged in
-    console.log("phone", object);
-    
+  saveActivity = (object) => {// use cookies upon deployment, this is just taking in the latest user logged in
+
+    let activityObject;
+    const currentUser = this.props.userInfo.userInfo;
     const existingUsers = this.props.userInfo.usersList;
     const  groupTotal = document.getElementById("how-many").value;
     const budget = document.getElementById("budget-selected").innerHTML;
     const gender = document.getElementById("gender-selected").innerHTML;
-    const activityObject = { user: existingUsers[existingUsers.length -1] , venue: object.name, location:object.location.address1, contact: object.phone, budget: budget, group: groupTotal, genders: gender, match: "false"};
-    this.props.saveActivity(activityObject,existingUsers[existingUsers.length -1]);
-  }
 
-  findMatches = async () => {
-    await this.props.findMatches()
+    existingUsers.map(user =>{
+      console.log(user);
+      
+      if(currentUser === user) { 
+        activityObject = { user: currentUser , venue: object.name, location:object.location.address1, contact: object.phone, budget: budget, group: groupTotal, genders: gender, match: "false"};
+        this.props.saveActivity(activityObject,currentUser);
+      } else {
+        console.log("no matched user")
+      }
+    
+    })
+    
   }
 
   focus = () => {
@@ -56,8 +66,8 @@ class HomePage extends React.Component {
   }
 
   render (){
-    const ApiResponse =this.props.userInfo.searchResults;
-    // console.log("homepage prps", this.props);
+    const ApiResponse = this.props.userInfo.searchResults;
+    console.log("homepage prps", this.props);
     
     return(
       <div>
@@ -70,13 +80,13 @@ class HomePage extends React.Component {
               <p>Make it happen. Create your party!</p>
             </span>
             <span className="form-wrapper" style={{padding: "1%"}}>
-              <TextField recordSearch={this.recordSearch} style={{margin: "1%"}}/>
+              <TextField style={{margin: "1%"}}/>
               {this.props.userInfo.userInfo.userInfo?
-              <button style={{margin: "1%", height: "90%"}} id="disabled-button" onClick={this.focus}>
-                Login first
+              <button style={{margin: "1%", height: "90%"}} id="disabled-button" onClick={this.recordSearch}>
+                change condition
               </button>
               :
-              <button style={{margin: "1%", height: "90%"}} onClick={this.findMatches}>
+              <button className="button-primary" style={{margin: "1%", height: "90%"}} onClick={this.recordSearch}>
                 Find Match!
               </button>
               }
@@ -87,7 +97,7 @@ class HomePage extends React.Component {
         </div>
         </div>
         <div className="results-cards">
-          {ApiResponse !== undefined? ApiResponse.results.map(result => {
+          {ApiResponse !== undefined ? ApiResponse.results.map(result => {
             return(
               <Col md={{ size: 10 }} key={result.alias}>
                 <Card className="result-cards">
@@ -98,7 +108,7 @@ class HomePage extends React.Component {
                   </span>
                   <CardImg top width="100%" height="200px" src={result.image_url} />
                   <CardBody>
-                    <CardTitle> Establishment: <br/> {result.name} </CardTitle>
+                    <CardTitle> Venue: <br/> {result.name} </CardTitle>
                     {/* <CardSubtitle>Category: {result.categories[0].title} </CardSubtitle> */}
                     <CardText>
                       Description: <br/>
@@ -119,7 +129,7 @@ class HomePage extends React.Component {
                 </Card>
               </Col>
           )}   
-           ) :<p className="no-data-prompt"> </p>}
+           ) :<p className="no-data-prompt"> make display none, then flex on findmatch click </p>}
         </div>
       </div>)
   }

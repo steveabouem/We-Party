@@ -1,5 +1,5 @@
 import { dbConfig } from "../config/firebase";
-import { LOGIN, LOAD_USERS, SEARCH_CLUBS, SAVE_VENUE, RETRIEVEMATCH } from "./types";
+import { LOGIN, LOAD_USERS, SEARCH_VENUE, RETRIEVEMATCH } from "./types";
 import axios from "axios";
 
 const firebase = require("firebase");
@@ -19,7 +19,7 @@ export const findMatches = () => dispatch => {
   
   usersCollection.orderByKey().once('value').then( async function(snapshot){
     let matchingResults = [];
-    console.log("users snap: ", snapshot.val());
+    // console.log("users snap: ", snapshot.val());
     let usersList = snapshot.val();
     await usersList;
     for(let user in usersList) {
@@ -86,15 +86,14 @@ export const saveUser = user => dispatch => {
 export const searchActivities = (search) => async(dispatch) => {
   axios.get(`/home:${search}`)
   .then(res => {
-    // console.log(" res: ", res.data);
+    // console.log(" search venue res: ", res.data);
     dispatch({
-      type: SEARCH_CLUBS,
+      type: SEARCH_VENUE,
       payload: res.data
     })
   })
   .catch( e => {
     console.log("searchActivities error: ", e);
-    
   })
 }
 

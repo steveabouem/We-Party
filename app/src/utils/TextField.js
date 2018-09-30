@@ -47,7 +47,7 @@ class TextFields extends React.Component {
     return (
       <form className={classes.container} noValidate autoComplete="off" id="search-activity-form">
         <TextField
-        id="clubs-search"
+        id="SEARCH_VENUE"
         label="Nighclubs?"
         type="search"
         className={classes.textField}
@@ -55,10 +55,10 @@ class TextFields extends React.Component {
         InputLabelProps={{
           autoFocus: true,
         }}
-        onChange={(evt)=>this.props.recordSearch(evt)}
+        // onChange={(evt)=>this.props.recordSearch(evt)}
         />
         <div className="sarch-separator" />
-        <TextField
+        {/* <TextField
         id="restaurants-search"
         label="Bars/5@7?"
         type="search"
@@ -67,9 +67,9 @@ class TextFields extends React.Component {
         InputLabelProps={{
           autoFocus: true,
         }} 
-        onChange={(evt)=>this.props.recordSearch(evt)}
+        // onChange={(evt)=>this.props.recordSearch(evt)}
         />
-        <div className="sarch-separator" />
+        <div className="sarch-separator" /> */}
         <TextField
         id="how-many"
         label="How many?"

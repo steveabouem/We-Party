@@ -1,4 +1,4 @@
-import { LOGIN, SEARCH_CLUBS, LOAD_USERS, SEARCH_RESTAURANTS, RETRIEVEMATCH } from "../actions/types";
+import { LOGIN, SEARCH_VENUE, LOAD_USERS, RETRIEVEMATCH } from "../actions/types";
 
 const initialState = {
   userInfo:{userInfo:{name:"Guest"} },
@@ -12,13 +12,7 @@ export default function(state = initialState, action){
       ...state,
       userInfo: action.payload
     };
-    case SEARCH_CLUBS:{
-      return{
-        ...state,
-        searchResults:action.payload
-      }
-    };
-    case SEARCH_RESTAURANTS:{
+    case SEARCH_VENUE:{
       return{
         ...state,
         searchResults:action.payload
