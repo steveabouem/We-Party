@@ -21,15 +21,15 @@ class HomePage extends React.Component {
 
   async componentDidMount() {
     await this.props.loadUsersCollection();
+    
   }
   
-  recordSearch = async(e) => {
+  recordSearch = async() => {
     
     let input = document.getElementById("SEARCH_VENUE").value; 
     
     await this.props.searchActivities(input);
-    await this.props.userInfo.searchResults; 
-    const results = this.props.userInfo.searchResults;
+    // await this.props.userInfo.searchResults; 
     // await this.saveActivity(results[0]);
     // await this.props.findMatches;
 
@@ -37,27 +37,22 @@ class HomePage extends React.Component {
     
   }
   
-  saveActivity = (object) => {// use cookies upon deployment, this is just taking in the latest user logged in
+  saveActivity = (e,object) => {// use cookies upon deployment, this is just taking in the latest user logged in
+    e.stopPropagation();
 
-    let activityObject;
     const currentUser = this.props.userInfo.userInfo;
-    const existingUsers = this.props.userInfo.usersList;
-    const  groupTotal = document.getElementById("how-many").value;
+    let date = new Date();
+    let dateString = date.toString().split(" ").slice(0, 5);
+    let created = `${dateString[0]}, ${dateString[1]}/${dateString[2]} ${dateString[3]}`;
+    let activityObject = { user: currentUser , venue: object.name, location:object.location.address1, contact: object.phone, budget: budget, group: groupTotal, genders: gender, match: "false", created: created};
+    const groupTotal = document.getElementById("how-many").value;
     const budget = document.getElementById("budget-selected").innerHTML;
     const gender = document.getElementById("gender-selected").innerHTML;
-
-    existingUsers.map(user =>{
-      console.log(user);
-      
-      if(currentUser === user) { 
-        activityObject = { user: currentUser , venue: object.name, location:object.location.address1, contact: object.phone, budget: budget, group: groupTotal, genders: gender, match: "false"};
+    console.log(activityObject);
+    
+        // activityObject = { user: currentUser , venue: object.name, location:object.location.address1, contact: object.phone, budget: budget, group: groupTotal, genders: gender, match: "false"};
         this.props.saveActivity(activityObject,currentUser);
-      } else {
-        console.log("no matched user")
-      }
-    
-    })
-    
+        return;
   }
 
   focus = () => {
@@ -82,7 +77,7 @@ class HomePage extends React.Component {
             <span className="form-wrapper" style={{padding: "1%"}}>
               <TextField style={{margin: "1%"}}/>
               {this.props.userInfo.userInfo.userInfo?
-              <button style={{margin: "1%", height: "90%"}} id="disabled-button" onClick={this.recordSearch}>
+              <button style={{margin: "1%", height: "90%"}} id="disabled-button" onClick={this.focus}>
                 change condition
               </button>
               :
@@ -102,8 +97,8 @@ class HomePage extends React.Component {
               <Col md={{ size: 10 }} key={result.alias}>
                 <Card className="result-cards">
                   <span>
-                    <button key={result.id} className="add-activity" onClick={(e) => {this.saveActivity(e, result)}}>
-                      Save it
+                    <button key={result.id} className="add-activity" onClick={e=>{this.saveActivity(e, result)}}>
+                      Confirm
                     </button>
                   </span>
                   <CardImg top width="100%" height="200px" src={result.image_url} />

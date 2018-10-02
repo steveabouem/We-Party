@@ -113,7 +113,7 @@ export const loadUsersCollection = () => async(dispatch) => {//thyere still not 
 }
 
 export const saveActivity = (activity, user) => dispatch => {
-  // console.log(user);
+  console.log("store saves:", activity, user);
   
   const usersCollection = firebase.database().ref().child('users')
   usersCollection.orderByChild("email").equalTo(user.email).on( "child_added", async function(snapshot) {
@@ -121,6 +121,8 @@ export const saveActivity = (activity, user) => dispatch => {
     await currentUserId;
     const currentUserRef = firebase.database().ref().child(`users/${currentUserId}/activities`);
     await currentUserRef.push({activity});
+    console.log(currentUserRef);
+    
   })
   //YOU SHOULD DISPATCH THE LIst OF ACTIVITIES, WOULD LIMIT THE NUMBER OF CALLS TO FIREBASE
   //COULD MAKE UPDATE EASIEr AS WELL
