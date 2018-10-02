@@ -111,7 +111,7 @@ export const loadUsersCollection = () => async(dispatch) => {//thyere still not 
     })
   });
 }
-
+//WHY is it super nested firebase calls? review docs
 export const saveActivity = (activity, user) => dispatch => {
   console.log("store saves:", activity, user);
   
@@ -121,7 +121,6 @@ export const saveActivity = (activity, user) => dispatch => {
     await currentUserId;
     const currentUserRef = firebase.database().ref().child(`users/${currentUserId}/activities`);
     await currentUserRef.push({activity});
-    console.log(currentUserRef);
     
   })
   //YOU SHOULD DISPATCH THE LIst OF ACTIVITIES, WOULD LIMIT THE NUMBER OF CALLS TO FIREBASE
@@ -135,16 +134,16 @@ export const loadActivities = (users) => dispatch => {
 export const deleteActivity = (activity) => dispatch => {
   console.log("Object to delete: ", activity.user.email);
   const usersCollection = firebase.database().ref().child('users')
-usersCollection.orderByChild("email").equalTo(activity.user.email).on("child_added", function(snapshot) {
-  console.log("snap", snapshot.val().activities, activity);
-  const activityDatabase = snapshot.val().activities;
-
-  for(let key in activityDatabase) {
-    if(activity === activityDatabase[key].activity ){
-      console.log("match", activityDatabase[key]);
-      //INSERT REMOVE() METHOD ON CHILD HERE
+  usersCollection.orderByChild("email").equalTo(activity.user.email).on("child_added", function(snapshot) {
+    console.log("snap", snapshot.val().activities, activity);
+    const activityDatabase = snapshot.val().activities;
+    
+    for(let key in activityDatabase) {
+      if(activity === activityDatabase[key].activity ){
+        console.log("match", activityDatabase[key]);
+        //INSERT REMOVE() METHOD ON CHILD HERE
+      }
     }
-  }
-})  
+  })  
   
 }

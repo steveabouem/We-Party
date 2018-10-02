@@ -44,15 +44,15 @@ class HomePage extends React.Component {
     let date = new Date();
     let dateString = date.toString().split(" ").slice(0, 5);
     let created = `${dateString[0]}, ${dateString[1]}/${dateString[2]} ${dateString[3]}`;
-    let activityObject = { user: currentUser , venue: object.name, location:object.location.address1, contact: object.phone, budget: budget, group: groupTotal, genders: gender, match: "false", created: created};
     const groupTotal = document.getElementById("how-many").value;
     const budget = document.getElementById("budget-selected").innerHTML;
     const gender = document.getElementById("gender-selected").innerHTML;
+    let activityObject = { user: currentUser , venue: object.name, location:object.location.address1, contact: object.phone, budget: budget, group: groupTotal, genders: gender, match: "false", created: created};
     console.log(activityObject);
     
         // activityObject = { user: currentUser , venue: object.name, location:object.location.address1, contact: object.phone, budget: budget, group: groupTotal, genders: gender, match: "false"};
         this.props.saveActivity(activityObject,currentUser);
-        return;
+        // return;
   }
 
   focus = () => {
