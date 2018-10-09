@@ -1,5 +1,5 @@
 import { dbConfig } from "../config/firebase";
-import { LOGIN, LOAD_USERS, SEARCH_VENUE, RETRIEVEMATCH } from "./types";
+import { LOGIN, LOAD_USERS, LOAD_ACTIVITIES, SEARCH_VENUE, RETRIEVEMATCH, SAVE_VENUE } from "./types";
 import axios from "axios";
 
 const firebase = require("firebase");
@@ -15,35 +15,37 @@ export const findMatches = () => dispatch => {
   const budget = document.getElementById("budget-selected").innerText;
   const genders = document.getElementById("gender-selected").innerText;
   const data = { group: group, genders: genders, budget: budget}
-  const usersCollection = firebase.database().ref().child('users');
+  const activitiesCollection = firebase.database().ref().child('activities');
   
-  usersCollection.orderByKey().once('value').then( async function(snapshot){
-    let matchingResults = [];
-    // console.log("users snap: ", snapshot.val());
-    let usersList = snapshot.val();
-    await usersList;
-    for(let user in usersList) {
-      let userActivities = usersList[user].activities;
-      let activityKeys = Object.keys(userActivities);
-      // console.log(activityKeys);
-      activityKeys.forEach( activity => { 
-        // console.log(userActivities[activity].activity.genders);
-        const sample = userActivities[activity].activity;
-        console.log("compare: ", sample, data);
-        
-        if(sample.genders == data.genders && sample.budget == ` ${data.budget}`){
-          console.log("match for", data);
-          sample.match = "true";
-          matchingResults.push(sample)
-        }
-        
-      })
-      // console.log("match array", matchingResults);
-      dispatch({
-        type: RETRIEVEMATCH,
-        payload: matchingResults
-      })  
-    }
+  activitiesCollection.orderByKey().once('value').then( async function(snapshot){
+    console.log("match snapshot", snapshot.val());
+    
+    //   let matchingResults = [];
+    //   // console.log("users snap: ", snapshot.val());
+    //   let usersList = snapshot.val();
+    //   await usersList;
+    //   for(let user in usersList) {
+    //     let userActivities = usersList[user].activities;
+    //     let activityKeys = Object.keys(userActivities);
+    //     // console.log(activityKeys);
+    //     activityKeys.forEach( activity => { 
+    //       // console.log(userActivities[activity].activity.genders);
+    //       const sample = userActivities[activity].activity;
+    //       console.log("compare: ", sample, data);
+    
+    //       if(sample.genders == data.genders && sample.budget == ` ${data.budget}`){
+    //         console.log("match for", data);
+    //         sample.match = "true";
+    //         matchingResults.push(sample)
+    //       }
+    
+    //     })
+    //     // console.log("match array", matchingResults);
+    //     dispatch({
+    //       type: RETRIEVEMATCH,
+    //       payload: matchingResults
+    //     })  
+    //   }
   })
 }
 
@@ -97,7 +99,25 @@ export const searchActivities = (search) => async(dispatch) => {
   })
 }
 
-export const loadUsersCollection = () => async(dispatch) => {//thyere still not unique
+export const createActivity = activity => dispatch => {
+  let activitiesList = [];
+  const activitiesCollection = firebase.database().ref().child('activities');
+  activitiesCollection.push(activity)
+  
+  activitiesCollection.once('value').then( function(snapshot) {
+    for(const activity in snapshot.val()) {
+      activitiesList.push(snapshot.val()[activity]);
+    }
+    
+    dispatch({
+      type: SAVE_VENUE,
+      payload: activitiesList
+    })
+  });
+  console.log("list", activitiesList);
+};
+
+export const loadUsersCollection = () => async(dispatch) => {
   const usersCollection = firebase.database().ref().child('users')
   usersCollection.once('value').then( function(snapshot) {
     let usersList = []
@@ -111,21 +131,35 @@ export const loadUsersCollection = () => async(dispatch) => {//thyere still not 
     })
   });
 }
-//WHY is it super nested firebase calls? review docs
-export const saveActivity = (activity, user) => dispatch => {
-  console.log("store saves:", activity, user);
-  
-  const usersCollection = firebase.database().ref().child('users')
-  usersCollection.orderByChild("email").equalTo(user.email).on( "child_added", async function(snapshot) {
-    const currentUserId = snapshot.key;
-    await currentUserId;
-    const currentUserRef = firebase.database().ref().child(`users/${currentUserId}/activities`);
-    await currentUserRef.push({activity});
-    
+
+export const loadActivitiesCollection = () => dispatch => {
+  const activitiesCollection = firebase.database().ref().child('activities')
+  let activitiesList = []
+  activitiesCollection.once('value').then( function(snapshot) {
+    for(const activity in snapshot.val()) {
+      activitiesList.push(snapshot.val()[activity]);
+    }
+  });
+  dispatch({
+    type: LOAD_ACTIVITIES,
+    payload: activitiesList
   })
-  //YOU SHOULD DISPATCH THE LIst OF ACTIVITIES, WOULD LIMIT THE NUMBER OF CALLS TO FIREBASE
-  //COULD MAKE UPDATE EASIEr AS WELL
+  console.log("list", activitiesList);
+  return;
 }
+// export const saveActivity = (activity, user) => dispatch => {
+//   // console.log(user);
+
+//   const usersCollection = firebase.database().ref().child('users')
+//   usersCollection.orderByChild("email").equalTo(user.email).on( "child_added", async function(snapshot) {
+//     const currentUserId = snapshot.key;
+//     await currentUserId;
+//     const currentUserRef = firebase.database().ref().child(`users/${currentUserId}/activities`);
+//     await currentUserRef.push({activity});
+//   })
+//   //YOU SHOULD DISPATCH THE LIst OF ACTIVITIES, WOULD LIMIT THE NUMBER OF CALLS TO FIREBASE
+//   //COULD MAKE UPDATE EASIEr AS WELL
+// }
 
 export const loadActivities = (users) => dispatch => {
   console.log("object 2 procss", users);

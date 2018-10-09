@@ -77,7 +77,7 @@ li[class^="MuiButtonBase-root"]:hover a{
   margin: 25% auto 0 auto;
   width: 25%;
   background: white;
-
+  
 }
 
 .landing-page, .login-page {
@@ -316,6 +316,27 @@ form label {
   color: #ffd951;
 }
 
+
+/* LIST OF MATCHES */
+.view-groups {
+  /* display: none; */
+  transition: all 1s;
+  width: 100%;
+  padding: 0 5px;
+  color: white;
+  font-size: 0.8rem;
+  background: #53404f;
+}
+
+.groups-list {
+  list-style: none;
+}
+
+.groups-list:nth-child(odd) {
+  background: #FFD951;
+}
+
+.view-groups
 .results-cards {
   width: 95%;
   margin: auto;
@@ -388,14 +409,26 @@ form label {
   transition: all 0.3s;
 }
 
+.create-activity {
+  align-self: baseline;
+  border: none;
+  right: 0.5em;
+  background: #FFD951;
+  color: #d0353d;
+  transition: all 0.3s;
+}
 
+/* ADD BOTTOM MARGIN ON CONFIRM */
+.confirm-container {
+  margin: 1em auto 2em auto;
+}
 
-.add-activity:hover, .delete-activity:hover{
+.add-activity:hover, .delete-activity:hover, .create-activity:hover{
   color: white;
   transform: scale(1.1);
 }
 
-.add-activity:active, .delete-activity:active {
+.add-activity:active, .delete-activity:active, .create-activity:active {
   background: white;
   color: greenyellow;
 }
