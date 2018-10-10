@@ -1,0 +1,72 @@
+@keyframes animateWhiteBox {
+  0% {
+    background: rgb(222,57,65);
+    height: 10%;
+    transform: scale(1.05);
+    border: 3px solid;
+    border-color: #00000054;
+    padding: 10%;
+    color: #412d3c;
+  }
+  
+  50% {
+    background: #412d3c;
+    height: 60%;
+    transform: scale(1.1);
+    border: 6px solid;
+    border-color: #00000054;
+    padding: 5%;
+    color: #412d3c;
+    
+  }
+  
+  100% {
+    background: rgb(222,57,65);
+    height: 60%;
+    transform: scale(1);
+    border: none;
+  }  
+}
+
+@keyframes expandShadows {
+  0% {
+    height: 29%;
+    transform: scale(1.3);
+  }
+  
+  50% {
+    height: 100%;
+  }
+  
+  100% {
+    height: 100%;
+    transform: scale(1.1);
+  }
+}
+
+@keyframes animateBackground {
+  0% {
+    background: rgb(238,101,98);
+    background: linear-gradient(180deg, rgba(238,101,98,1) 10%, rgba(65,45,60,1) 10%);
+  }
+}
+
+@keyframes revealTitle {
+  100% {
+    color: white;
+  }
+}
+
+@keyframes loadingAnimation {
+  0% {
+    transform: scale(1.2);
+  }
+  
+  50% {
+    transform: scale(1);
+  }
+  
+  100% {
+    transform: scale(1.2);
+  }
+}

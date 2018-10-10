@@ -1,0 +1,48 @@
+.landing-page {
+  height: 100vh;
+  width: 100%;
+  position: absolute;
+  background: rgb(238,101,98);
+  background: linear-gradient(180deg, rgba(238,101,98,1) 50%, rgba(65,45,60,1) 50%);
+  color: #EE6562;
+  z-index: 0;
+}
+
+.white-box {
+  margin: auto;
+  margin-top: 15%;
+  background-repeat: no-repeat;
+  width: 30%;
+  height: 60%;
+  background-color: rgb(222, 57, 65);
+  color: #412d3c;
+  font-weight: bold;
+  text-align: justify;
+  background-size: cover;
+  background-blend-mode: multiply;
+  padding: 3%;
+  animation: animateWhiteBox 0.5s cubic-bezier(0,0,1,1);
+}
+
+.white-box h1 {
+  font-family: 'Josefin Sans', sans-serif;
+  color: #d0353d;
+  font-size: 2.8rem;
+  animation: revealTitle 2s;
+  animation-fill-mode: forwards;
+}
+
+.white-box p {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+.white-box a, .navbar-brand a {
+  font-size: 1rem;
+  color: white;
+}
+
+.white-box a:hover{ 
+  color: #FFD951!important;
+  text-decoration: none;
+}
