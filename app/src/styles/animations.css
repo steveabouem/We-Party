@@ -70,3 +70,37 @@
     transform: scale(1.2);
   }
 }
+
+@keyframes slideFirstChild {
+  0% {
+    left: 66.6%;
+    filter: grayscale(1)
+  }
+
+  100% {
+    left: 0
+  }
+}
+
+@keyframes slideSecondChild {
+  0% {
+    left: 0%;
+    filter: grayscale(1)
+  }
+
+  100% {
+    left: 33.3%
+  }
+}
+
+@keyframes slideThirdChild {
+  0% {
+    left: 0%;
+    filter: grayscale(1)
+  }
+
+  100% {
+    left: 66.6%;
+    filter: grayscale(1);
+  }
+}
