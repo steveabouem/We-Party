@@ -1,7 +1,8 @@
 import React from "react";
-import { saveUser,loadUsersCollection } from "../actions/index";
 import { connect } from "react-redux";
 import { Row, Col } from 'reactstrap';
+import LoginForm from "../utils/LoginForm";
+import { saveUser,loadUsersCollection } from "../actions/index";
 import GoogleButton from "./GoogleButton.jsx";
 import FacebookButton from "./FacebookButton";
 
@@ -10,11 +11,11 @@ class LoginPage extends React.Component {
   
   googleStyle = {
     position:"absolute",
-    top: "40%"
+    top: "30%"
   }
   facebookStyle = {
     position:"absolute",
-    top: "52%"
+    top: "42%"
   }
   
   getUser = async (userInfo) =>{
@@ -24,11 +25,10 @@ class LoginPage extends React.Component {
   }
 
   render(){
-    console.log(this.props, this.state)
     return(
       <div className="login-page">
         <Row>
-          <span className="instructions-primary" style={{position: "absolute", top: "25%", background: "none"}}>
+          <span className="instructions-primary" style={{position: "absolute", top: "15%", background: "none"}}>
             <p> 
               This will automatically sign you in with the current google credentials.
               <br/> 
@@ -42,6 +42,7 @@ class LoginPage extends React.Component {
             </span>
           </Col>
         </Row>
+        <LoginForm saveUser={this.getUser}/>
       </div>
     )
   }

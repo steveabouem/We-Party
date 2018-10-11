@@ -1,5 +1,5 @@
 import { dbConfig } from "../config/firebase";
-import { LOGIN, LOAD_USERS, SEARCH_CLUBS, SAVE_VENUE } from "./types";
+import { LOGIN, LOAD_USERS, LOAD_ACTIVITIES, SEARCH_VENUE, RETRIEVEMATCH, SAVE_VENUE } from "./types";
 import axios from "axios";
 
 const firebase = require("firebase");
@@ -10,9 +10,43 @@ export const googleLogin = () => dispatch => {
   //refactor google signin and userinfo() here
 }
 
-export const findMatches = (usersCollection) => dispatch => {
-  console.log("list in store:", usersCollection);
+export const findMatches = () => dispatch => {
+  const group = document.getElementById("how-many").value;
+  const budget = document.getElementById("budget-selected").innerText;
+  const genders = document.getElementById("gender-selected").innerText;
+  const data = { group: group, genders: genders, budget: budget}
+  const activitiesCollection = firebase.database().ref().child('activities');
   
+  activitiesCollection.orderByKey().once('value').then( async function(snapshot){
+    console.log("match snapshot", snapshot.val());
+    
+    //   let matchingResults = [];
+    //   // console.log("users snap: ", snapshot.val());
+    //   let usersList = snapshot.val();
+    //   await usersList;
+    //   for(let user in usersList) {
+    //     let userActivities = usersList[user].activities;
+    //     let activityKeys = Object.keys(userActivities);
+    //     // console.log(activityKeys);
+    //     activityKeys.forEach( activity => { 
+    //       // console.log(userActivities[activity].activity.genders);
+    //       const sample = userActivities[activity].activity;
+    //       console.log("compare: ", sample, data);
+    
+    //       if(sample.genders == data.genders && sample.budget == ` ${data.budget}`){
+    //         console.log("match for", data);
+    //         sample.match = "true";
+    //         matchingResults.push(sample)
+    //       }
+    
+    //     })
+    //     // console.log("match array", matchingResults);
+    //     dispatch({
+    //       type: RETRIEVEMATCH,
+    //       payload: matchingResults
+    //     })  
+    //   }
+  })
 }
 
 export const logout = async() => {
@@ -54,19 +88,36 @@ export const saveUser = user => dispatch => {
 export const searchActivities = (search) => async(dispatch) => {
   axios.get(`/home:${search}`)
   .then(res => {
-    // console.log(" res: ", res.data);
+    // console.log(" search venue res: ", res.data);
     dispatch({
-      type: SEARCH_CLUBS,
+      type: SEARCH_VENUE,
       payload: res.data
     })
   })
   .catch( e => {
     console.log("searchActivities error: ", e);
-    
   })
 }
 
-export const loadUsersCollection = () => async(dispatch) => {//thyere still not unique
+export const createActivity = activity => dispatch => {
+  let activitiesList = [];
+  const activitiesCollection = firebase.database().ref().child('activities');
+  activitiesCollection.push(activity)
+  
+  activitiesCollection.once('value').then( function(snapshot) {
+    for(const activity in snapshot.val()) {
+      activitiesList.push(snapshot.val()[activity]);
+    }
+    
+    dispatch({
+      type: SAVE_VENUE,
+      payload: activitiesList
+    })
+  });
+  console.log("list", activitiesList);
+};
+
+export const loadUsersCollection = () => async(dispatch) => {
   const usersCollection = firebase.database().ref().child('users')
   usersCollection.once('value').then( function(snapshot) {
     let usersList = []
@@ -81,26 +132,52 @@ export const loadUsersCollection = () => async(dispatch) => {//thyere still not 
   });
 }
 
-export const saveActivity = (activity, user) => dispatch => {
-  // console.log(user);
-  
-  const usersCollection = firebase.database().ref().child('users')
-  usersCollection.orderByChild("email").equalTo(user.email).on( "child_added", async function(snapshot) {
-    const currentUserId = snapshot.key;
-    await currentUserId;
-    const currentUserRef = firebase.database().ref().child(`users/${currentUserId}/activities`);
-    
-    await currentUserRef.push({activity});
+export const loadActivitiesCollection = () => dispatch => {
+  const activitiesCollection = firebase.database().ref().child('activities')
+  let activitiesList = []
+  activitiesCollection.once('value').then( function(snapshot) {
+    for(const activity in snapshot.val()) {
+      activitiesList.push(snapshot.val()[activity]);
+    }
+  });
+  dispatch({
+    type: LOAD_ACTIVITIES,
+    payload: activitiesList
   })
-  //YOU SHOULD DISPATCH THE LIst OF ACTIVITIES, WOULD LIMIT THE NUMBER OF CALLS TO FIREBASE
-  //COULD MAKE UPDATE EASIEr AS WELL
+  console.log("list", activitiesList);
+  return;
 }
+// export const saveActivity = (activity, user) => dispatch => {
+//   // console.log(user);
+
+//   const usersCollection = firebase.database().ref().child('users')
+//   usersCollection.orderByChild("email").equalTo(user.email).on( "child_added", async function(snapshot) {
+//     const currentUserId = snapshot.key;
+//     await currentUserId;
+//     const currentUserRef = firebase.database().ref().child(`users/${currentUserId}/activities`);
+//     await currentUserRef.push({activity});
+//   })
+//   //YOU SHOULD DISPATCH THE LIst OF ACTIVITIES, WOULD LIMIT THE NUMBER OF CALLS TO FIREBASE
+//   //COULD MAKE UPDATE EASIEr AS WELL
+// }
 
 export const loadActivities = (users) => dispatch => {
   console.log("object 2 procss", users);
 }
 
-export const deleteActivity = (object) => dispatch => {
-  console.log("Object to delete: ", object);
+export const deleteActivity = (activity) => dispatch => {
+  console.log("Object to delete: ", activity.user.email);
+  const usersCollection = firebase.database().ref().child('users')
+  usersCollection.orderByChild("email").equalTo(activity.user.email).on("child_added", function(snapshot) {
+    console.log("snap", snapshot.val().activities, activity);
+    const activityDatabase = snapshot.val().activities;
+    
+    for(let key in activityDatabase) {
+      if(activity === activityDatabase[key].activity ){
+        console.log("match", activityDatabase[key]);
+        //INSERT REMOVE() METHOD ON CHILD HERE
+      }
+    }
+  })  
   
 }

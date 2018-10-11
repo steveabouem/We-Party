@@ -1,4 +1,4 @@
-const yelpKey = require("./serverExports.yelpkey");
+const yelpKey = require("./serverExports");
 
 module.exports = {
   yelpKey: yelpKey

@@ -3,7 +3,7 @@ const os = require('os');
 const app = express();
 const axios = require('axios');
 const bodyParser = require('body-parser');
-const yelpKey = require('../src/utils/serverSecrets')
+const yelpKey = require('../src/utils/serverSecrets');
 
 app.use(express.static('dist'));
 app.use(bodyParser.urlencoded({extended: true}));
@@ -20,11 +20,13 @@ app.get('/home:query', async (req, res) => {
       location: "montreal"
     }
   };
+  console.log("yelp", search );
+  
   if(search.length > 4){
       await axios
       .get(`https://api.yelp.com/v3/businesses/search`, yelpConfig)
       .then(async response => {
-        console.log("SERVER RESPONSE", response);
+        console.log("SERVER RESPONSE", response.data.businesses);
         
         if(response.data.businesses){
           let results = response.data.businesses;
@@ -41,4 +43,4 @@ app.get('/home:query', async (req, res) => {
 
 // app.get('/activities', (req, res) => console.log("activities", Object.keys(res)));
 
-app.listen(3001, () => console.log('Listening on port 3001!'));
+app.listen(3001, () => console.log('Listening on port 3001!', yelpKey.yelpKey));

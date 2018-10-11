@@ -23,7 +23,7 @@ const styles = {
 };
 
 function Navigation(props) {
-  console.log(props);
+  // console.log(props);
   
   const { classes } = props;
   return (

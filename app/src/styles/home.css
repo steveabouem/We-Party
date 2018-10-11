@@ -1,0 +1,185 @@
+.image-holder { /* home page BG */
+  justify-content: center;
+  display: flex;
+  background-position-y: 57%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-image: url(https://images.unsplash.com/photo-1517457373958-b7bdd4587205?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=f9b9cb51ea58b136b1ccfc012192afcc&auto=format&fit=crop&w=1050&q=80);
+  height: 100vh;
+  width: 100%;
+}
+
+.input-group {
+  height: 15%;
+  margin-top: 30%!important;
+  color: white!important;
+  position: relative;
+  align-content: center;
+}
+
+.MediaCard-card-61 {
+  margin: auto;
+  margin-top: 1%;
+}
+
+.col-lg-8, .col-md-10 {
+  max-width: 80%!important;
+  margin: auto;
+  margin-top: 1%;
+}
+
+.col-md-10 {
+  flex: 1 1 200px!important;
+}
+
+form label {
+  color: white!important;
+}
+
+.dropdown { /*class dropdown, ocntainer of the $ button who then displas the #dropdown list, with .dropdown-items */
+  float: right;
+  border-bottom: 1.5px solid!important;
+  border-bottom-color: #0000005b!important;
+  height: 90%;
+}
+
+.dropdown::after {
+  float: right;
+  border-bottom:  2px solid #303f9f;
+  height: 90%;
+}
+
+.dropdown p {
+  display: inline-block;
+  color: black;
+}
+
+.dropdown > button {
+  border: 0;
+  color: black;
+  padding: 0;
+  float: right;
+  background: white;
+}
+
+#dropdown button, #gender-mix button {
+  background: transparent!important;
+  color: #ffd951;
+}
+
+
+/* LIST OF MATCHES */
+.view-groups {
+  transition: all 1s;
+  width: 100%;
+  padding: 0 5px;
+  color: white;
+  font-size: 0.8rem;
+  background: #53404f;
+}
+
+.groups-list {
+  list-style: none;
+}
+
+.groups-list:nth-child(odd) {
+  background: #FFD951;
+}
+
+.results-cards {
+  width: 95%;
+  margin: auto;
+  display: flex;
+  flex-direction: row;
+  flex-flow: wrap;
+  transition: all 1s;
+  overflow: hidden;
+}
+
+.results-cards div {
+  flex-grow: 1;
+  display: grid;
+  opacity: 0.8;
+  transition: all 1s;
+}
+
+.results-cards  div:hover{
+  transform: scale(1.01);
+  opacity: 1.051;
+}
+
+.results-cards card {
+  width: 25%;
+}
+#SEARCH_VENUE, #how-many, #restaurants-search {
+  color: black!important;
+}
+
+#search-activity-form  label {
+  color: black!important;
+}
+
+#search-activity-form {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  background: #ffffff;
+  padding: 1em;
+  width: 100%;
+}
+
+.sarch-separator {
+  width: 1px;
+  height: 80%;
+  background: #00000050;
+}
+
+.result-icon {
+  vertical-align: middle;
+  border-style: none;
+  width: 1em;
+  background: #FFD951;
+  border-radius: 12px;
+}
+
+.menu-icon {
+  vertical-align: middle;
+  border-style: none;
+  width: 1em;
+  background: transparent;
+}
+
+
+.add-activity, .delete-activity {
+  border: none;
+  right: 0.5em;
+  position: absolute;
+  background: #FFD951;
+  color: #d0353d;
+  transition: all 0.3s;
+}
+
+.create-activity {
+  align-self: baseline;
+  border: none;
+  right: 0.5em;
+  background: #FFD951;
+  color: #d0353d;
+  transition: all 0.3s;
+}
+
+/* ADD BOTTOM MARGIN ON CONFIRM */
+.confirm-container {
+  margin: 1em auto 2em auto;
+}
+
+.add-activity:hover, .delete-activity:hover, .create-activity:hover{
+  color: white;
+  transform: scale(1.1);
+}
+
+.add-activity:active, .delete-activity:active, .create-activity:active {
+  background: white;
+  color: greenyellow;
+}
+
