@@ -7,6 +7,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import TextField from '@material-ui/core/TextField';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import loggedIn from "./icons/loggedIn.svg";
 
 const styles = theme => ({
   root: {
@@ -35,8 +36,7 @@ class LoginForm extends React.Component {
     let first = this.state.firstName,
     last = this.state.lastName,
     email = this.state.email,
-    userInfo = { name: `${first} ${last}`, email: email, oAuth: "form", picture: "N/a", activities: [] }
-    ()
+    userInfo = { name: `${first} ${last}`, email: email, oAuth: "Form", picture: loggedIn, activities: [] }
     await this.props.saveUser(userInfo);
     
   }

@@ -28,9 +28,8 @@
 
 .slider-divs:nth-child(2) {
   background: url("../utils/images/girlGlasses.jpg");
-  /* background: #FFD951; */
   left: 33.3%;
-  animation: slideSecondChild 2s ;
+  animation: slideSecondChild 2s linear;
   background-position-x: 30%;
 }
 

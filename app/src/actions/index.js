@@ -75,7 +75,7 @@ export const saveUser = user => dispatch => {
       })
       
     } else {
-      // console.log("new", user);
+      console.log("new", user);
       usersCollection.push().set(user)
       dispatch({
         type: LOGIN,
@@ -147,37 +147,11 @@ export const loadActivitiesCollection = () => dispatch => {
   console.log("list", activitiesList);
   return;
 }
-// export const saveActivity = (activity, user) => dispatch => {
-//   // console.log(user);
-
-//   const usersCollection = firebase.database().ref().child('users')
-//   usersCollection.orderByChild("email").equalTo(user.email).on( "child_added", async function(snapshot) {
-//     const currentUserId = snapshot.key;
-//     await currentUserId;
-//     const currentUserRef = firebase.database().ref().child(`users/${currentUserId}/activities`);
-//     await currentUserRef.push({activity});
-//   })
-//   //YOU SHOULD DISPATCH THE LIst OF ACTIVITIES, WOULD LIMIT THE NUMBER OF CALLS TO FIREBASE
-//   //COULD MAKE UPDATE EASIEr AS WELL
-// }
 
 export const loadActivities = (users) => dispatch => {
   console.log("object 2 procss", users);
 }
 
 export const deleteActivity = (activity) => dispatch => {
-  console.log("Object to delete: ", activity.user.email);
-  const usersCollection = firebase.database().ref().child('users')
-  usersCollection.orderByChild("email").equalTo(activity.user.email).on("child_added", function(snapshot) {
-    console.log("snap", snapshot.val().activities, activity);
-    const activityDatabase = snapshot.val().activities;
-    
-    for(let key in activityDatabase) {
-      if(activity === activityDatabase[key].activity ){
-        console.log("match", activityDatabase[key]);
-        //INSERT REMOVE() METHOD ON CHILD HERE
-      }
-    }
-  })  
   
 }
