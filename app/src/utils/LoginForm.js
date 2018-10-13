@@ -51,7 +51,6 @@ class LoginForm extends React.Component {
 
   render() {
     const { classes } = this.props;
-    // console.log(`form ${LoginForm}, field ${TextField.propTypes}`);
     
     return (
       <div className={classes.root}>
@@ -104,7 +103,7 @@ class LoginForm extends React.Component {
             ),
           }}
         />
-        <button className="button-primary" style={{margin: "1%", height: "90%", width: "90%", margin: "auto"}} onClick={() => this.saveUser()}>
+        <button className="button-primary" onClick={() => this.saveUser()}>
           Submit
         </button>
       </div>

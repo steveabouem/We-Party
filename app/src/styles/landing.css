@@ -3,9 +3,6 @@
   width: 100%;
   position: absolute;
   background-color: black;
-  /* have top and bottom black bars that slide down and up respectively. do the same for left and right  */
-  /* OR have 2/3 bars with titles translate left at the same time, and then have white box display and do its animation */
-  /* background: url("../utils/images/feetRoofTop.jpg") left top no-repeat, #de3941 no-repeat; */
   background-size: 50% 100%, 50% 100%;
   color: #EE6562;
   z-index: 0;
@@ -13,68 +10,76 @@
 
 .slider-divs {
   position: absolute;
-  height: 100%;
+  border: 3px solid black;
+  margin: 5% 0;
+  height: 80%;
   width: 33.3%;
   z-index: -1;
   background-size: cover!important;
 }
 
 .slider-divs:nth-child(1) {
-  background: url("../utils/images/purpleBubble.jpg");
+  background: url("../utils/images/turnTable.jpg");
   left: 0;
-  animation: slideFirstChild 2s cubic-bezier(1,0,1,1)
+  animation: slideFirstChild 2s linear;
+  z-index: 2;
 
 }
 
 .slider-divs:nth-child(2) {
-  background: url("../utils/images/chattyGirls.jpg");
+  background: url("../utils/images/girlGlasses.jpg");
+  /* background: #FFD951; */
   left: 33.3%;
-  animation: slideSecondChild 1s cubic-bezier(0,0,1,1)
+  animation: slideSecondChild 2s ;
+  background-position-x: 30%;
 }
 
 .slider-divs:nth-child(3) {
   background: url("../utils/images/redClub.jpg");
   left: 66.6%;
-  animation: slideThirdChild 1.5s cubic-bezier(1,0,1,1)
+  animation: slideThirdChild 2s ;
 
 }
 
-  .white-box {
-    margin: auto;
-    margin-top: 15%;
-    background-repeat: no-repeat;
-    width: 30%;
-    height: 60%;
-    background-color: rgb(222, 57, 65);
-    color: #412d3c;
-    font-weight: bold;
-    text-align: justify;
-    background-size: cover;
-    background-blend-mode: multiply;
-    padding: 3%;
-    animation: animateWhiteBox 0.5s cubic-bezier(0,0,1,1);
-  }
+.white-box {
+  margin: auto;
+  margin-top: 5%;
+  background-repeat: no-repeat;
+  width: 33.3%;
+  height: 80%;
+  color: white;
+  background-color: rgba(255, 49, 59, 0.24);
+  font-weight: bold;
+  text-align: justify;
+  background-size: cover;
+  background-blend-mode: multiply;
+  padding: 5%;
+  animation: animateWhiteBox 2s ;
+}
   
   .white-box h1 {
     font-family: 'Josefin Sans', sans-serif;
-    color: #d0353d;
+    color: white;
     font-size: 2.8rem;
     animation: revealTitle 2s;
     animation-fill-mode: forwards;
   }
   
-  .white-box p {
-    margin-top: 0;
-    margin-bottom: 1rem;
+  .tagline {
+    margin-top: 70%;
   }
   
   .white-box a, .navbar-brand a {
-    font-size: 1rem;
-    color: white;
+    font-weight: bold;
+    font-size: 2rem;
+    color: #FFD951;
+    transition: all 0.4s;
   }
   
   .white-box a:hover{ 
-    color: #FFD951!important;
+    color: rgb(255, 238, 175)!important;
+    font-weight: bolder;
     text-decoration: none;
+    transform: translateY(-20px)!important;
   }
   

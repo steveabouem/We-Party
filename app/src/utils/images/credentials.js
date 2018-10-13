@@ -8,3 +8,4 @@ export const girlGlasses = "Photo by Joshua Rawson-Harris on Unsplash";
 export const purpleRoom = "Photo by Alexander Popov on Unsplash";
 export const chattyGirls = "Photo by Michael Discenza on Unsplash";
 export const redClub = "Photo by DIAO DARIUS on Unsplash";
+export const turnTable = "Photo by Denis Cardoso on Unsplash";

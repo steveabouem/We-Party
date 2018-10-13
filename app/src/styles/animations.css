@@ -1,30 +1,11 @@
 @keyframes animateWhiteBox {
   0% {
-    background: rgb(222,57,65);
-    height: 10%;
-    transform: scale(1.05);
-    border: 3px solid;
-    border-color: #00000054;
-    padding: 10%;
-    color: #412d3c;
-  }
-  
-  50% {
-    background: #412d3c;
-    height: 60%;
-    transform: scale(1.1);
-    border: 6px solid;
-    border-color: #00000054;
-    padding: 5%;
-    color: #412d3c;
-    
+    background: black;
+    color: #401801;
   }
   
   100% {
-    background: rgb(222,57,65);
-    height: 60%;
-    transform: scale(1);
-    border: none;
+    background-color: rgba(255, 49, 59, 0.24);
   }  
 }
 
@@ -44,12 +25,6 @@
   }
 }
 
-@keyframes animateBackground {
-  0% {
-    background: rgb(238,101,98);
-    background: linear-gradient(180deg, rgba(238,101,98,1) 10%, rgba(65,45,60,1) 10%);
-  }
-}
 
 @keyframes revealTitle {
   100% {
@@ -73,21 +48,26 @@
 
 @keyframes slideFirstChild {
   0% {
-    left: 66.6%;
-    filter: grayscale(1)
+    /* left: 66.6%; */
+    width: 0;
+    filter: grayscale(1);
+    
   }
-
+  
   100% {
+    width: 33.3%;
     left: 0
   }
 }
 
 @keyframes slideSecondChild {
   0% {
-    left: 0%;
-    filter: grayscale(1)
+    left: 66.6%;
+    filter: grayscale(1);
+    filter: opacity(0);
+    
   }
-
+  
   100% {
     left: 33.3%
   }
@@ -95,12 +75,23 @@
 
 @keyframes slideThirdChild {
   0% {
-    left: 0%;
-    filter: grayscale(1)
+    /* width: 0%; */
+    left:120%;
+    filter: grayscale(1);
+  }
+  
+  100% {
+    filter: grayscale(0);
+  }
+}
+
+@keyframes zoomInBg {
+  0% {
+    background: black;
+    transform: translatey(-300px)
   }
 
   100% {
-    left: 66.6%;
-    filter: grayscale(1);
+  background: rgba(255, 255, 255, 0.555);
   }
 }

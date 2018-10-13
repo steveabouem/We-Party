@@ -11,7 +11,7 @@ class HomePage extends React.Component {
         <div className="slider-divs"/>
         <div className="white-box">
               <h1> We-Party </h1>
-              <p> Our goal? Allow people to organise group activities on one single platform.
+              <p className="tagline"> Our goal? Allow people to organise group activities on one single platform.
                   Location? Prices? Suggestions? We got you covered!
               </p>
               <p>
