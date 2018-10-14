@@ -7,4 +7,4 @@ size of the group etc..) and be notified as the group is getting closer to
 full size. A chat service will then allow the users to convene of a location to meet at. The app is very similar to existing services like Meetup for example.
 
 # Preview
-![image](We-Party/weparty .png)
+![image](https://github.com/steveabouem/We-Party/blob/master/weparty%20.png)
