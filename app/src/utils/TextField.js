@@ -29,7 +29,6 @@ class TextFields extends React.Component {
   
   handleChange = name => event => {
     const button = event.target;
-    // console.log(button.id);
     (
       button.id === "budget-dropdown"?
       this.setState({
@@ -55,21 +54,9 @@ class TextFields extends React.Component {
         InputLabelProps={{
           autoFocus: true,
         }}
-        // onChange={(evt)=>this.props.recordSearch(evt)}
         />
         <div className="sarch-separator" />
-        {/* <TextField
-        id="restaurants-search"
-        label="Bars/5@7?"
-        type="search"
-        className={classes.textField}
-        margin="normal"
-        InputLabelProps={{
-          autoFocus: true,
-        }} 
-        // onChange={(evt)=>this.props.recordSearch(evt)}
-        />
-        <div className="sarch-separator" /> */}
+        
         <TextField
         id="how-many"
         label="How many?"

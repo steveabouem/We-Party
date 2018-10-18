@@ -64,7 +64,7 @@ class HomePage extends React.Component {
     const ApiResponse = this.props.userInfo.searchResults;
      /* LOCATE SITE IN YELP and give yelp page if none, for learn mre bttn*/
     return(
-      <div>
+      <div className="home-container">
         <Navigation />
         <div className="image-holder">
           <div className="row">
@@ -96,11 +96,7 @@ class HomePage extends React.Component {
               <Col md = {{ size: 10 }} key={result.alias}>
                 <Card className="result-cards">
                   <Confirmation key = {result.id} yelpResult = {result} createActivity = {this.createActivity} activitiesList={this.props.userInfo.activitiesList} />
-                  {/* <span>
-                    <button key={result.id} className="add-activity" onClick={e=>{this.saveActivity(e, result)}}>
-                      Confirm
-                    </button>
-                  </span> */}
+                  
                   <CardImg top width="100%" height="200px" src={result.image_url} />
                   <CardBody>
                     <CardTitle> Venue: <br/> {result.name} </CardTitle>
@@ -124,7 +120,7 @@ class HomePage extends React.Component {
                 </Card>
               </Col>
           )}   
-           ) :<p className="no-data-prompt"> make display none, then flex on findmatch click </p>}
+           ) :<p className="no-data-prompt"> </p>}
         </div>
       </div>)
   }

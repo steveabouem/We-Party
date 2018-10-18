@@ -55,7 +55,7 @@ class Confirmation extends React.Component {
               :
               <div>
               No group created yet.<br/>
-                <button className="create-activity" onClick={e=> {this.props.createActivity(e)}}>
+                <button className="create-activity" onClick={e=> {this.props.createActivity(e, this.props.yelpResult)}}>
                   CREATE!
                 </button>
               </div>

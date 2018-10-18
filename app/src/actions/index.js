@@ -6,10 +6,6 @@ const firebase = require("firebase");
 
 firebase.initializeApp(dbConfig);
 
-export const googleLogin = () => dispatch => {
-  //refactor google signin and userinfo() here
-}
-
 export const findMatches = () => dispatch => {
   const group = document.getElementById("how-many").value;
   const budget = document.getElementById("budget-selected").innerText;
@@ -19,33 +15,6 @@ export const findMatches = () => dispatch => {
   
   activitiesCollection.orderByKey().once('value').then( async function(snapshot){
     console.log("match snapshot", snapshot.val());
-    
-    //   let matchingResults = [];
-    //   // console.log("users snap: ", snapshot.val());
-    //   let usersList = snapshot.val();
-    //   await usersList;
-    //   for(let user in usersList) {
-    //     let userActivities = usersList[user].activities;
-    //     let activityKeys = Object.keys(userActivities);
-    //     // console.log(activityKeys);
-    //     activityKeys.forEach( activity => { 
-    //       // console.log(userActivities[activity].activity.genders);
-    //       const sample = userActivities[activity].activity;
-    //       console.log("compare: ", sample, data);
-    
-    //       if(sample.genders == data.genders && sample.budget == ` ${data.budget}`){
-    //         console.log("match for", data);
-    //         sample.match = "true";
-    //         matchingResults.push(sample)
-    //       }
-    
-    //     })
-    //     // console.log("match array", matchingResults);
-    //     dispatch({
-    //       type: RETRIEVEMATCH,
-    //       payload: matchingResults
-    //     })  
-    //   }
   })
 }
 

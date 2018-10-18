@@ -1,11 +1,17 @@
-.image-holder { /* home page BG */
+
+.home-container {
+  background-image: url("https://images.unsplash.com/photo-1522307837370-cc113a36b784?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=dee1a11ba4c3f3dd05f512827d44ce33&auto=format&fit=crop&w=1050&q=80");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  height: 100%;
+}
+
+.image-holder {
   justify-content: center;
   display: flex;
   background-position-y: 57%;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-image: url(https://images.unsplash.com/photo-1517457373958-b7bdd4587205?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=f9b9cb51ea58b136b1ccfc012192afcc&auto=format&fit=crop&w=1050&q=80);
-  height: 100vh;
+  height: 70vh;
   width: 100%;
 }
 
@@ -30,23 +36,25 @@
 
 .col-md-10 {
   flex: 1 1 200px!important;
+  height: 550px;
+}
+
+.card {
+  max-width: 280px;
+}
+.col-md-10:hover {
+  transform: translateY(2px)
 }
 
 form label {
   color: white!important;
 }
 
-.dropdown { /*class dropdown, ocntainer of the $ button who then displas the #dropdown list, with .dropdown-items */
-  float: right;
+.dropdown { /*class dropdown, ocntainer of the $ button which then displays the #dropdown list, with .dropdown-items */
+  /* float: right; */
   border-bottom: 1.5px solid!important;
   border-bottom-color: #0000005b!important;
-  height: 90%;
-}
-
-.dropdown::after {
-  float: right;
-  border-bottom:  2px solid #303f9f;
-  height: 90%;
+  height: 89%;
 }
 
 .dropdown p {
@@ -58,7 +66,6 @@ form label {
   border: 0;
   color: black;
   padding: 0;
-  float: right;
   background: white;
 }
 
@@ -87,30 +94,26 @@ form label {
 }
 
 .results-cards {
-  width: 95%;
   margin: auto;
+  padding-bottom: 1em;
   display: flex;
   flex-direction: row;
   flex-flow: wrap;
-  transition: all 1s;
+  transition: all 0.4s;
   overflow: hidden;
+  background-attachment: fixed;
 }
 
 .results-cards div {
   flex-grow: 1;
   display: grid;
-  opacity: 0.8;
-  transition: all 1s;
-}
-
-.results-cards  div:hover{
-  transform: scale(1.01);
-  opacity: 1.051;
+  transition: all 0.4s;
 }
 
 .results-cards card {
   width: 25%;
 }
+
 #SEARCH_VENUE, #how-many, #restaurants-search {
   color: black!important;
 }
@@ -161,6 +164,8 @@ form label {
 
 .create-activity {
   align-self: baseline;
+  width: 60%;
+  margin: auto;
   border: none;
   right: 0.5em;
   background: #FFD951;
@@ -175,7 +180,7 @@ form label {
 
 .add-activity:hover, .delete-activity:hover, .create-activity:hover{
   color: white;
-  transform: scale(1.1);
+  transform: translateY(-5px);
 }
 
 .add-activity:active, .delete-activity:active, .create-activity:active {
