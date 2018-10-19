@@ -8,11 +8,10 @@
     "source": "functions"
   },
   "firestore": {
-    "rules": "",
-    "indexes": ""
+    
   },
   "hosting": {
-    "public": "public",
+    "public": "build",
     "ignore": [
       "firebase.json",
       "**/.*",

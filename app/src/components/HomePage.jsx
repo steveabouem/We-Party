@@ -86,7 +86,6 @@ class HomePage extends React.Component {
               }
             </span>
             </div>
-            <span className="photo-credentials"> Photo by Gades Photography on Unsplash </span>
           </div>
         </div>
         </div>
