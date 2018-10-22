@@ -26,7 +26,7 @@ class MenuButton extends React.Component {
           aria-owns={anchorEl ? 'simple-menu' : null}
           aria-haspopup="true"
           onClick={this.handleClick}
-          style={{color: "#FFD951"}}
+          style={{color: "white"}}
         >
          {this.props.button}
         </span>

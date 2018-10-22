@@ -6,6 +6,11 @@ const firebase = require("firebase");
 
 firebase.initializeApp(dbConfig);
 
+export const callFunction = () => {
+  let addMessage = firebase.functions().httpsCallable('helloWorld');
+  addMessage();
+}
+
 export const findMatches = () => dispatch => {
   const group = document.getElementById("how-many").value;
   const budget = document.getElementById("budget-selected").innerText;

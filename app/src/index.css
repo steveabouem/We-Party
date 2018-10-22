@@ -13,16 +13,11 @@ body {
   text-align: center;
 }
 
-header[class^='MuiPaper-root'] {
-  background: #412d3c!important;
-  position: fixed;
-  position: fixed;
-  width: 100%;
-  z-index: 100000000;
-}
+
 
 button[class^="MuiButtonBase-root"]:hover {
   color: white;
+  background: #35b9d0a2;
   transform: translateY(-5px);
 }
 
@@ -35,23 +30,28 @@ button:focus, span:focus, div:focus {
 }
 
 li[class^="MuiButtonBase-root"]:hover {
-  background-color: #FFD951!important;
-  color: white!important;
+  background-color: white!important;
+  color: #35b9d0a2!important;
   text-decoration: none!important;
 }
 
 li[class^="MuiButtonBase-root"] a { /*Navmenu link*/
-  color: #ffd951!important;
+  color: #35b9d0a2!important;
   text-decoration: none!important;
 }
 
-li[class^="MuiButtonBase-root"]:hover a{
+li[class^="MuiButtonBase-root"]:hover a, li[class^="MuiButtonBase-root"]:hover{
   color: white!important;
+  background: #35b9d0!important;
+  
 }
+
 
 #simple-menu div, #dropdown, #gender-mix {
   padding-top: 2em;
-  background-color: #412d3c57!important;
+  background: #ffffff!important;
+  color: #35b9d0a2;
+  border: 1px solid black!important;
 }
 
 #menu-button {
@@ -87,7 +87,8 @@ li[class^="MuiButtonBase-root"]:hover a{
 }
 
 .buttons-wrapper button {
-  color: rgb(255, 255, 255);
+  color: #35b9d0a2;
+  background: white;
   width: 150px!important;
   height: 60px!important;
   border: 1px solid transparent;
@@ -100,26 +101,30 @@ li[class^="MuiButtonBase-root"]:hover a{
 
 .buttons-wrapper button:hover {
   transform: translateY(-5px);
+  background: #35b9d0a2;
+  color: white;
 }
 
 .form-wrapper button, .link-primary {
   padding: 1em;
   border-radius: 0;
   width: 100%;
-  background: #FFD951!important;
-  color: #d0353da2;
+  background: white!important;
+  color: #35b9d0a2;
   transition: all 0.3s;
   align-self: center;
 }
 
 .form-wrapper button:hover, .link-primary:hover, .login-link:hover, #dropdown button:hover, #gender-mix button:hover  {
   color: white!important;
+  background: #35b9d0a2!important;
   transform: translateY(-5px);
 }
 
 #disabled-button:hover { /*no user loged in, disable find match button */
   transform: scale(1)!important;
-  color: #d0353d!important;
+  color: #ff535c!important;
+  font-weight: bold;
   
 }
 .form-wrapper button:active, .buttons-wrapper button:active {

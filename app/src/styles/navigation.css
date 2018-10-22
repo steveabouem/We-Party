@@ -1,0 +1,15 @@
+#navigation-class-converter header{
+  background: #025569ad!important;
+  position: fixed;
+}y
+
+#simple-menu {
+  max-width: 150px;
+  background: transparent;
+  max-height: 100%;
+}
+
+/* Useless div from menu module */
+#simple-menu div:nth-child(1) {
+  display: none;
+}

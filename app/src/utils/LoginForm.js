@@ -53,58 +53,60 @@ class LoginForm extends React.Component {
     
     return (
       <div className={classes.root}>
-         <TextField
-          required="true"
-          name="firstName"
-          className={classNames(classes.margin, classes.textField)}
-          variant="outlined"
-          label="First Name"
-          value={this.state.firstName}
-          onChange={this.handleChange('firstName')}
-        />
+        <div className="login-class-converter">
+          <TextField
+            required="true"
+            name="firstName"
+            className={classNames(classes.margin, classes.textField)}
+            variant="outlined"
+            label="First Name"
+            value={this.state.firstName}
+            onChange={this.handleChange('firstName')}
+          />
 
-        <TextField
-          name="lastName"
-          className={classNames(classes.margin, classes.textField)}
-          variant="outlined"
-          label="Last Name"
-          value={this.state.lastName}
-          onChange={this.handleChange('lastName')}
-        />
+          <TextField
+            name="lastName"
+            className={classNames(classes.margin, classes.textField)}
+            variant="outlined"
+            label="Last Name"
+            value={this.state.lastName}
+            onChange={this.handleChange('lastName')}
+          />
 
-        <TextField
-          name="email"
-          className={classNames(classes.margin, classes.textField)}
-          variant="outlined"
-          label="Email"
-          value={this.state.email}
-          onChange={this.handleChange('email')}
-          autoComplete="false"
-        />
-        
-        <TextField
-          className={classNames(classes.margin, classes.textField)}
-          variant="outlined"
-          type={this.state.showPassword ? 'text' : 'password'}
-          label="Password"
-          value={this.state.password}
-          onChange={this.handleChange('password')}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end" style={{transform:"scale(0.6)"}}>
-                <IconButton
-                  aria-label="Toggle password visibility"
-                  onClick={this.handleClickShowPassword}
-                >
-                  {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-        />
-        <button className="button-primary" onClick={() => this.saveUser()}>
-          Submit
-        </button>
+          <TextField
+            name="email"
+            className={classNames(classes.margin, classes.textField)}
+            variant="outlined"
+            label="Email"
+            value={this.state.email}
+            onChange={this.handleChange('email')}
+            autoComplete="false"
+          />
+          
+          <TextField
+            className={classNames(classes.margin, classes.textField)}
+            variant="outlined"
+            type={this.state.showPassword ? 'text' : 'password'}
+            label="Password"
+            value={this.state.password}
+            onChange={this.handleChange('password')}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end" style={{transform:"scale(0.6)"}}>
+                  <IconButton
+                    aria-label="Toggle password visibility"
+                    onClick={this.handleClickShowPassword}
+                  >
+                    {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+          />
+          <button className="button-primary" onClick={() => this.saveUser()}>
+            Submit
+          </button>
+        </div>
       </div>
     );
   }

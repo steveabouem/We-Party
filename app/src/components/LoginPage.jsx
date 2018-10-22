@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { SlideToggle } from 'react-slide-toggle';
+import { SlideToggle, callFunction } from 'react-slide-toggle';
 import LoginForm from "../utils/LoginForm";
 import { saveUser,loadUsersCollection } from "../actions/index";
 import GoogleButton from "./GoogleButton.jsx";
@@ -8,7 +8,9 @@ import FacebookButton from "./FacebookButton";
 
 
 class LoginPage extends React.Component {
-  
+  componentDidMount() {
+    this.props.callFunction
+  }
   getUser = async (userInfo) =>{
     await this.props.loadUsersCollection()
     this.props.saveUser(userInfo);
@@ -16,10 +18,7 @@ class LoginPage extends React.Component {
   }
 
   onToggle = () => {
-    // this.formStyle.height = "10px"
-console.log(this.formStyle);
-
-    
+    console.log(this.formStyle);
   }
 
   render(){
@@ -55,4 +54,4 @@ console.log(this.formStyle);
 const mapStateToProps = state => ({
   userInfo: state.userInfo
 })
-export default connect(mapStateToProps, { saveUser, loadUsersCollection })(LoginPage);
+export default connect(mapStateToProps, { saveUser, loadUsersCollection, callFunction })(LoginPage);

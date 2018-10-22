@@ -23,11 +23,10 @@ const styles = {
 };
 
 function Navigation(props) {
-  // console.log(props);
   
   const { classes } = props;
   return (
-    <div className={classes.root}>
+    <div className={classes.root} id="navigation-class-converter">
       <AppBar position="static">
         <Toolbar>
           <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">

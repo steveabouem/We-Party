@@ -43,14 +43,14 @@
 }
 
 .button-primary {
-  color: #EE6562!important;
-  background: #FFD951!important;
+  color: #35b9d0a2!important;
+  background: white!important;
   transition: all 0.4s;
 }
 
 .button-primary:hover {
-  /* background: #412d3c!important; */
   color: white!important;
+  background: #35b9d0a2;
 }
 
 .button-primary:active {
@@ -58,8 +58,8 @@
 }
 
 .login-actions button {
-  height: 20px!important;
-  width: 30%!important;
+  height: 2.6em!important;
+  width: 10em!important;
   text-align: center;
   margin: 1em auto;
   padding: 1px!important;
@@ -68,9 +68,11 @@
   text-transform: uppercase
 }
 
-
-.LoginForm-root-1 {
+.login-class-converter {
+  width: 100%;
+  height: 100%;
   flex-direction: column;
+  justify-content: center;
   margin: 1em auto;
   width: 80%;
   background: rgba(255, 255, 255, 0.555);
@@ -78,6 +80,15 @@
   transition: all 0.4s;
 }
 
+.login-class-converter div {
+  width: 98%;
+  margin: 0.25em  auto 0 auto;
+}
+
+.login-class-converter:nth-child(3)  {
+  margin-right: 75%!important;
+  width: 899px!important;
+}
 .kep-login-facebook,  {
   background-color: #4267b2!important;
 }

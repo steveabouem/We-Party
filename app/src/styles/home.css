@@ -43,9 +43,10 @@
 
 .card {
   max-width: 100%;
+  min-width: 100%;
   height: 600px;
-  background: black;
-  color: white
+  background: #f1feff;
+  color: #848282;
 }
 
 .col-md-10:hover {
@@ -57,7 +58,7 @@ form label {
 }
 
 .dropdown { /*class dropdown, ocntainer of the $ button which then displays the #dropdown list, with .dropdown-items */
-  /* float: right; */
+  
   border-bottom: 1.5px solid!important;
   border-bottom-color: #0000005b!important;
   height: 89%;
@@ -70,34 +71,38 @@ form label {
 
 .dropdown > button {
   border: 0;
-  color: black;
   padding: 0;
-  background: white;
+  background: #ffffff!important;
+  color: #35b9d0;
 }
 
 #dropdown button, #gender-mix button {
-  background: transparent!important;
-  color: #ffd951;
+  background: #ffffff!important;
+  color: #35b9d0;
 }
 
 
 /* LIST OF MATCHES */
 .view-groups {
+  list-style: none;
+  display: flex;
   transition: all 1s;
   width: 100%;
-  padding: 0 5px;
-  color: white;
+  color: #d3f9f7;
   font-size: 0.8rem;
-  background: #53404f;
+  background: #0060d8;
+  height: 100%;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1em;
+  overflow: overlay;
 }
 
 .groups-list {
   list-style: none;
 }
 
-.groups-list:nth-child(odd) {
-  background: #FFD951;
-}
+
 
 .results-cards {
   margin: auto;
@@ -150,7 +155,7 @@ form label {
   vertical-align: middle;
   border-style: none;
   width: 1em;
-  background: #FFD951;
+  background: #35b9d0;
   border-radius: 12px;
 }
 
@@ -166,10 +171,11 @@ form label {
   border: none;
   right: 0.5em;
   position: absolute;
-  background: #FFD951;
-  color: #d0353d;
+  background: white;
+  color: #35b9d0;
   transition: all 0.3s;
 }
+
 
 .create-activity {
   align-self: baseline;
@@ -177,18 +183,19 @@ form label {
   margin: auto;
   border: none;
   right: 0.5em;
-  background: #FFD951;
-  color: #d0353d;
+  background: white;
+  color: #35b9d0!important;
   transition: all 0.3s;
 }
 
-/* ADD BOTTOM MARGIN ON CONFIRM */
-.confirm-container {
-  margin: 1em auto 2em auto;
-}
 
+
+.confirmation-container, .confirmation-container div {
+  width: 100%;
+}
 .add-activity:hover, .delete-activity:hover, .create-activity:hover{
-  color: white;
+  color: white!important;
+  background: #35b9d0;
   transform: translateY(-5px);
 }
 
