@@ -9,6 +9,7 @@
 # misc
 serverExports.js
 secrets.js
+functionSecrets.js
 .DS_Store
 .env
 .env.local

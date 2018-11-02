@@ -50,7 +50,7 @@
 
 .button-primary:hover {
   color: white!important;
-  background: #35b9d0a2;
+  background: #35b9d0a2!important;
 }
 
 .button-primary:active {

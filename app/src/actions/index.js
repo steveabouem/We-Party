@@ -1,14 +1,26 @@
 import { dbConfig } from "../config/firebase";
 import { LOGIN, LOAD_USERS, LOAD_ACTIVITIES, SEARCH_VENUE, RETRIEVEMATCH, SAVE_VENUE } from "./types";
 import axios from "axios";
+const cors = require('cors')({
+  origin: true
+});
+
 
 const firebase = require("firebase");
 
 firebase.initializeApp(dbConfig);
 
-export const callFunction = () => {
-  let addMessage = firebase.functions().httpsCallable('helloWorld');
-  addMessage();
+export const callFunctions = () => async(dispatch) => {
+  axios.get("/authenticate")
+  .then(r => {
+    console.log(r);
+    
+  })
+  .catch(e => {
+    console.log(e);
+    
+  })
+  
 }
 
 export const findMatches = () => dispatch => {

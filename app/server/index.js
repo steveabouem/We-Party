@@ -9,6 +9,17 @@ app.use(express.static('dist'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
+app.get( '/authenticate', (req, res) => {
+  axios.get("https://us-central1-we-party-210101.cloudfunctions.net/saveActivities", {headers:{ Authorization: "bearer AIzaSyA7YCkMaXdtsZlTpz4VFYlqoVsEr3Lg-p0"}})
+  .then(r => {
+    console.log("resp", r);
+    
+  })
+  .catch( e => {
+    console.log(e);
+    
+  })
+})
 app.get('/home:query', async (req, res) => {
   var topResults = [];
   const params = req.params.query;

@@ -2,14 +2,14 @@ import React from "react";
 import { connect } from "react-redux";
 import { SlideToggle, callFunction } from 'react-slide-toggle';
 import LoginForm from "../utils/LoginForm";
-import { saveUser,loadUsersCollection } from "../actions/index";
+import { saveUser,loadUsersCollection, callFunctions } from "../actions/index";
 import GoogleButton from "./GoogleButton.jsx";
 import FacebookButton from "./FacebookButton";
 
 
 class LoginPage extends React.Component {
   componentDidMount() {
-    this.props.callFunction
+    this.props.callFunctions()
   }
   getUser = async (userInfo) =>{
     await this.props.loadUsersCollection()
@@ -22,6 +22,8 @@ class LoginPage extends React.Component {
   }
 
   render(){
+    console.log(this.props);
+    
     return(
       <div className="login-page">
       <div className="curtain">
@@ -54,4 +56,4 @@ class LoginPage extends React.Component {
 const mapStateToProps = state => ({
   userInfo: state.userInfo
 })
-export default connect(mapStateToProps, { saveUser, loadUsersCollection, callFunction })(LoginPage);
+export default connect(mapStateToProps, { saveUser, loadUsersCollection, callFunctions })(LoginPage);

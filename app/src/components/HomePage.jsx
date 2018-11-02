@@ -24,9 +24,6 @@ class HomePage extends React.Component {
     await this.props.loadUsersCollection();
     await this.props.loadActivitiesCollection();
 
-    console.log("async", this.props);
-    
-    
   }
   
   recordSearch = async() => {
