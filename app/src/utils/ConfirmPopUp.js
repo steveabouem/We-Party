@@ -11,7 +11,9 @@ class Confirmation extends React.Component {
     if(this.props.activitiesList){ 
       this.props.activitiesList.forEach(match => {
         if(match.venue === this.props.yelpResult.name){
-          this.matchesList.push(match)
+          this.matchesList.push(match);
+          console.log("matches list", this.matchesList);
+          
         }
       })
     }
@@ -28,30 +30,31 @@ class Confirmation extends React.Component {
           <div>
             <div>Group(s) you could join: {this.matchesList.length}
               {this.matchesList.length > 0? 
-                
-             <SlideToggle duration={100} collapsed bestPerformance
-             render={({onToggle, setCollapsibleElement}) => (
-               <ul className="view-groups" >
-                 <button className="create-activity" onClick={onToggle}>
-                View Groups
-                </button>
-                 {
-                   this.matchesList.map( match => {
-                   return(
-                     <li key={this.props.yelpResult.id} ref={setCollapsibleElement}> 
-                       Venue:{match.venue} for {match.group} people
-                       ( {match.contribution} each). 
-                       <br/>
-                       {match.members.length} member(s) joined!
-                       <br/>
-                       Creator: {match.creator.name}
-                     </li>
-                   )
-                   })
-                 }
-               </ul>
-             )}
-           />
+                <ul className="view-groups" >
+                  <button className="create-activity-secondary" onClick={e=> {this.props.createActivity(e, this.props.yelpResult)}}>
+                    CREATE YOURS
+                  </button>
+                  <br />
+                  Or join a group below
+                  {
+                    this.matchesList.map( match => {
+                    return(
+                        <li key={this.props.yelpResult.id}> 
+                          Venue:{match.venue} for {match.group} people
+                          ( {match.contribution} each). 
+                          <br/>
+                          {match.members.length -1} member(s) joined!
+                          <br/>
+                          Creator: {match.creator.name}
+                          <br/>
+                          <button className="create-activity">
+                            Join Group
+                          </button>
+                        </li>
+                    )
+                    })
+                  }
+                </ul>
               :
               <div>
               No group created yet.<br/>

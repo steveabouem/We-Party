@@ -23,17 +23,17 @@ class HomePage extends React.Component {
   async componentDidMount() {
     await this.props.loadUsersCollection();
     await this.props.loadActivitiesCollection();
-
   }
   
   recordSearch = async() => {
-    console.log("props at record search", this.props);
     
     let input = document.getElementById("SEARCH_VENUE").value; 
     
     await this.props.searchActivities(input);
+    console.log("props after search", this.props);
+    
   }
-  
+   
   createActivity = (e,object) => {// use cookies upon deployment, this is just taking in the latest user logged in
     e.stopPropagation();
 
@@ -56,10 +56,10 @@ class HomePage extends React.Component {
   }
 
   render (){
-    // console.log("homepage prps", this.props);
 
     const ApiResponse = this.props.userInfo.searchResults;
-     /* LOCATE SITE IN YELP and give yelp page if none, for learn mre bttn*/
+    console.log("apires", ApiResponse);
+    
     return(
       <div className="home-container">
         <Navigation />
@@ -87,7 +87,7 @@ class HomePage extends React.Component {
         </div>
         </div>
         <div className="results-cards">
-          {ApiResponse !== undefined ? ApiResponse.results.map(result => {
+          {ApiResponse !== undefined && ApiResponse.length > 0 ? ApiResponse.map(result => {
             return(
               <Col md = {{ size: 10 }} key={result.alias}>
                 <Card className="result-cards">

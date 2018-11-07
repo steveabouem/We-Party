@@ -1,10 +1,7 @@
 import { dbConfig } from "../config/firebase";
 import { LOGIN, LOAD_USERS, LOAD_ACTIVITIES, SEARCH_VENUE, RETRIEVEMATCH, SAVE_VENUE } from "./types";
 import axios from "axios";
-const cors = require('cors')({
-  origin: true
-});
-
+const CircularJSON = require('circular-json');
 
 const firebase = require("firebase");
 
@@ -72,16 +69,20 @@ export const saveUser = user => dispatch => {
 };
 
 export const searchActivities = (search) => async(dispatch) => {
-  axios.get(`/home:${search}`)
+  let payload;
+  await axios.get("https://us-central1-we-party-210101.cloudfunctions.net/searchActivities", {headers: { Authorization: `Bearer ${dbConfig.apiKey}`}})
   .then(res => {
-    // console.log(" search venue res: ", res.data);
-    dispatch({
-      type: SEARCH_VENUE,
-      payload: res.data
-    })
+    payload = res.data
+    console.log(" search venue res: ", payload);
+    res.send(payload.data.businesses);
   })
   .catch( e => {
     console.log("searchActivities error: ", e);
+  })
+
+  dispatch({
+    type: SEARCH_VENUE,
+    payload: payload.data.businesses
   })
 }
 

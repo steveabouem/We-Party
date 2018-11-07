@@ -15,7 +15,7 @@ class Activities extends React.Component {
 
   async componentDidMount() {
    await this.props.loadActivities;
-   console.log(this.props.userInfo.userInfo);
+  //  console.log(this.props.userInfo.userInfo);
   }
 
   

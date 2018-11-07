@@ -8,9 +8,7 @@ import FacebookButton from "./FacebookButton";
 
 
 class LoginPage extends React.Component {
-  componentDidMount() {
-    this.props.callFunctions()
-  }
+
   getUser = async (userInfo) =>{
     await this.props.loadUsersCollection()
     this.props.saveUser(userInfo);

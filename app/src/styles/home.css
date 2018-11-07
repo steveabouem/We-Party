@@ -49,6 +49,7 @@
   color: #848282;
 }
 
+
 .col-md-10:hover {
   transform: translateY(2px)
 }
@@ -85,24 +86,23 @@ form label {
 /* LIST OF MATCHES */
 .view-groups {
   list-style: none;
-  display: flex;
   transition: all 1s;
-  width: 100%;
+  width: 106%;
   color: #d3f9f7;
   font-size: 0.8rem;
   background: #0060d8;
   height: 100%;
-  flex-direction: column;
-  justify-content: center;
-  padding: 1em;
+  padding: 2em;
   overflow: overlay;
+}
+
+.view-groups li {
+  padding: 1em 0;
 }
 
 .groups-list {
   list-style: none;
 }
-
-
 
 .results-cards {
   margin: auto;
@@ -188,12 +188,34 @@ form label {
   transition: all 0.3s;
 }
 
+/* in popup */
+.create-activity-secondary {
+  width: 60%;
+  border: none;
+  background: white;
+  color: #35b9d0!important;
+  transition: all 0.3s;
+  margin: 1em auto;
+  padding: 1em;
+}
 
+.confirmation-container {
+  overflow-x: hidden;
+}
 
 .confirmation-container, .confirmation-container div {
   width: 100%;
 }
-.add-activity:hover, .delete-activity:hover, .create-activity:hover{
+
+.confirmation-container img {
+  width: 100%!important;
+  max-height: 25%!important;
+  border-top-left-radius: calc(.25rem - 1px);
+  border-top-right-radius: calc(.25rem - 1px);
+  object-fit: cover;
+}
+
+.add-activity:hover, .delete-activity:hover, .create-activity:hover, .create-activity-secondary:hover{
   color: white!important;
   background: #35b9d0;
   transform: translateY(-5px);

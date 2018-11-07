@@ -5,6 +5,8 @@ const initialState = {
 }
 
 export default function(state = initialState, action){
+  console.log("reducing this: ", action.payload);
+  
   switch (action.type) {
     case LOGIN:
     return {

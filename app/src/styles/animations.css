@@ -48,7 +48,7 @@
 
 @keyframes slideFirstChild {
   0% {
-    transform: translateX(50vw);
+    transform: translateX(10vw);
     filter: grayscale(1);
     
   }
@@ -61,7 +61,7 @@
 
 @keyframes slideSecondChild {
   0% {
-    transform: translateX(40vw);
+    transform: translateX(10vw);
     filter: grayscale(1);
     filter: opacity(0);
     
