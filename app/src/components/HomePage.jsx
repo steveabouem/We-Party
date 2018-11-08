@@ -30,7 +30,6 @@ class HomePage extends React.Component {
     let input = document.getElementById("SEARCH_VENUE").value; 
     
     await this.props.searchActivities(input);
-    console.log("props after search", this.props);
     
   }
    
@@ -58,7 +57,6 @@ class HomePage extends React.Component {
   render (){
 
     const ApiResponse = this.props.userInfo.searchResults;
-    console.log("apires", ApiResponse);
     
     return(
       <div className="home-container">

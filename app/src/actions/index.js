@@ -58,7 +58,6 @@ export const saveUser = user => dispatch => {
       })
       
     } else {
-      console.log("new", user);
       usersCollection.push().set(user)
       dispatch({
         type: LOGIN,
@@ -101,14 +100,12 @@ export const createActivity = activity => dispatch => {
       payload: activitiesList
     })
   });
-  console.log("list", activitiesList);
 };
 
 export const loadUsersCollection = () => async(dispatch) => {
   const usersCollection = firebase.database().ref().child('users')
   usersCollection.once('value').then( function(snapshot) {
     let usersList = []
-    // console.log("list", snapshot.val());
     for(const user in snapshot.val()) {
       usersList.push(snapshot.val()[user]);
     }

@@ -39,6 +39,8 @@
   flex: 1 1 100px!important;
   min-height: 700px;
   max-height: 700px;
+  min-width: 25%;
+  max-width: 25%;
 }
 
 .card {

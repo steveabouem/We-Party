@@ -8,7 +8,7 @@ exports.helloWorld = functions.https.onRequest((request, response) => {
   console.log("Hello World");
 });
 
-exports.searchActivities = functions.https.onRequest( (request, response, search) => {
+exports.searchActivities = functions.https.onRequest( (request, response) => {
   // fix for circular errror: see https://github.com/axios/axios/issues/836
   // axios.get(url, config).then((response)=>{
   //   res.send(json);
@@ -16,11 +16,9 @@ exports.searchActivities = functions.https.onRequest( (request, response, search
   //   console.log(error);
   // });
   cors(request, response, () => {
-    axios.get("https://api.yelp.com/v3/businesses/search", {headers: { Authorization: `bearer ${tokens.yelpKey}`}, params: {
-    term: search, location: "montreal"}})
+    axios.get("https://api.yelp.com/v3/businesses/search", {headers: { Authorization: `bearer ${tokens.yelpKey}`}, params: {term: "starbucks", location: "montreal", sort_by: "distance", limit: 12}})
     .then(r => {
       let json = CircularJSON.stringify(r);
-      console.log("Cloud yelp resp", json);
       response.send(json);
     })
     .catch(e => {
@@ -30,12 +28,12 @@ exports.searchActivities = functions.https.onRequest( (request, response, search
   })
 })
 
-exports.saveActivities = functions.https.onRequest((req, res)=> {
+// exports.saveActivities = functions.https.onRequest((req, res)=> {
   
-  cors(req, res, () => {
-    res.send("Start migrating functions")
-  })
-})
+//   cors(req, res, () => {
+//     res.send("Start migrating functions")
+//   })
+// })
 
 exports.findMatches = functions.https.onRequest((req, res) => {
   const group = document.getElementById("how-many").value;
