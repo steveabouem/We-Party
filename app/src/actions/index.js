@@ -1,50 +1,24 @@
 import { dbConfig } from "../config/firebase";
 import { LOGIN, LOAD_USERS, LOAD_ACTIVITIES, SEARCH_VENUE, RETRIEVEMATCH, SAVE_VENUE } from "./types";
 import axios from "axios";
-const CircularJSON = require('circular-json');
 
 const firebase = require("firebase");
 
 firebase.initializeApp(dbConfig);
 
-export const callFunctions = () => async(dispatch) => {
-  axios.get("/authenticate")
-  .then(r => {
-    console.log(r);
-    
-  })
-  .catch(e => {
-    console.log(e);
-    
-  })
-  
-}
-
-export const findMatches = () => dispatch => {
-  const group = document.getElementById("how-many").value;
-  const budget = document.getElementById("budget-selected").innerText;
-  const genders = document.getElementById("gender-selected").innerText;
-  const data = { group: group, genders: genders, budget: budget}
-  const activitiesCollection = firebase.database().ref().child('activities');
-  
-  activitiesCollection.orderByKey().once('value').then( async function(snapshot){
-    console.log("match snapshot", snapshot.val());
-  })
-}
-
-export const logout = async() => {
-  await firebase.auth().signOut().then(function() {
-    console.log("logged out");
-    
-  }).catch(function(error) {
-    console.log(error);
-    
+export const createAuthUser = ( email, password) => dispatch => {
+  firebase.auth().createUserWithEmailAndPassword(email, password)
+  .catch( e => {
+    console.log("unable to create auth object", e);
   });
+  firebase.auth().signInWithEmailAndPassword(email, password)
+  console.log("user logged in");
 }
 
 export const saveUser = user => dispatch => {
   const usersCollection = firebase.database().ref().child('users');
   
+  //create user ref
   usersCollection.orderByChild("email").equalTo(user.email).on( "value", async function (snapshot){
     if(snapshot.val()){
       const currentuserId = snapshot.node_.children_.root_.key;
@@ -67,18 +41,48 @@ export const saveUser = user => dispatch => {
   })
 };
 
+export const findMatches = () => dispatch => {
+  const group = document.getElementById("how-many").value;
+  const budget = document.getElementById("budget-selected").innerText;
+  const genders = document.getElementById("gender-selected").innerText;
+  const data = { group: group, genders: genders, budget: budget}
+  const activitiesCollection = firebase.database().ref().child('activities');
+  
+  activitiesCollection.orderByKey().once('value').then( async function(snapshot){
+  })
+}
+
+export const logout = async() => {
+  await firebase.auth().signOut().then(function() {
+    console.log("logged out");
+    
+  }).catch(function(error) {
+    console.log(error);
+    
+  });
+}
+
+
 export const searchActivities = (search) => async(dispatch) => {
+  console.log("search", search);
+  
   let payload;
-  await axios.get("https://us-central1-we-party-210101.cloudfunctions.net/searchActivities", {headers: { Authorization: `Bearer ${dbConfig.apiKey}`}})
+  await axios.post("https://us-central1-we-party-210101.cloudfunctions.net/searchActivities", 
+  {headers: 
+    { Authorization: `Bearer ${dbConfig.apiKey}`,
+    "content-type": "application/json" }
+  }, 
+  {data: {term: `${search}`}})
   .then(res => {
-    payload = res.data
-    console.log(" search venue res: ", payload);
+    console.log("action post to cloud funct: ", res);
+    
+    payload = res.data;
     res.send(payload.data.businesses);
   })
   .catch( e => {
     console.log("searchActivities error: ", e);
   })
-
+  
   dispatch({
     type: SEARCH_VENUE,
     payload: payload.data.businesses
@@ -128,14 +132,6 @@ export const loadActivitiesCollection = () => dispatch => {
     type: LOAD_ACTIVITIES,
     payload: activitiesList
   })
-  console.log("list", activitiesList);
   return;
 }
 
-export const loadActivities = (users) => dispatch => {
-  console.log("object 2 procss", users);
-}
-
-export const deleteActivity = (activity) => dispatch => {
-  
-}

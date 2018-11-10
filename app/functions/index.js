@@ -1,39 +1,14 @@
 const functions = require('firebase-functions');
 const cors = require('cors')({origin: true});
+const CircularJSON = require('circular-json');
+const firebase = require("firebase");
 var axios = require('axios');
 var tokens = require('./functionSecrets');
-const CircularJSON = require('circular-json');
 
-exports.helloWorld = functions.https.onRequest((request, response) => {
-  console.log("Hello World");
-});
 
-exports.searchActivities = functions.https.onRequest( (request, response) => {
-  // fix for circular errror: see https://github.com/axios/axios/issues/836
-  // axios.get(url, config).then((response)=>{
-  //   res.send(json);
-  // }).catch((error)=>{
-  //   console.log(error);
-  // });
-  cors(request, response, () => {
-    axios.get("https://api.yelp.com/v3/businesses/search", {headers: { Authorization: `bearer ${tokens.yelpKey}`}, params: {term: "starbucks", location: "montreal", sort_by: "distance", limit: 12}})
-    .then(r => {
-      let json = CircularJSON.stringify(r);
-      response.send(json);
-    })
-    .catch(e => {
-      console.log( "Cloud yelp error: ", e);
-      response.sendStatus(500); 
-    })
-  })
-})
-
-// exports.saveActivities = functions.https.onRequest((req, res)=> {
+exports.retrieveCurrentUser = functions.https.onRequest((request, response) => {
   
-//   cors(req, res, () => {
-//     res.send("Start migrating functions")
-//   })
-// })
+})
 
 exports.findMatches = functions.https.onRequest((req, res) => {
   const group = document.getElementById("how-many").value;

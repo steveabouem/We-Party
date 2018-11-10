@@ -103,7 +103,6 @@ class HomePage extends React.Component {
                       </span>
                       <span>
                         <img src={location} alt="location" className="result-icon" />: {result.location.address1} <br/>
-                        {/* Stephen Hutchings */}
                       </span>
                       {/* distance:  {result.distance} <br/> */}
                     </CardText>
