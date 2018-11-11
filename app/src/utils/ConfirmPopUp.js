@@ -1,8 +1,5 @@
 import React from "react";
 import { connect } from "react-redux";
-import { SlideToggle } from 'react-slide-toggle';
-
-
 
 class Confirmation extends React.Component {
   matchesList = [];
@@ -10,10 +7,11 @@ class Confirmation extends React.Component {
   retrieveMatches = () => {
     if(this.props.activitiesList){ 
       this.props.activitiesList.forEach(match => {
-        if(match.venue === this.props.yelpResult.name){
+        console.log("compare", match, this.props.yelpResult);
+        if(match.venue == this.props.yelpResult.name && match.location == this.props.yelpResult.location.address1){
+          match.match = "true";
           this.matchesList.push(match);
           console.log("matches list", this.matchesList);
-          
         }
       })
     }
@@ -46,6 +44,8 @@ class Confirmation extends React.Component {
                           {match.members.length -1} member(s) joined!
                           <br/>
                           Creator: {match.creator.name}
+                          <br/>
+                          On {match.created}.
                           <br/>
                           <button className="create-activity">
                             Join Group
