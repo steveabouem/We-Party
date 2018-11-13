@@ -11,15 +11,13 @@ class GoogleButton extends React.Component {
     super(props)
     this.responseGoogle = this.responseGoogle.bind(this)
   }
-
+ 
   responseGoogle = async () => {
     var provider = new firebase.auth.GoogleAuthProvider();
-    firebase.auth().setPersistence(firebase.auth.Auth.Persistence.NONE);
+    // firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
     await firebase.auth().signInWithPopup(provider)
     .then( res => {
-      console.log(res);
-      
-      const userInfo = { name: res.user.displayName, email: res.user.email, oAuth: "google", picture: res.user.photoURL, activities:[] }
+      const userInfo = { name: res.user.displayName, email: res.user.email, oAuth: "google", picture: res.user.photoURL }
       this.props.getUser(userInfo)
     })
     .catch( e => {

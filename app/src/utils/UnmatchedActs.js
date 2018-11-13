@@ -2,7 +2,7 @@ import React from "react";
 import { Card, CardImg, CardText, CardBody,
   CardTitle, CardSubtitle, Button, Col } from 'reactstrap';
 import { connect } from "react-redux";
-import { loadActivities, deleteActivity } from "../actions";
+// import { loadActivities, deleteActivity } from "../actions";
 import location  from "./icons/location.svg";
 import phone  from "./icons/smartphone.svg";
 import trash from "./icons/trash.svg";
@@ -58,4 +58,4 @@ const mapStateToProps = state => ({
   userInfo: state.userInfo
 })
 
-export default connect(mapStateToProps, { loadActivities, deleteActivity }) (UnmatchedActs)
+export default connect(mapStateToProps, {  }) (UnmatchedActs)

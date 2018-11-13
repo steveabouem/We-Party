@@ -1,9 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
 
+
 class Confirmation extends React.Component {
   matchesList = [];
-
   retrieveMatches = () => {
     if(this.props.activitiesList){ 
       this.props.activitiesList.forEach(match => {
@@ -15,9 +15,8 @@ class Confirmation extends React.Component {
         }
       })
     }
-   
   }
-  
+
   componentWillMount() {
     this.retrieveMatches();
   }
@@ -47,7 +46,7 @@ class Confirmation extends React.Component {
                           <br/>
                           On {match.created}.
                           <br/>
-                          <button className="create-activity">
+                          <button className="create-activity" onClick={this.joinGroup(match)}>
                             Join Group
                           </button>
                         </li>

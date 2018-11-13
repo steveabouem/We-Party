@@ -5,4 +5,5 @@ export const LOAD_USERS = "LOAD_USERS"
 export const LOAD_ACTIVITIES = "LOAD_ACTIVITIES"
 export const SAVE_VENUE = "SAVE_VENUE"
 export const RETRIEVEMATCH = "RETRIEVEMATCH"
+export const LOGGED_IN = "LOGGED_IN"
 

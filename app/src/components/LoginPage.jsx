@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { SlideToggle, callFunction } from 'react-slide-toggle';
 import LoginForm from "../utils/LoginForm";
-import { saveUser,loadUsersCollection, callFunctions } from "../actions/index";
+import { saveUser,loadUsersCollection, createAuthUser } from "../actions/index";
 import GoogleButton from "./GoogleButton.jsx";
 import FacebookButton from "./FacebookButton";
 
@@ -10,13 +10,12 @@ import FacebookButton from "./FacebookButton";
 class LoginPage extends React.Component {
 
   getUser = async (userInfo) =>{
-    await this.props.loadUsersCollection()
-    this.props.saveUser(userInfo);
+    console.log("getuser", userInfo);
+    
+    await this.props.loadUsersCollection();
+    await this.props.saveUser(userInfo);
+    
     this.props.history.push("/home")
-  }
-
-  onToggle = () => {
-    console.log(this.formStyle);
   }
 
   render(){
@@ -30,8 +29,8 @@ class LoginPage extends React.Component {
               Select an account to log in
           </span>
           <div className="choices">
-            <GoogleButton getUser={this.getUser} />
-            <FacebookButton getUser={this.getUser} />
+            <GoogleButton  createAuthUser={this.props.createAuthUser} saveUser={this.getUser} getUser={this.getUser} />
+            <FacebookButton createAuthUser={this.props.createAuthUser} saveUser={this.getUser} getUser={this.getUser} />
             <SlideToggle duration={300} collapsed bestPerformance
              render={({onToggle, setCollapsibleElement}) => (
               <div>
@@ -39,7 +38,7 @@ class LoginPage extends React.Component {
                   EMAIL 
                 </button>
                 <div className="hidden-form" ref={setCollapsibleElement}>
-                  <LoginForm saveUser={this.getUser}/>
+                  <LoginForm createAuthUser={this.props.createAuthUser} saveUser={this.getUser}/>
                 </div>
               </div>
              )}
@@ -54,4 +53,4 @@ class LoginPage extends React.Component {
 const mapStateToProps = state => ({
   userInfo: state.userInfo
 })
-export default connect(mapStateToProps, { saveUser, loadUsersCollection, callFunctions })(LoginPage);
+export default connect(mapStateToProps, { saveUser, loadUsersCollection, createAuthUser })(LoginPage);

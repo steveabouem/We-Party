@@ -6,7 +6,7 @@ import { Card, CardImg, CardText, CardBody,
 import Navigation from "./Navigation.jsx";
 import TextField from "../utils/TextField";
 import Confirmation from "../utils/ConfirmPopUp";
-import { searchActivities, findMatches, createActivity, loadUsersCollection, loadActivitiesCollection } from "../actions";
+import { retrieveAuthUser, searchActivities, createActivity, loadUsersCollection, loadActivitiesCollection } from "../actions";
 import location  from "../utils/icons/location.svg";
 import phone  from "../utils/icons/smartphone.svg";
 
@@ -35,7 +35,7 @@ class HomePage extends React.Component {
    
   createActivity = (e,object) => {// use cookies upon deployment, this is just taking in the latest user logged in
     e.stopPropagation();
-
+    
     const currentUser = this.props.userInfo.userInfo;
     let date = new Date();
     let dateString = date.toString().split(" ").slice(0, 5);
@@ -123,4 +123,4 @@ const mapStateToProps = state => ({
   userInfo: state.userInfo
 })
 
-export default connect(mapStateToProps, {searchActivities, createActivity, findMatches, loadUsersCollection, loadActivitiesCollection}) (HomePage)
+export default connect(mapStateToProps, {retrieveAuthUser, searchActivities, createActivity, loadUsersCollection, loadActivitiesCollection}) (HomePage)

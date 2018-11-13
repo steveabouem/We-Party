@@ -6,35 +6,33 @@ import Navigation from "./Navigation.jsx";
 import location  from "../utils/icons/location.svg";
 import phone  from "../utils/icons/smartphone.svg";
 import trash from "../utils/icons/trash.svg";
-import { loadActivities, deleteActivity } from "../actions/index";
+import {retrieveAuthUser} from "../actions/index";
 import MatchedActs from "../utils/MatchedActs";
 import UnmatchedActs from "../utils/UnmatchedActs";
 
  
 class Activities extends React.Component {
 
-  async componentDidMount() {
-   await this.props.loadActivities;
-  //  console.log(this.props.userInfo.userInfo);
-  }
-
-  
   deleteActivity = (activity) => {
-    this.props.deleteActivity(activity)    
   }
   
+  async componentDidMount() {
+    await this.props.retrieveAuthUser();
+    console.log("props", this.props);
+  }
+  
+
   render(){
-    console.log("activities props", this.props);
     
     return(
       <div className="activities-page">
         <Navigation />
-        {( !this.props.userInfo.userInfo.activities? 
+        {( !this.props.userInfo.loggedIN? 
         <h1 className="login-prompt"> Please log in to consult this page </h1>
         :
         <div className="all-activities-container">
-          <MatchedActs />
-          <UnmatchedActs />
+          <MatchedActs activitiesList={this.props.userInfo.activitiesList}/>
+          <UnmatchedActs activitiesList={this.props.userInfo.activitiesList}/>
         </div>
         )}
       </div>
@@ -47,4 +45,4 @@ const mapStateToProps = state => ({
   userInfo: state.userInfo
 })
 
-export default connect (mapStateToProps, {loadActivities, deleteActivity}) (Activities)
+export default connect (mapStateToProps, {retrieveAuthUser}) (Activities)

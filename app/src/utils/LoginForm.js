@@ -37,9 +37,11 @@ class LoginForm extends React.Component {
     last = this.state.lastName,
     email = this.state.email,
     password = this.state.password,
-    userInfo = { name: `${first} ${last}`, email: email, oAuth: "Form", picture: loggedIn, password: password}
+    userInfo = { name: `${first} ${last}`, email: email, oAuth: "Form", picture: loggedIn, password:password};
+    console.log("list", userInfo);
+    
+    await this.props.createAuthUser(userInfo);
     await this.props.saveUser(userInfo);
-    this.props.createAuthUser(email, password);
   }
 
   handleChange = prop => event => {

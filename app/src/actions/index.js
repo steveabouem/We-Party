@@ -1,27 +1,59 @@
 import { dbConfig } from "../config/firebase";
-import { LOGIN, LOAD_USERS, LOAD_ACTIVITIES, SEARCH_VENUE, RETRIEVEMATCH, SAVE_VENUE } from "./types";
+import { LOGIN, LOGGED_IN, LOAD_USERS, LOAD_ACTIVITIES, SEARCH_VENUE, RETRIEVEMATCH, SAVE_VENUE } from "./types";
 import axios from "axios";
 
 const firebase = require("firebase");
 
 firebase.initializeApp(dbConfig);
 
-export const createAuthUser = ( email, password) => dispatch => {
-  firebase.auth().createUserWithEmailAndPassword(email, password)
+export const createAuthUser = ( userObject) => dispatch => {
+  console.log("object in create user action", userObject);
+  
+  firebase.auth().createUserWithEmailAndPassword(userObject.email, userObject.password)
+  .then( r => {
+    // only sign in if no error
+    firebase.auth().signInWithEmailAndPassword(userObject.email, userObject.password)
+    console.log("user logged in: ", userObject.email);
+    
+    dispatch({
+      type: LOGIN,
+      payload: {name: userObject.name, email: userObject.email, oauth: "form", picture: null}
+    })
+  })
   .catch( e => {
     console.log("unable to create auth object", e);
+    
   });
-  firebase.auth().signInWithEmailAndPassword(email, password)
-  console.log("user logged in");
 }
 
-export const saveUser = user => dispatch => {
-  const usersCollection = firebase.database().ref().child('users');
+export const retrieveAuthUser = () => dispatch => {
+  var user = firebase.auth().currentUser;
   
-  //create user ref
-  usersCollection.orderByChild("email").equalTo(user.email).on( "value", async function (snapshot){
+  if (user) {
+    dispatch({
+      type: LOGGED_IN,
+      payload: true   
+    });
+    
+  } else {
+    dispatch({
+      type: LOGGED_IN,
+      payload: null
+    })
+  }
+}
+
+export const saveUser = (userObject) => dispatch => {
+  
+  console.log("User located, creating usercollection ref", userObject);
+  const usersCollection = firebase.database().ref().child('users');
+  let safeUserObject = {name: userObject.name, email: userObject.email, oauth: "form", picture: userObject.picture}
+  
+  //create user ref, I need this on top of the auth to add all the other k/v pairs
+  usersCollection.orderByChild("email").equalTo(userObject.email).on( "value", async function (snapshot){
     if(snapshot.val()){
       const currentuserId = snapshot.node_.children_.root_.key;
+      
       usersCollection.orderByKey().equalTo(currentuserId).on("value", function (snapshot){
         const currentuserObject = snapshot.val()[Object.keys(snapshot.val())[0]];
         
@@ -30,27 +62,16 @@ export const saveUser = user => dispatch => {
           payload: currentuserObject
         })
       })
-      
     } else {
-      usersCollection.push().set(user)
+      usersCollection.push().set(safeUserObject);
+      
       dispatch({
         type: LOGIN,
-        payload: user
+        payload: safeUserObject
       })
     }
   })
 };
-
-export const findMatches = () => dispatch => {
-  const group = document.getElementById("how-many").value;
-  const budget = document.getElementById("budget-selected").innerText;
-  const genders = document.getElementById("gender-selected").innerText;
-  const data = { group: group, genders: genders, budget: budget}
-  const activitiesCollection = firebase.database().ref().child('activities');
-  
-  activitiesCollection.orderByKey().once('value').then( async function(snapshot){
-  })
-}
 
 export const logout = async() => {
   await firebase.auth().signOut().then(function() {
@@ -64,7 +85,6 @@ export const logout = async() => {
 
 
 export const searchActivities = (search) => async(dispatch) => {
-  console.log("search", search);
   
   let payload;
   await axios.post("https://us-central1-we-party-210101.cloudfunctions.net/searchActivities", 
@@ -74,7 +94,6 @@ export const searchActivities = (search) => async(dispatch) => {
   }, 
   {data: {term: `${search}`}})
   .then(res => {
-    console.log("action post to cloud funct: ", res);
     
     payload = res.data;
     res.send(payload.data.businesses);
@@ -135,3 +154,6 @@ export const loadActivitiesCollection = () => dispatch => {
   return;
 }
 
+export const joinGroup = group => dispatch => {
+  
+}
