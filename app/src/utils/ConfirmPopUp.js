@@ -1,21 +1,29 @@
 import React from "react";
 import { connect } from "react-redux";
+import { pushNewMember } from "../actions";
 
 
 class Confirmation extends React.Component {
+
   matchesList = [];
+
   retrieveMatches = () => {
     if(this.props.activitiesList){ 
       this.props.activitiesList.forEach(match => {
-        console.log("compare", match, this.props.yelpResult);
-        if(match.venue == this.props.yelpResult.name && match.location == this.props.yelpResult.location.address1){
+        // console.log("compare", match, this.props.yelpResult);
+        if(match.venue === this.props.yelpResult.name && match.location === this.props.yelpResult.location.address1){
           match.match = "true";
           this.matchesList.push(match);
-          console.log("matches list", this.matchesList);
+          // console.log("matches list", this.matchesList);
         }
       })
     }
-  }
+  };
+
+  joinGroup = async ( e,user,match) => {
+    e.stopPropagation();
+    await this.props.pushNewMember( user,match);
+  };
 
   componentWillMount() {
     this.retrieveMatches();
@@ -46,7 +54,7 @@ class Confirmation extends React.Component {
                           <br/>
                           On {match.created}.
                           <br/>
-                          <button className="create-activity" onClick={this.joinGroup(match)}>
+                          <button type="button" className="create-activity" onClick={ e=> {this.joinGroup(e,this.props.userInfo.userInfo, match)}}>
                             Join Group
                           </button>
                         </li>
@@ -57,7 +65,7 @@ class Confirmation extends React.Component {
               :
               <div>
               No group created yet.<br/>
-                <button className="create-activity" onClick={e=> {this.props.createActivity(e, this.props.yelpResult)}}>
+                <button type="button" className="create-activity" onClick={e=> {this.props.createActivity(e, this.props.yelpResult)}}>
                   CREATE!
                 </button>
               </div>
@@ -74,4 +82,4 @@ const mapStateToProps = state => ({
   userInfo: state.userInfo
 })
 
-export default connect(mapStateToProps) (Confirmation)
+export default connect(mapStateToProps, {pushNewMember }) (Confirmation)

@@ -24,7 +24,8 @@ export const createAuthUser = ( userObject) => dispatch => {
     console.log("unable to create auth object", e);
     
   });
-}
+};
+
 
 export const retrieveAuthUser = () => dispatch => {
   var user = firebase.auth().currentUser;
@@ -32,7 +33,7 @@ export const retrieveAuthUser = () => dispatch => {
   if (user) {
     dispatch({
       type: LOGGED_IN,
-      payload: true   
+      payload: user   
     });
     
   } else {
@@ -41,7 +42,8 @@ export const retrieveAuthUser = () => dispatch => {
       payload: null
     })
   }
-}
+};
+
 
 export const saveUser = (userObject) => dispatch => {
   
@@ -73,17 +75,6 @@ export const saveUser = (userObject) => dispatch => {
   })
 };
 
-export const logout = async() => {
-  await firebase.auth().signOut().then(function() {
-    console.log("logged out");
-    
-  }).catch(function(error) {
-    console.log(error);
-    
-  });
-}
-
-
 export const searchActivities = (search) => async(dispatch) => {
   
   let payload;
@@ -106,7 +97,8 @@ export const searchActivities = (search) => async(dispatch) => {
     type: SEARCH_VENUE,
     payload: payload.data.businesses
   })
-}
+};
+
 
 export const createActivity = activity => dispatch => {
   let activitiesList = [];
@@ -125,6 +117,7 @@ export const createActivity = activity => dispatch => {
   });
 };
 
+
 export const loadUsersCollection = () => async(dispatch) => {
   const usersCollection = firebase.database().ref().child('users')
   usersCollection.once('value').then( function(snapshot) {
@@ -137,7 +130,31 @@ export const loadUsersCollection = () => async(dispatch) => {
       payload: usersList
     })
   });
-}
+};
+
+
+export const pushNewMember = ( currentUser, match) => dispatch => {
+  console.log("working with" +  currentUser  + "and" + match);
+  
+  const activitiesCollection = firebase.database().ref().child('activities');
+  
+  activitiesCollection.orderByChild("venue").on( "value", function(snapshot) {
+    console.log("query val", snapshot.val());
+    
+    for( let activityKey in snapshot.val() ) {
+      let updates = {};
+      updates["/activities/" + activityKey + "/members/1"] = currentUser;
+      
+      firebase.database().ref().update( updates )
+      console.log("val", activityKey);
+      
+      
+    }
+
+    console.log("snapshot updated", snapshot.val());
+  })
+};
+
 
 export const loadActivitiesCollection = () => dispatch => {
   const activitiesCollection = firebase.database().ref().child('activities')
@@ -147,13 +164,22 @@ export const loadActivitiesCollection = () => dispatch => {
       activitiesList.push(snapshot.val()[activity]);
     }
   });
+  
   dispatch({
     type: LOAD_ACTIVITIES,
     payload: activitiesList
   })
   return;
+};
+
+
+export const logout = async() => {
+  await firebase.auth().signOut().then(function() {
+    console.log("logged out");
+    
+  }).catch(function(error) {
+    console.log(error);
+    
+  });
 }
 
-export const joinGroup = group => dispatch => {
-  
-}
