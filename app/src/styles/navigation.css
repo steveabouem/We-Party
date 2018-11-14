@@ -1,7 +1,8 @@
 #navigation-class-converter header{
-  background: #025569ad!important;
+  background: #008fb4!important;
   position: fixed;
-}y
+  top: 0;
+}
 
 #simple-menu {
   max-width: 150px;

@@ -10,11 +10,9 @@ class Confirmation extends React.Component {
   retrieveMatches = () => {
     if(this.props.activitiesList){ 
       this.props.activitiesList.forEach(match => {
-        // console.log("compare", match, this.props.yelpResult);
         if(match.venue === this.props.yelpResult.name && match.location === this.props.yelpResult.location.address1){
           match.match = "true";
           this.matchesList.push(match);
-          // console.log("matches list", this.matchesList);
         }
       })
     }
@@ -43,6 +41,7 @@ class Confirmation extends React.Component {
                   Or join a group below
                   {
                     this.matchesList.map( match => {
+                      
                     return(
                         <li key={this.props.yelpResult.id}> 
                           Venue:{match.venue} for {match.group} people

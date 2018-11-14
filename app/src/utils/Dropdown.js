@@ -20,7 +20,6 @@ export default class Example extends React.Component {
   
   async selectItem(amt){
     this.setState({dropDownValue:`${amt}CAD`})
-    console.log("item",amt);
   }
 
   customizeItem() {

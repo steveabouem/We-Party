@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { SlideToggle, callFunction } from 'react-slide-toggle';
+import { SlideToggle } from 'react-slide-toggle';
 import LoginForm from "../utils/LoginForm";
 import { saveUser,loadUsersCollection, createAuthUser } from "../actions/index";
 import GoogleButton from "./GoogleButton.jsx";
@@ -10,7 +10,6 @@ import FacebookButton from "./FacebookButton";
 class LoginPage extends React.Component {
 
   getUser = async (userInfo) =>{
-    console.log("getuser", userInfo);
     
     await this.props.loadUsersCollection();
     await this.props.saveUser(userInfo);
@@ -19,7 +18,6 @@ class LoginPage extends React.Component {
   }
 
   render(){
-    console.log(this.props);
     
     return(
       <div className="login-page">

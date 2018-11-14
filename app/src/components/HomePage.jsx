@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import "firebase/database";
 import { Card, CardImg, CardText, CardBody,
-  CardTitle, CardSubtitle, Button, Col } from "reactstrap";
+  CardTitle, Button, Col } from "reactstrap";
 import Navigation from "./Navigation.jsx";
 import TextField from "../utils/TextField";
 import Confirmation from "../utils/ConfirmPopUp";

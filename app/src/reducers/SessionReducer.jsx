@@ -1,4 +1,4 @@
-import { LOGIN, LOGGED_IN, SEARCH_VENUE, LOAD_USERS, RETRIEVEMATCH, SAVE_VENUE, LOAD_ACTIVITIES } from "../actions/types";
+import { LOGIN, LOGGED_IN, SEARCH_VENUE, LOAD_USERS, SAVE_VENUE, LOAD_ACTIVITIES } from "../actions/types";
 
 const initialState = {
   userInfo:{userInfo:{name:"Guest"} }
@@ -10,50 +10,41 @@ export default function(state = initialState, action){
     return {
       ...state,
       userInfo: action.payload
-    };
+    }
 
     case LOGGED_IN:
     return {
       ...state,
       loggedIN: action.payload
-    };
+    }
 
     case SEARCH_VENUE:{
       return{
         ...state,
         searchResults:action.payload
       }
-    };
+    }
 
     case SAVE_VENUE: {
       return {
         ...state,
         activitiesList: [...action.payload]
       }
-      console.log("reducer", state);
-      
-    };
+    }
 
     case LOAD_USERS:
     return{
       ...state,
       usersList: action.payload
-    };
+    }
 
     case LOAD_ACTIVITIES: {
       return{
         ...state,
         activitiesList: action.payload
       }
-    };
+    }
 
-    case RETRIEVEMATCH:{
-      return {
-        ...state,
-        matchingActivities: action.payload
-      }
-    };
-    
     default:
     return state;
   }

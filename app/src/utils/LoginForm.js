@@ -38,7 +38,6 @@ class LoginForm extends React.Component {
     email = this.state.email,
     password = this.state.password,
     userInfo = { name: `${first} ${last}`, email: email, oAuth: "Form", picture: loggedIn, password:password};
-    console.log("list", userInfo);
     
     await this.props.createAuthUser(userInfo);
     await this.props.saveUser(userInfo);
@@ -59,7 +58,7 @@ class LoginForm extends React.Component {
       <div className={classes.root}>
         <div className="login-class-converter">
           <TextField
-            required="true"
+            required={true}
             name="firstName"
             className={classNames(classes.margin, classes.textField)}
             variant="outlined"

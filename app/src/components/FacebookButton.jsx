@@ -3,9 +3,7 @@ import FacebookLogin from 'react-facebook-login';
 import { fbToken } from "../utils/secrets"
 import "firebase/database";
 
-// OAUTH WILL ONLY WORK AFTER DEPLOYMENT
-
-const firebase = require("firebase");
+// const firebase = require("firebase");
  
 class FacebookButton extends React.Component {
   responseFacebook = async () => {

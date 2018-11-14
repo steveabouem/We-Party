@@ -1,6 +1,4 @@
 import React from "react";
-import { Card, CardImg, CardText, CardBody,
-  CardTitle, CardSubtitle, Button, Col } from 'reactstrap';
 import { connect } from "react-redux";
 // import { loadActivities, deleteActivity } from "../actions";
 import location  from "./icons/location.svg";
@@ -9,45 +7,40 @@ import trash from "./icons/trash.svg";
 
 
 class UnmatchedActs extends React.Component {
-  componentDidMount(){
-    console.log("unmatched component props", this.props)
-  }
   render(){
-    let usersList = this.props.userInfo.usersList, matched;
     return(
       <div className="unmatched-activities-container">
-      <h2> Activities pending match. </h2>
-        {
-          usersList.map(user =>{
-            let cardToRender = [], singleActivity;
-            for(let activityKey in user.activities){
-              singleActivity = user.activities[activityKey].activity;
-              if(!singleActivity.match){
-                cardToRender.push(singleActivity)
-              }
+        <h2> Activities pending match. </h2>
+          {this.props.activitiesList.length > 0 ? this.props.activitiesList.map(match => {
+              if(match.creator.email === this.props.userInfo.userInfo.email && match.members.length <= 1) {
+                return(
+                <ul className="unmatched-item" key={this.props.activitiesList.indexOf(match)}>
+                  <h3> Details </h3>
+                  <li> 
+                    Contribution: { match.budget }
+                  </li>
+                  <li>
+                    Venue: { match.venue}, {match.location}.
+                  </li>
+                  <li>
+                    So far there are {match.group} people partying
+                  </li>
+                  <li>Created on { match.created }.</li>
+                </ul>
+              )
+            
+            } else if ( match.creator.email === this.props.userInfo.userInfo.email && match.members.length > 1 ){
+              return (
+                <p> </p>
+                )
+              } else {
+                return (
+                  <p> You most likely haven't created any activity yet </p>
+                )
             }
-            return(
-              <div className="single-unmatched-activity">
-                {cardToRender.map(match => {
-                  return(
-                  <ul className="unmatched-item">
-                    <h3> Details </h3>
-                    <li> 
-                      Contribution: { match.budget }
-                    </li>
-                    <li>
-                      Venue: { match.venue}, {match.location}.
-                    </li>
-                    <li>
-                      So far there are {match.group} people partying
-                    </li>
-                  </ul>
-                  )
-                })}
-              </div>
-            )
           })
-
+          :
+          <p className="login-prompt"> No activity available. Go ahead and create yours!</p>
         }
       </div>
     )
