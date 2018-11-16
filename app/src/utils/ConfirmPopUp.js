@@ -11,7 +11,6 @@ class Confirmation extends React.Component {
     if(this.props.activitiesList){ 
       this.props.activitiesList.forEach(match => {
         if(match.venue === this.props.yelpResult.name && match.location === this.props.yelpResult.location.address1){
-          match.match = "true";
           this.matchesList.push(match);
         }
       })

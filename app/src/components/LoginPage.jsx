@@ -24,12 +24,12 @@ class LoginPage extends React.Component {
       <div className="curtain">
         <div className="login-actions">
           <span className="instructions-primary">
-              Select an account to log in
+              Please log in below <br/> ( other options currently in maintenance)
           </span>
           <div className="choices">
             <GoogleButton  createAuthUser={this.props.createAuthUser} saveUser={this.getUser} getUser={this.getUser} />
-            <FacebookButton createAuthUser={this.props.createAuthUser} saveUser={this.getUser} getUser={this.getUser} />
-            <SlideToggle duration={300} collapsed bestPerformance
+            {/* <FacebookButton createAuthUser={this.props.createAuthUser} saveUser={this.getUser} getUser={this.getUser} /> */}
+            {/* <SlideToggle duration={300} collapsed bestPerformance */}
              render={({onToggle, setCollapsibleElement}) => (
               <div>
                 <button className="button-primary" id="choose-email" onClick={onToggle}>

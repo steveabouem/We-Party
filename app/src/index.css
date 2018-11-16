@@ -40,7 +40,7 @@ li[class^="MuiButtonBase-root"] a { /*Navmenu link*/
   text-decoration: none!important;
 }
 
-li[class^="MuiButtonBase-root"]:hover a, li[class^="MuiButtonBase-root"]:hover{
+#simple-menu li:hover a, li[class^="MuiButtonBase-root"]:hover{
   color: white!important;
   background: #35b9d0!important;
   

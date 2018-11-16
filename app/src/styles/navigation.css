@@ -10,6 +10,16 @@
   max-height: 100%;
 }
 
+#simple-menu a {
+  color: #35b9d0a2!important;
+  text-decoration: none!important;
+  transition: all 0.4s;
+}
+
+#simple-menu li {
+  transition: all 0.4s;
+}
+
 /* Useless div from menu module */
 #simple-menu div:nth-child(1) {
   display: none;

@@ -43,8 +43,14 @@ class HomePage extends React.Component {
     const groupTotal = document.getElementById("how-many").value;
     const budget = document.getElementById("budget-selected").innerHTML;
     const gender = document.getElementById("gender-selected").innerHTML;
-    let activityObject = { currentUser: currentUser , creator: currentUser, venue: object.name, location:object.location.address1, contact: object.phone, contribution: budget, group: groupTotal, members: [currentUser], genders: gender, match: "false", created: created };
-   
+
+    let activityObject = { currentUser: currentUser , creator: currentUser, venue: object.name, location:object.location.address1, contact: object.phone, contribution: budget, group: groupTotal, members: [currentUser], genders: gender, created: created };
+    for( let key in activityObject ) {
+      if(activityObject[key] === "" || activityObject[key] === " " || activityObject[key] === "Pitch in") {
+        activityObject[key] = "(not provided)"
+      }
+    };
+    
     this.props.createActivity(activityObject);
   }
 

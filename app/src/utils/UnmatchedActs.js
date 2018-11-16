@@ -8,35 +8,30 @@ import trash from "./icons/trash.svg";
 
 class UnmatchedActs extends React.Component {
   render(){
+    let currentUser = this.props.userInfo.userInfo;
+
     return(
+      
       <div className="unmatched-activities-container">
         <h2> Activities pending match. </h2>
           {this.props.activitiesList.length > 0 ? this.props.activitiesList.map(match => {
-              if(match.creator.email === this.props.userInfo.userInfo.email && match.members.length <= 1) {
+              if(match.creator.email === currentUser.email && match.members.length <= 1) {
                 return(
                 <ul className="unmatched-item" key={this.props.activitiesList.indexOf(match)}>
                   <h3> Details </h3>
                   <li> 
-                    Contribution: { match.budget }
+                    <b>Contribution</b>: { match.budget }
                   </li>
                   <li>
-                    Venue: { match.venue}, {match.location}.
-                  </li>
-                  <li>
-                    So far there are {match.group} people partying
+                    <b>Venue</b>: { match.venue}, {match.location}.
                   </li>
                   <li>Created on { match.created }.</li>
+                  <li><b>You wanted</b>: { match.group } buddies.</li>
                 </ul>
               )
             
-            } else if ( match.creator.email === this.props.userInfo.userInfo.email && match.members.length > 1 ){
-              return (
-                <p> </p>
-                )
-              } else {
-                return (
-                  <p> You most likely haven't created any activity yet </p>
-                )
+            } else  {
+                return 
             }
           })
           :
