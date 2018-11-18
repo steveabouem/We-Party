@@ -1,15 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Card, CardImg, CardText, CardBody,
-  CardTitle, CardSubtitle, Button, Col } from 'reactstrap';
+
+import JoinedGroups from "../utils/joinedGroups";
 import Navigation from "./Navigation.jsx";
-import location  from "../utils/icons/location.svg";
-import phone  from "../utils/icons/smartphone.svg";
-import trash from "../utils/icons/trash.svg";
-import {retrieveAuthUser} from "../actions/index";
 import MatchedActs from "../utils/MatchedActs";
 import UnmatchedActs from "../utils/UnmatchedActs";
-
  
 class Activities extends React.Component {
 
@@ -17,7 +12,6 @@ class Activities extends React.Component {
   }
   
   async componentDidMount() {
-    await this.props.retrieveAuthUser();
     console.log("props", this.props);
   }
   
@@ -33,6 +27,7 @@ class Activities extends React.Component {
         <div className="all-activities-container">
           <MatchedActs activitiesList={this.props.userInfo.activitiesList}/>
           <UnmatchedActs activitiesList={this.props.userInfo.activitiesList}/>
+          <JoinedGroups activitiesList={this.props.userInfo.activitiesList}/>
         </div>
         )}
       </div>
@@ -45,4 +40,4 @@ const mapStateToProps = state => ({
   userInfo: state.userInfo
 })
 
-export default connect (mapStateToProps, {retrieveAuthUser}) (Activities)
+export default connect (mapStateToProps, {}) (Activities)

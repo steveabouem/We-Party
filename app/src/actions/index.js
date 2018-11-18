@@ -2,13 +2,15 @@ import { dbConfig } from "../config/firebase";
 import { LOGIN, LOGGED_IN, LOAD_USERS, LOAD_ACTIVITIES, SEARCH_VENUE, SAVE_VENUE } from "./types";
 import axios from "axios";
 
+
+/* ==========GLOBAL SCOPE VARIABLES=============*/
 const firebase = require("firebase");
-
 firebase.initializeApp(dbConfig);
-
 const usersCollection = firebase.database().ref().child('users');
 const activitiesCollection = firebase.database().ref().child('activities');
 var updates = {};
+/* ==========GLOBAL SCOPE VARIABLES (end)=============*/
+
 
 
 export const createAuthUser = ( userObject) => dispatch => {
@@ -31,7 +33,8 @@ export const createAuthUser = ( userObject) => dispatch => {
 
 
 export const retrieveAuthUser = () => dispatch => {
-  var user = firebase.auth().currentUser;
+  // user varible is defined at the top of the page
+  let  user = firebase.auth().currentUser;
   
   if (user) {
     dispatch({
@@ -50,29 +53,21 @@ export const retrieveAuthUser = () => dispatch => {
 
 export const saveUser = (userObject) => dispatch => {
   
+  let userId = firebase.auth().currentUser.uid;
   let safeUserObject = {name: userObject.name, email: userObject.email, oauth: "form", picture: userObject.picture}
   
-  //create user ref, I need this on top of the auth to add all the other k/v pairs
-  usersCollection.orderByChild("email").equalTo(userObject.email).on( "value", async function (snapshot){
-    if(snapshot.val()){
-      const currentuserId = snapshot.node_.children_.root_.key;
-      
-      usersCollection.orderByKey().equalTo(currentuserId).on("value", function (snapshot){
-        const currentuserObject = snapshot.val()[Object.keys(snapshot.val())[0]];
-        
-        dispatch({
-          type: LOGIN,
-          payload: currentuserObject
-        })
-      })
-    } else {
-      usersCollection.push().set(safeUserObject);
-      
-      dispatch({
-        type: LOGIN,
-        payload: safeUserObject
-      })
-    }
+  firebase.database().ref("/users/" + userId).set({
+    name: userObject.name,
+    email: userObject.email,
+    oAuth: userObject.oAuth,
+    picture: userObject.picture,
+    joinedGroups: []
+  })
+  .then ( () => {
+    dispatch({
+      type: LOGIN,
+      payload: safeUserObject
+    })
   })
 };
 
@@ -103,8 +98,8 @@ export const searchActivities = (search) => async(dispatch) => {
 
 export const createActivity = activity => dispatch => {
   let activitiesList = [];
-
-
+  
+  // activitiesCollection is defined at the top of the doc
   activitiesCollection.push(activity)
   
   activitiesCollection.once('value').then( function(snapshot) {
@@ -121,6 +116,7 @@ export const createActivity = activity => dispatch => {
 
 
 export const loadUsersCollection = () => async(dispatch) => {
+  // usersCollection is defined at the top of the doc
   usersCollection.once('value').then( function(snapshot) {
     let usersList = []
     for(const user in snapshot.val()) {
@@ -133,67 +129,82 @@ export const loadUsersCollection = () => async(dispatch) => {
   });
 };
 
+export const addJoinedToUserRef = (userOnline, activityJoined, activityKey) => {
+  // usersCollection is defined at the top of the doc
+
+  let userId = firebase.auth().currentUser.uid;
+  let userUpdate = {};
+
+  userUpdate["/users/" + userId + "/joined/" + activityKey] = activityJoined;
+  firebase.database().ref().update( userUpdate);
+
+};
 
 export const pushNewMember =  ( currentUser, match) => dispatch => {
-  
+  // activitiesCollection is defined at the top of the doc
   activitiesCollection.orderByValue().on( "value", async function(snapshot) {
     await snapshot.val();
     
     let dbResult = snapshot.val();
-
+    
     console.log("found ref?", dbResult, match, currentUser);
     
     for( let activityKey in dbResult ) {
-
+      
       // FOR SOME REASON, JUST COMPARING THE 2 OBJECTS DOESNT Worke, I
       //  HAVE TO COMPARE EACH KEY INDIVIDUALLY??, TO BE INVESTIGATED
       if(dbResult[activityKey].creator.email !== currentUser.email
-         && dbResult[activityKey].venue === match.venue
-         && dbResult[activityKey].created === match.created 
-         && dbResult[activityKey].group === match.group 
-         && dbResult[activityKey].contribution === match.contribution 
-         && match.contact === dbResult[activityKey].contact){
-        
-        let newIndex = dbResult[activityKey].members.length + 1;
-
-        updates["/activities/" + activityKey + "/members/" + newIndex ] = currentUser;
-
-      } else if (dbResult[activityKey].creator.email === currentUser.email){
-        
-        console.log("Cannot create and join at the same time", currentUser.email, dbResult[activityKey].creator.email);
-        
+        && dbResult[activityKey].venue === match.venue
+        && dbResult[activityKey].created === match.created 
+        && dbResult[activityKey].group === match.group 
+        && dbResult[activityKey].contribution === match.contribution 
+        && match.contact === dbResult[activityKey].contact){
+          
+          let newIndex = dbResult[activityKey].members.length;
+          
+          updates["/activities/" + activityKey + "/members/" + newIndex ] = currentUser;
+          addJoinedToUserRef(currentUser, match, activityKey);
+        } else if (dbResult[activityKey].creator.email === currentUser.email){
+          
+          console.log("Cannot create and join at the same time", currentUser.email, dbResult[activityKey].creator.email);
+          
+        }
       }
-    }
-  })
-  console.log("updates", updates);
-  
-  firebase.database().ref().update( updates );
-};
-
-
-export const loadActivitiesCollection = () => dispatch => {
-  let activitiesList = []
-  activitiesCollection.once('value').then( function(snapshot) {
-    for(const activity in snapshot.val()) {
-      activitiesList.push(snapshot.val()[activity]);
-    }
-  });
-  
-  dispatch({
-    type: LOAD_ACTIVITIES,
-    payload: activitiesList
-  })
-  return;
-};
-
-
-export const logout = async() => {
-  await firebase.auth().signOut().then(function() {
-    console.log("logged out");
+    })
+    console.log("updates", updates);
     
-  }).catch(function(error) {
-    console.log(error);
+    firebase.database().ref().update( updates );
+  };
+  
+  
+  
+  
+  export const loadActivitiesCollection = () => dispatch => {
+    let activitiesList = [];
     
-  });
-}
-
+    // activitiesCollection is defined at the top of the doc
+    activitiesCollection.once('value').then( function(snapshot) {
+      for(const activity in snapshot.val()) {
+        activitiesList.push(snapshot.val()[activity]);
+      }
+    });
+    
+    dispatch({
+      type: LOAD_ACTIVITIES,
+      payload: activitiesList
+    })
+    return;
+  };
+  
+  
+  export const logout = async() => {
+    await firebase.auth().signOut().then(function() {
+      console.log("logged out");
+      
+    }).catch(function(error) {
+      console.log(error);
+      
+    });
+  }
+  
+  

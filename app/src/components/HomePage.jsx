@@ -6,7 +6,7 @@ import { Card, CardImg, CardText, CardBody,
 import Navigation from "./Navigation.jsx";
 import TextField from "../utils/TextField";
 import Confirmation from "../utils/ConfirmPopUp";
-import { retrieveAuthUser, searchActivities, createActivity, loadUsersCollection, loadActivitiesCollection } from "../actions";
+import {  searchActivities, createActivity, loadUsersCollection, loadActivitiesCollection } from "../actions";
 import location  from "../utils/icons/location.svg";
 import phone  from "../utils/icons/smartphone.svg";
 
@@ -129,4 +129,4 @@ const mapStateToProps = state => ({
   userInfo: state.userInfo
 })
 
-export default connect(mapStateToProps, {retrieveAuthUser, searchActivities, createActivity, loadUsersCollection, loadActivitiesCollection}) (HomePage)
+export default connect(mapStateToProps, { searchActivities, createActivity, loadUsersCollection, loadActivitiesCollection}) (HomePage)

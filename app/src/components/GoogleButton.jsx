@@ -17,7 +17,7 @@ class GoogleButton extends React.Component {
     // firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
     await firebase.auth().signInWithPopup(provider)
     .then( res => {
-      const userInfo = { name: res.user.displayName, email: res.user.email, oAuth: "google", picture: res.user.photoURL }
+      const userInfo = { name: res.user.displayName, email: res.user.email, oAuth: "google", picture: res.user.photoURL}
       this.props.getUser(userInfo)
     })
     .catch( e => {
