@@ -1,7 +1,9 @@
 import { dbConfig } from "../config/firebase";
-import { LOGIN, LOGGED_IN, LOAD_USERS, LOAD_ACTIVITIES, SEARCH_VENUE, SAVE_VENUE } from "./types";
+import { LOGIN, LOGGED_IN, LOAD_USERS, LOAD_ACTIVITIES, SEARCH_VENUE, SAVE_VENUE, RENDER_JOINED } from "./types";
 import axios from "axios";
 
+// FOR VISUAL HELPERS, HAVE A FUNCTION GET A KVP WITH MessageChannel, AND MAKE A COMPONENT WITH IT, CHANGE CONTENT 
+// IN RELEVANT FUNCTION ERROR
 
 /* ==========GLOBAL SCOPE VARIABLES=============*/
 const firebase = require("firebase");
@@ -14,7 +16,6 @@ var updates = {};
 
 
 export const createAuthUser = ( userObject) => dispatch => {
-  
   firebase.auth().createUserWithEmailAndPassword(userObject.email, userObject.password)
   .then( r => {
     // only sign in if no error
@@ -33,7 +34,7 @@ export const createAuthUser = ( userObject) => dispatch => {
 
 
 export const retrieveAuthUser = () => dispatch => {
-  // user varible is defined at the top of the page
+  
   let  user = firebase.auth().currentUser;
   
   if (user) {
@@ -54,7 +55,7 @@ export const retrieveAuthUser = () => dispatch => {
 export const saveUser = (userObject) => dispatch => {
   
   let userId = firebase.auth().currentUser.uid;
-  let safeUserObject = {name: userObject.name, email: userObject.email, oauth: "form", picture: userObject.picture}
+  let safeUserObject = {name: userObject.name, email: userObject.email, oauth: "form", picture: userObject.picture};
   
   firebase.database().ref("/users/" + userId).set({
     name: userObject.name,
@@ -129,16 +130,17 @@ export const loadUsersCollection = () => async(dispatch) => {
   });
 };
 
-export const addJoinedToUserRef = (userOnline, activityJoined, activityKey) => {
-  // usersCollection is defined at the top of the doc
 
+export const addJoinedRef = (userOnline, activityJoined, activityKey) => {
+  
   let userId = firebase.auth().currentUser.uid;
   let userUpdate = {};
-
-  userUpdate["/users/" + userId + "/joined/" + activityKey] = activityJoined;
+  
+  userUpdate["/users/joined/" + activityKey] = {user: userOnline, activity: activityJoined};
   firebase.database().ref().update( userUpdate);
-
+  
 };
+
 
 export const pushNewMember =  ( currentUser, match) => dispatch => {
   // activitiesCollection is defined at the top of the doc
@@ -146,8 +148,6 @@ export const pushNewMember =  ( currentUser, match) => dispatch => {
     await snapshot.val();
     
     let dbResult = snapshot.val();
-    
-    console.log("found ref?", dbResult, match, currentUser);
     
     for( let activityKey in dbResult ) {
       
@@ -163,20 +163,43 @@ export const pushNewMember =  ( currentUser, match) => dispatch => {
           let newIndex = dbResult[activityKey].members.length;
           
           updates["/activities/" + activityKey + "/members/" + newIndex ] = currentUser;
-          addJoinedToUserRef(currentUser, match, activityKey);
-        } else if (dbResult[activityKey].creator.email === currentUser.email){
+          await addJoinedRef(currentUser, match, activityKey);
+          
+        } else if (dbResult[activityKey].creator.email === currentUser.email) {
           
           console.log("Cannot create and join at the same time", currentUser.email, dbResult[activityKey].creator.email);
           
         }
       }
     })
-    console.log("updates", updates);
     
     firebase.database().ref().update( updates );
   };
   
   
+  export const retrieveJoinedProps = email => dispatch => {
+    var payload;
+    
+    if(email) {
+      usersCollection.orderByValue().on( "value", snapshot => {
+        // console.log("refff", Object.keys(snapshot.val()));
+        
+        for( let joinedKey in snapshot.val().joined ) {
+          // console.log(`joinedkey leads to`, snapshot.val().joined[joinedKey]);
+          
+          if(snapshot.val().joined[joinedKey].user.email === email) {
+            payload = {user: snapshot.val().joined[joinedKey].user, activity: snapshot.val().joined[joinedKey]};
+            
+          }
+        }
+        
+        dispatch({
+          type: RENDER_JOINED,
+          payload: payload
+        })
+      })
+    }
+  };
   
   
   export const loadActivitiesCollection = () => dispatch => {

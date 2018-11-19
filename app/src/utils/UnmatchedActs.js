@@ -1,23 +1,20 @@
 import React from "react";
 import { connect } from "react-redux";
-// import { loadActivities, deleteActivity } from "../actions";
-import location  from "./icons/location.svg";
-import phone  from "./icons/smartphone.svg";
-import trash from "./icons/trash.svg";
-
 
 class UnmatchedActs extends React.Component {
+
   render(){
     let currentUser = this.props.userInfo.userInfo;
+    // console.log("umnatched props", this.props);
 
     return(
       
       <div className="unmatched-activities-container">
         <h2> Activities pending match. </h2>
-          {this.props.activitiesList.length > 0 ? this.props.activitiesList.map(match => {
+          {this.props.userInfo.activitiesList.length > 0 ? this.props.userInfo.activitiesList.map(match => {
               if(match.creator.email === currentUser.email && match.members.length <= 1) {
                 return(
-                <ul className="unmatched-item" key={this.props.activitiesList.indexOf(match)}>
+                <ul className="unmatched-item" key={this.props.userInfo.activitiesList.indexOf(match)}>
                   <h3> Details </h3>
                   <li> 
                     <b>Contribution</b>: { match.budget }
@@ -46,4 +43,4 @@ const mapStateToProps = state => ({
   userInfo: state.userInfo
 })
 
-export default connect(mapStateToProps, {  }) (UnmatchedActs)
+export default connect(mapStateToProps) (UnmatchedActs)

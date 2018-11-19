@@ -1,18 +1,19 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import JoinedGroups from "../utils/joinedGroups";
 import Navigation from "./Navigation.jsx";
 import MatchedActs from "../utils/MatchedActs";
 import UnmatchedActs from "../utils/UnmatchedActs";
+import { retrieveJoinedProps } from "../actions";
  
 class Activities extends React.Component {
 
   deleteActivity = (activity) => {
   }
   
-  async componentDidMount() {
-    console.log("props", this.props);
+  async componentWillMount() {
+    await this.props.retrieveJoinedProps(this.props.userInfo.userInfo.email);
+    // console.log("props", this.props.userInfo.joinedList);
   }
   
 
@@ -21,13 +22,12 @@ class Activities extends React.Component {
     return(
       <div className="activities-page">
         <Navigation />
-        {( !this.props.userInfo.loggedIN? 
+        {( !this.props.userInfo.userInfo.email? 
         <h1 className="login-prompt"> Please log in to consult this page </h1>
         :
         <div className="all-activities-container">
           <MatchedActs activitiesList={this.props.userInfo.activitiesList}/>
-          <UnmatchedActs activitiesList={this.props.userInfo.activitiesList}/>
-          <JoinedGroups activitiesList={this.props.userInfo.activitiesList}/>
+          <UnmatchedActs />
         </div>
         )}
       </div>
@@ -40,4 +40,4 @@ const mapStateToProps = state => ({
   userInfo: state.userInfo
 })
 
-export default connect (mapStateToProps, {}) (Activities)
+export default connect (mapStateToProps, {retrieveJoinedProps}) (Activities)

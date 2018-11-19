@@ -1,10 +1,12 @@
 import { LOGIN, LOGGED_IN, SEARCH_VENUE, LOAD_USERS, SAVE_VENUE, LOAD_ACTIVITIES, RENDER_JOINED } from "../actions/types";
 
 const initialState = {
-  userInfo:{userInfo:{name:"Guest"} }
+  userInfo:{userInfo:{name:"Guest"} },
+  joinedList: []
 }
 
 export default function(state = initialState, action){
+  
   switch (action.type) {
     case LOGIN:
     return {
@@ -40,9 +42,10 @@ export default function(state = initialState, action){
     }
     
     case RENDER_JOINED: {
+      
       return {
         ...state,
-        joinedList: action.payload
+        joinedList: [...state.joinedList, action.payload]
       }
     }
 

@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { pushNewMember } from "../actions";
+import { pushNewMember, retrieveJoinedProps } from "../actions";
 
 
 class Confirmation extends React.Component {
@@ -20,6 +20,7 @@ class Confirmation extends React.Component {
   joinGroup = async ( e,user,match) => {
     e.stopPropagation();
     await this.props.pushNewMember( user,match);
+    await this.props.retrieveJoinedProps(this.props.userInfo.userInfo.email);
   };
 
   componentWillMount() {
@@ -80,4 +81,4 @@ const mapStateToProps = state => ({
   userInfo: state.userInfo
 })
 
-export default connect(mapStateToProps, {pushNewMember }) (Confirmation)
+export default connect(mapStateToProps, { pushNewMember, retrieveJoinedProps }) (Confirmation)
