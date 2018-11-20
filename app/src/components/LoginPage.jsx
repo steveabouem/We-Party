@@ -30,7 +30,7 @@ class LoginPage extends React.Component {
             <GoogleButton  createAuthUser={this.props.createAuthUser} saveUser={this.getUser} getUser={this.getUser} />
             {/* <FacebookButton createAuthUser={this.props.createAuthUser} saveUser={this.getUser} getUser={this.getUser} /> */}
             {/* <SlideToggle duration={300} collapsed bestPerformance */}
-             render={({onToggle, setCollapsibleElement}) => (
+             {({onToggle, setCollapsibleElement}) => (
               <div>
                 <button className="button-primary" id="choose-email" onClick={onToggle}>
                   EMAIL 
@@ -40,7 +40,6 @@ class LoginPage extends React.Component {
                 </div>
               </div>
              )}
-            />
           </div>
         </div>
       </div>

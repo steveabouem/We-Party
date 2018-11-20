@@ -61,6 +61,7 @@ class HomePage extends React.Component {
     
   }
   
+
   render (){
     
     const ApiResponse = this.props.userInfo.searchResults;
@@ -72,7 +73,10 @@ class HomePage extends React.Component {
           <div className="row">
             <div className="col-lg-8">
               
-              {this.props.userInfo.userInfo? <ConfirmationModal modalText={success.welcomeHome} open={true} /> : null }
+              {!this.props.userInfo.userInfo.email? <ConfirmationModal hints={success.homeHint} open={true} index={0} />
+                :
+                <ConfirmationModal hints={success.homeHint} open={false} index={1} min={6} max={0}/>
+              }
               
               <div className="input-group">
                 <span className="instructions-primary">
@@ -101,14 +105,12 @@ class HomePage extends React.Component {
             
             return(
             <Col md = {{ size: 10 }} key={result.alias}>
-              <ConfirmationModal open={false} hints={success.homeHint} />
               <Card className="result-cards">
                 <Confirmation key = {result.id} yelpResult = {result} createActivity = {this.createActivity} activitiesList={this.props.userInfo.activitiesList} />
                 
                 <CardImg top width="100%" height="200px" src={result.image_url} />
                 <CardBody>
                   <CardTitle> Venue: <br/> {result.name} </CardTitle>
-                  {/* <CardSubtitle>Category: {result.categories[0].title} </CardSubtitle> */}
                   <CardText>
                     Description: <br/>
                     Yelp rating: {result.rating} ({result.review_count} reviews) <br/>
