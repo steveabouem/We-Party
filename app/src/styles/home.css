@@ -16,6 +16,12 @@
   width: 100%;
 }
 
+.display-modal {
+  position: absolute;
+  top: 16%;
+  left: 1em;
+}
+
 .input-group {
   height: 15%;
   margin-top: 30%!important;

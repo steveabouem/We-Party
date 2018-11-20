@@ -28,7 +28,7 @@ class UnmatchedActs extends React.Component {
               )
             
             } else  {
-                return 
+                return  null
             }
           })
           :

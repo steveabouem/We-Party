@@ -133,7 +133,6 @@ export const loadUsersCollection = () => async(dispatch) => {
 
 export const addJoinedRef = (userOnline, activityJoined, activityKey) => {
   
-  let userId = firebase.auth().currentUser.uid;
   let userUpdate = {};
   
   userUpdate["/users/joined/" + activityKey] = {user: userOnline, activity: activityJoined};

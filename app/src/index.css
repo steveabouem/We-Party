@@ -4,6 +4,10 @@ body {
   font-family: 'Josefin Sans', sans-serif!important;
 }
 
+* {
+  transition: all 0.4s;
+}
+
 #MainContainer {
   background-color: black;
   height: 100vh;
@@ -21,6 +25,16 @@ button[class^="MuiButtonBase-root"]:hover {
   transform: translateY(-5px);
 }
 
+.display-modal button {
+  background: white;
+  color: #008fb4;
+  border: 2px solid white;
+  padding: 0.5em 2em;
+}
+
+.display-modal button:hover {
+  transform: scale(1.13);
+}
 button:focus, span:focus, div:focus {
   outline: none!important; 
 }
@@ -43,7 +57,6 @@ li[class^="MuiButtonBase-root"] a { /*Navmenu link*/
 #simple-menu li:hover a, li[class^="MuiButtonBase-root"]:hover{
   color: white!important;
   background: #35b9d0!important;
-  
 }
 
 
@@ -54,10 +67,12 @@ li[class^="MuiButtonBase-root"] a { /*Navmenu link*/
   border: 1px solid black!important;
 }
 
+
 #menu-button {
   margin-left: 2em;
   transition: all 0.5s;
 }
+
 
 #menu-button:hover{
   color: white!important;
