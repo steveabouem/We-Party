@@ -4,6 +4,24 @@
   top: 0;
 }
 
+/* OVERRIDE MATERIAL UI HOVER */
+header button:hover, header button:active  {
+  background: transparent!important;
+}
+
+/* DROPDOWN ICON */
+#menu-button img {
+  min-width: 20px;
+  max-width: 20px;
+  height: auto;
+  margin: auto
+}
+
+/* REMOVE LEFT MARGin ON LoGO */
+#navigation-class-converter  span {
+  justify-content: normal!important;
+}
+
 #simple-menu {
   max-width: 150px;
   background: transparent;
@@ -24,3 +42,4 @@
 #simple-menu div:nth-child(1) {
   display: none;
 }
+

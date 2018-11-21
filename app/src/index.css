@@ -18,11 +18,17 @@ body {
 }
 
 
+/* ===========NO DATA AND MODAL POPUPS STYLE============= */
+.login-prompt, .popup-content  {
+  background: #e0dddd63;
+  color: #45456f;
+  animation: floatText 1s linear infinite;
+}
 
-button[class^="MuiButtonBase-root"]:hover {
-  color: white;
-  background: #35b9d0a2;
-  transform: translateY(-5px);
+.login-prompt {
+  padding: 2em;
+  position: absolute;
+  left: 25%;
 }
 
 .display-modal button {
@@ -54,7 +60,7 @@ li[class^="MuiButtonBase-root"] a { /*Navmenu link*/
   text-decoration: none!important;
 }
 
-#simple-menu li:hover a, li[class^="MuiButtonBase-root"]:hover{
+#simple-menu li:hover a, #simple-menu li:hover{
   color: white!important;
   background: #35b9d0!important;
 }
@@ -67,15 +73,8 @@ li[class^="MuiButtonBase-root"] a { /*Navmenu link*/
   border: 1px solid black!important;
 }
 
-
-#menu-button {
-  margin-left: 2em;
-  transition: all 0.5s;
-}
-
-
 #menu-button:hover{
-  color: white!important;
+  transform: translateY(5px)
 }
 
 

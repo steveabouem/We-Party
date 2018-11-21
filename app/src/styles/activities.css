@@ -1,13 +1,4 @@
 
-.login-prompt {
-  position: absolute;
-  left: 25%;
-  background: #e0dddd63;
-  color: #45456f;
-  padding: 2em;
-  animation: floatText 1s linear infinite;
-}
-
 .activities-page {
   flex-direction: column;
   justify-content: center;
@@ -70,7 +61,7 @@
 .matched-item:nth-child(even), .unmatched-item:nth-child(odd) {
   background: black;
   color: white!important;
-
+  
 }
 
 .matched-item:nth-child(odd), .unmatched-item:nth-child(even) {

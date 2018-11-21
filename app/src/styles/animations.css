@@ -89,15 +89,15 @@
 
 @keyframes floatText {
   0% {
-    top: 30%;
+    transform: translateY(10px);
   }
 
   50% {
-    top: 28%;
+    transform: translateY(-10px);
   }
 
   100% {
-    top:30%;
+    transform: translateY(10px);
   }
 }
 
