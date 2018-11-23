@@ -1,15 +1,30 @@
+/* ==============Error Popup============== */
+.error-popup {
+  position: absolute;
+  background: black;
+  color: orange;
+  top: 20%;
+  left: 5%;
+  min-height: 50px;
+  max-height: 50px;
+  min-width: 150px;
+  max-width: 150px;
+  text-align: center;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  animation: floatText 0.5s linear 2;
+}
+
 #navigation-class-converter header{
-  background: #008fb4!important;
+  background: black!important;
   position: fixed;
   top: 0;
+  max-width: 100%
 }
 
-/* OVERRIDE MATERIAL UI HOVER */
-header button:hover, header button:active  {
-  background: transparent!important;
-}
 
-/* DROPDOWN ICON */
+/* ==============DROPDOWN ICON============== */
 #menu-button img {
   min-width: 20px;
   max-width: 20px;
@@ -17,7 +32,7 @@ header button:hover, header button:active  {
   margin: auto
 }
 
-/* REMOVE LEFT MARGin ON LoGO */
+/* ==============REMOVE LEFT MARGin ON LoGO============== */
 #navigation-class-converter  span {
   justify-content: normal!important;
 }
@@ -28,9 +43,12 @@ header button:hover, header button:active  {
   max-height: 100%;
 }
 
+#simple-menu ul {
+  padding: 0 inherit!important;
+  background: black;
+}
+
 #simple-menu a {
-  color: #35b9d0a2!important;
-  text-decoration: none!important;
   transition: all 0.4s;
 }
 
@@ -38,8 +56,24 @@ header button:hover, header button:active  {
   transition: all 0.4s;
 }
 
-/* Useless div from menu module */
+/* ==============Useless div from menu module============== */
 #simple-menu div:nth-child(1) {
   display: none;
 }
 
+
+/* ==============MOBILE SCREENS============== */
+@media (max-width: 768px) {
+  #simple-menu div{
+    position: absolute!important;
+    min-width: 50vw!important;
+    max-width: 50vw;
+    left: 24%;
+  }
+
+  #navigation-class-converter header{
+    min-height: 16%;
+    line-height: 1;
+    position: sticky;
+  }
+}

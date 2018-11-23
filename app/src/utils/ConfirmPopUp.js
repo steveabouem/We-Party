@@ -34,7 +34,7 @@ class Confirmation extends React.Component {
             <div>Group(s) you could join: {this.matchesList.length}
               {this.matchesList.length > 0? 
                 <ul className="view-groups" >
-                  <button className="create-activity-secondary" onClick={e=> {this.props.createActivity(e, this.props.yelpResult)}}>
+                  <button className="button-secondary" onClick={e=> {this.props.createActivity(e, this.props.yelpResult)}}>
                     CREATE YOURS
                   </button>
                   <br />
@@ -53,7 +53,7 @@ class Confirmation extends React.Component {
                           <br/>
                           On {match.created}.
                           <br/>
-                          <button type="button" className="create-activity" onClick={ e=> {this.joinGroup(e,this.props.userInfo.userInfo, match)}}>
+                          <button type="button" className="button-secondary" onClick={ e=> {this.joinGroup(e,this.props.userInfo.userInfo, match)}}>
                             Join Group
                           </button>
                         </li>
@@ -64,7 +64,7 @@ class Confirmation extends React.Component {
               :
               <div>
               No group created yet.<br/>
-                <button type="button" className="create-activity" onClick={e=> {this.props.createActivity(e, this.props.yelpResult)}}>
+                <button type="button" className="button-primary" onClick={e=> {this.props.createActivity(e, this.props.yelpResult)}}>
                   CREATE!
                 </button>
               </div>

@@ -1,9 +1,6 @@
 import { dbConfig } from "../config/firebase";
-import { LOGIN, LOGGED_IN, LOAD_USERS, LOAD_ACTIVITIES, SEARCH_VENUE, SAVE_VENUE, RENDER_JOINED } from "./types";
+import { LOGIN, LOGGED_IN, LOAD_USERS, LOAD_ACTIVITIES, SEARCH_VENUE, SAVE_VENUE, RENDER_JOINED, ERROR } from "./types";
 import axios from "axios";
-
-// FOR VISUAL HELPERS, HAVE A FUNCTION GET A KVP WITH MessageChannel, AND MAKE A COMPONENT WITH IT, CHANGE CONTENT 
-// IN RELEVANT FUNCTION ERROR
 
 /* ==========GLOBAL SCOPE VARIABLES=============*/
 const firebase = require("firebase");
@@ -11,7 +8,7 @@ firebase.initializeApp(dbConfig);
 const usersCollection = firebase.database().ref().child('users');
 const activitiesCollection = firebase.database().ref().child('activities');
 var updates = {};
-/* ==========GLOBAL SCOPE VARIABLES (end)=============*/
+/* ==========(end)=============*/
 
 
 
@@ -70,6 +67,12 @@ export const saveUser = (userObject) => dispatch => {
       payload: safeUserObject
     })
   })
+  .catch( e => {
+    dispatch({
+      type: ERROR,
+      payload: true
+    })
+  })
 };
 
 export const searchActivities = (search) => async(dispatch) => {
@@ -87,7 +90,10 @@ export const searchActivities = (search) => async(dispatch) => {
     res.send(payload.data.businesses);
   })
   .catch( e => {
-    console.log("searchActivities error: ", e);
+    dispatch({
+      type: ERROR,
+      payload: true
+    })
   })
   
   dispatch({
@@ -112,7 +118,13 @@ export const createActivity = activity => dispatch => {
       type: SAVE_VENUE,
       payload: activitiesList
     })
-  });
+  })
+  .catch( e => {
+    dispatch({
+      type: ERROR,
+      payload: true
+    })
+  })
 };
 
 
@@ -131,12 +143,18 @@ export const loadUsersCollection = () => async(dispatch) => {
 };
 
 
-export const addJoinedRef = (userOnline, activityJoined, activityKey) => {
+export const addJoinedRef = (userOnline, activityJoined, activityKey) => dispatch => {
   
   let userUpdate = {};
   
   userUpdate["/users/joined/" + activityKey] = {user: userOnline, activity: activityJoined};
-  firebase.database().ref().update( userUpdate);
+  firebase.database().ref().update( userUpdate)
+  .catch( e => {
+    dispatch({
+      type: ERROR,
+      payload: true
+    })
+  });
   
 };
 
@@ -165,9 +183,10 @@ export const pushNewMember =  ( currentUser, match) => dispatch => {
           await addJoinedRef(currentUser, match, activityKey);
           
         } else if (dbResult[activityKey].creator.email === currentUser.email) {
-          
-          console.log("Cannot create and join at the same time", currentUser.email, dbResult[activityKey].creator.email);
-          
+          dispatch({
+            type: ERROR,
+            payload: "Cannot create and join at the same time"
+          })
         }
       }
     })
@@ -181,10 +200,8 @@ export const pushNewMember =  ( currentUser, match) => dispatch => {
     
     if(email) {
       usersCollection.orderByValue().on( "value", snapshot => {
-        // console.log("refff", Object.keys(snapshot.val()));
         
         for( let joinedKey in snapshot.val().joined ) {
-          // console.log(`joinedkey leads to`, snapshot.val().joined[joinedKey]);
           
           if(snapshot.val().joined[joinedKey].user.email === email) {
             payload = {user: snapshot.val().joined[joinedKey].user, activity: snapshot.val().joined[joinedKey]};
@@ -223,8 +240,8 @@ export const pushNewMember =  ( currentUser, match) => dispatch => {
     await firebase.auth().signOut().then(function() {
       console.log("logged out");
       
-    }).catch(function(error) {
-      console.log(error);
+    }).catch(function(ERROR) {
+      console.log(ERROR);
       
     });
   }

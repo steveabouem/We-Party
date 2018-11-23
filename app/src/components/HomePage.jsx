@@ -123,7 +123,7 @@ class HomePage extends React.Component {
                     {/* distance:  {result.distance} <br/> */}
                   </CardText>
                   <a href={result.url} target="blank">
-                    <Button>Venue details...</Button>
+                    <Button className="button-secondary">Venue details...</Button>
                   </a>
                 </CardBody>
               </Card>

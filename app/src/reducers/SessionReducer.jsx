@@ -1,8 +1,9 @@
-import { LOGIN, LOGGED_IN, SEARCH_VENUE, LOAD_USERS, SAVE_VENUE, LOAD_ACTIVITIES, RENDER_JOINED } from "../actions/types";
+import { LOGIN, LOGGED_IN, SEARCH_VENUE, LOAD_USERS, SAVE_VENUE, LOAD_ACTIVITIES, RENDER_JOINED, ERROR } from "../actions/types";
 
 const initialState = {
   userInfo:{userInfo:{name:"Guest"} },
-  joinedList: []
+  joinedList: [],
+  error: null
 }
 
 export default function(state = initialState, action){
@@ -53,6 +54,13 @@ export default function(state = initialState, action){
       return {
         ...state,
         activitiesList: action.payload
+      }
+    }
+
+    case ERROR: {
+      return {
+        ...state,
+        message: action.payload
       }
     }
     

@@ -14,14 +14,6 @@
   height: 0;
 }
 
-.login-page button {
-  transition: all 0.4s;
-}
-
-.login-page button:hover {
-  transform: scale(1.1);
-}
-
 .login-actions {
   padding-top: 1em;
   overflow: hidden;
@@ -42,20 +34,6 @@
   z-index: 1
 }
 
-.button-primary {
-  color: #35b9d0a2!important;
-  background: white!important;
-  transition: all 0.4s;
-}
-
-.button-primary:hover {
-  color: white!important;
-  background: #35b9d0a2!important;
-}
-
-.button-primary:active {
-  background: #694f63;
-}
 
 .login-actions button {
   height: 2.6em!important;
@@ -64,7 +42,6 @@
   margin: 1em auto;
   padding: 1px!important;
   font-size: 0.7rem!important;
-  color: white;
   text-transform: uppercase
 }
 
@@ -91,4 +68,25 @@
 }
 .kep-login-facebook,  {
   background-color: #4267b2!important;
+}
+
+/* ==============MOBILE SCREENS============== */
+@media (max-width: 768px) {
+  .login-actions {
+    width: 80%;
+    position: absolute;
+    top: 30%;
+    left: 10%;
+    height: 20%;
+    padding: 0;
+    background: transparent;
+  }
+  
+  .login-page {
+    background: rgb(255,40,40);
+    background: -moz-linear-gradient(180deg, rgba(255,40,40,1) 0%, rgba(175,244,255,1) 70%);
+    background: -webkit-linear-gradient(180deg, rgba(255,40,40,1) 0%, rgba(175,244,255,1) 70%);
+    background: linear-gradient(180deg, rgba(255,40,40,1) 0%, rgba(175,244,255,1) 70%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#ff2828",endColorstr="#aff4ff",GradientType=1);
+  }
 }

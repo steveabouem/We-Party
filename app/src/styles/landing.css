@@ -77,10 +77,22 @@
     transition: all 0.4s;
   }
   
-  .white-box a:hover{ 
-    color: rgb(255, 238, 175)!important;
-    font-weight: bolder;
-    text-decoration: none;
-    transform: translateY(-20px)!important;
+  
+  /* ==============MOBILE SCREENS============== */
+@media (max-width: 768px) {
+  .white-box {
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+    min-width: 100%;
+    background: #EE6562;
+    min-height: 100%;
+    max-height: 100%;
+    margin: 0;
+    justify-content: center;
   }
   
+  .slider-divs {
+    display: none;
+  }
+}

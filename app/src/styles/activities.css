@@ -69,6 +69,43 @@
   color: #0f516b;
 }
 
-.matched-item:hover, .unmatched-item:hover {
-  transform: translateY(10px)
+
+/* ==============MOBILE SCREENS============== */
+@media (max-width: 768px) {
+  .activities-page {
+    height: auto;
+  }
+  
+  .all-activities-container {
+    flex-direction: column;
+    min-width: 100%;
+    max-width: 100%;
+  }
+  
+  .matched-activities-container, .unmatched-activities-container {
+    min-width: 100%;
+    max-width: 100%;
+    max-height: 50%;
+    min-height: 50%;
+    margin: 10% auto;
+    padding: 1%;
+  }
+  
+  .matched-activities-container {
+    background-attachment: fixed;
+    background: rgb(15,234,255);
+    background: -moz-linear-gradient(187deg, rgba(15,234,255,1) 0%, rgba(85,154,255,1) 70%);
+    background: -webkit-linear-gradient(187deg, rgba(15,234,255,1) 0%, rgba(85,154,255,1) 70%);
+    background: linear-gradient(187deg, rgba(15,234,255,1) 0%, rgba(85,154,255,1) 70%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#0feaff",endColorstr="#559aff",GradientType=1);
+  }
+  
+  .unmatched-activities-container{ 
+    background-attachment: fixed;
+    background: rgb(201,228,222);
+    background: -moz-linear-gradient(6deg, rgba(201,228,222,1) 14%, rgba(0,84,168,1) 52%, rgba(85,154,255,1) 80%);
+    background: -webkit-linear-gradient(6deg, rgba(201,228,222,1) 14%, rgba(0,84,168,1) 52%, rgba(85,154,255,1) 80%);
+    background: linear-gradient(6deg, rgba(201,228,222,1) 14%, rgba(0,84,168,1) 52%, rgba(85,154,255,1) 80%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#c9e4de",endColorstr="#559aff",GradientType=1);
+  }
 }

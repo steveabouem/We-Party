@@ -23,9 +23,9 @@ class LoginPage extends React.Component {
       <div className="login-page">
       <div className="curtain">
         <div className="login-actions">
-          <span className="instructions-primary">
+          {/* <span className="instructions-primary">
               Please log in below <br/> ( other options currently in maintenance)
-          </span>
+          </span> */}
           <div className="choices">
             <GoogleButton  createAuthUser={this.props.createAuthUser} saveUser={this.getUser} getUser={this.getUser} />
             {/* <FacebookButton createAuthUser={this.props.createAuthUser} saveUser={this.getUser} getUser={this.getUser} /> */}

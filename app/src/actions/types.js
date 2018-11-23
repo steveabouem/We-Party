@@ -6,4 +6,5 @@ export const LOAD_ACTIVITIES = "LOAD_ACTIVITIES"
 export const SAVE_VENUE = "SAVE_VENUE"
 export const LOGGED_IN = "LOGGED_IN"
 export const RENDER_JOINED = "RENDER_JOINED"
+export const ERROR = "ERROR"
 

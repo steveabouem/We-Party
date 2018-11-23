@@ -8,6 +8,29 @@ body {
   transition: all 0.4s;
 }
 
+/*==============ALL BUTTONS, LINKS AND LI, INCLUDING MATERIAL UI OVERRIDE============== */
+
+a, button {
+  color: #ff6565!important;
+}
+
+ul {
+  list-style: none!important;
+}
+
+button, li {
+  background: black!important
+}
+
+button:hover, button:active, a:hover, a:active {
+  color: white!important;
+}
+
+header button:hover, header button:active  {
+  background: black!important;
+  color:white!important;
+}
+
 #MainContainer {
   background-color: black;
   height: 100vh;
@@ -32,17 +55,8 @@ body {
 }
 
 .display-modal button {
-  background: white;
-  color: #008fb4;
-  border: 2px solid white;
+  border: 1px solid white;
   padding: 0.5em 2em;
-}
-
-.display-modal button:hover {
-  transform: scale(1.13);
-}
-button:focus, span:focus, div:focus {
-  outline: none!important; 
 }
 
 .row {
@@ -56,33 +70,30 @@ li[class^="MuiButtonBase-root"]:hover {
 }
 
 li[class^="MuiButtonBase-root"] a { /*Navmenu link*/
-  color: #35b9d0a2!important;
+  color: #ff6565!important;
   text-decoration: none!important;
 }
 
 #simple-menu li:hover a, #simple-menu li:hover{
   color: white!important;
-  background: #35b9d0!important;
+  background: black!important;
 }
 
+#simple-menu div {
+  padding: 0;
+}
 
-#simple-menu div, #dropdown, #gender-mix {
-  padding-top: 2em;
-  background: #ffffff!important;
-  color: #35b9d0a2;
+#dropdown, #gender-mix {
+  /* padding-top: 2em; */
   border: 1px solid black!important;
-}
-
-#menu-button:hover{
-  transform: translateY(5px)
 }
 
 
 .instructions-primary {
   display: flex;
   justify-content: center;
-  background: #412d3c57;
-  color: #FFD951;
+  background: #3c353ab3;
+  color: white;
   margin: auto;
   font-size: 1.2em;
   padding: 1em;
@@ -101,8 +112,6 @@ li[class^="MuiButtonBase-root"] a { /*Navmenu link*/
 }
 
 .buttons-wrapper button {
-  color: #35b9d0a2;
-  background: white;
   width: 150px!important;
   height: 60px!important;
   border: 1px solid transparent;
@@ -113,39 +122,13 @@ li[class^="MuiButtonBase-root"] a { /*Navmenu link*/
   transition: all 0.3s;
 }
 
-.buttons-wrapper button:hover {
-  transform: translateY(-5px);
-  background: #35b9d0a2;
-  color: white;
-}
-
 .form-wrapper button, .link-primary {
   padding: 1em;
   border-radius: 0;
   width: 100%;
-  background: white!important;
-  color: #35b9d0a2;
   transition: all 0.3s;
   align-self: center;
 }
-
-.form-wrapper button:hover, .link-primary:hover, .login-link:hover, #dropdown button:hover, #gender-mix button:hover  {
-  color: white!important;
-  background: #35b9d0a2!important;
-  transform: translateY(-5px);
-}
-
-#disabled-button:hover { /*no user loged in, disable find match button */
-  transform: scale(1)!important;
-  color: #ff535c!important;
-  font-weight: bold;
-  
-}
-.form-wrapper button:active, .buttons-wrapper button:active {
-  background: white;
-  color: greenyellow;
-}
-
 
 .photo-credentials {
   opacity: 0.5;
@@ -153,6 +136,60 @@ li[class^="MuiButtonBase-root"] a { /*Navmenu link*/
   font-size: 0.5em;
 }
 
+/* ==============MOBILE SCREENS============== */
+@media (max-width: 768px) {
+  * {
+    font-size: 1.2rem;
+  }
+  
+  .login-prompt {
+    left: 0;
+    right: 0;
+    min-width: 90%;
+    max-width: 90%;
+    margin: auto;
+  }
+  
+  
+  .display-modal {
+    position: relative!important;
+    margin: auto;
+    display: flex;
+    left:0!important;
+    justify-content: center;
+    min-width: 90%;
+    max-width: 90%;
+    padding: 0;
+  }
+  
+  .display-modal button {
+    min-width: 90%;
+    max-width: 90%;
+    padding: initial 0;
+    
+  }
+  
+  .popup-content {
+    min-width: 90%;
+    animation-iteration-count: 5;
+  }
+  
+  .instructions-primary {
+    min-width: 100%;
+    max-width: 100%;
+    margin: auto;
+  }
+  
+  .instructions-primary p {
+    background: #382f35b7;
+    color:white;
+  }
+  
+  .row {
+    margin: auto 0;
+  }
+  
+}
 
 
 

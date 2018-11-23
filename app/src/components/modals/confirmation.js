@@ -12,7 +12,6 @@ class ConfirmationModal extends React.Component {
 
   shuffleIndex = () => {
     if(this.props.min){
-      console.log(Math.floor(Math.random() * (this.props.max - this.props.min)) + this.props.min);
       
       return Math.floor(Math.random() * (this.props.max - this.props.min)) + this.props.min;
     }
@@ -27,17 +26,12 @@ class ConfirmationModal extends React.Component {
   }
   
   
-  componentDidMount() {
-
-    console.log(this.shuffleIndex());
-  }
-
   render() {
     let index = this.props.index;
     
     return (
       <div className="display-modal">
-        <button className="button" onClick={this.openModal}  >
+        <button className="button-primary" onClick={this.openModal}  >
           HINTS 
         </button>
         <Popup
