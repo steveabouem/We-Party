@@ -65,7 +65,7 @@ class TextFields extends React.Component {
         type="number"
         className={classes.textField}
         InputLabelProps={{
-          shrink: true,
+          shrink: false,
         }}
         margin="normal"
         />

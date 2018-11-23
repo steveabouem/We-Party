@@ -8,6 +8,10 @@ body {
   transition: all 0.4s;
 }
 
+*:focus {
+  outline: none!important;
+}
+
 /*==============ALL BUTTONS, LINKS AND LI, INCLUDING MATERIAL UI OVERRIDE============== */
 
 a, button {
@@ -22,8 +26,10 @@ button, li {
   background: black!important
 }
 
-button:hover, button:active, a:hover, a:active {
+button:hover, button:active, a:hover, a:active, ul:hover {
   color: white!important;
+  text-decoration: none;
+  transform: translateY(5px);
 }
 
 header button:hover, header button:active  {
@@ -44,7 +50,7 @@ header button:hover, header button:active  {
 /* ===========NO DATA AND MODAL POPUPS STYLE============= */
 .login-prompt, .popup-content  {
   background: #e0dddd63;
-  color: #45456f;
+  color: #000025;
   animation: floatText 1s linear infinite;
 }
 
@@ -52,6 +58,12 @@ header button:hover, header button:active  {
   padding: 2em;
   position: absolute;
   left: 25%;
+}
+
+.display-modal {
+  position: absolute;
+  top: 10%;
+  /* left: 45%; */
 }
 
 .display-modal button {
@@ -64,8 +76,6 @@ header button:hover, header button:active  {
 }
 
 li[class^="MuiButtonBase-root"]:hover {
-  background-color: white!important;
-  color: #35b9d0a2!important;
   text-decoration: none!important;
 }
 
@@ -84,9 +94,9 @@ li[class^="MuiButtonBase-root"] a { /*Navmenu link*/
 }
 
 #dropdown, #gender-mix {
-  /* padding-top: 2em; */
   border: 1px solid black!important;
 }
+
 
 
 .instructions-primary {
@@ -143,6 +153,8 @@ li[class^="MuiButtonBase-root"] a { /*Navmenu link*/
   }
   
   .login-prompt {
+    padding: 2%;
+    top: 30%;
     left: 0;
     right: 0;
     min-width: 90%;
@@ -191,5 +203,6 @@ li[class^="MuiButtonBase-root"] a { /*Navmenu link*/
   
 }
 
+/* ==============LARGE SCREENS============== */
 
 

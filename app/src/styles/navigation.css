@@ -23,7 +23,10 @@
   max-width: 100%
 }
 
-
+/* ==============NAVBAR BUTTONS/LIs SHOULDNT HOVER LIKE ALL THE OTHERS============== */
+#class-converter button:hover {
+  transform: none;
+}
 /* ==============DROPDOWN ICON============== */
 #menu-button img {
   min-width: 20px;
@@ -32,7 +35,6 @@
   margin: auto
 }
 
-/* ==============REMOVE LEFT MARGin ON LoGO============== */
 #navigation-class-converter  span {
   justify-content: normal!important;
 }
@@ -46,6 +48,10 @@
 #simple-menu ul {
   padding: 0 inherit!important;
   background: black;
+}
+
+#simple-menu ul:hover {
+  transform: none;
 }
 
 #simple-menu a {

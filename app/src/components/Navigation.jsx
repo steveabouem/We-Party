@@ -41,13 +41,13 @@ function Navigation(props) {
             />
 
             <Link to="/home" style={{textDecoration: "none",
-            color: "white", margin: "0.5em 1em 0 2em"}}>
+            color: "white", margin: "0"}} id="logo">
               WeParty!
             </Link>
 
           </IconButton>
           <span style={{position: "absolute", right: "1%"}}>
-            <span className="display-name" style={{padding: "1em"}} id="span-id">
+            <span className="display-name" id="span-id">
              {(props.userInfo.userInfo.userInfo? "Guest" : props.userInfo.userInfo.name)}
             </span>
             {(props.userInfo.userInfo.name? 

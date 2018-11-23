@@ -27,10 +27,6 @@ export default class Gender extends React.Component {
     this.setState({dropDownValue: selection })
   }
 
-  customizeItem() {
-    return
-    //add customization later on
-  }
 
   render() {
     return (

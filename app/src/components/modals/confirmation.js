@@ -32,7 +32,7 @@ class ConfirmationModal extends React.Component {
     return (
       <div className="display-modal">
         <button className="button-primary" onClick={this.openModal}  >
-          HINTS 
+          ? 
         </button>
         <Popup
           open={this.state.open}

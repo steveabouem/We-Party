@@ -3,10 +3,12 @@
   flex-direction: column;
   justify-content: center;
   display: flex;
-  background-position-y: 57%;
+  background: rgb(255,0,83);
+  background: -moz-linear-gradient(180deg, rgba(255,0,83,1) 6%, rgba(86,27,121,1) 44%, rgba(0,0,0,1) 82%);
+  background: -webkit-linear-gradient(180deg, rgba(255,0,83,1) 6%, rgba(86,27,121,1) 44%, rgba(0,0,0,1) 82%);
+  background: linear-gradient(180deg, rgba(255,0,83,1) 6%, rgba(86,27,121,1) 44%, rgba(0,0,0,1) 82%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#ff0053",endColorstr="#000000",GradientType=1);
   background-repeat: no-repeat;
-  background-size: cover;
-  background: white;
   height: 100vh;
   width: 100%;
 }
@@ -30,23 +32,25 @@
   max-height: 100%;
   overflow-y: overlay;
   margin: 2em 1em ;
+  color: white;
 }
 
 .matched-activities-container {
   padding: 1em;
-  color: white;
-  background: #0093ff;
+  background: #00000061;
 }
 
 .unmatched-activities-container {
   padding: 1em;
-  background: rgb(188, 219, 223);
-  color: #45456f;
+  background: #ffffff4f;
 }
 
-.unmatched-activities-container h2 {
-  color: black;
+.unmatched-activities-container h2, .matched-activities-container h2 {
+  color: white;
+  width: 80%;
+  background: black;
 }
+
 .matched-item, .unmatched-item {
   max-width: 90%;
   min-width: 90%;
@@ -58,15 +62,17 @@
   transition: all 0.4s;
 }
 
+.matched-item {
+  padding: 2%;
+}
 .matched-item:nth-child(even), .unmatched-item:nth-child(odd) {
-  background: black;
+  background: #0000003b;
   color: white!important;
-  
 }
 
 .matched-item:nth-child(odd), .unmatched-item:nth-child(even) {
-  background: white;
-  color: #0f516b;
+  background: #ffffff4f;
+  color: white;
 }
 
 
