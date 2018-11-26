@@ -21,7 +21,6 @@ const styles = theme => ({
 
 function PaperSheet(props) {
   const { classes } = props;
-  console.log(props)
   return (
     <div>
       <Paper className={classes.root} elevation={1}>

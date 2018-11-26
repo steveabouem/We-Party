@@ -1,34 +1,69 @@
-import { LOGIN, LOGOUT, SEARCH_CLUBS, LOAD_USERS, SEARCH_RESTAURANTS } from "../actions/types";
+import { LOGIN, LOGGED_IN, SEARCH_VENUE, LOAD_USERS, SAVE_VENUE, LOAD_ACTIVITIES, RENDER_JOINED, ERROR } from "../actions/types";
 
 const initialState = {
   userInfo:{userInfo:{name:"Guest"} },
+  joinedList: [],
+  error: null
 }
 
 export default function(state = initialState, action){
-  // if(action.payload) for some reason it breaks the app? makes no sense yet
+  
   switch (action.type) {
     case LOGIN:
     return {
       ...state,
       userInfo: action.payload
-    };
-    case SEARCH_CLUBS:{
-      return{
-        ...state,
-        searchResults:action.payload
-      }
-    };
-    case SEARCH_RESTAURANTS:{
-      return{
-        ...state,
-        searchResults:action.payload
-      }
-    };
-    case LOAD_USERS:
-    return{
+    }
+    
+    case LOGGED_IN:
+    return {
       ...state,
-      usersList: action.payload
-    };
+      loggedIN: action.payload
+    }
+    
+    case SEARCH_VENUE:{
+      return {
+        ...state,
+        searchResults:action.payload
+      }
+    }
+    
+    case SAVE_VENUE: {
+      return {
+        ...state,
+        activitiesList: [...action.payload]
+      }
+    }
+    
+    case LOAD_USERS: {
+      return {
+        ...state,
+        usersList: action.payload
+      }
+    }
+    
+    case RENDER_JOINED: {
+      
+      return {
+        ...state,
+        joinedList: [...state.joinedList, action.payload]
+      }
+    }
+
+    case LOAD_ACTIVITIES: {
+      return {
+        ...state,
+        activitiesList: action.payload
+      }
+    }
+
+    case ERROR: {
+      return {
+        ...state,
+        message: action.payload
+      }
+    }
+    
     default:
     return state;
   }

@@ -14,11 +14,11 @@ class Main extends React.Component {
       <main id = "MainContainer">
         <Switch>
           <Route exact path ="/" component = {LandingPage} />
-          <Route path = "/activities" component = {Activities} />
-          <Route path = "/authenticate" component = {LoginPage} />
-          <Route path = "/groups" commponent = {Groups} />
-          <Route path = "/home" component = {HomePage} />
-          <Route path = "/tour" component = { Tour } />
+          <Route exact path = "/activities" component = {Activities} />
+          <Route exact path = "/authenticate" component = {LoginPage} />
+          {/* <Route exact path = "/groups" commponent = {Groups} /> */}
+          <Route exact path = "/home" component = {HomePage} />
+          {/* <Route exact path = "/tour" component = { Tour } /> */}
           {/* <Route path = "/budget" commponent = {Budget} /> */}
         </Switch>
       </main>

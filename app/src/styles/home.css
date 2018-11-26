@@ -1,0 +1,288 @@
+
+.home-container {
+  height: 100%;
+  background: rgb(0,0,0);
+  background: -moz-linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(125,2,6,1) 89%);
+  background: -webkit-linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(125,2,6,1) 89%);
+  background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(125,2,6,1) 89%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#000000",endColorstr="#7d0206",GradientType=1);
+}
+
+.image-holder {
+  background: url("https://images.unsplash.com/photo-1514605411468-81f98844a475?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=5bcbc9ce882d49a72824357944d4db00&auto=format&fit=crop&w=1950&q=80");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  justify-content: center;
+  display: flex;
+  background-position-y: 57%;
+  height: 70vh;
+  width: 100%;
+}
+
+.input-group {
+  height: 15%;
+  margin-top: 30%!important;
+  position: relative;
+  align-content: center;
+}
+
+.MediaCard-card-61 {
+  margin: auto;
+  margin-top: 1%;
+}
+
+.col-lg-8, .col-md-10 {
+  max-width: 80%!important;
+  margin: auto;
+  margin-top: 1%;
+}
+
+.col-md-10 {
+  flex: 1 1 100px!important;
+  min-height: 700px;
+  max-height: 700px;
+  min-width: 25%;
+  max-width: 25%!important;
+}
+
+.card {
+  max-width: 100%;
+  min-width: 100%;
+  height: 600px;
+  background: black;
+  color: #fffddd;
+}
+
+
+.col-md-10:hover {
+  transform: translateY(2px)
+}
+
+.dropdown { /*class dropdown, ocntainer of the $ button which then displays the #dropdown list, with .dropdown-items */
+  
+  border-bottom: 1.5px solid!important;
+  border-bottom-color: #0000005b!important;
+  height: 89%;
+}
+
+.dropdown p {
+  display: inline-block;
+  color: black;
+}
+
+.dropdown > button {
+  border: 0;
+  padding: 0;
+}
+
+#gender-mix {
+  top:2%!important;
+}
+
+#dropdown {
+  top: 90%!important
+}
+/* LIST OF MATCHES */
+.view-groups {
+  list-style: none;
+  transition: all 1s;
+  width: 106%;
+  color: #d3f9f7;
+  font-size: 0.8rem;
+  height: 100%;
+  padding: 2em;
+  overflow: overlay;
+  background: #595353;
+}
+
+.view-groups li {
+  padding: 1em 0;
+}
+
+.results-cards {
+  margin: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-flow: wrap;
+  transition: all 0.4s;
+  overflow: hidden;
+  background-attachment: fixed;
+  background: rgb(222,73,73);
+  background: radial-gradient(circle, rgba(222,73,73,1) 0%, rgba(0,0,0,1) 81%);
+}
+
+.results-cards div {
+  display: flex;
+  transition: all 0.4s;
+  flex-direction: column;
+  justify-content: center;
+  margin: auto;
+}
+
+.results-cards card {
+  width: 25%;
+}
+
+#SEARCH_VENUE, #how-many, #restaurants-search {
+  color: black!important;
+}
+
+#search-activity-form  label {
+  color: black!important;
+}
+
+#search-activity-form {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  background: #ffffff;
+  padding: 1em;
+  width: 100%;
+}
+
+.sarch-separator {
+  width: 1px;
+  height: 80%;
+  background: #00000050;
+}
+
+.result-icon {
+  vertical-align: middle;
+  border-style: none;
+  width: 1em;
+  background: #ff6565;
+  border-radius: 5px;
+  padding: 1px;
+}
+
+.menu-icon {
+  vertical-align: middle;
+  border-style: none;
+  width: 1em;
+  background: transparent;
+}
+
+
+.add-activity, .delete-activity {
+  border: none;
+  right: 0.5em;
+  position: absolute;
+  transition: all 0.3s;
+}
+
+
+.create-activity {
+  align-self: baseline;
+  width: 60%;
+  margin: auto;
+  border: none;
+  right: 0.5em;
+  transition: all 0.3s;
+}
+
+
+/* in popup */
+.create-activity-secondary {
+  width: 60%;
+  border: none;
+  transition: all 0.3s;
+  margin: 1em auto;
+  padding: 1em;
+}
+
+
+
+.confirmation-container {
+  overflow-x: hidden;
+}
+
+.confirmation-container, .confirmation-container div {
+  width: 100%;
+}
+
+.confirmation-container img {
+  width: 100%!important;
+  max-height: 25%!important;
+  border-top-left-radius: calc(.25rem - 1px);
+  border-top-right-radius: calc(.25rem - 1px);
+  object-fit: cover;
+}
+
+
+
+/* ==============MOBILE SCREENS============== */
+@media (max-width: 768px) {
+  
+  #navigation-class-converter header {
+    min-height: 14vh;
+    display: block;
+  }
+  
+  #navigation-class-converter span {
+    margin: 0!important;
+  }
+  
+  #navigation-class-converter a,  {
+    padding: 0;
+    margin: 1px;
+  }
+  
+  .image-holder {
+    height: auto;
+    background-attachment: fixed;
+    background: rgb(222,73,73);
+    background: radial-gradient(circle, rgba(222,73,73,1) 0%, rgba(0,0,0,1) 81%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#000aff",endColorstr="#00dcff",GradientType=1);
+  }
+
+  .input-group {
+    margin-top: 2%!important; 
+  }
+  
+  .form-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-width: 100%;
+    max-width: 100%;
+  }
+  
+  #search-activity-form{
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    min-width: 100%;
+    max-width: 100%;
+    overflow: scroll;
+    margin: auto!important;
+    justify-content: center;
+  }
+  
+  .form-wrapper button {
+    max-height: 15%;
+    max-width: 80%;
+    margin: 1em auto;
+  }
+  
+  .dropdown {
+    display: flex;
+    flex-direction: column;
+  }
+  /* ========single search result========== */
+  
+  .results-cards div {
+    margin: 1% auto;
+    padding: 1%;
+    
+  }
+  .col-md-10 {
+    min-width: 90%;
+    max-width: 90%;
+    margin: 2% auto!important;
+  }
+  
+  .card {
+    height: auto;
+  }
+}

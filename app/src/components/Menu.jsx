@@ -1,6 +1,9 @@
 import React from 'react';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import { Link } from "react-router-dom";
+import arrow from  "../utils/icons/arrow.svg";
+
 
 class MenuButton extends React.Component {
   state = {
@@ -19,29 +22,34 @@ class MenuButton extends React.Component {
     const { anchorEl } = this.state;
 
     return (
-      <div>
-        <span
-        id="menu-button"
+      <span>
+         <span
+          id="menu-button"
           aria-owns={anchorEl ? 'simple-menu' : null}
           aria-haspopup="true"
           onClick={this.handleClick}
-          style={{color: "#FFD951"}}
+          style={{color: "white"}}
         >
-         {this.props.button}
+          <img src={arrow} alt="Sort down icon by Dave Gandy" />
         </span>
         <Menu
           id="simple-menu"
           anchorEl={anchorEl}
           open={Boolean(anchorEl)}
           onClose={this.handleClose}
-        >
+          >
          {this.props.items.map(item => {
-           return (<MenuItem onClick={this.handleClose} key={item.name}>
-            <a href={item.ref}>{item.name}</a>
+           return (<MenuItem className="menuMap" onClick={this.handleClose} key={item.name}>
+            {
+            item.ref !== ""? <Link to={item.ref}>{item.name}</Link> 
+            :
+            <b>{item.name}</b>
+            }
            </MenuItem>)
          })} 
         </Menu>
-      </div>
+       
+    </span>
     );
   }
 }

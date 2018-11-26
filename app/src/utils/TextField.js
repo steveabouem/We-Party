@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Dropdown from '../utils/Dropdown';
+import GenderMix from "../utils/GenderMix";
 
 const styles = theme => ({
   container: {
@@ -28,7 +29,6 @@ class TextFields extends React.Component {
   
   handleChange = name => event => {
     const button = event.target;
-    console.log(button.id);
     (
       button.id === "budget-dropdown"?
       this.setState({
@@ -46,29 +46,17 @@ class TextFields extends React.Component {
     return (
       <form className={classes.container} noValidate autoComplete="off" id="search-activity-form">
         <TextField
-        id="clubs-search"
-        label="Clubs?"
+        id="SEARCH_VENUE"
+        label="Nighclubs?"
         type="search"
         className={classes.textField}
         margin="normal"
         InputLabelProps={{
           autoFocus: true,
         }}
-        onChange={(evt)=>this.props.recordSearch(evt)}
         />
         <div className="sarch-separator" />
-        <TextField
-        id="restaurants-search"
-        label="Restaurants"
-        type="search"
-        className={classes.textField}
-        margin="normal"
-        InputLabelProps={{
-          autoFocus: true,
-        }} 
-        onChange={(evt)=>this.props.recordSearch(evt)}
-        />
-        <div className="sarch-separator" />
+        
         <TextField
         id="how-many"
         label="How many?"
@@ -77,13 +65,14 @@ class TextFields extends React.Component {
         type="number"
         className={classes.textField}
         InputLabelProps={{
-          shrink: true,
+          shrink: false,
         }}
         margin="normal"
         />
         <div className="sarch-separator" />
         <Dropdown />
         <div className="sarch-separator" />
+        <GenderMix />
       </form>
     );
   }
