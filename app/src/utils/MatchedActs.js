@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import { openChatRoom } from "../actions";
 
 class MatchedActs extends React.Component {
   currentUser = this.props.userInfo.userInfo;
@@ -45,7 +46,8 @@ class MatchedActs extends React.Component {
         :
         <p className="login-prompt"> No activity available. Go ahead and create yours!</p>
       }
-      {this.props.userInfo.joinedList.length > 0? this.props.userInfo.joinedList.map( match =>{
+      {this.props.userInfo.joinedList.length > 1? this.props.userInfo.joinedList.map( match =>{
+        console.log(this.props);
         
         return (
         <ul className="matched-item" key={this.props.activitiesList.indexOf(match)}>
@@ -66,6 +68,9 @@ class MatchedActs extends React.Component {
             } -
           </li>
           <li><b>Created</b> on { match.activity.activity.created }.</li>
+          <button type="button" onClick={this.props.openChatRoom(match)}>
+          Group Chat
+          </button>
         </ul>
         
         )
@@ -82,4 +87,4 @@ const mapStateToProps = state => ({
   userInfo: state.userInfo
 })
 
-export default connect(mapStateToProps) (MatchedActs)
+export default connect(mapStateToProps, {openChatRoom}) (MatchedActs)

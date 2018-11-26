@@ -1,5 +1,5 @@
 import React from "react";
-
+import ChatBox from "./chat/ChatBox.jsx";
 import Navigation from "./Navigation.jsx";
 import MatchedActs from "../utils/MatchedActs";
 import ConfirmationModal from "./modals/confirmation";
@@ -16,7 +16,6 @@ class Activities extends React.Component {
   
   async componentWillMount() {
     await this.props.retrieveJoinedProps(this.props.userInfo.userInfo.email);
-    // console.log("props", this.props.userInfo.joinedList);
   }
   
 
@@ -32,6 +31,7 @@ class Activities extends React.Component {
           <ConfirmationModal hints={success.activitiesHint} open={false} index={1} min={3} max={0}/>
           <MatchedActs activitiesList={this.props.userInfo.activitiesList}/>
           <UnmatchedActs />
+          <ChatBox />
         </div>
         )}
       </div>

@@ -14,7 +14,7 @@ class GoogleButton extends React.Component {
  
   responseGoogle = async () => {
     var provider = new firebase.auth.GoogleAuthProvider();
-    firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
+    firebase.auth().setPersistence(firebase.auth.Auth.Persistence.NONE)
     .then( () => {
       firebase.auth().signInWithPopup(provider)
       .then( res => {

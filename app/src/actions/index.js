@@ -13,19 +13,30 @@ var updates = {};
 
 
 export const createAuthUser = ( userObject) => dispatch => {
-  firebase.auth().createUserWithEmailAndPassword(userObject.email, userObject.password)
+  axios.post("https://us-central1-we-party-210101.cloudfunctions.net/signInUser", 
+  {headers: 
+    { Authorization: `Bearer ${dbConfig.apiKey}`,
+    "content-type": "application/json" }
+  }, 
+  {data: {"email": `${userObject.email}`, "password": `${userObject.password}`}})
   .then( r => {
-    // only sign in if no error
-    firebase.auth().signInWithEmailAndPassword(userObject.email, userObject.password)
-    
-    dispatch({
-      type: LOGIN,
-      payload: {name: userObject.name, email: userObject.email, oauth: "form", picture: null}
-    })
+    if(r.data.code === 200){
+      dispatch({
+        type: LOGIN,
+        payload: {name: userObject.name, email: userObject.email, oauth: "form", picture: null}
+      })
+    } else if ( r.data.code === 400) {
+      dispatch({
+        type: ERROR,
+        payload: r.data.message
+      })
+    } 
   })
   .catch( e => {
-    console.log("unable to create auth object", e);
-    
+    dispatch({
+      type: ERROR,
+      payload: "Unable to create user auth. higher level error"
+    })
   });
 };
 
@@ -51,6 +62,7 @@ export const retrieveAuthUser = () => dispatch => {
 
 export const saveUser = (userObject) => dispatch => {
   
+  
   let userId = firebase.auth().currentUser.uid;
   let safeUserObject = {name: userObject.name, email: userObject.email, oauth: "form", picture: userObject.picture};
   
@@ -59,7 +71,6 @@ export const saveUser = (userObject) => dispatch => {
     email: userObject.email,
     oAuth: userObject.oAuth,
     picture: userObject.picture,
-    joinedGroups: []
   })
   .then ( () => {
     dispatch({
@@ -85,9 +96,10 @@ export const searchActivities = (search) => async(dispatch) => {
   }, 
   {data: {term: `${search}`}})
   .then(res => {
+    console.log(res, Object.keys(res));
     
     payload = res.data;
-    res.send(payload.data.businesses);
+    res.send(payload.results);
   })
   .catch( e => {
     dispatch({
@@ -98,7 +110,7 @@ export const searchActivities = (search) => async(dispatch) => {
   
   dispatch({
     type: SEARCH_VENUE,
-    payload: payload.data.businesses
+    payload: payload.results
   })
 };
 
@@ -246,4 +258,48 @@ export const pushNewMember =  ( currentUser, match) => dispatch => {
     });
   }
   
+  /* ==========CHAT ACTIONS=============*/
+  export const openChatRoom = activity => dispatch => {
+    axios.post("https://us-central1-we-party-210101.cloudfunctions.net/LOADHISTORY", 
+    {headers: 
+      { Authorization: `Bearer ${dbConfig.apiKey}`,
+      "content-type": "application/json" },
+      data:{"chatRoom":`${activity.venue}/${activity.created}`}
+    })
+    .then( response => {
+      return
+      })
+      
+     
+  };
+
+  export const sendMessage = messageObject => dispatch => {
+    console.log("Message to process", messageObject);
+    let email = messageObject.email, 
+        name = messageObject.name,
+        message = messageObject.message,
+        chatRoom = null;
+    
+    axios.post("https://us-central1-we-party-210101.cloudfunctions.net/retrieveUid", 
+    {headers: 
+      { Authorization: `Bearer ${dbConfig.apiKey}`,
+      "content-type": "application/json" },
+      data:{"email":email}
+    })
+    .then( response => {
+      console.log("response", response);
+      axios.post("https://us-central1-we-party-210101.cloudfunctions.net/sendmessage", 
+      {headers: 
+        { Authorization: `Bearer ${dbConfig.apiKey}`,
+        "content-type": "application/json" },
+        data:{ 
+          "email": email,
+          "name": name,
+          "uid": response.uid,
+          "message": message
+        }
+      })
+      
+    })
+  }
   

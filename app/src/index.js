@@ -12,6 +12,7 @@ import "./styles/animations.css";
 import "./styles/login.css";
 import "./styles/landing.css";
 import "./styles/modals.css";
+import "./styles/chat.css";
 
 ReactDOM.render(<Root store={store} />, document.getElementById("root"));
 registerServiceWorker();

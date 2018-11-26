@@ -23,14 +23,15 @@ class LoginPage extends React.Component {
       <div className="login-page">
       <div className="curtain">
         <div className="login-actions">
-          {/* <span className="instructions-primary">
-              Please log in below <br/> ( other options currently in maintenance)
-          </span> */}
+          <span className="instructions-primary">
+              Please log in below
+          </span>
           <div className="choices">
             <GoogleButton  createAuthUser={this.props.createAuthUser} saveUser={this.getUser} getUser={this.getUser} />
             {/* <FacebookButton createAuthUser={this.props.createAuthUser} saveUser={this.getUser} getUser={this.getUser} /> */}
-            {/* <SlideToggle duration={300} collapsed bestPerformance */}
-             {({onToggle, setCollapsibleElement}) => (
+            {/* <SlideToggle duration={300} collapsed bestPerformance
+             render ={({onToggle, setCollapsibleElement}) => 
+               (
               <div>
                 <button className="button-primary" id="choose-email" onClick={onToggle}>
                   EMAIL 
@@ -40,6 +41,7 @@ class LoginPage extends React.Component {
                 </div>
               </div>
              )}
+             /> */}
           </div>
         </div>
       </div>
