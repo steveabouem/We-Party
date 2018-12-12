@@ -1,9 +1,10 @@
-import { LOGIN, LOGGED_IN, SEARCH_VENUE, LOAD_USERS, SAVE_VENUE, LOAD_ACTIVITIES, RENDER_JOINED, ERROR } from "../actions/types";
+import { LOGIN, LOGGED_IN, SEARCH_VENUE, LOAD_USERS, SAVE_VENUE, LOAD_ACTIVITIES, RENDER_JOINED, ERROR, OPEN_CHAT, MSG_HISTORY, NEW_MSG } from "../actions/types";
 
 const initialState = {
   userInfo:{userInfo:{name:"Guest"} },
   joinedList: [],
-  error: null
+  error: null,
+  activitiesList: []
 }
 
 export default function(state = initialState, action){
@@ -31,7 +32,7 @@ export default function(state = initialState, action){
     case SAVE_VENUE: {
       return {
         ...state,
-        activitiesList: [...action.payload]
+        activitiesList: [...state.activitiesList, action.payload]
       }
     }
     
@@ -51,12 +52,31 @@ export default function(state = initialState, action){
     }
 
     case LOAD_ACTIVITIES: {
+      state
       return {
         ...state,
         activitiesList: action.payload
       }
     }
+    case OPEN_CHAT: {
+      return {
+        ...state,
+        chatInfo: action.payload
+      }
+    }
+    case MSG_HISTORY: {
+      return {
+        ...state,
+        messages: action.payload 
+      }
+    }
 
+    case NEW_MSG: {
+      return { 
+        ...state,
+        messages: [...action.payload]
+      }
+    }
     case ERROR: {
       return {
         ...state,

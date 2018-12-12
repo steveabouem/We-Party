@@ -8,7 +8,7 @@ import ConfirmationModal from "./modals/confirmation";
 import { success } from "./modals/content";
 import location  from "../utils/icons/location.svg";
 import phone  from "../utils/icons/smartphone.svg";
-import {  searchActivities, createActivity, loadUsersCollection, loadActivitiesCollection } from "../actions";
+import {  searchActivities, createActivity, loadUsersCollection, loadActivitiesCollection, retrieveJoinedProps } from "../actions";
 import { connect } from "react-redux";
 
 
@@ -24,6 +24,9 @@ class HomePage extends React.Component {
   async componentDidMount() {
     await this.props.loadUsersCollection();
     await this.props.loadActivitiesCollection();
+    if(this.props.userInfo.userInfo) {
+      this.props.retrieveJoinedProps(this.props.userInfo.userInfo)
+    }
   }
   
   recordSearch = async() => {
@@ -37,15 +40,16 @@ class HomePage extends React.Component {
   createActivity = (e,object) => {// use cookies upon deployment, this is just taking in the latest user logged in
     e.stopPropagation();
     
-    const currentUser = this.props.userInfo.userInfo;
-    let date = new Date();
-    let dateString = date.toString().split(" ").slice(0, 5);
-    let created = `${dateString[0]}, ${dateString[1]}/${dateString[2]} ${dateString[3]}`;
-    const groupTotal = document.getElementById("how-many").value;
-    const budget = document.getElementById("budget-selected").innerHTML;
-    const gender = document.getElementById("gender-selected").innerHTML;
+    let currentUser = this.props.userInfo.userInfo,
+    groupTotal = document.getElementById("how-many").value,
+    budget = document.getElementById("budget-selected").innerHTML,
+    gender = document.getElementById("gender-selected").innerHTML,
+    date = new Date(), 
+    dateString = date.toString().split(" ").slice(0, 5),
+    created = `${dateString[0]}, ${dateString[1]} ${dateString[2]} ${dateString[3]}`;
     
-    let activityObject = { currentUser: currentUser , creator: currentUser, venue: object.name, location:object.location.address1, contact: object.phone, contribution: budget, group: groupTotal, members: [currentUser], genders: gender, created: created };
+    // reshuffle Yelp ID to avoid user joining 2 activities created for the same vene
+    let activityObject = { id: object.id.split("").slice(Math.floor(Math.random(0, 14) * 10), 14).join(""), currentUser: currentUser , creator: currentUser, venue: object.name, location:object.location.address1, contact: object.phone, contribution: budget, group: groupTotal, members: [currentUser], genders: gender, created: created };
     for( let key in activityObject ) {
       if(activityObject[key] === "" || activityObject[key] === " " || activityObject[key] === "Pitch in") {
         activityObject[key] = "(not provided)"
@@ -139,5 +143,5 @@ class HomePage extends React.Component {
         userInfo: state.userInfo
       })
       
-      export default connect(mapStateToProps, { searchActivities, createActivity, loadUsersCollection, loadActivitiesCollection}) (HomePage)
+      export default connect(mapStateToProps, { searchActivities, createActivity, loadUsersCollection, loadActivitiesCollection, retrieveJoinedProps}) (HomePage)
       

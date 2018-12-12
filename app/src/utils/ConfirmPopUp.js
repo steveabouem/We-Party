@@ -8,8 +8,8 @@ class Confirmation extends React.Component {
   matchesList = [];
 
   retrieveMatches = () => {
-    if(this.props.activitiesList){ 
-      this.props.activitiesList.forEach(match => {
+    if(this.props.activitiesList && this.props.activitiesList.unmatched){ 
+      this.props.activitiesList.unmatched.forEach(match => {
         if(match.venue === this.props.yelpResult.name && match.location === this.props.yelpResult.location.address1){
           this.matchesList.push(match);
         }
@@ -17,10 +17,11 @@ class Confirmation extends React.Component {
     }
   };
 
-  joinGroup = async ( e,user,match) => {
+  joinGroup =  ( e,user,match) => {
+    
     e.stopPropagation();
-    await this.props.pushNewMember( user,match);
-    await this.props.retrieveJoinedProps(this.props.userInfo.userInfo.email);
+    this.props.pushNewMember( user,match);
+    this.props.retrieveJoinedProps(this.props.userInfo.userInfo);
   };
 
   componentWillMount() {
@@ -28,6 +29,7 @@ class Confirmation extends React.Component {
   }
   
   render(){
+    let key = 0;
     return(
       <div className="confirmation-container">
           <div>
@@ -43,7 +45,7 @@ class Confirmation extends React.Component {
                     this.matchesList.map( match => {
                       
                     return(
-                        <li key={this.props.yelpResult.id}> 
+                        <li key={key += 0.2101}> 
                           Venue:{match.venue} for {match.group} people
                           ( {match.contribution} each). 
                           <br/>

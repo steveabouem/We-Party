@@ -1,5 +1,5 @@
 import { dbConfig } from "../config/firebase";
-import { LOGIN, LOGGED_IN, LOAD_USERS, LOAD_ACTIVITIES, SEARCH_VENUE, SAVE_VENUE, RENDER_JOINED, ERROR } from "./types";
+import { LOGIN, LOGGED_IN, LOAD_USERS, LOAD_ACTIVITIES, SEARCH_VENUE, SAVE_VENUE, RENDER_JOINED, ERROR, OPEN_CHAT, MSG_HISTORY, NEW_MSG } from "./types";
 import axios from "axios";
 
 /* ==========GLOBAL SCOPE VARIABLES=============*/
@@ -86,6 +86,22 @@ export const saveUser = (userObject) => dispatch => {
   })
 };
 
+
+export const loadUsersCollection = () => async(dispatch) => {
+  // usersCollection is defined at the top of the doc
+  usersCollection.once('value').then( function(snapshot) {
+    let usersList = []
+    for(const user in snapshot.val()) {
+      usersList.push(snapshot.val()[user]);
+    }
+    dispatch({
+      type: LOAD_USERS,
+      payload: usersList
+    })
+  });
+};
+
+
 export const searchActivities = (search) => async(dispatch) => {
   
   let payload;
@@ -96,7 +112,6 @@ export const searchActivities = (search) => async(dispatch) => {
   }, 
   {data: {term: `${search}`}})
   .then(res => {
-    console.log(res, Object.keys(res));
     
     payload = res.data;
     res.send(payload.results);
@@ -116,189 +131,187 @@ export const searchActivities = (search) => async(dispatch) => {
 
 
 export const createActivity = activity => dispatch => {
-  let activitiesList = [];
-  
-  // activitiesCollection is defined at the top of the doc
-  activitiesCollection.push(activity)
-  
-  activitiesCollection.once('value').then( function(snapshot) {
-    for(const activity in snapshot.val()) {
-      activitiesList.push(snapshot.val()[activity]);
-    }
-    
-    dispatch({
-      type: SAVE_VENUE,
-      payload: activitiesList
+  axios.post("https://us-central1-we-party-210101.cloudfunctions.net/createActivity",
+  {headers: 
+    { Authorization: `Bearer ${dbConfig.apiKey}`,
+    "content-type": "application/json" }
+  }, 
+  { data: {"activity": activity} }
+  )
+  .then( r => {
+    activitiesCollection.once("value", snapshot => {
+      dispatch({
+        type: SAVE_VENUE,
+        payload: snapshot.val()
+      });
     })
   })
-  .catch( e => {
-    dispatch({
-      type: ERROR,
-      payload: true
-    })
-  })
-};
-
-
-export const loadUsersCollection = () => async(dispatch) => {
-  // usersCollection is defined at the top of the doc
-  usersCollection.once('value').then( function(snapshot) {
-    let usersList = []
-    for(const user in snapshot.val()) {
-      usersList.push(snapshot.val()[user]);
-    }
-    dispatch({
-      type: LOAD_USERS,
-      payload: usersList
-    })
-  });
-};
-
-
-export const addJoinedRef = (userOnline, activityJoined, activityKey) => dispatch => {
-  
-  let userUpdate = {};
-  
-  userUpdate["/users/joined/" + activityKey] = {user: userOnline, activity: activityJoined};
-  firebase.database().ref().update( userUpdate)
-  .catch( e => {
-    dispatch({
-      type: ERROR,
-      payload: true
-    })
-  });
-  
 };
 
 
 export const pushNewMember =  ( currentUser, match) => dispatch => {
-  // activitiesCollection is defined at the top of the doc
-  activitiesCollection.orderByValue().on( "value", async function(snapshot) {
-    await snapshot.val();
-    
-    let dbResult = snapshot.val();
-    
-    for( let activityKey in dbResult ) {
-      
-      // FOR SOME REASON, JUST COMPARING THE 2 OBJECTS DOESNT Worke, I
-      //  HAVE TO COMPARE EACH KEY INDIVIDUALLY??, TO BE INVESTIGATED
-      if(dbResult[activityKey].creator.email !== currentUser.email
-        && dbResult[activityKey].venue === match.venue
-        && dbResult[activityKey].created === match.created 
-        && dbResult[activityKey].group === match.group 
-        && dbResult[activityKey].contribution === match.contribution 
-        && match.contact === dbResult[activityKey].contact){
-          
-          let newIndex = dbResult[activityKey].members.length;
-          
-          updates["/activities/" + activityKey + "/members/" + newIndex ] = currentUser;
-          await addJoinedRef(currentUser, match, activityKey);
-          
-        } else if (dbResult[activityKey].creator.email === currentUser.email) {
-          dispatch({
-            type: ERROR,
-            payload: "Cannot create and join at the same time"
-          })
-        }
-      }
+  
+  axios.post("https://us-central1-we-party-210101.cloudfunctions.net/joinActivity",
+  {headers: 
+    { Authorization: `Bearer ${dbConfig.apiKey}`,
+    "content-type": "application/json" }}, 
+    { data: {"activity": match, "user": currentUser}})
+    .then(r => {
     })
-    
-    firebase.database().ref().update( updates );
+    .catch(e => {
+      console.log("error", e);
+      dispatch({
+        type: ERROR,
+        payload: "Couldnt join activity"
+      })
+    })
   };
   
   
-  export const retrieveJoinedProps = email => dispatch => {
-    var payload;
+  export const retrieveJoinedProps = user => dispatch => {
+    axios.post("https://us-central1-we-party-210101.cloudfunctions.net/retrieveJoined",
     
-    if(email) {
-      usersCollection.orderByValue().on( "value", snapshot => {
-        
-        for( let joinedKey in snapshot.val().joined ) {
-          
-          if(snapshot.val().joined[joinedKey].user.email === email) {
-            payload = {user: snapshot.val().joined[joinedKey].user, activity: snapshot.val().joined[joinedKey]};
-            
-          }
-        }
-        
-        dispatch({
-          type: RENDER_JOINED,
-          payload: payload
-        })
-      })
+    { Authorization: `Bearer ${dbConfig.apiKey}`,
+    "content-type": "application/json" }, 
+    { data: {"user": user}}
+    )
+    .then( r => {
+      dispatch({
+        type: RENDER_JOINED,
+        payload: r.data.matched
+      })      
+    })
+    .catch( e => {
+      dispatch({
+        type: ERROR,
+        payload: e
+      })      
+    })
+  };
+  
+  const convertObject = (object, array) => {
+    for( let key in object){
+      array.push(object[key])
     }
   };
   
-  
   export const loadActivitiesCollection = () => dispatch => {
-    let activitiesList = [];
-    
+    let activitiesList = {matched: [], unmatched: []};
     // activitiesCollection is defined at the top of the doc
-    activitiesCollection.once('value').then( function(snapshot) {
-      for(const activity in snapshot.val()) {
-        activitiesList.push(snapshot.val()[activity]);
+    firebase.database().ref().child("activities/unmatched").once('value').then( function(snapshot) {
+      // PREVENT CRASH IF NO ACTIVITY CREATED YET
+      if(snapshot.val()) {
+        convertObject(snapshot.val(), activitiesList.unmatched)
       }
-    });
+    })
+    .then( () => {
+      firebase.database().ref().child("matched").once( "value", snapshot => {
+        if(snapshot.val()) {
+          convertObject(snapshot.val(), activitiesList.matched)
+        }
+      })
+    })
     
     dispatch({
       type: LOAD_ACTIVITIES,
       payload: activitiesList
     })
+    
     return;
-  };
+  }
   
   
-  export const logout = async() => {
-    await firebase.auth().signOut().then(function() {
-      console.log("logged out");
+  export const logout = () => dispatch => {
+    firebase.auth().signOut().then(function() {
       
-    }).catch(function(ERROR) {
-      console.log(ERROR);
-      
+    }).catch(e => {
+      dispatch({
+        type: ERROR,
+        payload: e
+      })
     });
   }
   
   /* ==========CHAT ACTIONS=============*/
-  export const openChatRoom = activity => dispatch => {
-    axios.post("https://us-central1-we-party-210101.cloudfunctions.net/LOADHISTORY", 
-    {headers: 
-      { Authorization: `Bearer ${dbConfig.apiKey}`,
-      "content-type": "application/json" },
-      data:{"chatRoom":`${activity.venue}/${activity.created}`}
-    })
-    .then( response => {
-      return
-      })
-      
-     
-  };
-
-  export const sendMessage = messageObject => dispatch => {
-    console.log("Message to process", messageObject);
-    let email = messageObject.email, 
-        name = messageObject.name,
-        message = messageObject.message,
-        chatRoom = null;
+  export const openChatRoom = (index, activity, user) => dispatch => {
     
-    axios.post("https://us-central1-we-party-210101.cloudfunctions.net/retrieveUid", 
-    {headers: 
-      { Authorization: `Bearer ${dbConfig.apiKey}`,
-      "content-type": "application/json" },
-      data:{"email":email}
+    let roomName = `${activity.venue}_${activity.created}`,
+    roomInfo = {
+      name: roomName,
+      messages: [{author: "Bot", content: `Welcome to the chat for ${roomName}`}],
+      firsUser: user,
+      activity: activity,
+      key: `${activity.id}-${index}`
+    };
+
+    axios.post("https://us-central1-we-party-210101.cloudfunctions.net/openChatRoom", 
+    { Authorization: `Bearer ${dbConfig.apiKey}`,
+    "content-type": "application/json" }, 
+    { data: {"info": roomInfo}}
+    )
+    .then( r => {
+      // console.log("res from chat open", r.data.data);
+      
+      dispatch({
+        type: OPEN_CHAT,
+        payload: {chatkey: r.data.data, status: "open", room: roomName} 
+      })
     })
-    .then( response => {
-      console.log("response", response);
-      axios.post("https://us-central1-we-party-210101.cloudfunctions.net/sendmessage", 
+    .catch( e => {
+      dispatch({
+        type: ERROR,
+        payload: e
+      })
+    })
+    
+  };
+  
+  export const getMsgHistory = key => dispatch => {
+    axios.post("https://us-central1-we-party-210101.cloudfunctions.net/getMsgHistory",
       {headers: 
         { Authorization: `Bearer ${dbConfig.apiKey}`,
         "content-type": "application/json" },
-        data:{ 
-          "email": email,
-          "name": name,
-          "uid": response.uid,
-          "message": message
-        }
+        data:{"id":key}
       })
+      .then( r =>{
+        // console.log("hist r", r.data);
+
+        dispatch({
+          type:MSG_HISTORY,
+          payload: { msgs: r.data.msgs, roomId: key }
+        })
+      })
+      .catch( e => {
+        dispatch({ 
+          type: ERROR,
+          payload: e
+        })
+      })
+  };
+
+
+  export const sendMessage = msg => dispatch => {
+    let object = {
+      "message": msg.message,
+      "sender": msg.name,
+      "email": msg.email,
+      "roomId": msg.roomId
+    };
+    axios.post("https://us-central1-we-party-210101.cloudfunctions.net/sendMessage", 
+    {headers: 
+      { Authorization: `Bearer ${dbConfig.apiKey}`,
+      "content-type": "application/json" },
+      data:{"msgInfo": object}
+    })
+    .then( r => {
+      console.log("msg list after sending", r.data.messages);
+      dispatch({
+        type: NEW_MSG,
+        payload: r.data.messages
+      })
+    })
+    .catch( e => {
+      console.log("send msg action error", e);
       
     })
   }
