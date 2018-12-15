@@ -3,19 +3,12 @@ import { getMsgHistory } from "../../actions";
 import { connect } from "react-redux";
 
 class PastMessages extends React.Component {
+  msgHistory = this.props.userInfo.messages;
 
-
-  
   render(){
-    console.log("past msg props", this.props);
-    
     return(
-      <li>
-        {  this.props.userInfo.chatInfo ?
-         <p>{this.props.userInfo.chatInfo.room}</p>
-        :
-        null
-        }
+      <li className="past-message">
+        {this.props.msg.email}: {this.props.msg.message}
       </li>
     )
   }

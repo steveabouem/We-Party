@@ -238,10 +238,10 @@ export const pushNewMember =  ( currentUser, match) => dispatch => {
     let roomName = `${activity.venue}_${activity.created}`,
     roomInfo = {
       name: roomName,
-      messages: [{author: "Bot", content: `Welcome to the chat for ${roomName}`}],
+      messages: [],
       firsUser: user,
       activity: activity,
-      key: `${activity.id}-${index}`
+      key: `${activity.id}`
     };
 
     axios.post("https://us-central1-we-party-210101.cloudfunctions.net/openChatRoom", 
@@ -250,8 +250,6 @@ export const pushNewMember =  ( currentUser, match) => dispatch => {
     { data: {"info": roomInfo}}
     )
     .then( r => {
-      // console.log("res from chat open", r.data.data);
-      
       dispatch({
         type: OPEN_CHAT,
         payload: {chatkey: r.data.data, status: "open", room: roomName} 
@@ -274,8 +272,8 @@ export const pushNewMember =  ( currentUser, match) => dispatch => {
         data:{"id":key}
       })
       .then( r =>{
-        // console.log("hist r", r.data);
-
+        console.log("áction r", r);
+        
         dispatch({
           type:MSG_HISTORY,
           payload: { msgs: r.data.msgs, roomId: key }
@@ -297,6 +295,7 @@ export const pushNewMember =  ( currentUser, match) => dispatch => {
       "email": msg.email,
       "roomId": msg.roomId
     };
+    
     axios.post("https://us-central1-we-party-210101.cloudfunctions.net/sendMessage", 
     {headers: 
       { Authorization: `Bearer ${dbConfig.apiKey}`,
@@ -304,7 +303,6 @@ export const pushNewMember =  ( currentUser, match) => dispatch => {
       data:{"msgInfo": object}
     })
     .then( r => {
-      console.log("msg list after sending", r.data.messages);
       dispatch({
         type: NEW_MSG,
         payload: r.data.messages
@@ -312,7 +310,6 @@ export const pushNewMember =  ( currentUser, match) => dispatch => {
     })
     .catch( e => {
       console.log("send msg action error", e);
-      
     })
   }
   

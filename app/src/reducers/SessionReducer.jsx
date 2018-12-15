@@ -4,7 +4,8 @@ const initialState = {
   userInfo:{userInfo:{name:"Guest"} },
   joinedList: [],
   error: null,
-  activitiesList: []
+  activitiesList: [],
+  messages: []
 }
 
 export default function(state = initialState, action){
@@ -67,14 +68,14 @@ export default function(state = initialState, action){
     case MSG_HISTORY: {
       return {
         ...state,
-        messages: action.payload 
+        messages: [...state.messages,action.payload] 
       }
     }
 
     case NEW_MSG: {
       return { 
         ...state,
-        messages: [...action.payload]
+        messages: [...state.messages,action.payload]
       }
     }
     case ERROR: {
