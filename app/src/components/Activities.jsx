@@ -31,7 +31,7 @@ class Activities extends React.Component {
           <ConfirmationModal hints={success.activitiesHint} open={false} index={1} min={3} max={0}/>
           <MatchedActs activitiesList={this.props.userInfo.activitiesList}/>
           <UnmatchedActs activitiesList={this.props.userInfo.activitiesList}/>
-          <ChatBox />
+          {this.props.userInfo.chatInfo? <ChatBox /> : null}
         </div>
         )}
       </div>

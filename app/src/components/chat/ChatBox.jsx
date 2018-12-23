@@ -3,33 +3,42 @@ import NewMessage from "./NewMessage.jsx";
 import PastMessages from "./PastMessages.jsx";
 import { getMsgHistory } from "../../actions";
 import { connect } from "react-redux";
+import firebase from "firebase";
 
 class ChatBox extends React.Component {
-  componentDidMount() {
-    if(this.props.userInfo.chatInfo) {
-      this.props.getMsgHistory(this.props.userInfo.chatInfo.chatkey);
-      console.log('box props', this.props);
-    }
+  constructor(props){
+    super(props);
+    this.state = {
+      messages: [],
+    };
+    this.key = props.userInfo.chatInfo.chatkey;
+    this.listen();
   }
 
+  listen() {
+    firebase.database().ref().child(`chatRooms/${this.key}`).on("value", snapshot => {
+        if(snapshot.val()){
+          this.setState({
+            messages: [snapshot.val().messages]
+          })
+        }
+      })
+  };
+
   render() {
-    
     let key = 3.01;
     return (
       <div className="ChatBox">
         <ul className="chat-messages-list">
           <li>{this.props.userInfo.chatInfo? this.props.userInfo.chatInfo.room:null}</li>
-          {this.props.userInfo.messages.length > 0?
-            Object.keys(this.props.userInfo.messages[0]).map(key => {
-              let list = Object.keys(this.props.userInfo.messages[0]),
-              msgs = this.props.userInfo.messages[0];
-              console.log('props-messaes-msg-index in msg', msgs[key]);
-              
-              let content = msgs[key];
+          {this.state.messages.length > 0?Object.keys(this.state.messages[0]).map(key => {
+            let list = Object.keys(this.state.messages[0]),
+            msgs = this.state.messages[0],
+            content = msgs[key];
 
-              return (
-              <PastMessages key={key += 1} msg={content}/>
-              )
+            return (
+            <PastMessages key={key += 1} msg={content}/>
+            )
           })
           :
           null

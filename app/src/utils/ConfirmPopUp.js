@@ -43,7 +43,6 @@ class Confirmation extends React.Component {
                   Or join a group below
                   {
                     this.matchesList.map( match => {
-                      
                     return(
                         <li key={key += 0.2101}> 
                           Venue:{match.venue} for {match.group} people
