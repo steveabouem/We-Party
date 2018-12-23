@@ -243,7 +243,7 @@ export const pushNewMember =  ( currentUser, match) => dispatch => {
       activity: activity,
       key: `${activity.id}`
     };
-
+    
     axios.post("https://us-central1-we-party-210101.cloudfunctions.net/openChatRoom", 
     { Authorization: `Bearer ${dbConfig.apiKey}`,
     "content-type": "application/json" }, 
@@ -266,14 +266,11 @@ export const pushNewMember =  ( currentUser, match) => dispatch => {
   
   export const getMsgHistory = key => dispatch => {
     axios.post("https://us-central1-we-party-210101.cloudfunctions.net/getMsgHistory",
-      {headers: 
-        { Authorization: `Bearer ${dbConfig.apiKey}`,
-        "content-type": "application/json" },
-        data:{"id":key}
-      })
+    {headers: 
+      { Authorization: `Bearer ${dbConfig.apiKey}`,
+      "content-type": "application/json" }}, 
+      { data: {"id": key}})
       .then( r =>{
-        console.log("áction r", r);
-        
         dispatch({
           type:MSG_HISTORY,
           payload: { msgs: r.data.msgs, roomId: key }
@@ -285,31 +282,31 @@ export const pushNewMember =  ( currentUser, match) => dispatch => {
           payload: e
         })
       })
-  };
-
-
-  export const sendMessage = msg => dispatch => {
-    let object = {
-      "message": msg.message,
-      "sender": msg.name,
-      "email": msg.email,
-      "roomId": msg.roomId
     };
     
-    axios.post("https://us-central1-we-party-210101.cloudfunctions.net/sendMessage", 
-    {headers: 
-      { Authorization: `Bearer ${dbConfig.apiKey}`,
-      "content-type": "application/json" },
-      data:{"msgInfo": object}
-    })
-    .then( r => {
-      dispatch({
-        type: NEW_MSG,
-        payload: r.data.messages
+    
+    export const sendMessage = msg => dispatch => {
+      let object = {
+        "message": msg.message,
+        "sender": msg.name,
+        "email": msg.email,
+        "roomId": msg.roomId
+      };
+      
+      axios.post("https://us-central1-we-party-210101.cloudfunctions.net/sendMessage", 
+      {headers: 
+        { Authorization: `Bearer ${dbConfig.apiKey}`,
+        "content-type": "application/json" },
+        data:{"msgInfo": object}
       })
-    })
-    .catch( e => {
-      console.log("send msg action error", e);
-    })
-  }
-  
+      .then( r => {
+        dispatch({
+          type: NEW_MSG,
+          payload: r.data.messages
+        })
+      })
+      .catch( e => {
+        console.log("send msg action error", e);
+      })
+    }
+    
