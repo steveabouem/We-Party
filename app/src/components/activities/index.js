@@ -20,7 +20,6 @@ class Activities extends React.Component {
   }
 
   render(){
-    
     return(
       <div className="activities-page">
         <Navigation />

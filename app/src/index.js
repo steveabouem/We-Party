@@ -4,7 +4,7 @@ import registerServiceWorker from "./registerServiceWorker";
 import store from "./store";
 import Root from "./components/Rootcomponent.jsx";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./index.css";
+import "./styles/global.css";
 import "./styles/activities.css";
 import "./styles/navigation.css";
 import "./styles/home.css";

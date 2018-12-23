@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import './App.css';
-import Main from "./components/Main.jsx";
+import Routes from "./components/Routes.jsx";
 
 class App extends Component {
   render() {
-    return < Main/>
+    return < Routes/>
   }
 }
 
