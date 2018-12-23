@@ -5,13 +5,13 @@ import { connect } from "react-redux";
 import { saveUser } from "../actions/index";
 import { gToken } from "../utils/secrets"
 const firebase = require("firebase");
- 
+
 class GoogleButton extends React.Component {
   constructor(props){
     super(props)
     this.responseGoogle = this.responseGoogle.bind(this)
   }
- 
+  
   responseGoogle = async () => {
     var provider = new firebase.auth.GoogleAuthProvider();
     firebase.auth().setPersistence(firebase.auth.Auth.Persistence.NONE)
@@ -40,11 +40,11 @@ class GoogleButton extends React.Component {
       onFailure={this.responseGoogle}
       />
       )
+    }
   }
-}
-
-const mapStateToProps = state => ({
-  userInfo: state.userInfo
-})
-
-export default connect (mapStateToProps, {saveUser}) (GoogleButton)
+  
+  const mapStateToProps = state => ({
+    userInfo: state.userInfo
+  })
+  
+  export default connect (mapStateToProps, {saveUser}) (GoogleButton)

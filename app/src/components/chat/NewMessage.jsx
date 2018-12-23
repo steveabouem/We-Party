@@ -7,18 +7,19 @@ class NewMessage extends React.Component {
 
   sendMessage = (e) => {
     e.preventDefault();
-    
     let message = document.getElementsByName("new-message")[0].value,
-        name = this.props.userInfo.userInfo.name,
-        email = this.props.userInfo.userInfo.email,
-        
-        messageObject = {
-          message: message,
-          sender: name,
-          email: email
-        };
+    name = this.props.userInfo.userInfo.name,
+    email = this.props.userInfo.userInfo.email,
+    roomId = this.props.userInfo.chatInfo.chatkey,
+    messageObject = {
+      "message": message,
+      "sender": name,
+      "email": email,
+      "roomId": roomId
+    };
 
     this.props.sendMessage(messageObject);
+    document.getElementsByName("new-message")[0].value = "";
   }
 
   render() {
@@ -28,7 +29,11 @@ class NewMessage extends React.Component {
           <label htmlFor="chat-input">
             Your messages
           </label>
-          <input type="text" placeholder="Type here..." name="new-message" />
+          {this.props.userInfo.chatInfo? 
+          <input type="text" placeholder="Type here..." name="new-message"/>
+          :
+          <input type="text" placeholder="Click on the 'Start chat' button" name="new-message" disabled/>
+           }
           <button type="submit">
             Send
           </button>
