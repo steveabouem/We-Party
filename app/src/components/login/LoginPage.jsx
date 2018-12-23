@@ -1,8 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 import { SlideToggle } from 'react-slide-toggle';
-import LoginForm from "../utils/LoginForm";
-import { saveUser,loadUsersCollection, createAuthUser } from "../actions/index";
+import LoginForm from "./LoginForm";
+import { saveUser,loadUsersCollection, createAuthUser } from "../../actions";
 import GoogleButton from "./GoogleButton.jsx";
 import FacebookButton from "./FacebookButton";
 

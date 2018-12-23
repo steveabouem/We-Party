@@ -1,14 +1,14 @@
 import React from "react";
 import "firebase/database";
 import { Card, CardImg, CardText, CardBody,  CardTitle, Button, Col } from "reactstrap";
-import Navigation from "./Navigation.jsx";
-import TextField from "../utils/TextField";
-import Confirmation from "../utils/ConfirmPopUp";
-import ConfirmationModal from "./modals/confirmation";
-import { success } from "./modals/content";
-import location  from "../utils/icons/location.svg";
-import phone  from "../utils/icons/smartphone.svg";
-import {  searchActivities, createActivity, loadUsersCollection, loadActivitiesCollection, retrieveJoinedProps } from "../actions";
+import Navigation from "../navigation/Navigation.jsx";
+import TextField from "./TextField";
+import Confirmation from "./ConfirmPopUp";
+import ConfirmationModal from "../modals/confirmation";
+import { success } from "../modals/content";
+import location  from "../../utils/icons/location.svg";
+import phone  from "../../utils/icons/smartphone.svg";
+import {  searchActivities, createActivity, loadUsersCollection, loadActivitiesCollection, retrieveJoinedProps } from "../../actions";
 import { connect } from "react-redux";
 
 

@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { openChatRoom, getMsgHistory } from "../actions";
+import { openChatRoom, getMsgHistory } from "../../actions";
 
 class MatchedActs extends React.Component {
   currentUser = this.props.userInfo.userInfo;

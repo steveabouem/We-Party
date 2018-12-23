@@ -6,9 +6,9 @@ import Toolbar from '@material-ui/core/Toolbar';
 import { connect } from "react-redux";
 import IconButton from '@material-ui/core/IconButton';
 import MenuButton from "./Menu.jsx";
-import { logout } from "../actions/index";
+import { logout } from "../../actions";
 import { Link } from "react-router-dom";
-import Error from "./modals/Error";
+import Error from "../modals/Error";
 
 const styles = {
   root: {

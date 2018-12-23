@@ -1,6 +1,6 @@
 import React from 'react';
 import FacebookLogin from 'react-facebook-login';
-import { fbToken } from "../utils/secrets"
+import { fbToken } from "../../utils/secrets"
 import "firebase/database";
 
 // const firebase = require("firebase");

@@ -2,8 +2,8 @@ import React from "react";
 import { GoogleLogin } from "react-google-login";
 import "firebase/database";
 import { connect } from "react-redux";
-import { saveUser } from "../actions/index";
-import { gToken } from "../utils/secrets"
+import { saveUser } from "../../actions";
+import { gToken } from "../../utils/secrets"
 const firebase = require("firebase");
 
 class GoogleButton extends React.Component {

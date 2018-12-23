@@ -1,12 +1,12 @@
 import React from "react";
-import ChatBox from "./chat/ChatBox.jsx";
-import Navigation from "./Navigation.jsx";
-import MatchedActs from "../utils/MatchedActs";
-import ConfirmationModal from "./modals/confirmation";
-import UnmatchedActs from "../utils/UnmatchedActs";
+import ChatBox from "../chat/ChatBox.jsx";
+import Navigation from "../navigation/Navigation.jsx";
+import MatchedActs from "./MatchedActs";
+import ConfirmationModal from "../modals/confirmation";
+import UnmatchedActs from "./UnmatchedActs";
 import { connect } from "react-redux";
-import { retrieveJoinedProps } from "../actions";
-import { success } from "./modals/content";
+import { retrieveJoinedProps } from "../../actions";
+import { success } from "../modals/content";
  
 class Activities extends React.Component {
 

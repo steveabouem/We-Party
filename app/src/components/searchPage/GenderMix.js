@@ -1,9 +1,9 @@
 import React from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
-import man from "./icons/man.svg";
-import woman from "./icons/woman.svg";
-import mix from "./icons/mix.svg";
-import gender from "./icons/gender.svg";
+import man from "../../utils/icons/man.svg";
+import woman from "../../utils/icons/woman.svg";
+import mix from "../../utils/icons/mix.svg";
+import gender from "../../utils/icons/gender.svg";
 
 export default class Gender extends React.Component {
   constructor(props) {
