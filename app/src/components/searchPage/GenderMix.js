@@ -42,7 +42,7 @@ export default class Gender extends React.Component {
             Girls Night Out <img src={woman} alt="woman" className="menu-icon" />
           </DropdownItem>
           <DropdownItem onClick={() => this.selectItem("Random")}>
-            Random <img src={mix} alt="mix" className="menu-icon" />
+            Anyone:) <img src={mix} alt="mix" className="menu-icon" />
           </DropdownItem>
         </DropdownMenu>
         <p id="gender-selected">{this.state.dropDownValue}</p>

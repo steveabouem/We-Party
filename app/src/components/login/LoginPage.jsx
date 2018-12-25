@@ -8,17 +8,13 @@ import FacebookButton from "./FacebookButton";
 
 
 class LoginPage extends React.Component {
-
   getUser = async (userInfo) =>{
-    
     await this.props.loadUsersCollection();
     await this.props.saveUser(userInfo);
-    
     this.props.history.push("/home")
   }
 
   render(){
-    
     return(
       <div className="login-page">
       <div className="curtain">

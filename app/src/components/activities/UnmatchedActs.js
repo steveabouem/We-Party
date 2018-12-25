@@ -4,11 +4,8 @@ import { connect } from "react-redux";
 class UnmatchedActs extends React.Component {
 
   render(){
-
-    let currentUser = this.props.userInfo.userInfo,
-    key = 0;
+    let key = 0;
     return(
-      
       <div className="unmatched-activities-container">
         <h2> Activities pending match. </h2>
           {this.props.activitiesList.unmatched? this.props.activitiesList.unmatched.map(match => {

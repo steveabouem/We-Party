@@ -10,6 +10,7 @@ class ChatBox extends React.Component {
     super(props);
     this.state = {
       messages: [],
+      opened: true
     };
     this.key = props.userInfo.chatInfo.chatkey;
     this.listen();
@@ -25,17 +26,25 @@ class ChatBox extends React.Component {
       })
   };
 
+  toggleChat = () => {
+    this.setState({
+      opened: !this.state.opened
+    });
+  }
+
   render() {
     let key = 3.01;
     return (
-      <div className="ChatBox">
-        <ul className="chat-messages-list">
+      <div className="ChatBox" >
+        <button className="close-x" onClick={this.toggleChat}>
+          {this.state.opened? "Close": "CHAT"}
+        </button>
+        <ul className="chat-messages-list" style={{display:(!this.state.opened? "none" : "inherit")}}>
           <li>{this.props.userInfo.chatInfo? this.props.userInfo.chatInfo.room:null}</li>
           {this.state.messages.length > 0?Object.keys(this.state.messages[0]).map(key => {
             let list = Object.keys(this.state.messages[0]),
             msgs = this.state.messages[0],
             content = msgs[key];
-
             return (
             <PastMessages key={key += 1} msg={content}/>
             )

@@ -22,7 +22,7 @@ const styles = theme => ({
 
 class TextFields extends React.Component {
   state = {
-    name: 'Cat in the Hat',
+    name: '',
     amount: '',
     people: '',
   };
@@ -47,7 +47,7 @@ class TextFields extends React.Component {
       <form className={classes.container} noValidate autoComplete="off" id="search-activity-form">
         <TextField
         id="SEARCH_VENUE"
-        label="Nighclubs?"
+        label="Where/What?"
         type="search"
         className={classes.textField}
         margin="normal"
@@ -59,13 +59,13 @@ class TextFields extends React.Component {
         
         <TextField
         id="how-many"
-        label="How many?"
+        label="How many? (only digits)"
         value={this.state.people}
         onChange={this.handleChange('people')}
         type="number"
         className={classes.textField}
         InputLabelProps={{
-          shrink: false,
+          shrink: true,
         }}
         margin="normal"
         />

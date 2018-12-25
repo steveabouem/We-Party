@@ -27,6 +27,10 @@
 #class-converter button:hover {
   transform: none;
 }
+
+#logo {
+  margin: 0 20%!important;
+}
 /* ==============DROPDOWN ICON============== */
 #menu-button img {
   min-width: 20px;

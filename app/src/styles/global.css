@@ -29,7 +29,7 @@ button, li {
 button:hover, button:active, a:hover, a:active, ul:hover {
   color: white!important;
   text-decoration: none;
-  transform: translateY(5px);
+  /* transform: translateY(5px); */
 }
 
 header button:hover, header button:active  {
@@ -51,7 +51,7 @@ header button:hover, header button:active  {
 .login-prompt, .popup-content  {
   background: #e0dddd63;
   color: #000025;
-  animation: floatText 1s linear infinite;
+  animation: floatText 1s linear 2;
 }
 
 .login-prompt {
@@ -129,7 +129,6 @@ li[class^="MuiButtonBase-root"] a { /*Navmenu link*/
   font-family: 'Josefin Sans', sans-serif;
   margin: 1em;
   text-transform: lowercase!important;
-  transition: all 0.3s;
 }
 
 .form-wrapper button, .link-primary {
@@ -178,7 +177,6 @@ li[class^="MuiButtonBase-root"] a { /*Navmenu link*/
     min-width: 90%;
     max-width: 90%;
     padding: initial 0;
-    
   }
   
   .popup-content {
