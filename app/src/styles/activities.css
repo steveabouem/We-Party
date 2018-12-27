@@ -29,8 +29,8 @@
   overflow-y: overlay;
   margin: 5% 0 1% 0;
   color: white;
-  /* background: #0e0e0e; */
-  animation: switchBg 15s steps(5) infinite alternate;
+  background: #0e0e0e;
+  /* animation: switchBg 15s steps(5) infinite alternate; */
 }
 
 .unmatched-activities-container h2, .matched-activities-container h2 {

@@ -5,17 +5,28 @@ import MatchedActs from "./MatchedActs";
 import ConfirmationModal from "../modals/confirmation";
 import UnmatchedActs from "./UnmatchedActs";
 import { connect } from "react-redux";
-import { retrieveJoinedProps } from "../../actions";
+import { retrieveJoinedProps, deleteActivity } from "../../actions";
 import { success } from "../modals/content";
  
 class Activities extends React.Component {
-
-  deleteActivity = (activity) => {
+  constructor(props) {
+    super(props);
+    this.state = {
+      activitiesList: props.userInfo.activitiesList
+    };
+    this.retrieveJoinedProps();
   }
+
+  // deleteActivity = (activity) => {
+  //   this.props.deleteActivity(activity);
+  // }
   
-  componentDidMount() {
+  retrieveJoinedProps = () => {
     if( this.props.userInfo.userInfo){
       this.props.retrieveJoinedProps(this.props.userInfo.userInfo);
+      this.setState({
+        activitiesList: this.props.userInfo.activitiesList
+      })
     }
   }
 
@@ -28,13 +39,12 @@ class Activities extends React.Component {
         :
         <div className="all-activities-container">
           <ConfirmationModal hints={success.activitiesHint} open={false} index={1} min={3} max={0}/>
-          <MatchedActs activitiesList={this.props.userInfo.activitiesList}/>
-          <UnmatchedActs activitiesList={this.props.userInfo.activitiesList}/>
+          <MatchedActs activitiesList={this.state.activitiesList}/>
+          <UnmatchedActs activitiesList={this.state.activitiesList}/>
           {this.props.userInfo.chatInfo? <ChatBox /> : null}
         </div>
         )}
       </div>
-        
     )
   }
 }
@@ -43,4 +53,4 @@ const mapStateToProps = state => ({
   userInfo: state.userInfo
 })
 
-export default connect (mapStateToProps, {retrieveJoinedProps}) (Activities)
+export default connect (mapStateToProps, {retrieveJoinedProps, deleteActivity}) (Activities)

@@ -6,9 +6,10 @@ class PastMessages extends React.Component {
   msgHistory = this.props.userInfo.messages;
 
   render(){
+    console.log("padtmg props", this.props);
     return(
       <li className="past-message">
-        {this.props.msg.email}: {this.props.msg.message}
+        {this.props.msg.name}: {this.props.msg.message}
       </li>
     )
   }

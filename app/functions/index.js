@@ -64,7 +64,6 @@ exports.signInUser = functions.https.onRequest((req, res) => {
                 "message": "Unable to create user's authenticated profile",
                 "deleteThis": e
               });
-              
             })
           })
         }        
@@ -103,13 +102,13 @@ exports.searchActivities = functions.https.onRequest( (req, res) => {
   })
 });
 
-
 exports.createActivity = functions.https.onRequest( (req, res) => {
-  let activity = req.body.activity;
+  let activity = req.body.activity,
+  key = req.body.key;
   
   cors(req, res, () => {
-    firebase.database().ref().child("activities/unmatched/")
-    .push().set(activity);
+    firebase.database().ref().child("activities/unmatched/" + key)
+    .set(activity);
     res.send({
       "code": 200,
       "object": activity
@@ -117,37 +116,50 @@ exports.createActivity = functions.https.onRequest( (req, res) => {
   })
 });
 
-
 exports.joinActivity = functions.https.onRequest( (req, res) => {
   cors( req, res, () => {
     let activity = req.body.activity,
     user = req.body.user,
-    activityId = req.body.activity.id;
+    key = req.body.activity.key;
 
     activity.members.push(user);
-    firebase.database().ref().child("activities/unmatched").once( "value", snapshot => {
-      for(let key in snapshot.val()){
-        if(snapshot.val()[key].id == activityId) {
-          firebase.database().ref().child("activities/unmatched/" + key).remove()
-          .then( r => {
-            firebase.database().ref().child("matched")
-            .push(activity)
-          })
-        }
-      }
+    firebase.database().ref().child("activities/unmatched/" + key).remove();
+    firebase.database().ref().child("matched/" + key).set(activity);
+    firebase.database().ref().child("matched").once("value", snapshot => {
       res.send({
         "snapshot": snapshot.val()
-      })
-    })
-    .catch( e => {
-      res.send({
-        "code": 400,
-        "message": "Unable to join this activity. Please try again later"
-      })
-    })
-  })
+      });
+    });
+  });
 });
 
+exports.deleteActivity = functions.https.onRequest( (req, res) => {
+  cors( req, res, ()=> {
+    let key = req.body.key,
+    isMatched = req.body.isMatched;
+    
+    switch (isMatched) {
+      case "no":
+        firebase.database().ref().child("activities/unmatched/" + key)
+        .remove();
+        res.send({
+          "code": 200
+        })
+        break;
+
+      case "yes":
+        firebase.database().ref().child("matched/" + key)
+        .remove();
+        res.send({
+          "code": 200
+        })
+        break;
+
+      default:
+        return;
+    }
+  });
+});
 
 exports.retrieveJoined = functions.https.onRequest( (req, res) => {
   var user = req.body.user,
@@ -176,9 +188,7 @@ exports.retrieveJoined = functions.https.onRequest( (req, res) => {
   })
 });
 
-
 /* ==========CHAT FUNCTIONS=============*/
-
 exports.openChatRoom = functions.https.onRequest((req,res) => {
   let info = req.body.info;
 
@@ -199,7 +209,6 @@ exports.openChatRoom = functions.https.onRequest((req,res) => {
   })
 });
 
-
 exports.getMsgHistory = functions.https.onRequest( (req, res) => {
   cors( req, res, () => {
     let roomId = req.body.id;
@@ -216,12 +225,11 @@ exports.getMsgHistory = functions.https.onRequest( (req, res) => {
   })
 });
 
-
 exports.sendMessage = functions.https.onRequest ((req, res) => {
   cors(req, res, () => {
     let roomId = req.body.data.msgInfo.roomId, 
     message = req.body.data.msgInfo.message,
-    name = req.body.name? req.body.name : "N/A",
+    name = req.body.data.msgInfo.name? req.body.data.msgInfo.name : "N/A",
     email = req.body.data.msgInfo.email;
     
     firebase.database().ref().child(`chatRooms/${roomId}/messages`).push({message, email, name});

@@ -2,10 +2,9 @@ import React from "react";
 import { sendMessage } from "../../actions";
 import { connect } from "react-redux";
 
-
 class NewMessage extends React.Component {
-
   sendMessage = (e) => {
+    
     e.preventDefault();
     let message = document.getElementsByName("new-message")[0].value,
     name = this.props.userInfo.userInfo.name,
@@ -13,7 +12,7 @@ class NewMessage extends React.Component {
     roomId = this.props.userInfo.chatInfo.chatkey,
     messageObject = {
       "message": message,
-      "sender": name,
+      "name": name,
       "email": email,
       "roomId": roomId
     };
