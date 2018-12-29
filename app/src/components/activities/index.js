@@ -5,7 +5,7 @@ import MatchedActs from "./MatchedActs";
 import ConfirmationModal from "../modals/confirmation";
 import UnmatchedActs from "./UnmatchedActs";
 import { connect } from "react-redux";
-import { retrieveJoinedProps, deleteActivity } from "../../actions";
+import { retrieveJoinedProps, loadActivitiesCollection } from "../../actions";
 import { success } from "../modals/content";
  
 class Activities extends React.Component {
@@ -17,13 +17,10 @@ class Activities extends React.Component {
     this.retrieveJoinedProps();
   }
 
-  // deleteActivity = (activity) => {
-  //   this.props.deleteActivity(activity);
-  // }
-  
-  retrieveJoinedProps = () => {
+  retrieveJoinedProps = async() => {
     if( this.props.userInfo.userInfo){
-      this.props.retrieveJoinedProps(this.props.userInfo.userInfo);
+      await this.props.loadActivitiesCollection();
+      await this.props.retrieveJoinedProps(this.props.userInfo.userInfo);
       this.setState({
         activitiesList: this.props.userInfo.activitiesList
       })
@@ -53,4 +50,4 @@ const mapStateToProps = state => ({
   userInfo: state.userInfo
 })
 
-export default connect (mapStateToProps, {retrieveJoinedProps, deleteActivity}) (Activities)
+export default connect (mapStateToProps, {retrieveJoinedProps, loadActivitiesCollection}) (Activities)

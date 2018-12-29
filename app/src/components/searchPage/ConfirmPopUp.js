@@ -7,7 +7,7 @@ class Confirmation extends React.Component {
 
   matchesList = [];
 
-  retrieveMatches = () => {
+  retrieveMatches = () => { //retrieves the activities created that would match the current search entered
     if(this.props.activitiesList && this.props.activitiesList.unmatched){ 
       this.props.activitiesList.unmatched.forEach(match => {
         if(match.venue === this.props.yelpResult.name && match.location === this.props.yelpResult.location.address1){
@@ -17,10 +17,9 @@ class Confirmation extends React.Component {
     }
   };
 
-  joinGroup =  ( e,user,match) => {
-    
+  joinGroup =  async( e,user,match) => {
     e.stopPropagation();
-    this.props.pushNewMember( user,match);
+    await this.props.pushNewMember( user,match);
     this.props.retrieveJoinedProps(this.props.userInfo.userInfo);
   };
 
@@ -43,6 +42,8 @@ class Confirmation extends React.Component {
                   Or join a group below
                   {
                     this.matchesList.map( match => {
+                      console.log(match.members, this.matchesList);
+                      
                     return(
                         <li key={key += 0.2101}> 
                           Venue:{match.venue} for {match.group} people

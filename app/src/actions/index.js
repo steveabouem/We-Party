@@ -282,7 +282,6 @@ export const sendMessage = msg => dispatch => {
     "email": msg.email,
     "roomId": msg.roomId
   };
-  console.log(object);
   
   axios.post("https://us-central1-we-party-210101.cloudfunctions.net/sendMessage", 
   {headers: 

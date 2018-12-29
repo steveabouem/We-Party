@@ -22,8 +22,6 @@ class HomePage extends React.Component {
   }
   
   async componentDidMount() {
-    console.log(this.props.randomKey());
-    
     await this.props.loadUsersCollection();
     await this.props.loadActivitiesCollection();
     if(this.props.userInfo.userInfo) {
@@ -48,9 +46,10 @@ class HomePage extends React.Component {
     created = `${dateString[0]}, ${dateString[1]} ${dateString[2]} ${dateString[3]}`,
     activityObject = { id: object.id.split("").slice(Math.floor(Math.random(0, 14) * 10), 14).join(""), currentUser: currentUser , creator: currentUser, venue: object.name, location:object.location.address1, contact: object.phone, contribution: budget, group: groupTotal, members: [currentUser], genders: gender, created: created, key: key };
 
-    for( let key in activityObject ) {
+    for( let key in activityObject ) {//prevent DB from having empty string. 
+      // THIS MATTERS FOR JOINEDPROPS
       if(activityObject[key] === "" || activityObject[key] === " " || activityObject[key] === "Pitch in") {
-        activityObject[key] = "(not provided)"
+        activityObject[key] = null
       }
     };
     

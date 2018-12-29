@@ -24,9 +24,7 @@ exports.signInUser = functions.https.onRequest((req, res) => {
     usersCollection.once( "value")
     .then (snapshot => {
       for ( let uid in snapshot.val()){
-        // there can only be one match so this should be fast
         if(snapshot.val()[uid].email && snapshot.val()[uid].email === email) {
-          
           firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
           .then(function() {
             return firebase.auth().signInWithEmailAndPassword(email, password);
@@ -72,7 +70,6 @@ exports.signInUser = functions.https.onRequest((req, res) => {
   })
 });
 
-
 exports.searchActivities = functions.https.onRequest( (req, res) => {
   let term = req.body.term, 
   yelpConfig = {
@@ -112,7 +109,7 @@ exports.createActivity = functions.https.onRequest( (req, res) => {
     res.send({
       "code": 200,
       "object": activity
-    })
+    });
   })
 });
 
@@ -123,7 +120,15 @@ exports.joinActivity = functions.https.onRequest( (req, res) => {
     key = req.body.activity.key;
 
     activity.members.push(user);
-    firebase.database().ref().child("activities/unmatched/" + key).remove();
+    firebase.database().ref().child("activities/unmatched/" + key).once("value", snapshot => {
+      console.log("length", activity.members.length, parseInt(snapshot.val().group), activity.members.length === parseInt(snapshot.val().group));
+      if(activity.members.length === parseInt(snapshot.val().group)) {
+        firebase.database().ref().child("activities/unmatched/" + key).remove();
+      } else {
+        firebase.database().ref().child("activities/unmatched/" + key + "/members").push(user);
+      }
+    });
+    
     firebase.database().ref().child("matched/" + key).set(activity);
     firebase.database().ref().child("matched").once("value", snapshot => {
       res.send({
@@ -140,19 +145,17 @@ exports.deleteActivity = functions.https.onRequest( (req, res) => {
     
     switch (isMatched) {
       case "no":
-        firebase.database().ref().child("activities/unmatched/" + key)
-        .remove();
+        firebase.database().ref().child("activities/unmatched/" + key).remove();
         res.send({
           "code": 200
-        })
+        });
         break;
 
       case "yes":
-        firebase.database().ref().child("matched/" + key)
-        .remove();
+        firebase.database().ref().child("matched/" + key).remove();
         res.send({
           "code": 200
-        })
+        });
         break;
 
       default:

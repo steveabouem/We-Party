@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { openChatRoom, getMsgHistory, deleteActivity } from "../../actions";
+import { openChatRoom, getMsgHistory, deleteActivity, loadActivitiesCollection } from "../../actions";
 
 class MatchedActs extends React.Component {
   constructor(props) {
@@ -24,8 +24,12 @@ class MatchedActs extends React.Component {
     })
   }
 
-  deleteActivity = (e, match) => {
-    this.props.deleteActivity({key: match.key, isMatched: "yes"});
+  deleteActivity = async(e, match) => {
+    await this.props.deleteActivity({key: match.key, isMatched: "yes"});
+    await this.props.loadActivitiesCollection();
+    this.setState({
+      activitiesList:this.props.activitiesList
+    });
   };
 
   render(){
@@ -103,4 +107,4 @@ const mapStateToProps = state => ({
   userInfo: state.userInfo
 })
 
-export default connect(mapStateToProps, {openChatRoom, getMsgHistory, deleteActivity}) (MatchedActs)
+export default connect(mapStateToProps, {openChatRoom, getMsgHistory, deleteActivity, loadActivitiesCollection}) (MatchedActs)

@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 
 class NewMessage extends React.Component {
   sendMessage = (e) => {
-    
     e.preventDefault();
     let message = document.getElementsByName("new-message")[0].value,
     name = this.props.userInfo.userInfo.name,
