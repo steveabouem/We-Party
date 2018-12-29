@@ -1,5 +1,6 @@
 import React from "react";
 import "firebase/database";
+import firebase from "firebase";
 import { Card, CardImg, CardText, CardBody,  CardTitle, Button, Col } from "reactstrap";
 import Navigation from "../navigation/Navigation.jsx";
 import TextField from "./TextField";
@@ -17,8 +18,12 @@ class HomePage extends React.Component {
     super(props)
     this.state = {
       loggedIn: null,
-      list: null
+      list: null,
+      currentUser: null,
     }
+    firebase.auth().onAuthStateChanged(currentUser => {
+      this.setState({ currentUser: currentUser });
+    });
   }
   
   async componentDidMount() {
@@ -36,7 +41,7 @@ class HomePage extends React.Component {
   }
   
   createActivity = (e,object) => {
-    let currentUser = this.props.userInfo.userInfo,
+    let currentUser = this.state.currentUser,
     key = this.props.randomKey(),
     groupTotal = document.getElementById("how-many").value,
     budget = document.getElementById("budget-selected").innerHTML,
@@ -59,34 +64,28 @@ class HomePage extends React.Component {
   focus = async() => {
     let loginButton = document.getElementsByClassName('link-primary')[0];
     loginButton.focus();
-    
   }
 
   render (){
-    
     const ApiResponse = this.props.userInfo.searchResults;
-    
+
     return(
       <div className="home-container">
-        <Navigation />
+        <Navigation currentUser={this.state.currentUser}/>
         <div className="image-holder">
           <div className="row">
             <div className="col-lg-8">
-              
-              {!this.props.userInfo.userInfo.email? <ConfirmationModal hints={success.homeHint} open={true} index={0} />
+              {!this.state.currentUser? <ConfirmationModal hints={success.homeHint} open={true} index={0} />
                 :
                 <ConfirmationModal hints={success.homeHint} open={false} index={1} min={6} max={0}/>
               }
-              
               <div className="input-group">
                 <span className="instructions-primary">
                   <p>Make it happen. Create your party!</p>
                 </span>
-                
-                
                 <span className="form-wrapper" style={{padding: "1%"}}>
                   <TextField style={{margin: "1%"}}/>
-                  {this.props.userInfo.userInfo.userInfo?
+                  {!this.state.currentUser?
                     <button style={{margin: "1%", height: "90%"}} id="disabled-button" onClick={this.focus}>
                       Please Login
                     </button>
@@ -101,13 +100,12 @@ class HomePage extends React.Component {
           </div>
         </div>
         <div className="results-cards">
-          {ApiResponse !== undefined && ApiResponse.length > 0 ? ApiResponse.map(result => {
-            
+          {ApiResponse === "No results found:(" && <span className="no-data-prompt" style={{bottom: "15%", color: "white"}}>No results found:(</span>}
+          {ApiResponse && ApiResponse !== "No results found:(" && ApiResponse.length > 0 ? ApiResponse.map(result => {
             return(
             <Col md = {{ size: 10 }} key={result.alias}>
               <Card className="result-cards">
                 <Confirmation key = {result.id} yelpResult = {result} createActivity = {this.createActivity} activitiesList={this.props.userInfo.activitiesList} />
-                
                 <CardImg top width="100%" height="200px" src={result.image_url} />
                 <CardBody>
                   <CardTitle> Venue: <br/> {result.name} </CardTitle>

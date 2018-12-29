@@ -66,8 +66,9 @@ export const retrieveAuthUser = () => dispatch => {
 };
 
 export const saveUser = (userObject) => dispatch => {
-  let userId = firebase.auth().currentUser.uid;
-  let safeUserObject = {name: userObject.name, email: userObject.email, oauth: "form", picture: userObject.picture};
+  let userId = firebase.auth().currentUser.uid,
+  currentUserInfo = firebase.auth().currentUser;
+  let safeUserObject = {name: userObject.name, email: userObject.email, oauth: "form", picture: userObject.picture, allInfo: currentUserInfo };
   
   firebase.database().ref("/users/" + userId).set({
     name: userObject.name,
@@ -123,10 +124,17 @@ export const searchActivities = (search) => async(dispatch) => {
     })
   });
   
-  dispatch({
-    type: SEARCH_VENUE,
-    payload: payload.results
-  });
+  if(payload.results.length === 0) {
+    dispatch({
+      type: SEARCH_VENUE,
+      payload: "No results found:("
+    });
+  } else {
+    dispatch({
+      type: SEARCH_VENUE,
+      payload: payload.results
+    });
+  }
 };
 
 export const createActivity = activity => dispatch => {

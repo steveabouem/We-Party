@@ -24,7 +24,6 @@ const styles = {
 };
 
 function Navigation(props) {
-  
   const { classes } = props;
   return (
     <div className={classes.root} id="navigation-class-converter">
@@ -48,9 +47,9 @@ function Navigation(props) {
           </IconButton>
           <span style={{position: "absolute", right: "1%"}}>
             <span className="display-name" id="span-id">
-             {(props.userInfo.userInfo.userInfo? "Guest" : props.userInfo.userInfo.name)}
+             {(!props.currentUser? "Guest" : props.currentUser.displayName)}
             </span>
-            {(props.userInfo.userInfo.name? 
+            {(props.currentUser && props.currentUser.displayName? 
             <Link to="/authenticate" className="link-primary" style={{padding: "0.5em"}}>
               Logout 
             </Link>

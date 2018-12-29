@@ -5,13 +5,13 @@ import { pushNewMember, retrieveJoinedProps } from "../../actions";
 
 class Confirmation extends React.Component {
 
-  matchesList = [];
+  searchMatchesList = [];
 
-  retrieveMatches = () => { //retrieves the activities created that would match the current search entered
+  retrieveSearchMatches = () => { //retrieves the activities created that would match the current search entered
     if(this.props.activitiesList && this.props.activitiesList.unmatched){ 
       this.props.activitiesList.unmatched.forEach(match => {
         if(match.venue === this.props.yelpResult.name && match.location === this.props.yelpResult.location.address1){
-          this.matchesList.push(match);
+          this.searchMatchesList.push(match);
         }
       })
     }
@@ -24,16 +24,16 @@ class Confirmation extends React.Component {
   };
 
   componentWillMount() {
-    this.retrieveMatches();
+    this.retrieveSearchMatches();
   }
   
-  render(){
+  render(){ 
     let key = 0;
     return(
       <div className="confirmation-container">
           <div>
-            <div>Group(s) you could join: {this.matchesList.length}
-              {this.matchesList.length > 0? 
+            <div>Group(s) you could join: {this.searchMatchesList.length}
+              {this.searchMatchesList.length > 0? 
                 <ul className="view-groups" >
                   <button className="button-secondary" onClick={e=> {this.props.createActivity(e, this.props.yelpResult)}}>
                     CREATE YOURS
@@ -41,8 +41,8 @@ class Confirmation extends React.Component {
                   <br />
                   Or join a group below
                   {
-                    this.matchesList.map( match => {
-                      console.log(match.members, this.matchesList);
+                    this.searchMatchesList.map( match => {
+                      console.log(match.members, this.searchMatchesList);
                       
                     return(
                         <li key={key += 0.2101}> 

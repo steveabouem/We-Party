@@ -81,12 +81,10 @@
     padding: 0;
     background: transparent;
   }
-  
-  .login-page {
-    background: rgb(255,40,40);
-    background: -moz-linear-gradient(180deg, rgba(255,40,40,1) 0%, rgba(175,244,255,1) 70%);
-    background: -webkit-linear-gradient(180deg, rgba(255,40,40,1) 0%, rgba(175,244,255,1) 70%);
-    background: linear-gradient(180deg, rgba(255,40,40,1) 0%, rgba(175,244,255,1) 70%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#ff2828",endColorstr="#aff4ff",GradientType=1);
+
+  .choices buttton {
+    height: 115px!important;
+    margin: 1% auto;
+    padding: 1%;
   }
 }

@@ -6,9 +6,8 @@ import { saveUser,loadUsersCollection, createAuthUser } from "../../actions";
 import GoogleButton from "./GoogleButton.jsx";
 import FacebookButton from "./FacebookButton";
 
-
 class LoginPage extends React.Component {
-  getUser = async (userInfo) =>{
+  getUser = async (userInfo) =>  {
     await this.props.loadUsersCollection();
     await this.props.saveUser(userInfo);
     this.props.history.push("/home")
@@ -47,5 +46,6 @@ class LoginPage extends React.Component {
 }
 const mapStateToProps = state => ({
   userInfo: state.userInfo
-})
+});
+
 export default connect(mapStateToProps, { saveUser, loadUsersCollection, createAuthUser })(LoginPage);

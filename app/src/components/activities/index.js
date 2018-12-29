@@ -1,4 +1,5 @@
 import React from "react";
+import firebase from "firebase";
 import ChatBox from "../chat/ChatBox.jsx";
 import Navigation from "../navigation/Navigation.jsx";
 import MatchedActs from "./MatchedActs";
@@ -12,9 +13,13 @@ class Activities extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      activitiesList: props.userInfo.activitiesList
+      activitiesList: props.userInfo.activitiesList,
+      currentUser: this.props.userInfo.userInfo,
     };
     this.retrieveJoinedProps();
+    firebase.auth().onAuthStateChanged(currentUser => {
+      this.setState({ currentUser: currentUser });
+    });
   }
 
   retrieveJoinedProps = async() => {
@@ -28,10 +33,12 @@ class Activities extends React.Component {
   }
 
   render(){
+    console.log("act props 7 state", this.props, this.state);
+    
     return(
       <div className="activities-page">
-        <Navigation />
-        {( !this.props.userInfo.userInfo.email? 
+        <Navigation currentUser={this.state.currentUser}/>
+        {( !this.state.currentUser? 
         <h1 className="login-prompt"> Please log in to consult this page </h1>
         :
         <div className="all-activities-container">
