@@ -233,6 +233,7 @@ export const logout = () => dispatch => {
       payload: e
     });
   });
+  firebase.auth().setPersistence.NONE;
 }
   
 /* ==========CHAT ACTIONS=============*/

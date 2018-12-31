@@ -1,16 +1,17 @@
 import React from "react";
 import { connect } from "react-redux";
+import firebase from "firebase";
 import { openChatRoom, getMsgHistory, deleteActivity, loadActivitiesCollection } from "../../actions";
 
 class MatchedActs extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      activitiesList: props.activitiesList
+      activitiesList: props.userInfo.activitiesList? props.userInfo.activitiesList : null
     }
   }
 
-  currentUser = this.props.userInfo.userInfo;
+  currentUser = firebase.auth().currentUser;
   joinedGroups = [];
   index = 0;
 
@@ -19,16 +20,13 @@ class MatchedActs extends React.Component {
     e.stopPropagation();
     this.index += 1;
     await this.props.openChatRoom(this.index, match, this.currentUser);
-    this.setState({
-      activitiesList: this.props.activitiesList
-    })
   }
 
   deleteActivity = async(e, match) => {
     await this.props.deleteActivity({key: match.key, isMatched: "yes"});
     await this.props.loadActivitiesCollection();
     this.setState({
-      activitiesList:this.props.activitiesList
+      activitiesList: this.props.userInfo.activitiesList? this.props.userInfo.activitiesList : null
     });
   };
 
@@ -37,10 +35,10 @@ class MatchedActs extends React.Component {
     return(
         <div className="matched-activities-container">
         <h2> Your groups </h2>
-        {this.state.activitiesList.matched ? this.state.activitiesList.matched.map(match => {
+        {this.props.userInfo.activitiesList && this.props.userInfo.activitiesList ? this.props.userInfo.activitiesList.matched.map(match => {
           if(match.creator.email === this.currentUser.email && match.members.length > 1) {
             return(
-            <ul className="matched-item" key={this.state.activitiesList.matched.indexOf(match)}>
+            <ul className="matched-item" key={this.props.activitiesList.matched.indexOf(match)}>
               <h3> Created by you </h3>
               <li> 
                 <b>Member contribution</b>: { match.contribution }
@@ -68,7 +66,7 @@ class MatchedActs extends React.Component {
             )
           } else {
             return(
-              <ul className="matched-item" key={this.state.activitiesList.matched.indexOf(match)}>
+              <ul className="matched-item" key={this.props.activitiesList.matched.indexOf(match)}>
                 <h3> Created by {match.creator.name} </h3>
                 <li> 
                   <b>Member contribution</b>: { match.contribution }

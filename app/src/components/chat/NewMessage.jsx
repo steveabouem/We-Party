@@ -1,13 +1,15 @@
 import React from "react";
+import firebase from "firebase";
 import { sendMessage } from "../../actions";
 import { connect } from "react-redux";
 
 class NewMessage extends React.Component {
   sendMessage = (e) => {
     e.preventDefault();
-    let message = document.getElementsByName("new-message")[0].value,
-    name = this.props.userInfo.userInfo.name,
-    email = this.props.userInfo.userInfo.email,
+    let currentUser = firebase.auth().currentUser,
+    message = document.getElementsByName("new-message")[0].value,
+    name = currentUser.displayName,
+    email = currentUser.email,
     roomId = this.props.userInfo.chatInfo.chatkey,
     messageObject = {
       "message": message,
@@ -15,7 +17,6 @@ class NewMessage extends React.Component {
       "email": email,
       "roomId": roomId
     };
-
     this.props.sendMessage(messageObject);
     document.getElementsByName("new-message")[0].value = "";
   }

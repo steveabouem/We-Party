@@ -1,17 +1,22 @@
 import React from "react";
 import { connect } from "react-redux";
-import { deleteActivity } from "../../actions";
+import firebase from "firebase";
+import { deleteActivity, loadActivitiesCollection } from "../../actions";
 
 class UnmatchedActs extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      activitiesList: props.activitiesList
+      activitiesList: props.userInfo.activitiesList? props.userInfo.activitiesList : null
     }
   }
 
-  deleteActivity = (e, activity) => {
-    this.props.deleteActivity({key: activity.key, isMatched: "no"});
+  deleteActivity = async(e, activity) => {
+    await this.props.deleteActivity({key: activity.key, isMatched: "no"});
+    await this.props.loadActivitiesCollection();
+    this.setState({
+      activitiesList: this.props.userInfo.activitiesList? this.props.userInfo.activitiesList : null
+    });
   };
 
   render(){
@@ -19,8 +24,8 @@ class UnmatchedActs extends React.Component {
     return(
       <div className="unmatched-activities-container">
         <h2> Activities pending match. </h2>
-          {this.state.activitiesList.unmatched? this.state.activitiesList.unmatched.map(match => {
-            if(match.creator.email === this.props.userInfo.userInfo.email) {
+          {this.state.activitiesList && this.state.activitiesList.unmatched? this.state.activitiesList.unmatched.map(match => {
+            if(match.creator.email === firebase.auth().currentUser.email) {
               return(
                 <ul className="unmatched-item" key={key += 0.43}>
                   <h3> Details </h3>
@@ -53,4 +58,4 @@ const mapStateToProps = state => ({
   userInfo: state.userInfo
 })
 
-export default connect(mapStateToProps, {deleteActivity}) (UnmatchedActs)
+export default connect(mapStateToProps, {deleteActivity, loadActivitiesCollection}) (UnmatchedActs)

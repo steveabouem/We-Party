@@ -13,8 +13,7 @@ class Activities extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      activitiesList: props.userInfo.activitiesList,
-      currentUser: this.props.userInfo.userInfo,
+      currentUser: null,
     };
     this.retrieveJoinedProps();
     firebase.auth().onAuthStateChanged(currentUser => {
@@ -26,15 +25,13 @@ class Activities extends React.Component {
     if( this.props.userInfo.userInfo){
       await this.props.loadActivitiesCollection();
       await this.props.retrieveJoinedProps(this.props.userInfo.userInfo);
-      this.setState({
-        activitiesList: this.props.userInfo.activitiesList
-      })
     }
+    this.setState({
+      activitiesList: this.props.userInfo.activitiesList ? this.props.userInfo.activitiesList: null
+    })
   }
 
   render(){
-    console.log("act props 7 state", this.props, this.state);
-    
     return(
       <div className="activities-page">
         <Navigation currentUser={this.state.currentUser}/>
@@ -43,8 +40,8 @@ class Activities extends React.Component {
         :
         <div className="all-activities-container">
           <ConfirmationModal hints={success.activitiesHint} open={false} index={1} min={3} max={0}/>
-          <MatchedActs activitiesList={this.state.activitiesList}/>
-          <UnmatchedActs activitiesList={this.state.activitiesList}/>
+          <MatchedActs activitiesList={this.state.activitiesList? this.state.activitiesList : null}/>
+          <UnmatchedActs activitiesList={this.state.activitiesList? this.state.activitiesList : null}/>
           {this.props.userInfo.chatInfo? <ChatBox /> : null}
         </div>
         )}
