@@ -1,18 +1,16 @@
 import React from "react";
-import { GoogleLogin } from "react-google-login";
 import "firebase/database";
 import { connect } from "react-redux";
 import { saveUser } from "../../actions";
-import { gToken } from "../../utils/secrets"
 const firebase = require("firebase");
 
 class GoogleButton extends React.Component {
   constructor(props){
     super(props)
-    this.responseGoogle = this.responseGoogle.bind(this)
+    this.login = this.login.bind(this)
   }
   
-  responseGoogle = async () => {
+  login = async () => {
     var provider = new firebase.auth.GoogleAuthProvider();
     firebase.auth().signInWithPopup(provider)
     .then( res => {
@@ -26,15 +24,11 @@ class GoogleButton extends React.Component {
   
   render(){
     return (
-      <GoogleLogin
-      clientId={gToken}
-      buttonText="Google"
-      ux_mode="redirect"
-      redirectUri="/home"
-      accessType="online"
-      onSuccess={this.responseGoogle}
-      onFailure={this.responseGoogle}
-      />
+      <button
+        onClick={this.login}
+      >
+        GOOGLE
+      </button>
       )
     }
   }

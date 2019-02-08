@@ -8,7 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuButton from "./Menu.jsx";
 import { logout } from "../../actions";
 import { Link } from "react-router-dom";
-import Error from "../modals/Error";
+import ErrorMessage from "../modals/error";
 
 const styles = {
   root: {
@@ -27,7 +27,7 @@ function Navigation(props) {
   const { classes } = props;
   return (
     <div className={classes.root} id="navigation-class-converter">
-      <Error />
+      <ErrorMessage />
       <AppBar position="static">
         <Toolbar>
           <IconButton className={classes.menuButton} color="inherit" aria-label="Menu" >

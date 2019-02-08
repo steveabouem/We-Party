@@ -1,5 +1,5 @@
 import { dbConfig } from "../config/firebase";
-import { LOGIN, LOGGED_IN, LOAD_USERS, LOAD_ACTIVITIES, SEARCH_VENUE, SAVE_VENUE, RENDER_JOINED, ERROR, OPEN_CHAT, MSG_HISTORY, NEW_MSG } from "./types";
+import { LOGIN, LOGGED_IN, LOAD_USERS, LOAD_ACTIVITIES, DELETE_ACTIVITY, SEARCH_VENUE, SAVE_VENUE, RENDER_JOINED, ERROR, OPEN_CHAT, MSG_HISTORY, NEW_MSG } from "./types";
 import axios from "axios";
 
 /* ==========GLOBAL SCOPE =============*/
@@ -20,12 +20,12 @@ convertObject = (object, array) => {
 export const randomKey = () => dispatch => {
   return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 }
- 
+
 export const createAuthUser = ( userObject) => dispatch => {
   axios.post("https://us-central1-we-party-210101.cloudfunctions.net/signInUser", 
   {headers: 
-    { Authorization: `Bearer ${dbConfig.apiKey}`,
-    "content-type": "application/json" }
+  { Authorization: `Bearer ${dbConfig.apiKey}`,
+  "content-type": "application/json" }
   }, 
   {data: {"email": `${userObject.email}`, "password": `${userObject.password}`}})
   .then( r => {
@@ -51,7 +51,6 @@ export const createAuthUser = ( userObject) => dispatch => {
 
 export const retrieveAuthUser = () => dispatch => {
   let  user = firebase.auth().currentUser;
-  
   if (user) {
     dispatch({
       type: LOGGED_IN,
@@ -80,7 +79,7 @@ export const saveUser = (userObject) => dispatch => {
     dispatch({
       type: LOGIN,
       payload: safeUserObject
-    })
+    });
   })
   .catch( e => {
     dispatch({
@@ -100,7 +99,7 @@ export const loadUsersCollection = () => async(dispatch) => {
     dispatch({
       type: LOAD_USERS,
       payload: usersList
-    })
+    });
   });
 };
 
@@ -113,7 +112,6 @@ export const searchActivities = (search) => async(dispatch) => {
   }, 
   {data: {term: `${search}`}})
   .then(res => {
-    
     payload = res.data;
     res.send(payload.results);
   })
@@ -124,7 +122,7 @@ export const searchActivities = (search) => async(dispatch) => {
     })
   });
   
-  if(payload.results.length === 0) {
+  if(payload.data.length === 0) {
     dispatch({
       type: SEARCH_VENUE,
       payload: "No results found:("
@@ -132,7 +130,7 @@ export const searchActivities = (search) => async(dispatch) => {
   } else {
     dispatch({
       type: SEARCH_VENUE,
-      payload: payload.results
+      payload: payload.data
     });
   }
 };
@@ -145,45 +143,61 @@ export const createActivity = activity => dispatch => {
   }, 
   { data: {"activity": activity, key: activity.key} })
   .then( r => {
-    activitiesCollection.once("value", snapshot => {
-      dispatch({
-        type: SAVE_VENUE,
-        payload: snapshot.val()
-      });
+    dispatch({
+      type: SAVE_VENUE,
+      payload: r.data
     });
-  })
+  });
 };
 
 export const deleteActivity = activity => dispatch => {
+  let payload = [];
   axios.post("https://us-central1-we-party-210101.cloudfunctions.net/deleteActivity",
   {headers: 
   { Authorization: `Bearer ${dbConfig.apiKey}`,
   "content-type": "application/json" }}, 
   { data: {"key": activity.key, "isMatched": activity.isMatched}})
+  .then( r => {
+    if (activity.isMatched === "no") {
+      convertObject(r.data.data.unmatched,payload)
+    } else {
+      convertObject(r.data.data.matched,payload)
+    }
+    
+    dispatch({
+      type: LOAD_ACTIVITIES,
+      payload: payload
+    });
+  })
   .catch(e => {
-    console.log("error", e);
     dispatch({
       type: ERROR,
-      payload: "Couldnt join activity"
+      payload: "Couldnt join activity", e
     })
   });
 }
-
+  
 export const pushNewMember =  ( currentUser, match) => dispatch => {
+  match.members.push(currentUser);
   axios.post("https://us-central1-we-party-210101.cloudfunctions.net/joinActivity",
   {headers: 
   { Authorization: `Bearer ${dbConfig.apiKey}`,
   "content-type": "application/json" }}, 
   { data: {"activity": match, "user": currentUser}})
+  .then( r => {
+    dispatch({
+      type: LOAD_ACTIVITIES,
+      payload: r.data
+    });
+  })
   .catch(e => {
-    console.log("error", e);
     dispatch({
       type: ERROR,
-      payload: "Couldnt join activity"
-    })
+      payload: "Couldnt join activity", e
+    });
   });
 };
-  
+    
 export const retrieveJoinedProps = user => dispatch => {
   axios.post("https://us-central1-we-party-210101.cloudfunctions.net/retrieveJoined",
   {Authorization: `Bearer ${dbConfig.apiKey}`,
@@ -193,7 +207,7 @@ export const retrieveJoinedProps = user => dispatch => {
     dispatch({
       type: RENDER_JOINED,
       payload: r.data.matched
-    })      
+    }); 
   })
   .catch( e => {
     dispatch({
@@ -202,29 +216,28 @@ export const retrieveJoinedProps = user => dispatch => {
     });    
   });
 };
-
+    
 export const loadActivitiesCollection = () => dispatch => {
   let activitiesList = {matched: [], unmatched: []};
   // activitiesCollection is defined at the top of the doc
-  firebase.database().ref().child("activities/unmatched").once('value').then( snapshot => {
+  firebase.database().ref().child("activities").once('value').then( snapshot => {
     if(snapshot.val()) {
-      convertObject(snapshot.val(), activitiesList.unmatched);
+      convertObject(snapshot.val().matched, activitiesList.matched);
+      convertObject(snapshot.val().unmatched, activitiesList.unmatched);
+      dispatch({
+        type: LOAD_ACTIVITIES,
+        payload: activitiesList
+      });
     }
   })
-  .then( () => {
-    firebase.database().ref().child("matched").once( "value", snapshot => {
-      if(snapshot.val()) {
-        convertObject(snapshot.val(), activitiesList.matched)
-      }
-    })
-  });
-  
-  dispatch({
-    type: LOAD_ACTIVITIES,
-    payload: activitiesList
-  });
+  .catch( e => {
+    dispatch({
+      type: ERROR,
+      payload: e
+    });
+  })
 }
-  
+    
 export const logout = () => dispatch => {
   firebase.auth().signOut()
   .catch(e => {
@@ -235,7 +248,24 @@ export const logout = () => dispatch => {
   });
   firebase.auth().setPersistence.NONE;
 }
-  
+
+/* ==========EMAIL ACTIONS=============*/
+export const sendEmail = (email, subject, content) => dispatch => {
+  // axios.post("https://us-central1-we-party-210101.cloudfunctions.net/sendEmail",
+  // {Authorization: `Bearer ${dbConfig.apiKey}`,
+  // "content-type": "application/json" }, 
+  // {data: {"email": email,
+  // "subject": subject,
+  // "content": content
+  // }})
+  // .catch(e => {
+  //   dispatch({
+  //     type: ERROR,
+  //     payload: e
+  //   });
+  // });
+};
+
 /* ==========CHAT ACTIONS=============*/
 export const openChatRoom = (index, activity, user) => dispatch => {
   let roomName = `${activity.venue}_${activity.created}`,
@@ -263,7 +293,7 @@ export const openChatRoom = (index, activity, user) => dispatch => {
     });
   });
 };
-  
+    
 export const getMsgHistory = key => dispatch => {
   axios.post("https://us-central1-we-party-210101.cloudfunctions.net/getMsgHistory",
   {headers: 
@@ -283,7 +313,7 @@ export const getMsgHistory = key => dispatch => {
     });
   });
 };
-    
+      
 export const sendMessage = msg => dispatch => {
   let object = {
     "message": msg.message,
@@ -305,7 +335,23 @@ export const sendMessage = msg => dispatch => {
     })
   })
   .catch( e => {
-    console.log("send msg action error", e);
+    dispatch({
+      type: ERROR,
+      payload: e
+    });
   })
 }
-    
+
+/* ==========MODAL ACTIONS=============*/
+export const clearPastMessages = () => dispatch => {
+  dispatch({
+    type: MSG_HISTORY,
+    payload: []
+  });
+};
+
+export const confirmModalAction = (callBack) => dispatch =>{
+  if(callBack !== undefined) {
+    callBack();
+  } 
+};

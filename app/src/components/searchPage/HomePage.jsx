@@ -7,9 +7,10 @@ import TextField from "./TextField";
 import Confirmation from "./ConfirmPopUp";
 import ConfirmationModal from "../modals/confirmation";
 import { success } from "../modals/content";
+import Modal from "../modals";
 import location  from "../../utils/icons/location.svg";
 import phone  from "../../utils/icons/smartphone.svg";
-import {  searchActivities, createActivity, loadUsersCollection, loadActivitiesCollection, retrieveJoinedProps, randomKey } from "../../actions";
+import {  searchActivities, sendEmail, createActivity, loadUsersCollection, loadActivitiesCollection, retrieveJoinedProps, randomKey } from "../../actions";
 import { connect } from "react-redux";
 
 
@@ -20,6 +21,7 @@ class HomePage extends React.Component {
       loggedIn: null,
       list: null,
       currentUser: null,
+      isModalOpened: false
     }
     firebase.auth().onAuthStateChanged(currentUser => {
       this.setState({ currentUser: currentUser });
@@ -34,10 +36,27 @@ class HomePage extends React.Component {
     }
   }
   
+  closeModal = () => {
+    this.setState({
+      isModalOpened: false
+    });
+  }
+
   recordSearch = async() => {
-    let input = document.getElementById("SEARCH_VENUE").value; 
+    let input = document.getElementById("SEARCH_VENUE").value,
+      groupTotal = document.getElementById("how-many").value,
+      budget = document.getElementById("budget-selected").innerHTML,
+      gender = document.getElementById("gender-selected").innerHTML;
     
-    await this.props.searchActivities(input);
+    if (input === "" || groupTotal === "" || budget === "" 
+      || input === " " || groupTotal === " " || budget === "Pitch in" || gender === "Genders") {
+      
+      this.setState({
+        isModalOpened: true
+      });
+    } else {
+      await this.props.searchActivities(input);
+    }
   }
   
   createActivity = (e,object) => {
@@ -57,7 +76,6 @@ class HomePage extends React.Component {
         activityObject[key] = null
       }
     };
-    
     this.props.createActivity(activityObject);
   }
   
@@ -68,7 +86,6 @@ class HomePage extends React.Component {
 
   render (){
     const ApiResponse = this.props.userInfo.searchResults;
-
     return(
       <div className="home-container">
         <Navigation currentUser={this.state.currentUser}/>
@@ -100,6 +117,21 @@ class HomePage extends React.Component {
           </div>
         </div>
         <div className="results-cards">
+          {
+            this.state.isModalOpened
+            ?
+            <Modal
+              isOpen={this.state.isModalOpened}
+              hasConfirm={false}
+              hasCancel={true}
+              top="20%"
+              right="45%"
+              message="Please complete all the fields."
+              cancel={this.closeModal}
+              />
+              :
+              null
+          }
           {ApiResponse === "No results found:(" && <span className="no-data-prompt" style={{bottom: "15%", color: "white"}}>No results found:(</span>}
           {ApiResponse && ApiResponse !== "No results found:(" && ApiResponse.length > 0 ? ApiResponse.map(result => {
             return(
@@ -127,7 +159,7 @@ class HomePage extends React.Component {
               </Card>
             </Col>
             )}   
-            ) :<p className="no-data-prompt"> </p>}
+            ) : <p className="no-data-prompt"> </p>}
           </div>
         </div>)
         }
@@ -137,5 +169,5 @@ class HomePage extends React.Component {
         userInfo: state.userInfo
       })
       
-      export default connect(mapStateToProps, { searchActivities, createActivity, loadUsersCollection, loadActivitiesCollection, retrieveJoinedProps, randomKey}) (HomePage)
+      export default connect(mapStateToProps, { searchActivities, sendEmail, createActivity, loadUsersCollection, loadActivitiesCollection, retrieveJoinedProps, randomKey}) (HomePage)
       
