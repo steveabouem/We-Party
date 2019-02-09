@@ -1,24 +1,19 @@
 import React from "react";
 import { connect } from "react-redux";
 import { SlideToggle } from 'react-slide-toggle';
-import LoginForm from "../utils/LoginForm";
-import { saveUser,loadUsersCollection, createAuthUser } from "../actions/index";
+import LoginForm from "./LoginForm";
+import { saveUser,loadUsersCollection, createAuthUser } from "../../actions";
 import GoogleButton from "./GoogleButton.jsx";
 import FacebookButton from "./FacebookButton";
 
-
 class LoginPage extends React.Component {
-
-  getUser = async (userInfo) =>{
-    
+  getUser = async (userInfo) =>  {
     await this.props.loadUsersCollection();
     await this.props.saveUser(userInfo);
-    
     this.props.history.push("/home")
   }
 
   render(){
-    
     return(
       <div className="login-page">
       <div className="curtain">
@@ -51,5 +46,6 @@ class LoginPage extends React.Component {
 }
 const mapStateToProps = state => ({
   userInfo: state.userInfo
-})
+});
+
 export default connect(mapStateToProps, { saveUser, loadUsersCollection, createAuthUser })(LoginPage);

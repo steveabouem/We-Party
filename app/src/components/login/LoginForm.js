@@ -7,7 +7,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import TextField from '@material-ui/core/TextField';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import loggedIn from "./icons/loggedIn.svg";
+import loggedIn from "../../utils/icons/loggedIn.svg";
 
 const styles = theme => ({
   root: {

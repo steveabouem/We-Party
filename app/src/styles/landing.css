@@ -73,10 +73,13 @@
   .white-box a, .navbar-brand a {
     font-weight: bold;
     font-size: 2rem;
-    color: #FFD951;
+    color: #FFD951!important;
     transition: all 0.4s;
   }
   
+  .white-box a:hover {
+    color: white!important;
+  }
   
   /* ==============MOBILE SCREENS============== */
 @media (max-width: 768px) {

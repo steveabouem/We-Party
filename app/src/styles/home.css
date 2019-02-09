@@ -2,10 +2,10 @@
 .home-container {
   height: 100%;
   background: rgb(0,0,0);
-  background: -moz-linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(125,2,6,1) 89%);
-  background: -webkit-linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(125,2,6,1) 89%);
-  background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(125,2,6,1) 89%);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#000000",endColorstr="#7d0206",GradientType=1);
+  /* background: -moz-linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(125,2,6,1) 89%); */
+  /* background: -webkit-linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(125,2,6,1) 89%); */
+  /* background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(125,2,6,1) 89%); */
+  /* filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#000000",endColorstr="#7d0206",GradientType=1); */
 }
 
 .image-holder {
@@ -91,7 +91,7 @@
   color: #d3f9f7;
   font-size: 0.8rem;
   height: 100%;
-  padding: 2em;
+  padding: 1% 8% 1% 1%;
   overflow: overlay;
   background: #595353;
 }

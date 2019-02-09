@@ -7,12 +7,10 @@ class ConfirmationModal extends React.Component {
     this.state = { open: this.props.open }
     this.openModal = this.openModal.bind(this)
     this.closeModal = this.closeModal.bind(this)
-
   }
 
   shuffleIndex = () => {
     if(this.props.min){
-      
       return Math.floor(Math.random() * (this.props.max - this.props.min)) + this.props.min;
     }
   }
@@ -25,14 +23,12 @@ class ConfirmationModal extends React.Component {
     this.setState({ open: false})
   }
   
-  
   render() {
     let index = this.props.index;
-    
     return (
       <div className="display-modal">
         <button className="button-primary" onClick={this.openModal}  >
-          ? 
+          TIPS
         </button>
         <Popup
           open={this.state.open}
@@ -40,8 +36,7 @@ class ConfirmationModal extends React.Component {
           onClose={this.closeModal}
         >
           {
-             <p> {this.props.index === 0? this.props.hints[0] : this.props.hints[this.shuffleIndex()]}</p>
-          
+            <p> {this.props.index === 0? this.props.hints[0] : this.props.hints[this.shuffleIndex()]}</p>
           }
           <a className="close" onClick={this.closeModal}>
             &times;

@@ -3,11 +3,7 @@
   flex-direction: column;
   justify-content: center;
   display: flex;
-  background: rgb(255,0,83);
-  background: -moz-linear-gradient(180deg, rgba(255,0,83,1) 6%, rgba(86,27,121,1) 44%, rgba(0,0,0,1) 82%);
-  background: -webkit-linear-gradient(180deg, rgba(255,0,83,1) 6%, rgba(86,27,121,1) 44%, rgba(0,0,0,1) 82%);
-  background: linear-gradient(180deg, rgba(255,0,83,1) 6%, rgba(86,27,121,1) 44%, rgba(0,0,0,1) 82%);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#ff0053",endColorstr="#000000",GradientType=1);
+  background: black;
   background-repeat: no-repeat;
   height: 100vh;
   width: 100%;
@@ -31,50 +27,44 @@
   min-height: 100%;
   max-height: 100%;
   overflow-y: overlay;
-  margin: 2em 1em ;
+  margin: 5% 0 1% 0;
   color: white;
-}
-
-.matched-activities-container {
-  padding: 1em;
-  background: #00000061;
-}
-
-.unmatched-activities-container {
-  padding: 1em;
-  background: #ffffff4f;
+  background: #0e0e0e;
+  /* animation: switchBg 15s steps(5) infinite alternate; */
 }
 
 .unmatched-activities-container h2, .matched-activities-container h2 {
   color: white;
-  width: 80%;
+  width: 45%;
   background: black;
+  position: fixed;
+  text-align: left;
+}
+
+.unmatched-activities-container h3, .matched-activities-container h3 {
+  background: #d35454;
+  margin: 10% 0 0 0;
+
+}
+
+.matched-activities-container button, .unmatched-activities-container button{
+  margin: 2% 0;
 }
 
 .matched-item, .unmatched-item {
-  max-width: 90%;
-  min-width: 90%;
+  max-width: 80%;
+  min-width: 80%;
   list-style: none;
   text-align: left;
-  padding: 1em;
-  margin: 5px auto;
+  margin: 1% auto 2% auto;
   overflow-x: hidden;
-  transition: all 0.4s;
+  padding: 0;  
 }
 
-.matched-item {
-  padding: 2%;
+.matched-item li, .unmatched-item li {
+  padding: 1%;
+  background: #a2476c!important;
 }
-.matched-item:nth-child(even), .unmatched-item:nth-child(odd) {
-  background: #0000003b;
-  color: white!important;
-}
-
-.matched-item:nth-child(odd), .unmatched-item:nth-child(even) {
-  background: #ffffff4f;
-  color: white;
-}
-
 
 /* ==============MOBILE SCREENS============== */
 @media (max-width: 768px) {
@@ -93,25 +83,13 @@
     max-width: 100%;
     max-height: 50%;
     min-height: 50%;
-    margin: 10% auto;
+    /* margin: 5% 0 1% 0; */
     padding: 1%;
   }
   
-  .matched-activities-container {
-    background-attachment: fixed;
-    background: rgb(15,234,255);
-    background: -moz-linear-gradient(187deg, rgba(15,234,255,1) 0%, rgba(85,154,255,1) 70%);
-    background: -webkit-linear-gradient(187deg, rgba(15,234,255,1) 0%, rgba(85,154,255,1) 70%);
-    background: linear-gradient(187deg, rgba(15,234,255,1) 0%, rgba(85,154,255,1) 70%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#0feaff",endColorstr="#559aff",GradientType=1);
-  }
-  
-  .unmatched-activities-container{ 
-    background-attachment: fixed;
-    background: rgb(201,228,222);
-    background: -moz-linear-gradient(6deg, rgba(201,228,222,1) 14%, rgba(0,84,168,1) 52%, rgba(85,154,255,1) 80%);
-    background: -webkit-linear-gradient(6deg, rgba(201,228,222,1) 14%, rgba(0,84,168,1) 52%, rgba(85,154,255,1) 80%);
-    background: linear-gradient(6deg, rgba(201,228,222,1) 14%, rgba(0,84,168,1) 52%, rgba(85,154,255,1) 80%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#c9e4de",endColorstr="#559aff",GradientType=1);
+  .unmatched-activities-container h2, .matched-activities-container h2 {
+    position: relative;
+    min-width: 99%;
+    max-width: 90%;
   }
 }

@@ -6,9 +6,9 @@ import Toolbar from '@material-ui/core/Toolbar';
 import { connect } from "react-redux";
 import IconButton from '@material-ui/core/IconButton';
 import MenuButton from "./Menu.jsx";
-import { logout } from "../actions/index";
+import { logout } from "../../actions";
 import { Link } from "react-router-dom";
-import Error from "./modals/Error";
+import ErrorMessage from "../modals/error";
 
 const styles = {
   root: {
@@ -24,11 +24,10 @@ const styles = {
 };
 
 function Navigation(props) {
-  
   const { classes } = props;
   return (
     <div className={classes.root} id="navigation-class-converter">
-      <Error />
+      <ErrorMessage />
       <AppBar position="static">
         <Toolbar>
           <IconButton className={classes.menuButton} color="inherit" aria-label="Menu" >
@@ -48,9 +47,9 @@ function Navigation(props) {
           </IconButton>
           <span style={{position: "absolute", right: "1%"}}>
             <span className="display-name" id="span-id">
-             {(props.userInfo.userInfo.userInfo? "Guest" : props.userInfo.userInfo.name)}
+             {(!props.currentUser? "Guest" : props.currentUser.displayName)}
             </span>
-            {(props.userInfo.userInfo.name? 
+            {(props.currentUser && props.currentUser.displayName? 
             <Link to="/authenticate" className="link-primary" style={{padding: "0.5em"}}>
               Logout 
             </Link>

@@ -1,14 +1,16 @@
 import React from "react";
 import "firebase/database";
+import firebase from "firebase";
 import { Card, CardImg, CardText, CardBody,  CardTitle, Button, Col } from "reactstrap";
-import Navigation from "./Navigation.jsx";
-import TextField from "../utils/TextField";
-import Confirmation from "../utils/ConfirmPopUp";
-import ConfirmationModal from "./modals/confirmation";
-import { success } from "./modals/content";
-import location  from "../utils/icons/location.svg";
-import phone  from "../utils/icons/smartphone.svg";
-import {  searchActivities, createActivity, loadUsersCollection, loadActivitiesCollection, retrieveJoinedProps } from "../actions";
+import Navigation from "../navigation/Navigation.jsx";
+import TextField from "./TextField";
+import Confirmation from "./ConfirmPopUp";
+import ConfirmationModal from "../modals/confirmation";
+import { success } from "../modals/content";
+import Modal from "../modals";
+import location  from "../../utils/icons/location.svg";
+import phone  from "../../utils/icons/smartphone.svg";
+import {  searchActivities, sendEmail, createActivity, loadUsersCollection, loadActivitiesCollection, retrieveJoinedProps, randomKey } from "../../actions";
 import { connect } from "react-redux";
 
 
@@ -17,8 +19,13 @@ class HomePage extends React.Component {
     super(props)
     this.state = {
       loggedIn: null,
-      list: null
+      list: null,
+      currentUser: null,
+      isModalOpened: false
     }
+    firebase.auth().onAuthStateChanged(currentUser => {
+      this.setState({ currentUser: currentUser });
+    });
   }
   
   async componentDidMount() {
@@ -29,68 +36,73 @@ class HomePage extends React.Component {
     }
   }
   
+  closeModal = () => {
+    this.setState({
+      isModalOpened: false
+    });
+  }
+
   recordSearch = async() => {
+    let input = document.getElementById("SEARCH_VENUE").value,
+      groupTotal = document.getElementById("how-many").value,
+      budget = document.getElementById("budget-selected").innerHTML,
+      gender = document.getElementById("gender-selected").innerHTML;
     
-    let input = document.getElementById("SEARCH_VENUE").value; 
-    
-    await this.props.searchActivities(input);
-    
+    if (input === "" || groupTotal === "" || budget === "" 
+      || input === " " || groupTotal === " " || budget === "Pitch in" || gender === "Genders") {
+      
+      this.setState({
+        isModalOpened: true
+      });
+    } else {
+      await this.props.searchActivities(input);
+    }
   }
   
-  createActivity = (e,object) => {// use cookies upon deployment, this is just taking in the latest user logged in
-    e.stopPropagation();
-    
-    let currentUser = this.props.userInfo.userInfo,
+  createActivity = (e,object) => {
+    let currentUser = this.state.currentUser,
+    key = this.props.randomKey(),
     groupTotal = document.getElementById("how-many").value,
     budget = document.getElementById("budget-selected").innerHTML,
     gender = document.getElementById("gender-selected").innerHTML,
     date = new Date(), 
     dateString = date.toString().split(" ").slice(0, 5),
-    created = `${dateString[0]}, ${dateString[1]} ${dateString[2]} ${dateString[3]}`;
-    
-    // reshuffle Yelp ID to avoid user joining 2 activities created for the same vene
-    let activityObject = { id: object.id.split("").slice(Math.floor(Math.random(0, 14) * 10), 14).join(""), currentUser: currentUser , creator: currentUser, venue: object.name, location:object.location.address1, contact: object.phone, contribution: budget, group: groupTotal, members: [currentUser], genders: gender, created: created };
-    for( let key in activityObject ) {
+    created = `${dateString[0]}, ${dateString[1]} ${dateString[2]} ${dateString[3]}`,
+    activityObject = { id: object.id.split("").slice(Math.floor(Math.random(0, 14) * 10), 14).join(""), currentUser: currentUser , creator: currentUser, venue: object.name, location:object.location.address1, contact: object.phone, contribution: budget, group: groupTotal, members: [currentUser], genders: gender, created: created, key: key };
+
+    for( let key in activityObject ) {//prevent DB from having empty string. 
+      // THIS MATTERS FOR JOINEDPROPS
       if(activityObject[key] === "" || activityObject[key] === " " || activityObject[key] === "Pitch in") {
-        activityObject[key] = "(not provided)"
+        activityObject[key] = null
       }
     };
-    
     this.props.createActivity(activityObject);
   }
   
   focus = async() => {
     let loginButton = document.getElementsByClassName('link-primary')[0];
     loginButton.focus();
-    
   }
-  
 
   render (){
-    
     const ApiResponse = this.props.userInfo.searchResults;
-    
     return(
       <div className="home-container">
-        <Navigation />
+        <Navigation currentUser={this.state.currentUser}/>
         <div className="image-holder">
           <div className="row">
             <div className="col-lg-8">
-              
-              {!this.props.userInfo.userInfo.email? <ConfirmationModal hints={success.homeHint} open={true} index={0} />
+              {!this.state.currentUser? <ConfirmationModal hints={success.homeHint} open={true} index={0} />
                 :
                 <ConfirmationModal hints={success.homeHint} open={false} index={1} min={6} max={0}/>
               }
-              
               <div className="input-group">
                 <span className="instructions-primary">
                   <p>Make it happen. Create your party!</p>
                 </span>
-                
-                
                 <span className="form-wrapper" style={{padding: "1%"}}>
                   <TextField style={{margin: "1%"}}/>
-                  {this.props.userInfo.userInfo.userInfo?
+                  {!this.state.currentUser?
                     <button style={{margin: "1%", height: "90%"}} id="disabled-button" onClick={this.focus}>
                       Please Login
                     </button>
@@ -105,13 +117,27 @@ class HomePage extends React.Component {
           </div>
         </div>
         <div className="results-cards">
-          {ApiResponse !== undefined && ApiResponse.length > 0 ? ApiResponse.map(result => {
-            
+          {
+            this.state.isModalOpened
+            ?
+            <Modal
+              isOpen={this.state.isModalOpened}
+              hasConfirm={false}
+              hasCancel={true}
+              top="20%"
+              right="45%"
+              message="Please complete all the fields."
+              cancel={this.closeModal}
+              />
+              :
+              null
+          }
+          {ApiResponse === "No results found:(" && <span className="no-data-prompt" style={{bottom: "15%", color: "white"}}>No results found:(</span>}
+          {ApiResponse && ApiResponse !== "No results found:(" && ApiResponse.length > 0 ? ApiResponse.map(result => {
             return(
             <Col md = {{ size: 10 }} key={result.alias}>
               <Card className="result-cards">
                 <Confirmation key = {result.id} yelpResult = {result} createActivity = {this.createActivity} activitiesList={this.props.userInfo.activitiesList} />
-                
                 <CardImg top width="100%" height="200px" src={result.image_url} />
                 <CardBody>
                   <CardTitle> Venue: <br/> {result.name} </CardTitle>
@@ -133,7 +159,7 @@ class HomePage extends React.Component {
               </Card>
             </Col>
             )}   
-            ) :<p className="no-data-prompt"> </p>}
+            ) : <p className="no-data-prompt"> </p>}
           </div>
         </div>)
         }
@@ -143,5 +169,5 @@ class HomePage extends React.Component {
         userInfo: state.userInfo
       })
       
-      export default connect(mapStateToProps, { searchActivities, createActivity, loadUsersCollection, loadActivitiesCollection, retrieveJoinedProps}) (HomePage)
+      export default connect(mapStateToProps, { searchActivities, sendEmail, createActivity, loadUsersCollection, loadActivitiesCollection, retrieveJoinedProps, randomKey}) (HomePage)
       

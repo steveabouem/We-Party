@@ -8,7 +8,7 @@ class PastMessages extends React.Component {
   render(){
     return(
       <li className="past-message">
-        {this.props.msg.email}: {this.props.msg.message}
+        {this.props.msg.name}: {this.props.msg.message}
       </li>
     )
   }
