@@ -35,7 +35,7 @@ class Modal extends React.Component {
           </button>
           {this.props.hasConfirm ?
             <button
-              onClick={this.props.confirm}
+              onClick={this.confirm}
               className="confirm-action"
             >
               Yes

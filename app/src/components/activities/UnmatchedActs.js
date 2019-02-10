@@ -34,7 +34,6 @@ class UnmatchedActs extends React.Component {
 
   async componentDidMount() {
     await this.props.loadActivitiesCollection();
-    // await this.props.retrieveJoinedProps(this.state.currentUser);
   }
 
   render(){

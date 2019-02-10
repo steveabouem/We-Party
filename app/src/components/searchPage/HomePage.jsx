@@ -10,7 +10,11 @@ import { success } from "../modals/content";
 import Modal from "../modals";
 import location  from "../../utils/icons/location.svg";
 import phone  from "../../utils/icons/smartphone.svg";
-import {  searchActivities, sendEmail, createActivity, loadUsersCollection, loadActivitiesCollection, retrieveJoinedProps, randomKey } from "../../actions";
+import {
+  searchActivities, sendEmail,
+  createActivity, loadUsersCollection,
+  loadActivitiesCollection, retrieveJoinedProps, randomKey
+} from "../../actions";
 import { connect } from "react-redux";
 
 
@@ -28,12 +32,17 @@ class HomePage extends React.Component {
     });
   }
   
-  async componentDidMount() {
-    await this.props.loadUsersCollection();
-    await this.props.loadActivitiesCollection();
-    if(this.props.userInfo.userInfo) {
-      this.props.retrieveJoinedProps(this.props.userInfo.userInfo)
+  handleKeyPress = (e) => {
+    if (e.keyCode === 13 && !this.state.isModalOpened) {
+      this.recordSearch();
+    } else if (e.keyCode === 13 && this.state.isModalOpened) {
+      this.closeModal();
     }
+  }
+
+  
+  componentWillUnmount() {
+    document.removeEventListener("keypress", this.handleKeyPress);
   }
   
   closeModal = () => {
@@ -41,7 +50,14 @@ class HomePage extends React.Component {
       isModalOpened: false
     });
   }
-
+  
+  async componentDidMount() {
+    document.addEventListener("keypress", this.handleKeyPress)
+    await this.props.loadUsersCollection();
+    await this.props.loadActivitiesCollection();
+    await this.props.retrieveJoinedProps(this.props.userInfo.userInfo);
+  }
+  
   recordSearch = async() => {
     let input = document.getElementById("SEARCH_VENUE").value,
       groupTotal = document.getElementById("how-many").value,
@@ -134,7 +150,8 @@ class HomePage extends React.Component {
           }
           {ApiResponse === "No results found:(" && <span className="no-data-prompt" style={{bottom: "15%", color: "white"}}>No results found:(</span>}
           {ApiResponse && ApiResponse !== "No results found:(" && ApiResponse.length > 0 ? ApiResponse.map(result => {
-            return(
+            console.log(result.distance);
+            return (
             <Col md = {{ size: 10 }} key={result.alias}>
               <Card className="result-cards">
                 <Confirmation key = {result.id} yelpResult = {result} createActivity = {this.createActivity} activitiesList={this.props.userInfo.activitiesList} />

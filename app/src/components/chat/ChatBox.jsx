@@ -67,6 +67,8 @@ class ChatBox extends React.Component {
           isOpened={this.state.isModalOpened} 
           message={this.modalMessage}
           cancel={this.closeModal}
+          hasConfirm={true}
+          hasCancel={true}
           top="0"
           left="10%"
           height="40%"

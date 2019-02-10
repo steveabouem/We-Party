@@ -22,7 +22,7 @@ class FacebookButton extends React.Component {
   
   render(){
     return(
-    <FacebookLogin
+    <button
       appId={fbToken}
       autoLoad={true}
       fields="name,email,picture"

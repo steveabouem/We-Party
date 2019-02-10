@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import firebase from "firebase";
-import { openChatRoom, getMsgHistory, deleteActivity, loadActivitiesCollection } from "../../actions";
+import { openChatRoom, getMsgHistory, deleteActivity, loadActivitiesCollection, retrieveJoinedProps } from "../../actions";
 import Modal from "../modals";
 
 
@@ -9,7 +9,6 @@ class MatchedActs extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      activitiesList: props.userInfo.activitiesList ? props.userInfo.activitiesList : null,
       isModalOpened: false
     };
   };
@@ -39,26 +38,35 @@ class MatchedActs extends React.Component {
 
   deleteActivity = async(e, match) => {
     await this.props.deleteActivity({key: match.key, isMatched: "yes"});
-    // await this.props.loadActivitiesCollection();
     this.setState({
       activitiesList: this.props.userInfo.activitiesList,
       isModalOpened: false
     });
   };
-
+  
   modalMessage = "Are you sure you want to delete this activity? All users will lose this information if you proceed";
+  
+  // async componentDidMount() {
+  //   await this.props.loadActivitiesCollection();
+  //   await this.props.retrieveJoinedProps();
+  // }
 
   render(){
     let key = 0;
     return(
         <div className="matched-activities-container">
-        <h2> Your groups </h2>
-        {this.state.activitiesList && this.state.activitiesList.matched ? this.state.activitiesList.matched.map(match => {
+        <h2> Groups Created </h2>
+        {
+          this.props.userInfo.activitiesList
+          && this.props.userInfo.activitiesList.matched
+          ?
+          this.props.userInfo.activitiesList.matched.map(match => {
           if(match.creator.email === this.currentUser.email && match.members.length > 1) {
             return(
-            <ul className="matched-item" key={this.state.activitiesList.matched.indexOf(match)}>
+            <ul className="matched-item" key={key +=.23}>
               {this.state.isModalOpened && 
-              <Modal callBack={e => {this.deleteActivity(e, match)}} 
+                <Modal
+                  callBack={e => { this.deleteActivity(e, match) }} 
                   isOpened={this.state.isModalOpened} 
                   hasConfirm={true}
                   hasCancel={true}
@@ -96,7 +104,7 @@ class MatchedActs extends React.Component {
             )
           } else {
             return(
-              <ul className="matched-item" key={this.props.activitiesList.matched.indexOf(match)}>
+              <ul className="matched-item" key={key +=.24}>
                  {this.state.isModalOpened && 
                   <Modal callBack={e => {this.deleteActivity(e, match)}} 
                       isOpened={this.state.isModalOpened} 
