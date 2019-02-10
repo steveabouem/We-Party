@@ -1,183 +1,357 @@
 import { dbConfig } from "../config/firebase";
-import { LOGIN, LOAD_USERS, LOAD_ACTIVITIES, SEARCH_VENUE, RETRIEVEMATCH, SAVE_VENUE } from "./types";
+import { LOGIN, LOGGED_IN, LOAD_USERS, LOAD_ACTIVITIES, DELETE_ACTIVITY, SEARCH_VENUE, SAVE_VENUE, RENDER_JOINED, ERROR, OPEN_CHAT, MSG_HISTORY, NEW_MSG } from "./types";
 import axios from "axios";
 
+/* ==========GLOBAL SCOPE =============*/
+var updates = {};
+
 const firebase = require("firebase");
-
 firebase.initializeApp(dbConfig);
-
-export const googleLogin = () => dispatch => {
-  //refactor google signin and userinfo() here
-}
-
-export const findMatches = () => dispatch => {
-  const group = document.getElementById("how-many").value;
-  const budget = document.getElementById("budget-selected").innerText;
-  const genders = document.getElementById("gender-selected").innerText;
-  const data = { group: group, genders: genders, budget: budget}
-  const activitiesCollection = firebase.database().ref().child('activities');
-  
-  activitiesCollection.orderByKey().once('value').then( async function(snapshot){
-    console.log("match snapshot", snapshot.val());
-    
-    //   let matchingResults = [];
-    //   // console.log("users snap: ", snapshot.val());
-    //   let usersList = snapshot.val();
-    //   await usersList;
-    //   for(let user in usersList) {
-    //     let userActivities = usersList[user].activities;
-    //     let activityKeys = Object.keys(userActivities);
-    //     // console.log(activityKeys);
-    //     activityKeys.forEach( activity => { 
-    //       // console.log(userActivities[activity].activity.genders);
-    //       const sample = userActivities[activity].activity;
-    //       console.log("compare: ", sample, data);
-    
-    //       if(sample.genders == data.genders && sample.budget == ` ${data.budget}`){
-    //         console.log("match for", data);
-    //         sample.match = "true";
-    //         matchingResults.push(sample)
-    //       }
-    
-    //     })
-    //     // console.log("match array", matchingResults);
-    //     dispatch({
-    //       type: RETRIEVEMATCH,
-    //       payload: matchingResults
-    //     })  
-    //   }
-  })
-}
-
-export const logout = async() => {
-  await firebase.auth().signOut().then(function() {
-    console.log("logged out");
-    
-  }).catch(function(error) {
-    console.log(error);
-    
-  });
-}
-
-export const saveUser = user => dispatch => {
-  const usersCollection = firebase.database().ref().child('users');
-  
-  usersCollection.orderByChild("email").equalTo(user.email).on( "value", async function (snapshot){
-    if(snapshot.val()){
-      const currentuserId = snapshot.node_.children_.root_.key;
-      usersCollection.orderByKey().equalTo(currentuserId).on("value", function (snapshot){
-        const currentuserObject = snapshot.val()[Object.keys(snapshot.val())[0]];
-        
-        dispatch({
-          type: LOGIN,
-          payload: currentuserObject
-        })
-      })
-      
-    } else {
-      // console.log("new", user);
-      usersCollection.push().set(user)
-      dispatch({
-        type: LOGIN,
-        payload: user
-      })
-    }
-  })
+const usersCollection = firebase.database().ref().child('users'),
+activitiesCollection = firebase.database().ref().child('activities'),
+convertObject = (object, array) => {
+  for( let key in object){
+    array.push(object[key]);
+  }
 };
 
-export const searchActivities = (search) => async(dispatch) => {
-  axios.get(`/home:${search}`)
-  .then(res => {
-    // console.log(" search venue res: ", res.data);
-    dispatch({
-      type: SEARCH_VENUE,
-      payload: res.data
-    })
-  })
-  .catch( e => {
-    console.log("searchActivities error: ", e);
-  })
+/* ==========(end)=============*/
+
+export const randomKey = () => dispatch => {
+  return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 }
 
-export const createActivity = activity => dispatch => {
-  let activitiesList = [];
-  const activitiesCollection = firebase.database().ref().child('activities');
-  activitiesCollection.push(activity)
-  
-  activitiesCollection.once('value').then( function(snapshot) {
-    for(const activity in snapshot.val()) {
-      activitiesList.push(snapshot.val()[activity]);
-    }
-    
+export const createAuthUser = ( userObject) => dispatch => {
+  axios.post("https://us-central1-we-party-210101.cloudfunctions.net/signInUser", 
+  {headers: 
+  { Authorization: `Bearer ${dbConfig.apiKey}`,
+  "content-type": "application/json" }
+  }, 
+  {data: {"email": `${userObject.email}`, "password": `${userObject.password}`}})
+  .then( r => {
+    if(r.data.code === 200){
+      dispatch({
+        type: LOGIN,
+        payload: {name: userObject.name, email: userObject.email, oauth: "form", picture: null}
+      });
+    } else if ( r.data.code === 400) {
+      dispatch({
+        type: ERROR,
+        payload: r.data.message
+      })
+    } 
+  })
+  .catch( e => {
     dispatch({
-      type: SAVE_VENUE,
-      payload: activitiesList
+      type: ERROR,
+      payload: "Unable to create user auth. higher level error"
     })
   });
-  console.log("list", activitiesList);
+};
+
+export const retrieveAuthUser = () => dispatch => {
+  let  user = firebase.auth().currentUser;
+  if (user) {
+    dispatch({
+      type: LOGGED_IN,
+      payload: user   
+    });
+  } else {
+    dispatch({
+      type: LOGGED_IN,
+      payload: null
+    });
+  }
+};
+
+export const saveUser = (userObject) => dispatch => {
+  let userId = firebase.auth().currentUser.uid,
+  currentUserInfo = firebase.auth().currentUser;
+  let safeUserObject = {name: userObject.name, email: userObject.email, oauth: "form", picture: userObject.picture, allInfo: currentUserInfo };
+  
+  firebase.database().ref("/users/" + userId).set({
+    name: userObject.name,
+    email: userObject.email,
+    oAuth: userObject.oAuth,
+    picture: userObject.picture,
+  })
+  .then ( () => {
+    dispatch({
+      type: LOGIN,
+      payload: safeUserObject
+    });
+  })
+  .catch( e => {
+    dispatch({
+      type: ERROR,
+      payload: true
+    })
+  });
 };
 
 export const loadUsersCollection = () => async(dispatch) => {
-  const usersCollection = firebase.database().ref().child('users')
+  // usersCollection is defined at the top of the doc
   usersCollection.once('value').then( function(snapshot) {
     let usersList = []
-    // console.log("list", snapshot.val());
     for(const user in snapshot.val()) {
       usersList.push(snapshot.val()[user]);
     }
     dispatch({
       type: LOAD_USERS,
       payload: usersList
+    });
+  });
+};
+
+export const searchActivities = (search) => async(dispatch) => {
+  let payload;
+  await axios.post("https://us-central1-we-party-210101.cloudfunctions.net/searchActivities", 
+  {headers: 
+    { Authorization: `Bearer ${dbConfig.apiKey}`,
+    "content-type": "application/json" }
+  }, 
+  {data: {term: `${search}`}})
+  .then(res => {
+    payload = res.data;
+    res.send(payload.results);
+  })
+  .catch( e => {
+    dispatch({
+      type: ERROR,
+      payload: true
+    })
+  });
+  
+  if(payload.data.length === 0) {
+    dispatch({
+      type: SEARCH_VENUE,
+      payload: "No results found:("
+    });
+  } else {
+    dispatch({
+      type: SEARCH_VENUE,
+      payload: payload.data
+    });
+  }
+};
+
+export const createActivity = activity => dispatch => {
+  axios.post("https://us-central1-we-party-210101.cloudfunctions.net/createActivity",
+  {headers: 
+    { Authorization: `Bearer ${dbConfig.apiKey}`,
+    "content-type": "application/json" }
+  }, 
+  { data: {"activity": activity, key: activity.key} })
+  .then( r => {
+    dispatch({
+      type: SAVE_VENUE,
+      payload: r.data
+    });
+  });
+};
+
+export const deleteActivity = activity => dispatch => {
+  let payload = [];
+  axios.post("https://us-central1-we-party-210101.cloudfunctions.net/deleteActivity",
+  {headers: 
+  { Authorization: `Bearer ${dbConfig.apiKey}`,
+  "content-type": "application/json" }}, 
+  { data: {"key": activity.key, "isMatched": activity.isMatched}})
+  .then( r => {
+    if (activity.isMatched === "no") {
+      convertObject(r.data.data.unmatched,payload)
+    } else {
+      convertObject(r.data.data.matched,payload)
+    }
+    
+    dispatch({
+      type: LOAD_ACTIVITIES,
+      payload: payload
+    });
+  })
+  .catch(e => {
+    dispatch({
+      type: ERROR,
+      payload: "Couldnt join activity", e
     })
   });
 }
-
-export const loadActivitiesCollection = () => dispatch => {
-  const activitiesCollection = firebase.database().ref().child('activities')
-  let activitiesList = []
-  activitiesCollection.once('value').then( function(snapshot) {
-    for(const activity in snapshot.val()) {
-      activitiesList.push(snapshot.val()[activity]);
-    }
-  });
-  dispatch({
-    type: LOAD_ACTIVITIES,
-    payload: activitiesList
-  })
-  console.log("list", activitiesList);
-  return;
-}
-// export const saveActivity = (activity, user) => dispatch => {
-//   // console.log(user);
-
-//   const usersCollection = firebase.database().ref().child('users')
-//   usersCollection.orderByChild("email").equalTo(user.email).on( "child_added", async function(snapshot) {
-//     const currentUserId = snapshot.key;
-//     await currentUserId;
-//     const currentUserRef = firebase.database().ref().child(`users/${currentUserId}/activities`);
-//     await currentUserRef.push({activity});
-//   })
-//   //YOU SHOULD DISPATCH THE LIst OF ACTIVITIES, WOULD LIMIT THE NUMBER OF CALLS TO FIREBASE
-//   //COULD MAKE UPDATE EASIEr AS WELL
-// }
-
-export const loadActivities = (users) => dispatch => {
-  console.log("object 2 procss", users);
-}
-
-export const deleteActivity = (activity) => dispatch => {
-  console.log("Object to delete: ", activity.user.email);
-  const usersCollection = firebase.database().ref().child('users')
-  usersCollection.orderByChild("email").equalTo(activity.user.email).on("child_added", function(snapshot) {
-    console.log("snap", snapshot.val().activities, activity);
-    const activityDatabase = snapshot.val().activities;
-    
-    for(let key in activityDatabase) {
-      if(activity === activityDatabase[key].activity ){
-        console.log("match", activityDatabase[key]);
-        //INSERT REMOVE() METHOD ON CHILD HERE
-      }
-    }
-  })  
   
+export const pushNewMember =  ( currentUser, match) => dispatch => {
+  match.members.push(currentUser);
+  axios.post("https://us-central1-we-party-210101.cloudfunctions.net/joinActivity",
+  {headers: 
+  { Authorization: `Bearer ${dbConfig.apiKey}`,
+  "content-type": "application/json" }}, 
+  { data: {"activity": match, "user": currentUser}})
+  .then( r => {
+    dispatch({
+      type: LOAD_ACTIVITIES,
+      payload: r.data
+    });
+  })
+  .catch(e => {
+    dispatch({
+      type: ERROR,
+      payload: "Couldnt join activity", e
+    });
+  });
+};
+    
+export const retrieveJoinedProps = user => dispatch => {
+  axios.post("https://us-central1-we-party-210101.cloudfunctions.net/retrieveJoined",
+  {Authorization: `Bearer ${dbConfig.apiKey}`,
+  "content-type": "application/json" }, 
+  {data: {"user": user}})
+  .then( r => {
+    dispatch({
+      type: RENDER_JOINED,
+      payload: r.data.matched
+    }); 
+  })
+  .catch( e => {
+    dispatch({
+      type: ERROR,
+      payload: e
+    });    
+  });
+};
+    
+export const loadActivitiesCollection = () => dispatch => {
+  let activitiesList = {matched: [], unmatched: []};
+  // activitiesCollection is defined at the top of the doc
+  firebase.database().ref().child("activities").once('value').then( snapshot => {
+    if(snapshot.val()) {
+      convertObject(snapshot.val().matched, activitiesList.matched);
+      convertObject(snapshot.val().unmatched, activitiesList.unmatched);
+      dispatch({
+        type: LOAD_ACTIVITIES,
+        payload: activitiesList
+      });
+    }
+  })
+  .catch( e => {
+    dispatch({
+      type: ERROR,
+      payload: e
+    });
+  })
 }
+    
+export const logout = () => dispatch => {
+  firebase.auth().signOut()
+  .catch(e => {
+    dispatch({
+      type: ERROR,
+      payload: e
+    });
+  });
+  firebase.auth().setPersistence.NONE;
+}
+
+/* ==========EMAIL ACTIONS=============*/
+export const sendEmail = (email, subject, content) => dispatch => {
+  // axios.post("https://us-central1-we-party-210101.cloudfunctions.net/sendEmail",
+  // {Authorization: `Bearer ${dbConfig.apiKey}`,
+  // "content-type": "application/json" }, 
+  // {data: {"email": email,
+  // "subject": subject,
+  // "content": content
+  // }})
+  // .catch(e => {
+  //   dispatch({
+  //     type: ERROR,
+  //     payload: e
+  //   });
+  // });
+};
+
+/* ==========CHAT ACTIONS=============*/
+export const openChatRoom = (index, activity, user) => dispatch => {
+  let roomName = `${activity.venue}_${activity.created}`,
+  roomInfo = {
+    name: roomName,
+    messages: [],
+    activity: activity,
+    key: activity.key
+  };
+  
+  axios.post("https://us-central1-we-party-210101.cloudfunctions.net/openChatRoom", 
+  { Authorization: `Bearer ${dbConfig.apiKey}`,
+  "content-type": "application/json" }, 
+  { data: {"info": roomInfo}})
+  .then( r => {
+    dispatch({
+      type: OPEN_CHAT,
+      payload: {chatkey: r.data.data, status: "open", room: roomName} 
+    })
+  })
+  .catch( e => {
+    dispatch({
+      type: ERROR,
+      payload: e
+    });
+  });
+};
+    
+export const getMsgHistory = key => dispatch => {
+  axios.post("https://us-central1-we-party-210101.cloudfunctions.net/getMsgHistory",
+  {headers: 
+  { Authorization: `Bearer ${dbConfig.apiKey}`,
+  "content-type": "application/json" }}, 
+  { data: {"id": key}})
+  .then( r => {
+    dispatch({
+      type:MSG_HISTORY,
+      payload: { msgs: r.data.msgs, roomId: key }
+    });
+  })
+  .catch( e => {
+    dispatch({ 
+      type: ERROR,
+      payload: e
+    });
+  });
+};
+      
+export const sendMessage = msg => dispatch => {
+  let object = {
+    "message": msg.message,
+    "name": msg.name,
+    "email": msg.email,
+    "roomId": msg.roomId
+  };
+  
+  axios.post("https://us-central1-we-party-210101.cloudfunctions.net/sendMessage", 
+  {headers: 
+  { Authorization: `Bearer ${dbConfig.apiKey}`,
+  "content-type": "application/json" },
+  data:{"msgInfo": object}
+  })
+  .then( r => {
+    dispatch({
+      type: NEW_MSG,
+      payload: r.data.messages
+    })
+  })
+  .catch( e => {
+    dispatch({
+      type: ERROR,
+      payload: e
+    });
+  })
+}
+
+/* ==========MODAL ACTIONS=============*/
+export const clearPastMessages = () => dispatch => {
+  dispatch({
+    type: MSG_HISTORY,
+    payload: []
+  });
+};
+
+export const confirmModalAction = (callBack) => dispatch =>{
+  if(callBack !== undefined) {
+    callBack();
+  } 
+};

@@ -1,12 +1,11 @@
-// converse downtown picture
-export const landingPage = "Photo by Anthony Intraversato on Unsplash";
-// lady holding fireworks
-export const fireworkslady = "Photo by Ethan Hoover on Unsplash";
-// trapeziste
+export const feetRoofTop = "Photo by Anthony Intraversato on Unsplash";
+export const ladyFireworks = "Photo by Ethan Hoover on Unsplash";
 export const acrobat = "Photo by Shangyou Shi on Unsplash";
-// group watching fireworks
-export const fireworksGroup = "Photo by Zuza Gałczyńska on Unsplash";
-// test: red room
+export const groupLights = "Photo by Zuza Gałczyńska on Unsplash";
 export const redRoom = "Photo by Alexander Popov on Unsplash";
-// bubbles in glass zoomed
-export const bubbles = "Photo by Sharon McCutcheon on Unsplash";
+export const purpleBubbles = "Photo by Sharon McCutcheon on Unsplash";
+export const girlGlasses = "Photo by Joshua Rawson-Harris on Unsplash";
+export const purpleRoom = "Photo by Alexander Popov on Unsplash";
+export const chattyGirls = "Photo by Michael Discenza on Unsplash";
+export const redClub = "Photo by DIAO DARIUS on Unsplash";
+export const turnTable = "Photo by Denis Cardoso on Unsplash";

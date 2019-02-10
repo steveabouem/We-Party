@@ -1,0 +1,30 @@
+.standard-modal {
+  position: absolute;
+  /* top: 0;
+  left: 10%; reminder for props to pass down
+  height: 40%;
+  width: 80%; */
+  background: rgb(255, 255, 255);
+  color: #000025;
+  text-align: center;
+  border: 1px solid rgb(187, 187, 187);
+  padding: 5px;
+  z-index: 50;
+}
+
+.standard-modal-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.cancel-action {
+  padding: 1%;
+  background: rgb(122, 18, 18);
+}
+
+.confirm-action {
+  padding: 1%;
+  background: rgb(9, 17, 119);
+  color: white;
+}

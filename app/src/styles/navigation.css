@@ -1,0 +1,89 @@
+/* ==============Error Popup============== */
+.error-popup {
+  position: absolute;
+  background: black;
+  color: orange;
+  top: 20%;
+  left: 5%;
+  min-height: 50px;
+  max-height: 50px;
+  min-width: 150px;
+  max-width: 150px;
+  text-align: center;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  animation: floatText 0.5s linear 2;
+}
+
+#navigation-class-converter header{
+  background: black!important;
+  position: fixed;
+  top: 0;
+  max-width: 100%
+}
+
+/* ==============NAVBAR BUTTONS/LIs SHOULDNT HOVER LIKE ALL THE OTHERS============== */
+#class-converter button:hover {
+  transform: none;
+}
+
+#logo {
+  margin: 0 20%!important;
+}
+/* ==============DROPDOWN ICON============== */
+#menu-button img {
+  min-width: 20px;
+  max-width: 20px;
+  height: auto;
+  margin: auto
+}
+
+#navigation-class-converter  span {
+  justify-content: normal!important;
+}
+
+#simple-menu {
+  max-width: 150px;
+  background: transparent;
+  max-height: 100%;
+}
+
+#simple-menu ul {
+  padding: 0 inherit!important;
+  background: black;
+}
+
+#simple-menu ul:hover {
+  transform: none;
+}
+
+#simple-menu a {
+  transition: all 0.4s;
+}
+
+#simple-menu li {
+  transition: all 0.4s;
+}
+
+/* ==============Useless div from menu module============== */
+#simple-menu div:nth-child(1) {
+  display: none;
+}
+
+
+/* ==============MOBILE SCREENS============== */
+@media (max-width: 768px) {
+  #simple-menu div{
+    position: absolute!important;
+    min-width: 50vw!important;
+    max-width: 50vw;
+    left: 24%;
+  }
+
+  #navigation-class-converter header{
+    min-height: 16%;
+    line-height: 1;
+    position: sticky;
+  }
+}

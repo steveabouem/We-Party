@@ -2,28 +2,89 @@
   height: 100vh;
   width: 100%;
   position: absolute;
-  background: rgb(238,101,98);
-  background: linear-gradient(180deg, rgba(238,101,98,1) 50%, rgba(65,45,60,1) 50%);
-  color: #EE6562;
-  z-index: 0;
+  background: url("https://images.unsplash.com/photo-1504326008149-71dbc00aa3ae?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=3e82e4e35e856a7507fb7f7c4eef10e5&auto=format&fit=crop&w=1050&q=80");
+  background-size: cover;
+  background-repeat: no-repeat;
+  z-index: 1;
 }
 
-.LoginForm-root-1 {
-  flex-direction: column;
-  margin: 25% auto 0 auto;
+.curtain {
+  background: black;
+  z-index: 1000;
+  height: 0;
+}
+
+.login-actions {
+  padding-top: 1em;
+  overflow: hidden;
   width: 25%;
-  background: white;
-  
+  background: rgba(14, 14, 14, 0.555);
+  margin: 1em auto;
+  flex-direction: column;
+  display: flex;
+  justify-content: center;
+  z-index: 1;
+  animation: zoomInBg 0.5s linear ;
 }
 
-.login-page {
+.choices {
+  flex-direction: column;
+  display: flex;
+  padding-top: 1em;
+  z-index: 1
+}
+
+
+.login-actions button {
+  height: 2.6em!important;
+  width: 10em!important;
   text-align: center;
+  margin: 1em auto;
+  padding: 1px!important;
+  font-size: 0.7rem!important;
+  text-transform: uppercase
 }
 
-.kep-login-facebook {
+.login-class-converter {
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  justify-content: center;
+  margin: 1em auto;
+  width: 80%;
+  background: rgba(255, 255, 255, 0.555);
+  color: rgb(0, 0, 0)!important;
+  transition: all 0.4s;
+}
+
+.login-class-converter div {
+  width: 98%;
+  margin: 0.25em  auto 0 auto;
+}
+
+.login-class-converter:nth-child(3)  {
+  margin-right: 75%!important;
+  width: 899px!important;
+}
+.kep-login-facebook,  {
   background-color: #4267b2!important;
-  width: 125px!important;
-  height: 125px!important;
-  padding-top: 10px!important;
-  padding-bottom: 10px!important;
+}
+
+/* ==============MOBILE SCREENS============== */
+@media (max-width: 768px) {
+  .login-actions {
+    width: 80%;
+    position: absolute;
+    top: 30%;
+    left: 10%;
+    height: 50%;
+    padding: 0;
+    background: transparent;
+  }
+
+  .choices buttton {
+    height: 115px!important;
+    margin: 1% auto;
+    padding: 1%;
+  }
 }

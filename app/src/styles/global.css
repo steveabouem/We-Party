@@ -1,0 +1,206 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Josefin Sans', sans-serif!important;
+}
+/* here link on landing page should hav color #a00f0f!important on mobile */
+* {
+  transition: all 0.4s;
+}
+
+*:focus {
+  outline: none!important;
+}
+
+/*==============ALL BUTTONS, LINKS AND LI, INCLUDING MATERIAL UI OVERRIDE============== */
+
+a, button {
+  color: #ff6565!important;
+}
+
+ul {
+  list-style: none!important;
+}
+
+button, li {
+  background: black!important
+}
+
+button:hover, button:active, a:hover, a:active, ul:hover {
+  color: white!important;
+  text-decoration: none;
+  /* transform: translateY(5px); */
+}
+
+header button:hover, header button:active  {
+  background: black!important;
+  color:white!important;
+}
+
+#MainContainer {
+  background-color: black;
+  height: 100vh;
+  width: 100%;
+  position: absolute;
+  margin: auto;
+  text-align: center;
+}
+
+
+/* ===========NO DATA AND MODAL POPUPS STYLE============= */
+.login-prompt, .popup-content  {
+  background: #e0dddd63;
+  color: #000025;
+  animation: floatText 1s linear 2;
+}
+
+.login-prompt {
+  padding: 2em;
+  position: absolute;
+  left: 25%;
+}
+
+.display-modal {
+  position: absolute;
+  top: 10%;
+  /* left: 45%; */
+}
+
+.display-modal button {
+  border: 1px solid white;
+  padding: 0.5em 2em;
+}
+
+.row {
+  justify-content: center;
+}
+
+li[class^="MuiButtonBase-root"]:hover {
+  text-decoration: none!important;
+}
+
+li[class^="MuiButtonBase-root"] a { /*Navmenu link*/
+  color: #ff6565!important;
+  text-decoration: none!important;
+}
+
+#simple-menu li:hover a, #simple-menu li:hover{
+  color: white!important;
+  background: black!important;
+}
+
+#simple-menu div {
+  padding: 0;
+}
+
+#dropdown, #gender-mix {
+  border: 1px solid black!important;
+}
+
+
+
+.instructions-primary {
+  display: flex;
+  justify-content: center;
+  background: #3c353ab3;
+  color: white;
+  margin: auto;
+  font-size: 1.2em;
+  padding: 1em;
+}
+
+.no-data-prompt {
+  position: absolute;
+  width: 100%;
+}
+
+.buttons-wrapper, .form-wrapper {
+  padding: 1em; /*add margin 1em to children for spacing */
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.buttons-wrapper button {
+  width: 150px!important;
+  height: 60px!important;
+  border: 1px solid transparent;
+  font-size: 1.3em!important;
+  font-family: 'Josefin Sans', sans-serif;
+  margin: 1em;
+  text-transform: lowercase!important;
+}
+
+.form-wrapper button, .link-primary {
+  padding: 1em;
+  border-radius: 0;
+  width: 100%;
+  transition: all 0.3s;
+  align-self: center;
+}
+
+.photo-credentials {
+  opacity: 0.5;
+  color:  white;
+  font-size: 0.5em;
+}
+
+/* ==============MOBILE SCREENS============== */
+@media (max-width: 768px) {
+  * {
+    font-size: 1.2rem;
+  }
+  
+  .login-prompt {
+    padding: 2%;
+    top: 30%;
+    left: 0;
+    right: 0;
+    min-width: 90%;
+    max-width: 90%;
+    margin: auto;
+  }
+  
+  
+  .display-modal {
+    position: relative!important;
+    margin: auto;
+    display: flex;
+    left:0!important;
+    justify-content: center;
+    min-width: 90%;
+    max-width: 90%;
+    padding: 0;
+  }
+  
+  .display-modal button {
+    min-width: 90%;
+    max-width: 90%;
+    padding: initial 0;
+  }
+  
+  .popup-content {
+    min-width: 90%;
+    animation-iteration-count: 5;
+  }
+  
+  .instructions-primary {
+    min-width: 100%;
+    max-width: 100%;
+    margin: auto;
+  }
+  
+  .instructions-primary p {
+    background: #382f35b7;
+    color:white;
+  }
+  
+  .row {
+    margin: auto 0;
+  }
+  
+}
+
+/* ==============LARGE SCREENS============== */
+
+

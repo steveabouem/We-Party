@@ -1,2 +1,14 @@
 
 \.history/
+
+\.vscode/
+
+app/functions/node_modules/
+
+app/functions/package-lock\.json
+
+app/package-lock\.json
+
+app/build/
+
+app/\.firebase/

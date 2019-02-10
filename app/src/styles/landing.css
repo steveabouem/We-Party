@@ -2,47 +2,100 @@
   height: 100vh;
   width: 100%;
   position: absolute;
-  background: rgb(238,101,98);
-  background: linear-gradient(180deg, rgba(238,101,98,1) 50%, rgba(65,45,60,1) 50%);
+  background-color: black;
+  background-size: 50% 100%, 50% 100%;
   color: #EE6562;
   z-index: 0;
 }
 
+.slider-divs {
+  position: absolute;
+  border: 3px solid black;
+  margin: 5% 0;
+  height: 80%;
+  width: 33.3%;
+  z-index: -1;
+  background-size: cover!important;
+}
+
+.slider-divs:nth-child(1) {
+  background: url("https://images.unsplash.com/photo-1538342315856-a8a3cbc11944?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=a61037f7b6935bfd8a85f1bd05b904b8&auto=format&fit=crop&w=1050&q=80");
+  left: 0;
+  animation: slideFirstChild 0.5s linear;
+  z-index: 2;
+  alt: "Photo by Denis Cardoso on Unsplash"
+}
+
+.slider-divs:nth-child(2) {
+  background: url("https://images.unsplash.com/photo-1533619043865-1c2e2f32ff2f?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=c3fb9eaca7a85f5b42868eb5763c5ed1&auto=format&fit=crop&w=1050&q=80");
+  left: 33.3%;
+  animation: slideSecondChild 1s linear;
+  background-position-x: 30%;
+  alt: "Photo by DIAO DARIUS on Unsplash"
+
+}
+
+.slider-divs:nth-child(3) {
+  background: url("https://images.unsplash.com/photo-1514605411468-81f98844a475?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=5bcbc9ce882d49a72824357944d4db00&auto=format&fit=crop&w=1950&q=80");
+  left: 66.6%;
+  animation: slideThirdChild 0.5s ;
+  alt: "Photo by Joshua Rawson-Harris on Unsplash"
+}
+
 .white-box {
   margin: auto;
-  margin-top: 15%;
+  margin-top: 5%;
   background-repeat: no-repeat;
-  width: 30%;
-  height: 60%;
-  background-color: rgb(222, 57, 65);
-  color: #412d3c;
+  width: 33.3%;
+  height: 80%;
+  color: white;
+  background-color: rgba(255, 49, 59, 0.24);
   font-weight: bold;
   text-align: justify;
   background-size: cover;
   background-blend-mode: multiply;
-  padding: 3%;
-  animation: animateWhiteBox 0.5s cubic-bezier(0,0,1,1);
+  padding: 5%;
+  animation: animateWhiteBox 0.5s ;
 }
-
-.white-box h1 {
-  font-family: 'Josefin Sans', sans-serif;
-  color: #d0353d;
-  font-size: 2.8rem;
-  animation: revealTitle 2s;
-  animation-fill-mode: forwards;
-}
-
-.white-box p {
-  margin-top: 0;
-  margin-bottom: 1rem;
-}
-
-.white-box a, .navbar-brand a {
-  font-size: 1rem;
-  color: white;
-}
-
-.white-box a:hover{ 
-  color: #FFD951!important;
-  text-decoration: none;
+  
+  .white-box h1 {
+    font-family: 'Josefin Sans', sans-serif;
+    color: white;
+    font-size: 2.8rem;
+    animation: revealTitle 0.5s;
+    animation-fill-mode: forwards;
+  }
+  
+  .tagline {
+    margin-top: 60%;
+  }
+  
+  .white-box a, .navbar-brand a {
+    font-weight: bold;
+    font-size: 2rem;
+    color: #FFD951!important;
+    transition: all 0.4s;
+  }
+  
+  .white-box a:hover {
+    color: white!important;
+  }
+  
+  /* ==============MOBILE SCREENS============== */
+@media (max-width: 768px) {
+  .white-box {
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+    min-width: 100%;
+    background: #EE6562;
+    min-height: 100%;
+    max-height: 100%;
+    margin: 0;
+    justify-content: center;
+  }
+  
+  .slider-divs {
+    display: none;
+  }
 }

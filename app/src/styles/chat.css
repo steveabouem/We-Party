@@ -1,0 +1,50 @@
+.ChatBox {
+  position: absolute;
+  z-index: 100;
+  bottom: 2%;
+  right: 3%;
+  background: black;
+  color: white;
+  min-width: 30%;
+  max-width: 30%;
+  border: 2px solid black;
+}
+
+.chat-messages-list {
+  margin: auto;
+  padding: 1em;
+  max-height: 60vh;
+  overflow: hidden scroll;
+}
+
+.single-message {
+  background: #1d626382!important;
+  color: #612a64;
+  margin: auto;
+  min-width: 90%;
+  max-width: 90%;
+}
+
+.past-message {
+  background: white!important;
+  margin: 2% auto;
+  border: 0.5px solid #80808045;
+  padding: 3%;
+  color: #000000ad;
+  overflow-wrap: break-word;
+}
+
+/* ==============MOBILE SCREENS============== */
+@media (max-width: 768px){
+  .ChatBox {
+    position: absolute;
+    z-index: 100;
+    bottom: 2%;
+    right: 2%;
+    background: white;
+    color: white;
+    min-width: 95%;
+    max-width: 95%;
+    border: 2px solid black;
+  }
+}
