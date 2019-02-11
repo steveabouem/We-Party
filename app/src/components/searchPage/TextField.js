@@ -1,85 +1,52 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
 import Dropdown from './Dropdown';
 import GenderMix from "./GenderMix";
 
-const styles = theme => ({
-  container: {
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
-  textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    width: 200,
-  },
-  menu: {
-    width: 200,
-  },
-});
-
-class TextFields extends React.Component {
-  state = {
-    name: '',
-    amount: '',
-    people: '',
-  };
-  
-  handleChange = name => event => {
-    const button = event.target;
-    (
-      button.id === "budget-dropdown"?
-      this.setState({
-        [name]: event.target.value += "0",
-      })
-      :
-      this.setState({
-        [name]: event.target.value ,
-      })
-    )
-  };
-  
+class TextField extends React.Component {
   render() {
-    const { ...classes } = this.props;
     return (
-      <form className={classes.container} noValidate autoComplete="off" id="search-activity-form">
-        <TextField
-        id="SEARCH_VENUE"
-        label="Where/What?"
-        type="search"
-        className={classes.textField}
-        margin="normal"
-        InputLabelProps={{
-          autoFocus: true,
-        }}
+      <form className="search-form" id="search-activity-form">
+        <div className="field-container">
+          <label>
+            Where/What?
+          </label>
+          <input
+            id="SEARCH_VENUE"
+            type="text"
+          />
+        </div>
+        <div className="sarch-separator" />
+        <div className="field-container">
+          <label>
+            Attendees (number)
+          </label>
+          <input
+            id="how-many"
+            type="text"
+          />
+        </div>
+        <div className="sarch-separator" />
+        <div className="field-container">
+          <Dropdown />
+        </div>
+        <div className="sarch-separator" />
+        <div className="field-container">
+          <GenderMix />
+        </div>
+        <div className="sarch-separator" />
+        <div className="field-container">
+          <label>
+            When?
+          </label>
+          <input 
+          id="when"
+          type="date"
+          label="When?"
         />
-        <div className="sarch-separator" />
-        
-        <TextField
-        id="how-many"
-        label="How many? (only digits)"
-        value={this.state.people}
-        onChange={this.handleChange('people')}
-        type="number"
-        className={classes.textField}
-        InputLabelProps={{
-          shrink: true,
-        }}
-        margin="normal"
-        />
-        <div className="sarch-separator" />
-        <Dropdown />
-        <div className="sarch-separator" />
-        <GenderMix />
+        </div>
       </form>
     );
   }
 }
 
-TextFields.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
-
-export default withStyles(styles)(TextFields);
+export default  TextField

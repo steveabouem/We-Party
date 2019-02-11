@@ -57,10 +57,13 @@ class HomePage extends React.Component {
     let input = document.getElementById("SEARCH_VENUE").value,
       groupTotal = document.getElementById("how-many").value,
       budget = document.getElementById("budget-selected").innerHTML,
-      gender = document.getElementById("gender-selected").innerHTML;
+      gender = document.getElementById("gender-selected").innerHTML,
+      eventDate = document.getElementById("when").value;
     
     if (input === "" || groupTotal === "" || budget === "" 
-      || input === " " || groupTotal === " " || budget === "Pitch in" || gender === "Genders") {
+      || input === " " || groupTotal === " " ||
+      budget === "Pitch in" || gender === "Genders" ||
+      eventDate === "") {
       
       this.setState({
         isModalOpened: true
@@ -133,11 +136,11 @@ class HomePage extends React.Component {
                 <span className="form-wrapper" style={{padding: "1%"}}>
                   <TextField style={{margin: "1%"}}/>
                   {!this.state.currentUser?
-                    <button style={{margin: "1%", height: "90%"}} id="disabled-button" onClick={this.focus}>
+                    <button style={{width: "100px", height: "100%"}} id="disabled-button" onClick={this.focus}>
                       Please Login
                     </button>
                     :
-                    <button className="button-primary" style={{margin: "1%", height: "90%"}} onClick={this.recordSearch}>
+                    <button className="button-primary" style={{width: "100px", height: "100%"}} onClick={this.recordSearch}>
                       Find Match!
                     </button>
                   }
