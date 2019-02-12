@@ -1,21 +1,22 @@
 .standard-modal {
   position: absolute;
-  /* top: 0;
-  left: 10%; reminder for props to pass down
-  height: 40%;
-  width: 80%; */
-  background: rgb(255, 255, 255);
-  color: #000025;
+  background: rgb(0, 0, 0);
+  color: #ffffff;
   text-align: center;
-  border: 1px solid rgb(187, 187, 187);
   padding: 5px;
   z-index: 50;
+  height: 40vh;
+  width: 40vw;
+}
+
+.standard-modal p, .standard-modal div {
+  margin: 2em auto;
 }
 
 .standard-modal-buttons {
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-evenly;
 }
 
 .cancel-action {

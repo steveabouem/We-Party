@@ -74,8 +74,6 @@ class MatchedActs extends React.Component {
                   cancel={this.closeModal}
                   top="20%"
                   left="33%"
-                  height="20%"
-                  width="33%"
               />}
               <h3> Created by you </h3>
               <li> 
@@ -114,8 +112,6 @@ class MatchedActs extends React.Component {
                       cancel={this.closeModal}
                       top="20%"
                       left="33%"
-                      height="20%"
-                      width="33%"
                   />}
                 <h3> Created by {match.creator.name} </h3>
                 <li> 

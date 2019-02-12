@@ -70,9 +70,9 @@ class ChatBox extends React.Component {
           hasConfirm={true}
           hasCancel={true}
           top="0"
-          left="10%"
-          height="40%"
-          width="80%"
+          left="o"
+          height="60%"
+          width="100%"
         />}
         {this.state.opened?
         <button className="close-x" onClick={this.openModal}>

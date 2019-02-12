@@ -143,7 +143,7 @@
   flex-direction: row;
   background: #ffffff;
   padding: 1em;
-  width: 80vw;
+  width: 60vw;
 }
 
 .field-container {
@@ -152,6 +152,14 @@
   flex-direction: column;
   width: 20%;
   justify-content: center;
+}
+
+input#myInput::-webkit-calendar-picker-indicator { display: none }
+
+input[type=date]::-webkit-inner-spin-button, 
+input[type=date]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
 }
 
 .sarch-separator {
@@ -176,14 +184,12 @@
   background: transparent;
 }
 
-
 .add-activity, .delete-activity {
   border: none;
   right: 0.5em;
   position: absolute;
   transition: all 0.3s;
 }
-
 
 .create-activity {
   align-self: baseline;
@@ -194,7 +200,6 @@
   transition: all 0.3s;
 }
 
-
 /* in popup */
 .create-activity-secondary {
   width: 60%;
@@ -203,8 +208,6 @@
   margin: 1em auto;
   padding: 1em;
 }
-
-
 
 .confirmation-container {
   overflow-x: hidden;
@@ -260,11 +263,11 @@
     max-width: 100%;
   }
   
-  #search-activity-form{
+  #search-activity-form {
     display: flex;
     flex-direction: column;
     position: relative;
-    width: 70vw;
+    width: 60vw;
     overflow: scroll;
     margin: auto!important;
     justify-content: center;

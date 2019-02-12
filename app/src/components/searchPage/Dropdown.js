@@ -8,7 +8,7 @@ export default class Example extends React.Component {
     this.toggle = this.toggle.bind(this);
     this.state = {
       dropdownOpen: false,
-      dropDownValue: "Pitch in"
+      dropDownValue: ""
     };
   }
 
@@ -29,8 +29,8 @@ export default class Example extends React.Component {
   render() {
     return (
       <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-        <DropdownToggle caret>
-          $
+        <DropdownToggle style={{ background: "white !important", color: "black !important" }} caret>
+          Contribute
         </DropdownToggle>
         <DropdownMenu id="dropdown">
           <DropdownItem onClick={ () => this.selectItem(10)}>10CAD</DropdownItem>

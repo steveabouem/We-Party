@@ -54,8 +54,6 @@ class UnmatchedActs extends React.Component {
                     cancel={this.closeModal}
                     top="20%"
                     left="33%"
-                    height="20%"
-                    width="33%"
                   />}
                   <h3> Details </h3>
                   <li> 

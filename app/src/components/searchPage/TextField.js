@@ -22,7 +22,8 @@ class TextField extends React.Component {
           </label>
           <input
             id="how-many"
-            type="text"
+            type="number"
+            max={10}
           />
         </div>
         <div className="sarch-separator" />
