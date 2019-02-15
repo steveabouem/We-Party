@@ -38,18 +38,10 @@ class MatchedActs extends React.Component {
 
   deleteActivity = async(e, match) => {
     await this.props.deleteActivity({key: match.key, isMatched: "yes"});
-    this.setState({
-      activitiesList: this.props.userInfo.activitiesList,
-      isModalOpened: false
-    });
+    window.location.reload();
   };
   
   modalMessage = "Are you sure you want to delete this activity? All users will lose this information if you proceed";
-  
-  // async componentDidMount() {
-  //   await this.props.loadActivitiesCollection();
-  //   await this.props.retrieveJoinedProps();
-  // }
 
   render(){
     let key = 0;
