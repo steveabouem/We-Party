@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from "moment";
 import Dropdown from './Dropdown';
 import GenderMix from "./GenderMix";
 
@@ -43,6 +44,8 @@ class TextField extends React.Component {
           id="when"
           type="date"
           label="When?"
+          min={moment().format("YYYY-MM-DD")}
+          max={moment().add(15, "days").format("YYYY-MM-DD")}
         />
         </div>
       </form>

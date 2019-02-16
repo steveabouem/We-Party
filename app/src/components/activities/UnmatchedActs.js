@@ -1,4 +1,5 @@
 import React from "react";
+import moment from "moment";
 import { connect } from "react-redux";
 import firebase from "firebase";
 import { deleteActivity, loadActivitiesCollection, retrieveJoinedProps } from "../../actions";
@@ -42,7 +43,8 @@ class UnmatchedActs extends React.Component {
       <div className="unmatched-activities-container">
         <h2>Activities pending match.</h2>
           {this.props.userInfo.activitiesList && this.props.userInfo.activitiesList.unmatched? this.props.userInfo.activitiesList.unmatched.map(match => {
-            if(match.creator.email === firebase.auth().currentUser.email) {
+            let dateDiff = moment(match.eventDate).diff(moment().startOf('day'), "days");
+            if (match.creator.email === firebase.auth().currentUser.email) {
               return(
                 <ul className="unmatched-item" key={key += 0.43}>
                   {this.state.isModalOpened && 
@@ -62,7 +64,8 @@ class UnmatchedActs extends React.Component {
                   <li>
                     <b>Venue</b>: { match.venue }, { match.location }.
                   </li>
-                  <li>Created on { match.created }.</li>
+                  <li>Created on {match.created}.</li>
+                  <li> Event occurs on {moment(match.eventDate).format("ddd, MMM Do YY")} (in {dateDiff} {dateDiff > 1 && " days"} {dateDiff === 1 && " day"})</li>
                   <li><b>You wanted</b>: { match.group } buddies.</li>
                   <button key={key += 0.034} type="button" onClick={this.openModal}>
                     Delete

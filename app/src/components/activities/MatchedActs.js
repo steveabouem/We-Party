@@ -1,4 +1,5 @@
 import React from "react";
+import moment from "moment";
 import { connect } from "react-redux";
 import firebase from "firebase";
 import { openChatRoom, getMsgHistory, deleteActivity, loadActivitiesCollection, retrieveJoinedProps } from "../../actions";
@@ -53,6 +54,7 @@ class MatchedActs extends React.Component {
           && this.props.userInfo.activitiesList.matched
           ?
           this.props.userInfo.activitiesList.matched.map(match => {
+            let dateDiff = moment(match.eventDate).diff(moment().startOf('day'), "days");
           if(match.creator.email === this.currentUser.email && match.members.length > 1) {
             return(
             <ul className="matched-item" key={key +=.23}>
@@ -82,6 +84,9 @@ class MatchedActs extends React.Component {
                     return <span key={key += 5.0348594}> <b>{ member.name }</b> { member.email } )</span>
                   })
                 } -
+              </li>
+              <li>
+                 Event occurs on {moment(match.eventDate).format("ddd-MMM-Do-YY")} (in {dateDiff} {dateDiff > 1 ? " days" : " day"}) 
               </li>
               <li>Created on { match.created }.</li>
               <button key={key += 1.4} type="button" onClick={e => {this.openChatRoom(e, match)}}>
@@ -120,6 +125,9 @@ class MatchedActs extends React.Component {
                       return <span key={ key += .42}> <b>{ member.name }</b> { member.email } )</span>
                     })
                   } -
+                </li>
+                <li>
+                 Event occurs on {moment(match.eventDate).format("ddd, MMM Do YY")} (in {dateDiff} {dateDiff > 1 ? " days" : " day"}) 
                 </li>
                 <li>Created on { match.created }.</li>
                 <button key={key += 3.32} type="button" onClick={e => {this.openChatRoom(e, match)}}>

@@ -1,5 +1,6 @@
 import React from "react";
 import firebase from "firebase";
+import moment from "moment"
 import { connect } from "react-redux";
 import { pushNewMember, retrieveJoinedProps, sendEmail } from "../../actions";
 import Modal from "../modals";
@@ -33,7 +34,7 @@ class Confirmation extends React.Component {
     this.props.retrieveJoinedProps(this.state.currentUser);
     match.members.forEach(member => {
       //  sendEmail = (email, subject,content)
-      this.props.sendEmail(member.email, "New Member", `A new member has joined your group (${match.venue}, ${match.created})!`);
+      // this.props.sendEmail(member.email, "New Member", `A new member has joined your group (${match.venue}, ${match.created})!`);
     });
   };
 
@@ -82,18 +83,22 @@ class Confirmation extends React.Component {
                   <br/>
                   Or join a group below
                   {
-                    this.searchMatchesList.map( match => {
+                  this.searchMatchesList.map(match => {
+                    let dateDiff = moment(match.eventDate).diff(moment().now,"days");
                       return(
                         <li key={key += 0.2101}> 
-                          Venue:{match.venue} for {match.group} people
+                          Venue: {match.venue} for {match.group} people
                           ( {match.contribution} each). 
                           <br/>
                           {match.members && match.members.length -1} member(s) joined!
                           <br/>
                           Creator: {match.creator.name}
                           <br/>
-                          On {match.created}.
+                          Created On {match.created}.
                           <br />
+                          For {moment(match.eventDate).format("ddd-MMM-Do-YY")} (in 
+                          {dateDiff} {dateDiff > 1 ? " days" : " day"})
+                          <br/>
                           {match.creator.email === this.state.currentUser.email ?
                             <button type="button" className="button-secondary"
                               onClick={ e=> this.openModal(e)}>

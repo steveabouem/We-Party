@@ -65,7 +65,6 @@ header button:hover, header button:active  {
   position: absolute;
   margin: auto;
   text-align: center;
-  overflow-x: hidden;
 }
 
 /* ===========NO DATA AND MODAL POPUPS STYLE============= */
