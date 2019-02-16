@@ -25,8 +25,11 @@ class HomePage extends React.Component {
       loggedIn: null,
       list: null,
       currentUser: null,
-      isModalOpened: false
+      isModalOpened: false,
+      noResultModal: false,
+      loginModal: true,
     }
+
     firebase.auth().onAuthStateChanged(currentUser => {
       this.setState({ currentUser: currentUser });
     });
@@ -36,42 +39,43 @@ class HomePage extends React.Component {
     if (e.keyCode === 13 && !this.state.isModalOpened) {
       this.recordSearch();
     } else if (e.keyCode === 13 && this.state.isModalOpened) {
-      this.closeModal();
+      this.closeModal("fields");
+    } else if (e.keyCode === 13 && this.state.noResultModal) {
+      this.closeModal("results");
     }
   }
-
   
-  componentWillUnmount() {
-    document.removeEventListener("keypress", this.handleKeyPress);
-  }
-  
-  closeModal = () => {
-    this.setState({
-      isModalOpened: false
-    });
-  }
-  
-  async componentDidMount() {
-    document.addEventListener("keypress", this.handleKeyPress)
-    await this.props.loadUsersCollection();
-    await this.props.loadActivitiesCollection();
-    await this.props.retrieveJoinedProps(this.props.userInfo.userInfo);
+  closeModal = (e, keyword) => {
+      this.setState({
+        noResultModal: false,
+        isModalOpened: false,
+        loginModal: false,
+      });
   }
   
   recordSearch = async() => {
     let input = document.getElementById("SEARCH_VENUE").value,
       groupTotal = document.getElementById("how-many").value,
       budget = document.getElementById("budget-selected").innerHTML,
-      gender = document.getElementById("gender-selected").innerHTML;
+      gender = document.getElementById("gender-selected").innerHTML,
+      eventDate = document.getElementById("when").value;
     
     if (input === "" || groupTotal === "" || budget === "" 
-      || input === " " || groupTotal === " " || budget === "Pitch in" || gender === "Genders") {
+      || input === " " || groupTotal === " " ||
+      budget === "Pitch in" || gender === "Genders" ||
+      eventDate === "") {
       
       this.setState({
         isModalOpened: true
       });
     } else {
       await this.props.searchActivities(input);
+      if (this.props.userInfo.searchResults === "No results found:(") {
+
+        this.setState({
+          	noResultModal: true
+        });
+      }
     }
   }
   
@@ -87,7 +91,6 @@ class HomePage extends React.Component {
     activityObject = { id: object.id.split("").slice(Math.floor(Math.random(0, 14) * 10), 14).join(""), currentUser: currentUser , creator: currentUser, venue: object.name, location:object.location.address1, contact: object.phone, contribution: budget, group: groupTotal, members: [currentUser], genders: gender, created: created, key: key };
 
     for( let key in activityObject ) {//prevent DB from having empty string. 
-      // THIS MATTERS FOR JOINEDPROPS
       if(activityObject[key] === "" || activityObject[key] === " " || activityObject[key] === "Pitch in") {
         activityObject[key] = null
       }
@@ -96,8 +99,22 @@ class HomePage extends React.Component {
   }
   
   focus = async() => {
+    this.setState({
+      loginModal: true
+    });
     let loginButton = document.getElementsByClassName('link-primary')[0];
     loginButton.focus();
+  }
+
+  async componentDidMount() {
+    document.addEventListener("keypress", this.handleKeyPress)
+    await this.props.loadUsersCollection();
+    await this.props.loadActivitiesCollection();
+    await this.props.retrieveJoinedProps(this.props.userInfo.userInfo);
+  }
+  
+  componentWillUnmount() {
+    document.removeEventListener("keypress", this.handleKeyPress);
   }
 
   render (){
@@ -119,11 +136,11 @@ class HomePage extends React.Component {
                 <span className="form-wrapper" style={{padding: "1%"}}>
                   <TextField style={{margin: "1%"}}/>
                   {!this.state.currentUser?
-                    <button style={{margin: "1%", height: "90%"}} id="disabled-button" onClick={this.focus}>
+                    <button style={{width: "100px", height: "100%"}} id="disabled-button" onClick={this.focus}>
                       Please Login
                     </button>
                     :
-                    <button className="button-primary" style={{margin: "1%", height: "90%"}} onClick={this.recordSearch}>
+                    <button className="button-primary" style={{width: "100px", height: "100%"}} onClick={this.recordSearch}>
                       Find Match!
                     </button>
                   }
@@ -133,24 +150,52 @@ class HomePage extends React.Component {
           </div>
         </div>
         <div className="results-cards">
+        {
+            !this.state.currentUser && this.state.loginModal
+            ?
+            <Modal
+              isOpen={true}
+              hasConfirm={false}
+              hasCancel={true}
+              top="20%"
+              right="45%"
+              message="Please login first"
+              cancel={e=>this.closeModal(e,"fields")}
+            />
+              :
+              null
+          }
           {
             this.state.isModalOpened
             ?
             <Modal
-              isOpen={this.state.isModalOpened}
+              isOpen={true}
               hasConfirm={false}
               hasCancel={true}
               top="20%"
               right="45%"
               message="Please complete all the fields."
-              cancel={this.closeModal}
-              />
+              cancel={e=>this.closeModal(e,"fields")}
+            />
               :
               null
           }
-          {ApiResponse === "No results found:(" && <span className="no-data-prompt" style={{bottom: "15%", color: "white"}}>No results found:(</span>}
+          {
+            this.state.noResultModal
+            ?
+            <Modal
+              isOpen={true}
+              hasConfirm={false}
+              hasCancel={true}
+              top="20%"
+              right="45%"
+              message="No Results Found for this Search..."
+              cancel={e=>this.closeModal(e,"results")}
+            />
+              :
+            null  
+          }
           {ApiResponse && ApiResponse !== "No results found:(" && ApiResponse.length > 0 ? ApiResponse.map(result => {
-            console.log(result.distance);
             return (
             <Col md = {{ size: 10 }} key={result.alias}>
               <Card className="result-cards">

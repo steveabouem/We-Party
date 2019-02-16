@@ -2,10 +2,6 @@
 .home-container {
   height: 100%;
   background: rgb(0,0,0);
-  /* background: -moz-linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(125,2,6,1) 89%); */
-  /* background: -webkit-linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(125,2,6,1) 89%); */
-  /* background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(125,2,6,1) 89%); */
-  /* filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#000000",endColorstr="#7d0206",GradientType=1); */
 }
 
 .image-holder {
@@ -16,7 +12,7 @@
   justify-content: center;
   display: flex;
   background-position-y: 57%;
-  height: 70vh;
+  height: 90vh;
   width: 100%;
 }
 
@@ -54,13 +50,13 @@
   color: #fffddd;
 }
 
-
 .col-md-10:hover {
   transform: translateY(2px)
 }
 
-.dropdown { /*class dropdown, ocntainer of the $ button which then displays the #dropdown list, with .dropdown-items */
-  
+.dropdown { 
+  /*class dropdown, ocntainer of the $ button which then displays 
+  the #dropdown list, with .dropdown-items */
   border-bottom: 1.5px solid!important;
   border-bottom-color: #0000005b!important;
   height: 89%;
@@ -101,7 +97,6 @@
 }
 
 .results-cards {
-  margin: auto;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -109,8 +104,7 @@
   transition: all 0.4s;
   overflow: hidden;
   background-attachment: fixed;
-  background: rgb(222,73,73);
-  background: radial-gradient(circle, rgba(222,73,73,1) 0%, rgba(0,0,0,1) 81%);
+  background: black;
 }
 
 .results-cards div {
@@ -133,13 +127,39 @@
   color: black!important;
 }
 
+#search-activity-form  input {
+  border: none;
+  border-bottom: 1px solid;
+  width: 90%;
+  margin: 0 auto;
+}
+
 #search-activity-form {
+  display: -ms-flexbox;
   display: flex;
+  -ms-flex-pack: center;
   justify-content: center;
+  -ms-flex-direction: row;
   flex-direction: row;
   background: #ffffff;
   padding: 1em;
-  width: 100%;
+  width: 60vw;
+}
+
+.field-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  width: 20%;
+  justify-content: center;
+}
+
+input#myInput::-webkit-calendar-picker-indicator { display: none }
+
+input[type=date]::-webkit-inner-spin-button, 
+input[type=date]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
 }
 
 .sarch-separator {
@@ -164,14 +184,12 @@
   background: transparent;
 }
 
-
 .add-activity, .delete-activity {
   border: none;
   right: 0.5em;
   position: absolute;
   transition: all 0.3s;
 }
-
 
 .create-activity {
   align-self: baseline;
@@ -182,7 +200,6 @@
   transition: all 0.3s;
 }
 
-
 /* in popup */
 .create-activity-secondary {
   width: 60%;
@@ -191,8 +208,6 @@
   margin: 1em auto;
   padding: 1em;
 }
-
-
 
 .confirmation-container {
   overflow-x: hidden;
@@ -248,12 +263,11 @@
     max-width: 100%;
   }
   
-  #search-activity-form{
+  #search-activity-form {
     display: flex;
     flex-direction: column;
     position: relative;
-    min-width: 100%;
-    max-width: 100%;
+    width: 60vw;
     overflow: scroll;
     margin: auto!important;
     justify-content: center;
@@ -261,8 +275,8 @@
   
   .form-wrapper button {
     max-height: 15%;
-    max-width: 80%;
     margin: 1em auto;
+    width: 20px
   }
   
   .dropdown {

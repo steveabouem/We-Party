@@ -37,6 +37,27 @@ header button:hover, header button:active  {
   color:white!important;
 }
 
+/* ==================CUSTOM SCROLLBAR================== */
+
+::-webkit-scrollbar {
+  width: 15px;
+}
+
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px black; 
+  border-radius: 5px;
+}
+ 
+::-webkit-scrollbar-thumb {
+  background: #d35454; 
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #d35454; 
+}
+/* ==================END================== */
+
 #MainContainer {
   background-color: black;
   height: 100vh;
@@ -44,8 +65,8 @@ header button:hover, header button:active  {
   position: absolute;
   margin: auto;
   text-align: center;
+  overflow-x: hidden;
 }
-
 
 /* ===========NO DATA AND MODAL POPUPS STYLE============= */
 .login-prompt, .popup-content  {

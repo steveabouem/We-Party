@@ -27,7 +27,7 @@ class UnmatchedActs extends React.Component {
   deleteActivity = async(e, activity) => {
     await this.props.deleteActivity({key: activity.key, isMatched: "no"});
     await this.props.loadActivitiesCollection();
-    this.closeModal;
+    window.location.reload();
   };
 
   modalMessage = "Are you sure you want to delete this activity? No user will be able to match with you if you proceed.";
@@ -54,8 +54,6 @@ class UnmatchedActs extends React.Component {
                     cancel={this.closeModal}
                     top="20%"
                     left="33%"
-                    height="20%"
-                    width="33%"
                   />}
                   <h3> Details </h3>
                   <li> 

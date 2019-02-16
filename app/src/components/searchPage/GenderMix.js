@@ -12,7 +12,7 @@ export default class Gender extends React.Component {
     this.toggle = this.toggle.bind(this);
     this.state = {
       dropdownOpen: false,
-      dropDownValue: "Genders"
+      dropDownValue: ""
     };
   }
   
@@ -32,7 +32,7 @@ export default class Gender extends React.Component {
     return (
       <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
         <DropdownToggle caret>
-          <img src={gender} alt="gender" className="menu-icon" />
+          Group
         </DropdownToggle>
         <DropdownMenu id="gender-mix">
           <DropdownItem onClick={() => this.selectItem("Boyz Night Out")}>
