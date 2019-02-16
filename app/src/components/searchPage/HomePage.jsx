@@ -71,7 +71,6 @@ class HomePage extends React.Component {
     } else {
       await this.props.searchActivities(input);
       if (this.props.userInfo.searchResults === "No results found:(") {
-
         this.setState({
           	noResultModal: true
         });
@@ -85,10 +84,17 @@ class HomePage extends React.Component {
     groupTotal = document.getElementById("how-many").value,
     budget = document.getElementById("budget-selected").innerHTML,
     gender = document.getElementById("gender-selected").innerHTML,
+    eventDate = document.getElementById("when").value,
     date = new Date(), 
     dateString = date.toString().split(" ").slice(0, 5),
     created = `${dateString[0]}, ${dateString[1]} ${dateString[2]} ${dateString[3]}`,
-    activityObject = { id: object.id.split("").slice(Math.floor(Math.random(0, 14) * 10), 14).join(""), currentUser: currentUser , creator: currentUser, venue: object.name, location:object.location.address1, contact: object.phone, contribution: budget, group: groupTotal, members: [currentUser], genders: gender, created: created, key: key };
+      activityObject = {
+        id: object.id.split("").slice(Math.floor(Math.random(0, 14) * 10), 14).join(""),
+        currentUser: currentUser, creator: currentUser, venue: object.name,
+        location: object.location.address1, contact: object.phone, contribution: budget,
+        group: groupTotal, members: [currentUser], genders: gender, created: created,
+        eventDate: eventDate, key: key
+      };
 
     for( let key in activityObject ) {//prevent DB from having empty string. 
       if(activityObject[key] === "" || activityObject[key] === " " || activityObject[key] === "Pitch in") {
