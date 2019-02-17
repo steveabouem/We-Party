@@ -57,9 +57,7 @@
 .dropdown { 
   /*class dropdown, ocntainer of the $ button which then displays 
   the #dropdown list, with .dropdown-items */
-  border-bottom: 1.5px solid!important;
-  border-bottom-color: #0000005b!important;
-  height: 89%;
+  height: 100%;
 }
 
 .dropdown p {
@@ -124,12 +122,13 @@
 }
 
 #search-activity-form  label {
-  color: black!important;
+  color: #fd6464!important;
+  background: black;
+  margin: 0;
 }
 
 #search-activity-form  input {
   border: none;
-  border-bottom: 1px solid;
   width: 90%;
   margin: 0 auto;
 }
@@ -152,6 +151,7 @@
   flex-direction: column;
   width: 20%;
   justify-content: center;
+  border-bottom: 1px solid;
 }
 
 input[type="date"]::-webkit-clear-button {
@@ -174,7 +174,7 @@ input[type=date]::-webkit-outer-spin-button {
 
 .sarch-separator {
   width: 1px;
-  height: 80%;
+  height: 100%;
   background: #00000050;
 }
 
