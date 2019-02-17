@@ -18,7 +18,27 @@ class Confirmation extends React.Component {
 
   searchMatchesList = [];
 
-  retrieveSearchMatches = () => { //retrieves the activities created that would match the current search entered
+  renderMatchStyle = (match) => {
+    let groupTotal = document.getElementById("how-many").value,
+      budget = document.getElementById("budget-selected").innerHTML,
+      genders = document.getElementById("gender-selected").innerHTML,
+      location = document.getElementById("SEARCH_VENUE").value,
+      eventDate = document.getElementById("when").value;
+    
+    if (
+      location.toLowerCase() === match.venue.toLowerCase()
+      && match.contribution == budget
+      && match.eventDate == eventDate
+      && match.group == groupTotal
+      && genders === match.genders
+    ) {
+      return true
+    }
+
+    return false
+  }
+
+  retrieveSearchMatches = () => {
     if(this.props.activitiesList && this.props.activitiesList.unmatched) { 
       this.props.activitiesList.unmatched.forEach(match => {
         if(match.venue === this.props.yelpResult.name && match.location === this.props.yelpResult.location.address1){
@@ -84,9 +104,9 @@ class Confirmation extends React.Component {
                   Or join a group below
                   {
                   this.searchMatchesList.map(match => {
-                    let dateDiff = moment(match.eventDate).diff(moment().now,"days");
+                    let dateDiff = moment(match.eventDate).diff(moment().now, "days");
                       return(
-                        <li key={key += 0.2101}> 
+                        <li key={key += 0.2101} className =  {this.renderMatchStyle(match) && "perfect-match-box"}> 
                           Venue: {match.venue} for {match.group} people
                           ( {match.contribution} each). 
                           <br/>
@@ -109,7 +129,6 @@ class Confirmation extends React.Component {
                               onClick={ e => { this.joinGroup(e, this.state.currentUser, match) }}>
                               Join Group
                             </button>
-
                           }
                         </li>
                       );

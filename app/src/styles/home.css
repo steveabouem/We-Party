@@ -235,8 +235,20 @@ input[type=date]::-webkit-outer-spin-button {
   object-fit: cover;
 }
 
+.perfect-match-box {
+  background: #f96262!important;
+  color: white;
+}
 
+.perfect-match-box button {
+  background: white!important;
+  color: #f96262!important;
+}
 
+.perfect-match-box button:hover {
+  color: white!important;
+  background: black!important;
+}
 /* ==============MOBILE SCREENS============== */
 @media (max-width: 768px) {
   
