@@ -172,6 +172,9 @@ input[type=date]::-webkit-outer-spin-button {
   margin: 0; 
 }
 
+#budget-selected, #gender-selected {
+  margin: 0;
+}
 .sarch-separator {
   width: 1px;
   height: 100%;

@@ -74,6 +74,12 @@ class HomePage extends React.Component {
         this.setState({
           	noResultModal: true
         });
+      } else {
+        window.scrollTo({
+          top: 400,
+          left: 0,
+          behavior: "smooth"
+        })
       }
     }
   }

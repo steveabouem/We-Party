@@ -14,17 +14,19 @@ class TextField extends React.Component {
           <input
             id="SEARCH_VENUE"
             type="text"
+            placeholder="venue or category"  
           />
         </div>
         <div className="sarch-separator" />
         <div className="field-container">
           <label>
-            Attendees (number)
+            Attendees
           </label>
           <input
             id="how-many"
             type="number"
             max={10}
+            placeholder="enter number"  
           />
         </div>
         <div className="sarch-separator" />
@@ -46,6 +48,7 @@ class TextField extends React.Component {
           label="When?"
           min={moment().format("YYYY-MM-DD")}
           max={moment().add(15, "days").format("YYYY-MM-DD")}
+          placeholder="select date"  
         />
         </div>
       </form>

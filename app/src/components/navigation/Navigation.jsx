@@ -34,7 +34,6 @@ function Navigation(props) {
 
             <MenuButton 
               items={[{ref: "/activities", name:"My Activities"},
-              {ref: "/tour", name:"Tour"},
               {ref: "/home", name:"Home page"}]} 
               button={"WeParty"}
             />
