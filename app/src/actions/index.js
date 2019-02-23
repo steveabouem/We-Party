@@ -176,7 +176,7 @@ export const deleteActivity = activity => dispatch => {
     })
   });
 }
-  
+
 export const pushNewMember =  ( currentUser, match) => dispatch => {
   match.members.push(currentUser);
   axios.post("https://us-central1-we-party-210101.cloudfunctions.net/joinActivity",
@@ -184,7 +184,7 @@ export const pushNewMember =  ( currentUser, match) => dispatch => {
   { Authorization: `Bearer ${dbConfig.apiKey}`,
   "content-type": "application/json" }}, 
   { data: {"activity": match, "user": currentUser}})
-  .then( r => {
+    .then(r => {
     dispatch({
       type: LOAD_ACTIVITIES,
       payload: r.data

@@ -27,7 +27,6 @@ class UnmatchedActs extends React.Component {
 
   deleteActivity = async(e, activity) => {
     await this.props.deleteActivity({key: activity.key, isMatched: "no"});
-    await this.props.loadActivitiesCollection();
     window.location.reload();
   };
 

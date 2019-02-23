@@ -61,7 +61,7 @@ class ChatBox extends React.Component {
   render() {
     let tagKey = 3.01;
     return (
-      <div className="ChatBox" >
+      <div>
         {this.state.isModalOpened && 
         <Modal callBack={this.closeModalAndClear} 
           isOpened={this.state.isModalOpened} 
@@ -69,11 +69,12 @@ class ChatBox extends React.Component {
           cancel={this.closeModal}
           hasConfirm={true}
           hasCancel={true}
-          top="0"
-          left="o"
-          height="60%"
-          width="100%"
+          top="25%"
+          left="33%"
+          height="40%"
+          width="40%"
         />}
+      <div className="ChatBox" >
         {this.state.opened?
         <button className="close-x" onClick={this.openModal}>
           Minimize
@@ -100,6 +101,7 @@ class ChatBox extends React.Component {
             }
           </ul>
           <NewMessage />
+        </div>
         </div>
       </div>
     )

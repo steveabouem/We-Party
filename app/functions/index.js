@@ -2,25 +2,24 @@ const functions = require('firebase-functions');
 const cors = require('cors')({origin: true});
 const firebase = require("firebase");
 var axios = require('axios');
-var tokens = require('./functionSecrets');
-const yelpKey = tokens.yelpKey;
+const yelpKey = "woO7hOWfngBu9aeNH8cMaN0g4p7_u0IzDZ5JFvjwhu0aqAItRM-5HijZhO3JY_TwmEVq3kFpnh0Ss5yBBHYYFTZPeCtuXStFKtdmO93SILH3b-RNgeyvOisyIWpNW3Yx";
 const dbConfig = {
-  apiKey: tokens.firebaseKey,
+  apiKey: "AIzaSyA7YCkMaXdtsZlTpz4VFYlqoVsEr3Lg-p0",
   authDomain: "we-party-210101.firebaseapp.com",
   databaseURL: "https://we-party-210101.firebaseio.com",
   projectId: "we-party-210101",
   storageBucket: "we-party-210101.appspot.com",
-  messagingSenderId: tokens.firebaseSender
+  // messagingSenderId: tokens.firebaseSender
 };
 const sgMail = require('@sendgrid/mail');
-sgMail.setApiKey(tokens.sendGridKey);
+// sgMail.setApiKey(sendGridKey);
 
 firebase.initializeApp(dbConfig);
 
 exports.getToken = functions.https.onRequest((req, res) => {
   cors(req, res, () => {
     res.send(
-      { token: tokens.fbToken }
+      { token: "472475886498825" }
     );
   });
 })
@@ -320,7 +319,6 @@ exports.sendMessage = functions.https.onRequest ((req, res) => {
     message = req.body.data.msgInfo.message,
     name = req.body.data.msgInfo.name? req.body.data.msgInfo.name : "N/A",
     email = req.body.data.msgInfo.email;
-    console.log(req.body.data);
     
     firebase.database().ref().child(`chatRooms/${roomId}/messages`).push({message, email, name});
     firebase.database().ref().child(`chatRooms/${roomId}`).once("value")
