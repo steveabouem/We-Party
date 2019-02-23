@@ -2,9 +2,8 @@ import React from "react";
 import firebase from "firebase";
 import moment from "moment"
 import { connect } from "react-redux";
-import { pushNewMember, retrieveJoinedProps, sendEmail } from "../../actions";
+import { pushNewMember, retrieveJoinedProps, sendEmail} from "../../actions";
 import Modal from "../modals";
-
 
 class Confirmation extends React.Component {
   constructor() {
@@ -18,15 +17,15 @@ class Confirmation extends React.Component {
 
   searchMatchesList = [];
 
-  renderMatchStyle = (match) => {
-    let groupTotal = document.getElementById("how-many").value,
-      budget = document.getElementById("budget-selected").innerHTML,
-      genders = document.getElementById("gender-selected").innerHTML,
-      location = document.getElementById("SEARCH_VENUE").value,
-      eventDate = document.getElementById("when").value;
+  isPerfectMatch = (match) => {//conditions below prevent occasional crash on reload
+    let groupTotal = document.getElementById("how-many") ? document.getElementById("how-many").value : "",
+      budget = document.getElementById("budget-selected") ? document.getElementById("budget-selected").innerHTML : "",
+      genders = document.getElementById("gender-selected") ? document.getElementById("gender-selected").innerHTML : "",
+      location = document.getElementById("SEARCH_VENUE") ? document.getElementById("SEARCH_VENUE").value : "",
+      eventDate = document.getElementById("when") ? document.getElementById("when").value : "";
     
     if (
-      location.toLowerCase() === match.venue.toLowerCase()
+      match.venue.toLowerCase().indexOf(location.toLowerCase() ==! -1)
       && match.contribution == budget
       && match.eventDate == eventDate
       && match.group == groupTotal
@@ -48,21 +47,32 @@ class Confirmation extends React.Component {
     }
   };
 
+  isDuplicate = (currentUser, match) => {
+    let duplicates = Object.keys(match.members).filter( key => {
+      return match.members[key].email === currentUser.email
+    });
+    return duplicates.length > 0;
+  }
+
   joinGroup = async (e, user, match) => {
     // e.stopPropagation();
     await this.props.pushNewMember(this.state.currentUser, match);
     this.props.retrieveJoinedProps(this.state.currentUser);
-    match.members.forEach(member => {
-      //  sendEmail = (email, subject,content)
-      // this.props.sendEmail(member.email, "New Member", `A new member has joined your group (${match.venue}, ${match.created})!`);
-    });
+    
   };
 
-  openModal = (e) => {
+  openModal = (e, duplicate) => {
     e.stopPropagation();
+    let modalMessage;
+     if(duplicate === "creator") {
+      modalMessage = "You created this activity. You may create a second group, but you cannot join this one."
+     } else {
+      modalMessage = "You already joined this party. You will be notified of all relevant events";
+     } 
+      
     this.setState({
       isModalOpened: true,
-      modalMessage: "You created this activity. You may create a second group, but you cannot join this one.",
+      modalMessage: modalMessage,
     });
   };
 
@@ -93,7 +103,7 @@ class Confirmation extends React.Component {
                     cancel={this.closeModal}
                     top="20%"
                     left="33%"
-                    height="20%"
+                    height="30%"
                     width="80%" 
                   />
                 }
@@ -106,7 +116,7 @@ class Confirmation extends React.Component {
                   this.searchMatchesList.map(match => {
                     let dateDiff = moment(match.eventDate).diff(moment().now, "days");
                       return(
-                        <li key={key += 0.2101} className =  {this.renderMatchStyle(match) && "perfect-match-box"}> 
+                        <li key={key += 0.2101} className =  {this.isPerfectMatch(match) && "perfect-match-box"}> 
                           Venue: {match.venue} for {match.group} people
                           ( {match.contribution} each). 
                           <br/>
@@ -119,9 +129,16 @@ class Confirmation extends React.Component {
                           For {moment(match.eventDate).format("ddd-MMM-Do-YY")} (in 
                           {dateDiff} {dateDiff > 1 ? " days" : " day"})
                           <br/>
-                          {match.creator.email === this.state.currentUser.email ?
+                          {
+                            match.creator.email === this.state.currentUser.email ?
                             <button type="button" className="button-secondary"
-                              onClick={ e=> this.openModal(e)}>
+                              onClick={ e=> this.openModal(e, "creator")}>
+                              Join Group
+                            </button>
+                            :
+                            this.isDuplicate(this.state.currentUser, match) ?
+                            <button type="button" className="button-secondary"
+                              onClick={ e=> this.openModal(e, "duplicate")}>
                               Join Group
                             </button>
                             :
@@ -155,4 +172,4 @@ const mapStateToProps = state => ({
   userInfo: state.userInfo
 })
 
-export default connect(mapStateToProps, { pushNewMember, retrieveJoinedProps, sendEmail }) (Confirmation)
+export default connect(mapStateToProps, { pushNewMember, retrieveJoinedProps, sendEmail}) (Confirmation)

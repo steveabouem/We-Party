@@ -55,7 +55,7 @@ class MatchedActs extends React.Component {
           ?
           this.props.userInfo.activitiesList.matched.map(match => {
             let dateDiff = moment(match.eventDate).diff(moment().startOf('day'), "days");
-          if(match.creator.email === this.currentUser.email && match.members.length > 1) {
+          if(match.creator && match.creator.email === this.currentUser.email && match.members.length > 1) {
             return(
             <ul className="matched-item" key={key +=.23}>
               {this.state.isModalOpened && 
@@ -110,7 +110,7 @@ class MatchedActs extends React.Component {
                       top="20%"
                       left="33%"
                   />}
-                <h3> Created by {match.creator.name} </h3>
+                <h3> Created by {match.creator && match.creator.name} </h3>
                 <li> 
                   <b>Member contribution</b>: { match.contribution }
                 </li>

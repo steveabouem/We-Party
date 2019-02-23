@@ -81,7 +81,7 @@
 .view-groups {
   list-style: none;
   transition: all 1s;
-  width: 106%;
+  width: 100%;
   color: #d3f9f7;
   font-size: 0.8rem;
   height: 100%;

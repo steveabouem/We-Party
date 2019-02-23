@@ -1,8 +1,9 @@
 .standard-modal {
   position: absolute;
-  background: rgb(0, 0, 0);
-  color: #ffffff;
+  background: rgb(241, 241, 241);
+  color: #580000;
   text-align: center;
+  font-size: 1.2em;
   padding: 5px;
   z-index: 50;
   height: 40vh;
