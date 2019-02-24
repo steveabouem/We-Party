@@ -136,15 +136,12 @@ class HomePage extends React.Component {
         <Navigation currentUser={this.state.currentUser}/>
         <div className="image-holder">
           <div className="row">
-            <div className="col-lg-8">
+            <div>
               {!this.state.currentUser? <ConfirmationModal hints={success.homeHint} open={true} index={0} />
                 :
                 <ConfirmationModal hints={success.homeHint} open={false} index={1} min={6} max={0}/>
               }
               <div className="input-group">
-                <span className="instructions-primary">
-                  <p>Make it happen. Create your party!</p>
-                </span>
                 <span className="form-wrapper" style={{padding: "1%"}}>
                   <TextField style={{margin: "1%"}}/>
                   {!this.state.currentUser?

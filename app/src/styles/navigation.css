@@ -1,89 +1,55 @@
-/* ==============Error Popup============== */
-.error-popup {
+/* ==============New navMenu============== */
+.navigation-container {
   position: absolute;
-  background: black;
-  color: orange;
-  top: 20%;
-  left: 5%;
-  min-height: 50px;
-  max-height: 50px;
-  min-width: 150px;
-  max-width: 150px;
-  text-align: center;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  animation: floatText 0.5s linear 2;
-}
-
-#navigation-class-converter header{
-  background: black!important;
-  position: fixed;
   top: 0;
-  max-width: 100%
-}
-
-/* ==============NAVBAR BUTTONS/LIs SHOULDNT HOVER LIKE ALL THE OTHERS============== */
-#class-converter button:hover {
-  transform: none;
-}
-
-#logo {
-  margin: 0 20%!important;
-}
-/* ==============DROPDOWN ICON============== */
-#menu-button img {
-  min-width: 20px;
-  max-width: 20px;
-  height: auto;
-  margin: auto
-}
-
-#navigation-class-converter  span {
-  justify-content: normal!important;
-}
-
-#simple-menu {
-  max-width: 150px;
-  background: transparent;
-  max-height: 100%;
-}
-
-#simple-menu ul {
-  padding: 0 inherit!important;
+  display: inline-flex;
+  width: 100%;
+  left: 0;
+  padding: 0;
   background: black;
+  height: 60px;
 }
 
-#simple-menu ul:hover {
-  transform: none;
+.navigation-right {
+  width: 50%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: baseline;
+  font-size: 1em;
+  z-index: 100;
+  color: #f66062;
+  text-align: right;
+  padding: 1%;
 }
 
-#simple-menu a {
-  transition: all 0.4s;
+.user-name {
+  margin: 0 5%;
+  color: white;
+  font-size: 1.5em;
+}
+.navigation-left {
+  width: 50%;
+  font-size: 200%;
+  z-index: 100;
+  color: #f66062;
+  text-align: left;
+  padding: 1%;
 }
 
-#simple-menu li {
-  transition: all 0.4s;
+.nav-dropdown {
+  width: 15%;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  text-align: center;
+  animation: slideDown .5s ease;
 }
 
-/* ==============Useless div from menu module============== */
-#simple-menu div:nth-child(1) {
-  display: none;
+.nav-dropdown li {
+  margin: 1% auto;
 }
 
 
-/* ==============MOBILE SCREENS============== */
-@media (max-width: 768px) {
-  #simple-menu div{
-    position: absolute!important;
-    min-width: 50vw!important;
-    max-width: 50vw;
-    left: 24%;
-  }
 
-  #navigation-class-converter header{
-    min-height: 16%;
-    line-height: 1;
-    position: sticky;
-  }
-}
+
