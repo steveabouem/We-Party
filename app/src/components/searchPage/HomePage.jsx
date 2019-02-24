@@ -60,7 +60,7 @@ class HomePage extends React.Component {
     
     if (input === "" || groupTotal === "" || budget === "" 
       || input === " " || groupTotal === " " ||
-      budget === "Pitch in" || gender === "Genders" ||
+      budget === "Pick an amount" || gender === "Edit your group" ||
       eventDate === "") {
       
       this.setState({
