@@ -65,7 +65,7 @@ class UnmatchedActs extends React.Component {
                   </li>
                   <li>Created on {match.created}.</li>
                   <li> Event occurs on {moment(match.eventDate).format("ddd, MMM Do YY")} (in {dateDiff} {dateDiff > 1 && " days"} {dateDiff === 1 && " day"})</li>
-                  <li><b>You wanted</b>: { match.group } buddies.</li>
+                  <li><b>You wanted</b>: { match.group } {match.genders === "Random" ? "people" : match.genders === "Boyz Night Out" ? "gentlemen" :  match.genders === "Girls Night Out" ? "ladies" : ""}.</li>
                   <button key={key += 0.034} type="button" onClick={this.openModal}>
                     Delete
                   </button>

@@ -55,53 +55,12 @@ class MatchedActs extends React.Component {
           ?
           this.props.userInfo.activitiesList.matched.map(match => {
             let dateDiff = moment(match.eventDate).diff(moment().startOf('day'), "days");
-          if(match.creator && match.creator.email === this.currentUser.email && match.members.length > 1) {
-            return(
-            <ul className="matched-item" key={key +=.23}>
-              {this.state.isModalOpened && 
-                <Modal
-                  callBack={e => { this.deleteActivity(e, match) }} 
-                  isOpened={this.state.isModalOpened} 
-                  hasConfirm={true}
-                  hasCancel={true}
-                  message={this.modalMessage}
-                  cancel={this.closeModal}
-                  top="20%"
-                  left="33%"
-              />}
-              <h3> Created by you <span className="material-icons yellow">supervised_user_circle</span></h3>
-              <li> 
-                <b>Member contribution</b>: { match.contribution }
-              </li>
-              <li>
-                <b>Venue</b>: { match.venue}, {match.location}.
-              </li>
-              <li> <b>For</b>: { match.group } people ({ match.genders.split(" ")[0]}, 
-                { match.group - match.members.length} missing) </li>
-                <li>
-                  So far there are {match.members.length -1} people joining:
-                  - {match.members.map( member => {
-                    return <span key={key += 5.0348594}> <b>{ member.name }</b> { member.email } )</span>
-                  })
-                } -
-              </li>
-              <li>
-                 Event occurs on {moment(match.eventDate).format("ddd-MMM-Do-YY")} (in {dateDiff} {dateDiff > 1 ? " days" : " day"}) 
-              </li>
-              <li>Created on { match.created }.</li>
-              <button key={key += 1.4} type="button" onClick={e => {this.openChatRoom(e, match)}}>
-                Start Chat? <span className="material-icons">chat_bubble</span>
-              </button>
-              <button key={key += 0.034} type="button" onClick={this.openModal}>
-                Delete
-              </button>
-            </ul>
-            )
-          } else {
-            return(
-              <ul className="matched-item" key={key +=.24}>
-                 {this.state.isModalOpened && 
-                  <Modal callBack={e => {this.deleteActivity(e, match)}} 
+            if(match.creator && match.creator.email === this.currentUser.email && match.members.length > 1) {
+              return(
+                <ul className="matched-item" key={key +=.23}>
+                  {this.state.isModalOpened && 
+                    <Modal
+                      callBack={e => { this.deleteActivity(e, match) }} 
                       isOpened={this.state.isModalOpened} 
                       hasConfirm={true}
                       hasCancel={true}
@@ -109,34 +68,74 @@ class MatchedActs extends React.Component {
                       cancel={this.closeModal}
                       top="20%"
                       left="33%"
-                  />}
-                <h3> Created by {match.creator && match.creator.displayName} <span className="material-icons">supervised_user_circle</span></h3>
-                <li> 
-                  <b>Member contribution</b>: { match.contribution }
-                </li>
-                <li>
-                  <b>Venue</b>: { match.venue}, {match.location}.
-                </li>
-                <li> <b>For</b>: { match.group } people ({ match.genders.split(" ")[0]}, 
-                  { match.group - match.members.length} missing) </li>
+                    />
+                  }
+                  <h3> Created by you <span className="material-icons yellow">supervised_user_circle</span></h3>
+                  <li> 
+                    <b>Member contribution</b>: { match.contribution }
+                  </li>
                   <li>
-                    So far there are {match.members.length -1} people joining:
-                    - {match.members.map( member => {
-                      return <span key={ key += .42}> <b>{ member.name }</b> { member.email } )</span>
-                    })
-                  } -
-                </li>
-                <li>
-                 Event occurs on {moment(match.eventDate).format("ddd, MMM Do YY")} (in {dateDiff} {dateDiff > 1 ? " days" : " day"}) 
-                </li>
-                <li>Created on { match.created }.</li>
-                <button key={key += 3.32} type="button" onClick={e => {this.openChatRoom(e, match)}}>
-                  Start Chat?
-                </button>
-                <button key={key += 0.034} type="button" onClick={this.openModal}>
-                  Delete
-                </button>
-              </ul>
+                    <b>Venue</b>: { match.venue}, {match.location}.
+                  </li>
+                  <li> <b>For</b>: { match.group } {match.genders === "Random" ? "people" : match.genders === "Boyz Night Out" ? "gentlemen" :  match.genders === "Girls Night Out" ? "ladies" : ""} ({ match.group - match.members.length} missing) </li>
+                    <li>
+                      So far there are {match.members.length -1} people joining:
+                      - {match.members.map( member => {
+                        return <span key={key += 5.0348594}> <b>{ member.name }</b> { member.email } )</span>
+                      })
+                    } -
+                  </li>
+                  <li>
+                    Event occurs on {moment(match.eventDate).format("ddd, MMM Do YY")} (in {dateDiff} {dateDiff > 1 ? " days" : " day"}) 
+                  </li>
+                  <li>Created on { match.created }.</li>
+                  <button key={key += 1.4} type="button" onClick={e => {this.openChatRoom(e, match)}}>
+                    Start Chat? <span className="material-icons">chat_bubble</span>
+                  </button>
+                  <button key={key += 0.034} type="button" onClick={this.openModal}>
+                    Delete
+                  </button>
+                </ul>
+              )
+            } else {
+              return(
+                <ul className="matched-item" key={key +=.24}>
+                  {this.state.isModalOpened && 
+                    <Modal callBack={e => {this.deleteActivity(e, match)}} 
+                        isOpened={this.state.isModalOpened} 
+                        hasConfirm={true}
+                        hasCancel={true}
+                        message={this.modalMessage}
+                        cancel={this.closeModal}
+                        top="20%"
+                        left="33%"
+                    />}
+                  <h3> Created by {match.creator && match.creator.displayName} <span className="material-icons">supervised_user_circle</span></h3>
+                  <li> 
+                    <b>Member contribution</b>: { match.contribution }
+                  </li>
+                  <li>
+                    <b>Venue</b>: { match.venue}, {match.location}.
+                  </li>
+                  <li> <b>For</b>: { match.group } {match.genders === "Random" ? "people" : match.genders === "Boyz Night Out" ? "gentlemen" :  match.genders === "Girls Night Out" ? "ladies" : ""} ({ match.group - match.members.length} missing) </li>
+                    <li>
+                      So far there are {match.members.length -1} people joining:
+                      - {match.members.map( member => {
+                        return <span key={ key += .42}> <b>{ member.name }</b> { member.email } )</span>
+                      })
+                    } -
+                  </li>
+                  <li>
+                  Event occurs on {moment(match.eventDate).format("ddd, MMM Do YY")} (in {dateDiff} {dateDiff > 1 ? " days" : " day"}) 
+                  </li>
+                  <li>Created on { match.created }.</li>
+                  <button key={key += 3.32} type="button" onClick={e => {this.openChatRoom(e, match)}}>
+                    Start Chat?
+                  </button>
+                  <button key={key += 0.034} type="button" onClick={this.openModal}>
+                    Delete
+                  </button>
+                </ul>
             )}
         })
         :
