@@ -105,6 +105,10 @@
   background: black;
 }
 
+.results-cards .material-icons {
+  font-size: 1.4em;
+  color: yellow;
+}
 .results-cards div {
   display: flex;
   transition: all 0.4s;
@@ -181,14 +185,6 @@ input[type=date]::-webkit-outer-spin-button {
   background: #00000050;
 }
 
-.result-icon {
-  vertical-align: middle;
-  border-style: none;
-  width: 1em;
-  background: #ff6565;
-  border-radius: 5px;
-  padding: 1px;
-}
 
 .menu-icon {
   vertical-align: middle;

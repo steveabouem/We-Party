@@ -20,6 +20,7 @@
     "firebase-functions": "^2.0.2",
     "firebase-tools": "^4.2.1",
     "lottie-web": "^5.1.18",
+    "material-icons": "^0.3.0",
     "moment": "^2.22.2",
     "nodemon": "^1.18.2",
     "pg": "^7.4.3",

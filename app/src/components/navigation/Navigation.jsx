@@ -34,11 +34,18 @@ class Navigation extends React.Component {
               {this.props.currentUser && this.props.currentUser.displayName}
           </span>
           <a className="menu-toggle" onClick={this.toggleMenu}>
-              MENU
+            <span className="material-icons">
+              menu
+            </span>
           </a>
           { this.state.isMenuOpen 
             &&
-            <NavDropDown toggleMenu={this.toggleMenu} isMenuOpen={this.state.isMenuOpen} logout={this.logout} />
+            <NavDropDown 
+              toggleMenu={this.toggleMenu} 
+              isMenuOpen={this.state.isMenuOpen} 
+              logout={this.logout}
+              currentUser={this.props.currentUser}
+            />
           }
         </div>
       </div>
