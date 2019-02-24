@@ -8,8 +8,6 @@ import Confirmation from "./ConfirmPopUp";
 import ConfirmationModal from "../modals/confirmation";
 import { success } from "../modals/content";
 import Modal from "../modals";
-import location  from "../../utils/icons/location.svg";
-import phone  from "../../utils/icons/smartphone.svg";
 import {
   searchActivities, sendEmail,
   createActivity, loadUsersCollection,
@@ -137,10 +135,6 @@ class HomePage extends React.Component {
         <div className="image-holder">
           <div className="row">
             <div>
-              {!this.state.currentUser? <ConfirmationModal hints={success.homeHint} open={true} index={0} />
-                :
-                <ConfirmationModal hints={success.homeHint} open={false} index={1} min={6} max={0}/>
-              }
               <div className="input-group">
                 <span className="form-wrapper" style={{padding: "1%"}}>
                   <TextField style={{margin: "1%"}}/>
@@ -216,12 +210,12 @@ class HomePage extends React.Component {
                     Description: <br/>
                     Yelp rating: {result.rating} ({result.review_count} reviews) <br/>
                     <span>
-                      <img src={phone} alt="phone" className="result-icon" />: {result.display_phone} <br/>
+                      <span className="material-icons">phone_android</span>: {result.display_phone} <br/>
                     </span>
                     <span>
-                      <img src={location} alt="location" className="result-icon" />: {result.location.address1} <br/>
+                      <span className="material-icons">location_on</span>: {result.location.address1} <br/>
                     </span>
-                    {/* distance:  {result.distance} <br/> */}
+                    distance:  {result.distance} <br/>
                   </CardText>
                   <a href={result.url} target="blank">
                     <Button className="button-secondary">Venue details...</Button>

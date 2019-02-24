@@ -3,7 +3,6 @@ import firebase from "firebase";
 import ChatBox from "../chat/ChatBox.jsx";
 import Navigation from "../navigation/Navigation.jsx";
 import MatchedActs from "./MatchedActs";
-import ConfirmationModal from "../modals/confirmation";
 import UnmatchedActs from "./UnmatchedActs";
 import { connect } from "react-redux";
 import { retrieveJoinedProps, loadActivitiesCollection, deleteActivity } from "../../actions";
@@ -34,7 +33,6 @@ class Activities extends React.Component {
           <h1 className="login-prompt"> Please log in to consult this page </h1>
         :
           <div className="all-activities-container">
-            <ConfirmationModal hints={success.activitiesHint} open={false} index={1} min={3} max={0}/>
             <MatchedActs />
             <UnmatchedActs />
             {this.props.userInfo.chatInfo && <ChatBox />}

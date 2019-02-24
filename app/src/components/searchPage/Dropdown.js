@@ -8,7 +8,7 @@ export default class Example extends React.Component {
     this.toggle = this.toggle.bind(this);
     this.state = {
       dropdownOpen: false,
-      dropDownValue: ""
+      dropDownValue: "Pick an amount"
     };
   }
 

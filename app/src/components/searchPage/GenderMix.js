@@ -1,9 +1,5 @@
 import React from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
-import man from "../../utils/icons/man.svg";
-import woman from "../../utils/icons/woman.svg";
-import mix from "../../utils/icons/mix.svg";
-import gender from "../../utils/icons/gender.svg";
 
 export default class Gender extends React.Component {
   constructor(props) {
@@ -12,7 +8,7 @@ export default class Gender extends React.Component {
     this.toggle = this.toggle.bind(this);
     this.state = {
       dropdownOpen: false,
-      dropDownValue: ""
+      dropDownValue: "Edit your group"
     };
   }
   
@@ -36,13 +32,13 @@ export default class Gender extends React.Component {
         </DropdownToggle>
         <DropdownMenu id="gender-mix">
           <DropdownItem onClick={() => this.selectItem("Boyz Night Out")}>
-            Boyz Night Out <img src={man} alt="man" className="menu-icon" />
+            BOYS
           </DropdownItem>
           <DropdownItem onClick={() => this.selectItem("Girls Night Out")}>
-            Girls Night Out <img src={woman} alt="woman" className="menu-icon" />
+            GIRLS
           </DropdownItem>
-          <DropdownItem onClick={() => this.selectItem("Random")}>
-            Anyone:) <img src={mix} alt="mix" className="menu-icon" />
+          <DropdownItem onClick={() => this.selectItem("Mixed")}>
+            MIXED
           </DropdownItem>
         </DropdownMenu>
         <p id="gender-selected">{this.state.dropDownValue}</p>

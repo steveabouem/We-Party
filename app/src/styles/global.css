@@ -14,22 +14,26 @@ body {
 
 /*==============ALL BUTTONS, LINKS AND LI, INCLUDING MATERIAL UI OVERRIDE============== */
 
-a, button {
-  color: #ff6565!important;
+button {
+  border: 1px solid grey;
 }
 
-ul {
-  list-style: none!important;
+a, button {
+  color: #ff6565!important;
 }
 
 button, li {
   background: black!important
 }
 
+ul {
+  list-style: none!important;
+}
+
+
 button:hover, button:active, a:hover, a:active, ul:hover {
   color: white!important;
   text-decoration: none;
-  /* transform: translateY(5px); */
 }
 
 header button:hover, header button:active  {
@@ -83,7 +87,6 @@ header button:hover, header button:active  {
 .display-modal {
   position: absolute;
   top: 10%;
-  /* left: 45%; */
 }
 
 .display-modal button {

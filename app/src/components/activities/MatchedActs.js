@@ -69,7 +69,7 @@ class MatchedActs extends React.Component {
                   top="20%"
                   left="33%"
               />}
-              <h3> Created by you </h3>
+              <h3> Created by you <span className="material-icons yellow">supervised_user_circle</span></h3>
               <li> 
                 <b>Member contribution</b>: { match.contribution }
               </li>
@@ -90,7 +90,7 @@ class MatchedActs extends React.Component {
               </li>
               <li>Created on { match.created }.</li>
               <button key={key += 1.4} type="button" onClick={e => {this.openChatRoom(e, match)}}>
-                Start Chat?
+                Start Chat? <span className="material-icons">chat_bubble</span>
               </button>
               <button key={key += 0.034} type="button" onClick={this.openModal}>
                 Delete
@@ -110,7 +110,7 @@ class MatchedActs extends React.Component {
                       top="20%"
                       left="33%"
                   />}
-                <h3> Created by {match.creator && match.creator.name} </h3>
+                <h3> Created by {match.creator && match.creator.displayName} <span className="material-icons">supervised_user_circle</span></h3>
                 <li> 
                   <b>Member contribution</b>: { match.contribution }
                 </li>
