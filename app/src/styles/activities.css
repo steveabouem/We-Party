@@ -55,7 +55,7 @@
 }
 
 .matched-activities-container button, .unmatched-activities-container button{
-  margin: 2% 0;
+  margin: 2% 1% 0 0;
 }
 
 .matched-item, .unmatched-item {
