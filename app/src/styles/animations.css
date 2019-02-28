@@ -121,13 +121,12 @@
   }
 }
 
-@keyframes zoomInBg {
+@keyframes revealForm {
   0% {
-    background: black;
-    transform: translatey(-300px)
+    transform: translateY(-100%)
   }
 
   100% {
-  background: rgba(255, 255, 255, 0.555);
+    height: 100%;
   }
 }
