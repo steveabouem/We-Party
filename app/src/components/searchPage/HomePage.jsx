@@ -161,7 +161,7 @@ class HomePage extends React.Component {
                 top="20%"
                 right="45%"
                 message="Please login first"
-                cancel={e=>this.closeModal(e,"fields")}
+                cancel={e=>{this.closeModal(e,"fields"); this.props.history.push("/");}}
               />
                 :
                 null
