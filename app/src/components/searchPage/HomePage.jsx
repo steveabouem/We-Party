@@ -5,8 +5,6 @@ import { Card, CardImg, CardText, CardBody,  CardTitle, Button, Col } from "reac
 import Navigation from "../navigation/Navigation.jsx";
 import TextField from "./TextField";
 import Confirmation from "./ConfirmPopUp";
-import ConfirmationModal from "../modals/confirmation";
-import { success } from "../modals/content";
 import Modal from "../modals";
 import {
   searchActivities, sendEmail,
@@ -130,103 +128,104 @@ class HomePage extends React.Component {
   render (){
     const ApiResponse = this.props.userInfo.searchResults;
     return(
-      <div className="home-container">
-        <Navigation currentUser={this.state.currentUser}/>
-        <div className="image-holder">
-          <div className="row">
-            <div>
-              <div className="input-group">
-                <span className="form-wrapper" style={{padding: "1%"}}>
-                  <TextField style={{margin: "1%"}}/>
-                  {!this.state.currentUser?
-                    <button style={{width: "100px", height: "100%"}} id="disabled-button" onClick={this.focus}>
-                      Please Login
-                    </button>
-                    :
-                    <button className="button-primary" style={{width: "100px", height: "100%"}} onClick={this.recordSearch}>
-                      Find Match!
-                    </button>
-                  }
-                </span>
+        <div className="home-container">
+          <Navigation currentUser={this.state.currentUser}/>
+          <div className="image-holder">
+            <div className="row">
+              <div>
+                <div className="input-group">
+                  <span className="form-wrapper" style={{padding: "1%"}}>
+                    <TextField style={{margin: "1%"}}/>
+                    {!this.state.currentUser?
+                      <button style={{width: "100px", height: "100%"}} id="disabled-button" onClick={this.focus}>
+                        Please Login
+                      </button>
+                      :
+                      <button className="button-primary" style={{width: "100px", height: "100%"}} onClick={this.recordSearch}>
+                        Find Match!
+                      </button>
+                    }
+                  </span>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div className="results-cards">
-        {
-            !this.state.currentUser && this.state.loginModal
-            ?
-            <Modal
-              isOpen={true}
-              hasConfirm={false}
-              hasCancel={true}
-              top="20%"
-              right="45%"
-              message="Please login first"
-              cancel={e=>this.closeModal(e,"fields")}
-            />
-              :
-              null
-          }
+          <div className="results-cards">
           {
-            this.state.isModalOpened
-            ?
-            <Modal
-              isOpen={true}
-              hasConfirm={false}
-              hasCancel={true}
-              top="20%"
-              right="45%"
-              message="Please complete all the fields."
-              cancel={e=>this.closeModal(e,"fields")}
-            />
-              :
-              null
-          }
-          {
-            this.state.noResultModal
-            ?
-            <Modal
-              isOpen={true}
-              hasConfirm={false}
-              hasCancel={true}
-              top="20%"
-              right="45%"
-              message="No Results Found for this Search..."
-              cancel={e=>this.closeModal(e,"results")}
-            />
-              :
-            null  
-          }
-          {ApiResponse && ApiResponse !== "No results found:(" && ApiResponse.length > 0 ? ApiResponse.map(result => {
-            return (
-            <Col md = {{ size: 10 }} key={result.alias}>
-              <Card className="result-cards">
-                <Confirmation key = {result.id} yelpResult = {result} createActivity = {this.createActivity} activitiesList={this.props.userInfo.activitiesList} />
-                <CardImg top width="100%" height="200px" src={result.image_url} />
-                <CardBody>
-                  <CardTitle> Venue: <br/> {result.name} </CardTitle>
-                  <CardText>
-                    Description: <br/>
-                    Yelp rating: {result.rating} ({result.review_count} reviews) <br/>
-                    <span>
-                      <span className="material-icons">phone_android</span>: {result.display_phone} <br/>
-                    </span>
-                    <span>
-                      <span className="material-icons">location_on</span>: {result.location.address1} <br/>
-                    </span>
-                    distance:  {result.distance} <br/>
-                  </CardText>
-                  <a href={result.url} target="blank">
-                    <Button className="button-secondary">Venue details...</Button>
-                  </a>
-                </CardBody>
-              </Card>
-            </Col>
-            )}   
-            ) : <p className="no-data-prompt"> </p>}
+              !this.state.currentUser && this.state.loginModal
+              ?
+              <Modal
+                isOpen={true}
+                hasConfirm={false}
+                hasCancel={true}
+                top="20%"
+                right="45%"
+                message="Please login first"
+                cancel={e=>this.closeModal(e,"fields")}
+              />
+                :
+                null
+            }
+            {
+              this.state.isModalOpened
+              ?
+              <Modal
+                isOpen={true}
+                hasConfirm={false}
+                hasCancel={true}
+                top="20%"
+                right="45%"
+                message="Please complete all the fields."
+                cancel={e=>this.closeModal(e,"fields")}
+              />
+                :
+                null
+            }
+            {
+              this.state.noResultModal
+              ?
+              <Modal
+                isOpen={true}
+                hasConfirm={false}
+                hasCancel={true}
+                top="20%"
+                right="45%"
+                message="No Results Found for this Search..."
+                cancel={e=>this.closeModal(e,"results")}
+              />
+                :
+              null  
+            }
+            {ApiResponse && ApiResponse !== "No results found:(" && ApiResponse.length > 0 ? ApiResponse.map(result => {
+              return (
+              <Col md = {{ size: 10 }} key={result.alias}>
+                <Card className="result-cards">
+                  <Confirmation key = {result.id} yelpResult = {result} createActivity = {this.createActivity} activitiesList={this.props.userInfo.activitiesList} />
+                  <CardImg top width="100%" height="200px" src={result.image_url} />
+                  <CardBody>
+                    <CardTitle> Venue: <br/> {result.name} </CardTitle>
+                    <CardText>
+                      Description: <br/>
+                      Yelp rating: {result.rating} ({result.review_count} reviews) <br/>
+                      <span>
+                        <span className="material-icons">phone_android</span>: {result.display_phone} <br/>
+                      </span>
+                      <span>
+                        <span className="material-icons">location_on</span>: {result.location.address1} <br/>
+                      </span>
+                      distance:  {result.distance} <br/>
+                    </CardText>
+                    <a href={result.url} target="blank">
+                      <Button className="button-secondary">Venue details...</Button>
+                    </a>
+                  </CardBody>
+                </Card>
+              </Col>
+              )}   
+              ) : <p className="no-data-prompt"> </p>}
+            </div>
           </div>
-        </div>)
+      )
         }
       }
       

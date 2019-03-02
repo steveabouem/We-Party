@@ -40,7 +40,7 @@ class UnmatchedActs extends React.Component {
     let key = 0;
     return(
       <div className="unmatched-activities-container">
-        <h2>Activities pending match.</h2>
+        <h2>Activities pending match</h2>
           {this.props.userInfo.activitiesList && this.props.userInfo.activitiesList.unmatched? this.props.userInfo.activitiesList.unmatched.map(match => {
             let dateDiff = moment(match.eventDate).diff(moment().startOf('day'), "days");
             if (match.creator.email === firebase.auth().currentUser.email) {
