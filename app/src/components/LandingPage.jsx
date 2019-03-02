@@ -35,6 +35,9 @@ class HomePage extends React.Component {
               this.state.loginForm ? 
               <LoginSection createAuthUser={this.props.createAuthUser} saveUser={this.getUser} getUser={this.getUser} history={this.props.history}/>
               :
+              this.props.location.state ? 
+              <LoginSection createAuthUser={this.props.createAuthUser} saveUser={this.getUser} getUser={this.getUser} history={this.props.history}/>
+              :              
               <div>
               <h1> We-Party </h1>
                 <p className="tagline"> Our goal? Allow people to organise group activities on one single platform.

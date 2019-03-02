@@ -35,11 +35,11 @@ export default class NavDropDown extends React.Component {
               </li>
               <li className="nav-dropdown-item">
                 {this.props.currentUser ?
-                  <Link to="/" onClick={this.props.logout}>
+                  <Link to={{pathname:"/", state: {fromLogout: true }}} onClick={this.props.logout}>
                     LOGOUT
                   </Link>
                   :
-                  <Link to="/authenticate">
+                  <Link to="/">
                     LOGIN
                   </Link>
                 }
