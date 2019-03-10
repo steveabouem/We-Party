@@ -9,12 +9,12 @@ export class LoginSection extends React.Component {
   }
 
   render() {
-    let {createAuthUser, getUser, history} = this.props;
+    let {getUser, history} = this.props;
 
     return (
         <div className="login-actions">
               <div className="choices">
-                <GoogleButton  createAuthUser={createAuthUser} saveUser={getUser} getUser={getUser} history={history}/>
+                <GoogleButton saveUser={getUser} getUser={getUser} history={history}/>
                 <SlideToggle duration={300} collapsed bestPerformance
                  render ={({onToggle, setCollapsibleElement}) => 
                    (
@@ -23,12 +23,13 @@ export class LoginSection extends React.Component {
                       EMAIL 
                     </button>
                     <div className="hidden-form" ref={setCollapsibleElement}>
-                      <LoginForm createAuthUser={createAuthUser} saveUser={getUser}/>
+                      <LoginForm saveUser={getUser}/>
                     </div>
                   </div>
                  )}
                  />
               </div>
+              <span> Not a member yet? <a>Register</a></span>
             </div>
       );
   }

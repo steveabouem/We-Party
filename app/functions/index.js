@@ -24,6 +24,10 @@ exports.getToken = functions.https.onRequest((req, res) => {
   });
 })
 
+exports.registerUser = functions.https.onRequest( (req, res) => {
+  
+});
+
 exports.sendEmail = functions.https.onRequest( (req, res) =>{
   cors( req, res, () =>{
     let email = req.body.email,

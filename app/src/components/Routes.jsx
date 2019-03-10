@@ -5,6 +5,7 @@ import HomePage from "./searchPage/HomePage.jsx";
 import Activities from "./activities";
 import PageNotFound from "./PageNotFound";
 import LinkFulfill from "./login/LinkFulfill";
+import Registration from "../components/login/RegisterPage";
 
 
 class Routes extends React.Component {
@@ -16,6 +17,7 @@ class Routes extends React.Component {
           <Route exact path = "/activities" component = {Activities} />
           <Route exact path = "/home" component = {HomePage} />
           <Route path = "/fulfill/:username" component = {LinkFulfill} />
+          <Route path = "/register" component = {LinkFulfill} />
           <Route component={PageNotFound} />
         </Switch>
       </main>
