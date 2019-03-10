@@ -14,7 +14,8 @@ class GoogleButton extends React.Component {
     var provider = new firebase.auth.GoogleAuthProvider();
     firebase.auth().signInWithPopup(provider)
     .then( res => {
-      
+      console.log(res);
+      this.props.saveUser(res.user)
       this.props.history.push("/home");
     })
     .catch( e => {

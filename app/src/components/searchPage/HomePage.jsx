@@ -116,6 +116,8 @@ class HomePage extends React.Component {
 
   async componentDidMount() {
     document.addEventListener("keypress", this.handleKeyPress)
+    console.log(firebase.auth().currentUser);
+    
     await this.props.loadUsersCollection();
     await this.props.loadActivitiesCollection();
     await this.props.retrieveJoinedProps(this.props.userInfo.userInfo);

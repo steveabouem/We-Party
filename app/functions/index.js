@@ -13,20 +13,7 @@ const dbConfig = {
 };
 const sgMail = require('@sendgrid/mail');
 // sgMail.setApiKey(sendGridKey);
-
 firebase.initializeApp(dbConfig);
-
-exports.getToken = functions.https.onRequest((req, res) => {
-  cors(req, res, () => {
-    res.send(
-      { token: "472475886498825" }
-    );
-  });
-})
-
-exports.registerUser = functions.https.onRequest( (req, res) => {
-  
-});
 
 exports.sendEmail = functions.https.onRequest( (req, res) =>{
   cors( req, res, () =>{
@@ -77,74 +64,26 @@ exports.sendEmail = functions.https.onRequest( (req, res) =>{
     
 });
 
-exports.loginWithEmail = functions.https.onRequest((req, res) => {
+
+exports.saveUser = functions.https.onRequest((req, res) => {
   cors(req, res, () => {
-    firebase.auth().createUserWithEmailAndPassword(req.body.email, req.body.password)
-    .then( user => {
-      console.log('loogin res: ', user);
+    let userInfo = req.body.userInfo;
+    let data = {displayName: userInfo.displayName, email: userInfo.email, photoURL: userInfo.photoURL, uid: userInfo.uid, groups: 0};
+    console.log(userInfo, firebase.auth().currentUser);
+    firebase.database().ref().child("users/" + userInfo.uid).set(data)
+    .then( () => {
       res.send({
-        "user": user
+        "code": 200,
+        "data": "User has been saved succesfully!"
       });
     })
-    .catch(e =>{
-      res.send({"code": 500, "message": e})
+    .catch( e => {
+      res.send({
+        "code": 500,
+        "data": "Review saved user data."
+      });
     });
   });
-});
-
-exports.signInUser = functions.https.onRequest((req, res) => {
-  const email = req.body.email,
-  password = req.body.password;
-  const usersCollection = firebase.database().ref().child("users");
-  
-  cors( req, res, () => {
-    usersCollection.once( "value")
-    .then (snapshot => {
-      for ( let uid in snapshot.val()){
-        if(snapshot.val()[uid].email && snapshot.val()[uid].email === email) {
-          firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
-          .then(function() {
-            return firebase.auth().signInWithEmailAndPassword(email, password);
-          })
-          .then(singinResponse => {
-            res.send({
-              "code": 200,
-              "data": "Success!",
-              "uid": uid
-            });
-          })
-          .catch( e => {
-            res.send({
-              "code": 500,
-              "message": "Unable to create exisgting user's authenticated profile",
-              "deleteThis": e
-            });
-          });
-        } else if(!snapshot.val()[uid].email || snapshot.val()[uid].email !== email) {
-          firebase.auth().createUserWithEmailAndPassword(email, password)
-          .then( r => {
-            firebase.auth().setPersistence(firebase.auth.Auth.Persistence.NONE)
-            .then(function() {
-              return firebase.auth().signInWithEmailAndPassword(email, password);
-            })
-            .then(singinResponse => {
-              res.send({
-                "code": 200,
-                "data": "Success!",
-              });
-            })
-            .catch( e => {
-              res.send({
-                "code": 500,
-                "message": "Unable to create user's authenticated profile",
-                "deleteThis": e
-              });
-            })
-          })
-        }        
-      }
-    })
-  })
 });
 
 exports.searchActivities = functions.https.onRequest( (req, res) => {

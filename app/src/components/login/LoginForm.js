@@ -2,7 +2,7 @@ import React from 'react';
 import "firebase/database";
 import {connect} from "react-redux";
 import Modal from "../modals";
-import {sendLink} from "../../actions";
+import {sendLink, saveUser} from "../../actions";
 import {loginInfo} from "../modals/content";
 
 class LoginForm extends React.Component {

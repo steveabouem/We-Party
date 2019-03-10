@@ -1,6 +1,8 @@
 import { dbConfig } from "../config/firebase";
 import { LOGIN, LOGGED_IN, LOAD_USERS, LOAD_ACTIVITIES, SEARCH_VENUE, SAVE_VENUE, RENDER_JOINED, ERROR, OPEN_CHAT, MSG_HISTORY, NEW_MSG } from "./types";
 import axios from "axios";
+import moment from "moment";
+import { log } from "util";
 
 /* ==========GLOBAL SCOPE =============*/
 var updates = {};
@@ -114,28 +116,20 @@ export const retrieveAuthUser = () => dispatch => {
   }
 };
 
-export const saveUser = (userObject) => dispatch => {
-  let userId = firebase.auth().currentUser.uid,
-  safeUserObject = {name: userObject.name, email: userObject.email, oauth: "form", picture: userObject.picture };
-  
-  firebase.database().ref("/users/" + userId).set({
-    name: userObject.name,
-    email: userObject.email,
-    oAuth: userObject.oAuth,
-    picture: userObject.picture,
-  })
-  .then ( () => {
-    dispatch({
-      type: LOGIN,
-      payload: safeUserObject
-    });
+export const saveUser = (userInfo) => dispatch => {
+  axios.post("https://us-central1-we-party-210101.cloudfunctions.net/saveUser", 
+  {headers: 
+  { Authorization: `Bearer ${dbConfig.apiKey}`,
+  "content-type": "application/json" }
+  },
+  {data: {"userInfo": userInfo}}
+  )
+  .then( res => {
+    console.log('saving res', res);
   })
   .catch( e => {
-    dispatch({
-      type: ERROR,
-      payload: true
-    })
-  });
+    console.log("saving e", e);
+  })
 };
 
 export const loadUsersCollection = () => async(dispatch) => {
