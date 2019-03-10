@@ -15,7 +15,6 @@ export class LoginSection extends React.Component {
         <div className="login-actions">
               <div className="choices">
                 <GoogleButton  createAuthUser={createAuthUser} saveUser={getUser} getUser={getUser} history={history}/>
-                {/* <FacebookButton createAuthUser={this.props.createAuthUser} saveUser={this.getUser} getUser={this.getUser} /> */}
                 <SlideToggle duration={300} collapsed bestPerformance
                  render ={({onToggle, setCollapsibleElement}) => 
                    (

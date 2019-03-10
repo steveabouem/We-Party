@@ -25,3 +25,8 @@ export const success = {
 export const failure = {
 
 };
+
+export const loginInfo = {
+  title: "Login Process",
+  summary: "You're about to provide your email adress for login. This will allow us to verify you email and allow you to login without a password",
+}
