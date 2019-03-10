@@ -3,7 +3,6 @@ import {LoginSection} from "./login/LoginPage"
 import { saveUser,loadUsersCollection, createAuthUser } from "../actions";
 import {connect} from "react-redux";
 
-
 class HomePage extends React.Component {
   constructor() {
     super();
@@ -21,7 +20,7 @@ class HomePage extends React.Component {
   getUser = async (userInfo) =>  {
     await this.props.loadUsersCollection();
     await this.props.saveUser(userInfo);
-    this.props.history.push("/home")
+    this.props.history.push("/home");
   }
 
   render(){

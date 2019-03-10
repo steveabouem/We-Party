@@ -73,6 +73,21 @@ exports.sendEmail = functions.https.onRequest( (req, res) =>{
     
 });
 
+exports.loginWithEmail = functions.https.onRequest((req, res) => {
+  cors(req, res, () => {
+    firebase.auth().createUserWithEmailAndPassword(req.body.email, req.body.password)
+    .then( user => {
+      console.log('loogin res: ', user);
+      res.send({
+        "user": user
+      });
+    })
+    .catch(e =>{
+      res.send({"code": 500, "message": e})
+    });
+  });
+});
+
 exports.signInUser = functions.https.onRequest((req, res) => {
   const email = req.body.email,
   password = req.body.password;

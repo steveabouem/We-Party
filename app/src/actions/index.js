@@ -1,5 +1,5 @@
 import { dbConfig } from "../config/firebase";
-import { LOGIN, LOGGED_IN, LOAD_USERS, LOAD_ACTIVITIES, DELETE_ACTIVITY, SEARCH_VENUE, SAVE_VENUE, RENDER_JOINED, ERROR, OPEN_CHAT, MSG_HISTORY, NEW_MSG } from "./types";
+import { LOGIN, LOGGED_IN, LOAD_USERS, LOAD_ACTIVITIES, SEARCH_VENUE, SAVE_VENUE, RENDER_JOINED, ERROR, OPEN_CHAT, MSG_HISTORY, NEW_MSG } from "./types";
 import axios from "axios";
 
 /* ==========GLOBAL SCOPE =============*/
@@ -20,6 +20,56 @@ convertObject = (object, array) => {
 export const randomKey = () => dispatch => {
   return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 }
+
+export const signinWithPassword = (username, password) => {
+  
+}
+
+export const sendLink = (email, username) => dispatch =>{
+var actionCodeSettings = {
+  url: 'http://localhost:3000/fulfill/' + username ,
+  handleCodeInApp: true,
+  };
+
+  firebase.auth().sendSignInLinkToEmail(email, actionCodeSettings)
+  .then(function() {
+    window.localStorage.setItem('emailForSignIn', email);
+    dispatch({
+      type: ERROR,
+      payload: null //Resets message prop in case an error was previously made
+    });
+  })
+  .catch(function(e) {
+    dispatch({
+      type: ERROR,
+      payload: e.message
+    });
+  });
+}
+
+export const confirmLink = (username) => async dispatch => {
+  if (firebase.auth().isSignInWithEmailLink(window.location.href)) {
+    var email = window.localStorage.getItem('emailForSignIn');
+
+    if (!email) {
+      email = window.prompt('Please provide your email for confirmation');
+    }
+    await firebase.auth().signInWithEmailLink(email, window.location.href)
+      .then(function(currentUser) {
+        dispatch({
+          type: LOGIN,
+          payload:{chosenName: username}
+        });
+      })
+      .catch(function(e) {
+        dispatch({
+          type: ERROR,
+          payload: e.message
+        })
+      });
+      window.localStorage.removeItem('emailForSignIn');
+  }  
+};
 
 export const createAuthUser = ( userObject) => dispatch => {
   axios.post("https://us-central1-we-party-210101.cloudfunctions.net/signInUser", 
@@ -66,8 +116,7 @@ export const retrieveAuthUser = () => dispatch => {
 
 export const saveUser = (userObject) => dispatch => {
   let userId = firebase.auth().currentUser.uid,
-  currentUserInfo = firebase.auth().currentUser;
-  let safeUserObject = {name: userObject.name, email: userObject.email, oauth: "form", picture: userObject.picture, allInfo: currentUserInfo };
+  safeUserObject = {name: userObject.name, email: userObject.email, oauth: "form", picture: userObject.picture };
   
   firebase.database().ref("/users/" + userId).set({
     name: userObject.name,

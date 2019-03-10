@@ -118,8 +118,6 @@ li[class^="MuiButtonBase-root"] a { /*Navmenu link*/
   border: 1px solid black!important;
 }
 
-
-
 .instructions-primary {
   display: flex;
   justify-content: center;
@@ -136,7 +134,7 @@ li[class^="MuiButtonBase-root"] a { /*Navmenu link*/
 }
 
 .buttons-wrapper, .form-wrapper {
-  padding: 1em; /*add margin 1em to children for spacing */
+  padding: 1em; 
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -164,6 +162,11 @@ li[class^="MuiButtonBase-root"] a { /*Navmenu link*/
   opacity: 0.5;
   color:  white;
   font-size: 0.5em;
+}
+
+.page-not-found h1{
+  margin: 15% auto;
+  color: wheat;
 }
 
 /* ==============MOBILE SCREENS============== */

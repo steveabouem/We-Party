@@ -11,7 +11,7 @@
 .slider-divs {
   position: absolute;
   border: 3px solid black;
-  margin: 5% 0;
+  margin: 5% 0 0 0;
   height: 80%;
   width: 33.3%;
   z-index: -1;
@@ -54,7 +54,7 @@
   text-align: justify;
   background-size: cover;
   background-blend-mode: multiply;
-  padding: 5%;
+  padding: 0 5%;
   animation: animateWhiteBox 0.5s ;
 }
   
