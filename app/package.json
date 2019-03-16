@@ -38,7 +38,7 @@
     "reactstrap": "^6.2.0",
     "redux": "^4.0.0",
     "redux-thunk": "^2.3.0",
-    "stripe": "^6.25.1"
+    "stripe": "^6.27.0"
   },
   "scripts": {
     "start": "react-scripts start",
