@@ -1,10 +1,10 @@
 import React from "react";
 import {Link} from "react-router-dom";
+const firebase = require("firebase");
 
 export default class NavDropDown extends React.Component {
 
     handleClick = e => {
-        console.log("click", e.target.className);
         if(e.target.className !== "menu-toggle" 
         && e.target.className !== "nav-dropdown"
         && e.target.className !== "nav-dropdown-item") {
@@ -34,7 +34,7 @@ export default class NavDropDown extends React.Component {
                 </Link>
               </li>
               <li className="nav-dropdown-item">
-                {this.props.currentUser ?
+                {firebase.auth().currentUser ?
                   <Link to={{pathname:"/", state: {fromLogout: true }}} onClick={this.props.logout}>
                     LOGOUT
                   </Link>

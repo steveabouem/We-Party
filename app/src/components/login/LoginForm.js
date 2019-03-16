@@ -2,8 +2,9 @@ import React from 'react';
 import "firebase/database";
 import {connect} from "react-redux";
 import Modal from "../modals";
-import {sendLink} from "../../actions";
+import {sendLink, loginUser} from "../../actions";
 import {loginInfo} from "../modals/content";
+const firebase = require("firebase");
 
 class LoginForm extends React.Component {
   state = {
@@ -17,17 +18,6 @@ class LoginForm extends React.Component {
     return("https://" + email.split("@")[1])
   };
 
-  saveUser = async() => {
-    let first = this.state.firstName,
-    last = this.state.lastName,
-    email = this.state.email,
-    password = this.state.password,
-    userInfo = { displayName: `${first} ${last}`, email: email, oAuth: "Form", password:password};
-    
-    await this.props.createAuthUser(userInfo);
-    await this.props.saveUser(userInfo);
-  }
-
   togglePassView = () => {
     this.setState({
       showPassword: !this.state.showPassword
@@ -40,21 +30,24 @@ class LoginForm extends React.Component {
     });
   }
 
-  closeInfoModal = () => {
+  closeModal = () => {
     this.setState({
+      isErrorModalOpened: false,
       isInfoModalOpened: false
     });
   }
 
-  closeModal = () => {
-    this.setState({
-      isErrorModalOpened: false,
-    });
+  passwordLogin = async (e) => {
+    e.preventDefault();
+    let email = document.getElementsByName("email-login")[0].value,
+    password = document.getElementsByName("password")[0].value;
+    await this.props.loginUser(email, password);
+    await firebase.auth().currentUser;
   }
 
   sendLink = (e) => {
     e.preventDefault();
-    let email = document.getElementsByName("email")[0].value;
+    let email = document.getElementsByName("email-link")[0].value;
     let username = document.getElementsByName("username")[0].value;
     
     this.props.sendLink(email, username);
@@ -77,6 +70,11 @@ class LoginForm extends React.Component {
     }
   }
 
+  componentDidUpdate() {
+    if(firebase.auth().currentUser) {
+      this.props.history.push("/home");
+    }
+  }
   render() {
     return (
       <div>
@@ -103,16 +101,16 @@ class LoginForm extends React.Component {
               hasConfirm={false}
               hasCancel={true}
               message={loginInfo.summary}
-              cancel={this.closeInfoModal}
+              cancel={this.closeModal}
               top="20%"
               left="33%"
             />
           }
         <form className="login-form">
           <label>
-            Username
+            Email
           </label>
-          <input type="text" placeholder="Jane Dough" name="username"/>
+          <input type="email" placeholder="my@email.com" name="email-login"/>
           <label>
             Password
           </label>
@@ -123,7 +121,7 @@ class LoginForm extends React.Component {
           <label>
             Always use verification Link <br/> (no password required)
           </label>
-          <input type="email" placeholder="@" name="email" isrequired onClick={this.openInfoModal} />
+          <input type="email" placeholder="@" name="email-link" isrequired onClick={this.openInfoModal} />
           <button className="button-primary" onClick={e => {this.sendLink(e)}}>
             GET LINK
           </button>
@@ -133,9 +131,9 @@ class LoginForm extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   userInfo: state.userInfo
 });
 
-export default connect (mapStateToProps, {sendLink})(LoginForm);
+export default connect (mapStateToProps, {sendLink, loginUser})(LoginForm);
 
