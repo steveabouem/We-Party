@@ -68,19 +68,54 @@ exports.sendEmail = functions.https.onRequest( (req, res) =>{
 exports.saveUser = functions.https.onRequest((req, res) => {
   cors(req, res, () => {
     let userInfo = req.body.userInfo;
-    let data = {displayName: userInfo.displayName, email: userInfo.email, photoURL: userInfo.photoURL, uid: userInfo.uid, groups: 0};
-    console.log(userInfo, firebase.auth().currentUser);
-    firebase.database().ref().child("users/" + userInfo.uid).set(data)
-    .then( () => {
-      res.send({
-        "code": 200,
-        "data": "User has been saved succesfully!"
-      });
-    })
-    .catch( e => {
-      res.send({
-        "code": 500,
-        "data": "Review saved user data."
+    let data = {displayName: userInfo.displayName, email: userInfo.email, photoURL: userInfo.photoURL, uid: userInfo.uid, timesUsed: 0};
+    console.log("info received", userInfo);
+    firebase.database().ref().child("users/" + userInfo.uid).once("value", snapshot => {
+    console.log("db querried", snapshot.val());
+      if(!snapshot.val()) {
+        firebase.database().ref().child("users/" + userInfo.uid).set(data)
+        .then( () => {
+          res.send({
+            "code": 200,
+            "data": "User has been saved succesfully!"
+          });
+        })
+        .catch( e => {
+          res.send({
+            "code": 500,
+            "data": "Review saved user data."
+          });
+        })
+      } else {
+        res.send({
+          "code": 204,
+          "data": "User already exists!"
+        });
+      }
+    });
+  });
+});
+
+exports.countSearches = functions.https.onRequest( (req, res) => {
+  cors(req, res, () => {
+    let uid = req.body.userInfo.uid;
+    firebase.database().ref().child("users/" + uid).once("value", snapshot => {
+      let currentTimesUsed = snapshot.val().timesUsed +=1;
+      console.log({currentTimesUsed});
+      firebase.database().ref("users/" + uid).update({
+        timesUsed: currentTimesUsed
+      })
+      .then( res => {
+        res.send({
+          "code": 200,
+          "data": res
+        });
+      })
+      .catch( e => {
+        res.send({
+          "code": 500,
+          "data": e
+        });
       });
     });
   });

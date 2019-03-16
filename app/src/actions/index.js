@@ -97,8 +97,22 @@ export const confirmLink = (username) => async dispatch => {
   }  
 };
 
-export const saveUser = (userObject) => dispatch => {
-  // FIREBASE, userObject is the auth.currentUser
+export const saveUser = (userInfo) => dispatch => {
+  axios.post("https://us-central1-we-party-210101.cloudfunctions.net/saveUser", 
+  {headers: 
+    { Authorization: `Bearer ${dbConfig.apiKey}`,
+    "content-type": "application/json" }
+  }, 
+  {data: {userInfo: userInfo }})
+  .then(res => {
+    console.log(res);
+  })
+  .catch( e => {
+    dispatch({
+      type: ERROR,
+      payload: true
+    })
+  });
 };
 
 export const loadUsersCollection = () => async(dispatch) => {
@@ -125,7 +139,6 @@ export const searchActivities = (search) => async(dispatch) => {
   {data: {term: `${search}`}})
   .then(res => {
     payload = res.data;
-    res.send(payload.results);
   })
   .catch( e => {
     dispatch({
