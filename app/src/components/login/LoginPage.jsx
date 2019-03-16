@@ -4,17 +4,14 @@ import LoginForm from "./LoginForm";
 import GoogleButton from "./GoogleButton.jsx";
 
 export class LoginSection extends React.Component {
-  constructor() {
-    super();
-  }
 
   render() {
-    let {getUser, history} = this.props;
+    let {getUser, history, userInfo} = this.props;
 
     return (
         <div className="login-actions">
               <div className="choices">
-                <GoogleButton saveUser={getUser} getUser={getUser} history={history}/>
+                <GoogleButton getUser={getUser} history={history}/>
                 <SlideToggle duration={300} collapsed bestPerformance
                  render ={({onToggle, setCollapsibleElement}) => 
                    (
@@ -23,13 +20,13 @@ export class LoginSection extends React.Component {
                       EMAIL 
                     </button>
                     <div className="hidden-form" ref={setCollapsibleElement}>
-                      <LoginForm saveUser={getUser}/>
+                      <LoginForm history={this.props.history}/>
                     </div>
                   </div>
                  )}
                  />
               </div>
-              <span> Not a member yet? <a>Register</a></span>
+              <span> Not a member yet? <a href="./register">Register</a></span>
             </div>
       );
   }

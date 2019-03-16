@@ -81,6 +81,17 @@
     color: white!important;
   }
   
+  
+  /* ==============REGISTRATION PAGE============== */
+  .registration > .slider-divs{
+    filter: grayscale(1) brightness(1.3);
+    animation: none;
+  }
+
+  .registration >.white-box, .registration > slider-divs:nth-child(2) {
+    filter: none;
+  }
+  
   /* ==============MOBILE SCREENS============== */
 @media (max-width: 768px) {
   .white-box {

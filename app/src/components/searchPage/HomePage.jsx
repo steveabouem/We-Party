@@ -116,8 +116,6 @@ class HomePage extends React.Component {
 
   async componentDidMount() {
     document.addEventListener("keypress", this.handleKeyPress)
-    console.log(firebase.auth().currentUser);
-    
     await this.props.loadUsersCollection();
     await this.props.loadActivitiesCollection();
     await this.props.retrieveJoinedProps(this.props.userInfo.userInfo);
@@ -138,7 +136,7 @@ class HomePage extends React.Component {
                 <div className="input-group">
                   <span className="form-wrapper" style={{padding: "1%"}}>
                     <TextField style={{margin: "1%"}}/>
-                    {!this.state.currentUser?
+                    {!firebase.auth().currentUser?
                       <button style={{width: "100px", height: "100%"}} id="disabled-button" onClick={this.focus}>
                         Please Login
                       </button>

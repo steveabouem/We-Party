@@ -17,7 +17,7 @@ class Routes extends React.Component {
           <Route exact path = "/activities" component = {Activities} />
           <Route exact path = "/home" component = {HomePage} />
           <Route path = "/fulfill/:username" component = {LinkFulfill} />
-          <Route path = "/register" component = {LinkFulfill} />
+          <Route path = "/register" component = {Registration} />
           <Route component={PageNotFound} />
         </Switch>
       </main>

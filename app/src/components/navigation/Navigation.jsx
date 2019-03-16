@@ -2,12 +2,14 @@ import React from "react";
 import {connect} from "react-redux";
 import {logout} from "../../actions";
 import NavDropDown from "./NavDropDown";
+const firebase = require("firebase");
 
 class Navigation extends React.Component {
   constructor () {
     super();
     this.state = {
-      isMenuOpen: false
+      isMenuOpen: false,
+      currentUser: firebase.auth().currentUser
     };
   }
 
@@ -21,6 +23,7 @@ class Navigation extends React.Component {
     await this.props.logout();
   };
 
+ 
   render() {
     return (
       <div className="navigation-container">
@@ -31,7 +34,7 @@ class Navigation extends React.Component {
         </div>
         <div className="navigation-right">
           <span className="user-name">
-              {this.props.currentUser && this.props.currentUser.displayName}
+              {firebase.auth().currentUser ? firebase.auth().currentUser.displayName : "Guest"}
           </span>
           <a className="menu-toggle" onClick={this.toggleMenu}>
             <span className="material-icons">

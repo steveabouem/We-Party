@@ -1,8 +1,6 @@
 import { dbConfig } from "../config/firebase";
 import { LOGIN, LOGGED_IN, LOAD_USERS, LOAD_ACTIVITIES, SEARCH_VENUE, SAVE_VENUE, RENDER_JOINED, ERROR, OPEN_CHAT, MSG_HISTORY, NEW_MSG } from "./types";
 import axios from "axios";
-import moment from "moment";
-import { log } from "util";
 
 /* ==========GLOBAL SCOPE =============*/
 var updates = {};
@@ -23,9 +21,35 @@ export const randomKey = () => dispatch => {
   return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 }
 
-export const signinWithPassword = (username, password) => {
-  
-}
+export const registerUser = (email, password) => dispatch => {
+  //verify firebase limit on same email registration. this works with my gmail but no longer with my hotmail
+  firebase.auth().createUserWithEmailAndPassword(email, password)
+  .then( () => {
+    firebase.auth().sendPasswordResetEmail(email);
+  })
+  .catch(error => {
+    dispatch({
+      type: ERROR	,
+      payload: error
+    })
+  });
+};
+
+export const loginUser = (email, password) => dispatch => {
+  firebase.auth().signInWithEmailAndPassword(email, password)
+    .then( user => {
+      dispatch({
+        type: LOGIN,
+        payload: user
+      });
+    })
+    .catch( e => {
+      dispatch({
+        type: ERROR,
+        payload: e
+      });
+    })
+};
 
 export const sendLink = (email, username) => dispatch =>{
 var actionCodeSettings = {
@@ -47,7 +71,7 @@ var actionCodeSettings = {
       payload: e.message
     });
   });
-}
+};
 
 export const confirmLink = (username) => async dispatch => {
   if (firebase.auth().isSignInWithEmailLink(window.location.href)) {
@@ -73,63 +97,8 @@ export const confirmLink = (username) => async dispatch => {
   }  
 };
 
-export const createAuthUser = ( userObject) => dispatch => {
-  axios.post("https://us-central1-we-party-210101.cloudfunctions.net/signInUser", 
-  {headers: 
-  { Authorization: `Bearer ${dbConfig.apiKey}`,
-  "content-type": "application/json" }
-  }, 
-  {data: {"email": `${userObject.email}`, "password": `${userObject.password}`}})
-  .then( r => {
-    if(r.data.code === 200){
-      dispatch({
-        type: LOGIN,
-        payload: {name: userObject.name, email: userObject.email, oauth: "form", picture: null}
-      });
-    } else if ( r.data.code === 400) {
-      dispatch({
-        type: ERROR,
-        payload: r.data.message
-      })
-    } 
-  })
-  .catch( e => {
-    dispatch({
-      type: ERROR,
-      payload: "Unable to create user auth. higher level error"
-    })
-  });
-};
-
-export const retrieveAuthUser = () => dispatch => {
-  let  user = firebase.auth().currentUser;
-  if (user) {
-    dispatch({
-      type: LOGGED_IN,
-      payload: user   
-    });
-  } else {
-    dispatch({
-      type: LOGGED_IN,
-      payload: null
-    });
-  }
-};
-
-export const saveUser = (userInfo) => dispatch => {
-  axios.post("https://us-central1-we-party-210101.cloudfunctions.net/saveUser", 
-  {headers: 
-  { Authorization: `Bearer ${dbConfig.apiKey}`,
-  "content-type": "application/json" }
-  },
-  {data: {"userInfo": userInfo}}
-  )
-  .then( res => {
-    console.log('saving res', res);
-  })
-  .catch( e => {
-    console.log("saving e", e);
-  })
+export const saveUser = (userObject) => dispatch => {
+  // FIREBASE, userObject is the auth.currentUser
 };
 
 export const loadUsersCollection = () => async(dispatch) => {

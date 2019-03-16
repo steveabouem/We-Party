@@ -22,10 +22,6 @@ class LinkFulfill extends React.Component {
            firebase.auth().currentUser.updateProfile({
                displayName: this.props.match.params.username
            })
-           .then(() => {
-               console.log(firebase.auth().currentUser);
-               
-           })
            .catch( e => {
                console.log({e});
                

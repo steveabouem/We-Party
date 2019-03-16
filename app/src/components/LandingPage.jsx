@@ -1,13 +1,13 @@
 import React from "react";
 import {LoginSection} from "./login/LoginPage"
-import { saveUser,loadUsersCollection } from "../actions";
+import {loadUsersCollection } from "../actions";
 import {connect} from "react-redux";
 
 class HomePage extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      loginForm: false
+      loginForm: props.history.location.state
     }
   }
 
@@ -19,7 +19,6 @@ class HomePage extends React.Component {
 
   getUser = async (userInfo) =>  {
     await this.props.loadUsersCollection();
-    await this.props.saveUser(userInfo);
     this.props.history.push("/home");
   }
 
@@ -32,10 +31,10 @@ class HomePage extends React.Component {
           <div className="white-box">
             {
               this.state.loginForm ? 
-              <LoginSection saveUser={this.getUser} getUser={this.getUser} history={this.props.history}/>
+              <LoginSection getUser={this.getUser} history={this.props.history} userInfo={this.props.userInfo}/>
               :
-              this.props.location.state ? 
-              <LoginSection saveUser={this.getUser} getUser={this.getUser} history={this.props.history}/>
+              this.props.history.location.state ? 
+              <LoginSection getUser={this.getUser} history={this.props.history} userInfo={this.props.userInfo}/>
               :              
               <div>
               <h1> We-Party </h1>
@@ -57,4 +56,4 @@ const mapStateToProps = (state) => ({
   userInfo: state.userInfo
 });
 
-export default connect(mapStateToProps, { saveUser,loadUsersCollection }) (HomePage)
+export default connect(mapStateToProps, { loadUsersCollection }) (HomePage)
