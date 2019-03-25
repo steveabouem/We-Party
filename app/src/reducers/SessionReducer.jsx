@@ -20,7 +20,7 @@ export default function(state = initialState, action){
     case LOGGED_IN:
     return {
       ...state,
-      loggedIN: action.payload
+      userSummary: action.payload
     }
     
     case SEARCH_VENUE:{

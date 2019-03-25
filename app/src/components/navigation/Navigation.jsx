@@ -47,7 +47,7 @@ class Navigation extends React.Component {
               toggleMenu={this.toggleMenu} 
               isMenuOpen={this.state.isMenuOpen} 
               logout={this.logout}
-              currentUser={this.props.currentUser}
+              currentUser={firebase.auth().currentUser}
             />
           }
         </div>

@@ -7,11 +7,12 @@ import TextField from "./TextField";
 import Confirmation from "./ConfirmPopUp";
 import Modal from "../modals";
 import {
-  searchActivities, sendEmail,
+  retrieveuser, searchActivities, sendEmail,
   createActivity, loadUsersCollection,
   loadActivitiesCollection, retrieveJoinedProps, randomKey
 } from "../../actions";
 import { connect } from "react-redux";
+import { log } from "util";
 
 
 class HomePage extends React.Component {
@@ -23,7 +24,8 @@ class HomePage extends React.Component {
       currentUser: null,
       isModalOpened: false,
       noResultModal: false,
-      loginModal: true,
+      loginModal: false,
+      paymentModal: false
     }
 
     firebase.auth().onAuthStateChanged(currentUser => {
@@ -35,17 +37,16 @@ class HomePage extends React.Component {
     if (e.keyCode === 13 && !this.state.isModalOpened) {
       this.recordSearch();
     } else if (e.keyCode === 13 && this.state.isModalOpened) {
-      this.closeModal("fields");
-    } else if (e.keyCode === 13 && this.state.noResultModal) {
-      this.closeModal("results");
+      this.closeModal();
     }
   }
   
-  closeModal = (e, keyword) => {
+  closeModal = () => {
       this.setState({
         noResultModal: false,
         isModalOpened: false,
         loginModal: false,
+        paymentModal: false
       });
   }
   
@@ -103,7 +104,7 @@ class HomePage extends React.Component {
         activityObject[key] = null
       }
     };
-    this.props.createActivity(activityObject);
+    this.props.createActivity(activityObject, firebase.auth().currentUser.uid);
   }
   
   focus = async() => {
@@ -115,12 +116,14 @@ class HomePage extends React.Component {
   }
 
   async componentDidMount() {
-    document.addEventListener("keypress", this.handleKeyPress)
+    document.addEventListener("keypress", this.handleKeyPress);
+    {firebase.auth().currentUser ? this.props.retrieveuser(firebase.auth().currentUser.uid) : null }
     await this.props.loadUsersCollection();
     await this.props.loadActivitiesCollection();
     await this.props.retrieveJoinedProps(this.props.userInfo.userInfo);
   }
   
+
   componentWillUnmount() {
     document.removeEventListener("keypress", this.handleKeyPress);
   }
@@ -129,7 +132,23 @@ class HomePage extends React.Component {
     const ApiResponse = this.props.userInfo.searchResults;
     return(
         <div className="home-container">
-          <Navigation currentUser={this.state.currentUser}/>
+          <Navigation />
+          {
+              this.state.paymentModal
+              ?
+              <Modal
+                isOpen={true}
+                hasConfirm={true}
+                hasCancel={true}
+                top="20%"
+                right="45%"
+                message="Pay now"
+                callback={e => {e.stopPropagation(); this.props.history.push("/payment")}}
+                cancel={e=>{this.closeModal()}}
+              />
+                :
+                null
+            }
           <div className="image-holder">
             <div className="row">
               <div>
@@ -161,7 +180,7 @@ class HomePage extends React.Component {
                 top="20%"
                 right="45%"
                 message="Please login first"
-                cancel={e=>{this.closeModal(e,"fields"); this.props.history.push("/");}}
+                cancel={e=>{this.closeModal(); this.props.history.push("/");}}
               />
                 :
                 null
@@ -176,7 +195,7 @@ class HomePage extends React.Component {
                 top="20%"
                 right="45%"
                 message="Please complete all the fields."
-                cancel={e=>this.closeModal(e,"fields")}
+                cancel={e=>this.closeModal()}
               />
                 :
                 null
@@ -191,7 +210,7 @@ class HomePage extends React.Component {
                 top="20%"
                 right="45%"
                 message="No Results Found for this Search..."
-                cancel={e=>this.closeModal(e,"results")}
+                cancel={e=>this.closeModal()}
               />
                 :
               null  
@@ -233,5 +252,5 @@ class HomePage extends React.Component {
         userInfo: state.userInfo
       })
       
-      export default connect(mapStateToProps, { searchActivities, sendEmail, createActivity, loadUsersCollection, loadActivitiesCollection, retrieveJoinedProps, randomKey}) (HomePage)
+      export default connect(mapStateToProps, { searchActivities, sendEmail, retrieveuser, createActivity, loadUsersCollection, loadActivitiesCollection, retrieveJoinedProps, randomKey}) (HomePage)
       

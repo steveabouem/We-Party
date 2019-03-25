@@ -1,0 +1,26 @@
+.payments-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+}
+
+.payment-section {
+    width: 33%;
+    margin: 0 auto;
+}
+
+.payment-form {
+    flex-direction: column;
+    display: flex;
+}
+
+.payment-form label {
+    margin: 2% auto 0 auto;
+    color: white;
+}
+
+.payment-form button {
+    width: 45%;
+    margin: 2% auto;
+}

@@ -46,14 +46,6 @@ class LinkFulfill extends React.Component {
                 {this .state.isModalOpened && 
                     <Modal
                         callBack={null} 
-                    callBack={null} 
-                        callBack={null} 
-                    callBack={null} 
-                        callBack={null} 
-                        isOpened={this.state.isModalOpened} 
-                    isOpened={this.state.isModalOpened} 
-                        isOpened={this.state.isModalOpened} 
-                    isOpened={this.state.isModalOpened} 
                         isOpened={this.state.isModalOpened} 
                         hasConfirm={false}
                         hasCancel={true}

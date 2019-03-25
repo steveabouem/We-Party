@@ -6,6 +6,7 @@ import Activities from "./activities";
 import PageNotFound from "./PageNotFound";
 import LinkFulfill from "./login/LinkFulfill";
 import Registration from "../components/login/RegisterPage";
+import PaymentsPage from "../components/stripe/PaymentsPage";
 
 
 class Routes extends React.Component {
@@ -18,6 +19,7 @@ class Routes extends React.Component {
           <Route exact path = "/home" component = {HomePage} />
           <Route path = "/fulfill/:username" component = {LinkFulfill} />
           <Route path = "/register" component = {Registration} />
+          <Route path = "/payment" component = {PaymentsPage} />
           <Route component={PageNotFound} />
         </Switch>
       </main>

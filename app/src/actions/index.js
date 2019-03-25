@@ -97,8 +97,46 @@ export const confirmLink = (username) => async dispatch => {
   }  
 };
 
-export const saveUser = (userObject) => dispatch => {
-  // FIREBASE, userObject is the auth.currentUser
+export const saveUser = (userInfo) => dispatch => {
+  axios.post("https://us-central1-we-party-210101.cloudfunctions.net/saveUser", 
+  {headers: 
+    { Authorization: `Bearer ${dbConfig.apiKey}`,
+    "content-type": "application/json" }
+  }, 
+  {data: {userInfo: userInfo }})
+  .then(res => {
+    dispatch({
+      type: ERROR,
+      payload: res.data.code
+    });
+  })
+  .catch( e => {
+    dispatch({
+      type: ERROR,
+      payload: true
+    })
+  });
+};
+
+export const retrieveuser = uid => dispatch => {
+  axios.post("https://us-central1-we-party-210101.cloudfunctions.net/retrieveUser", 
+  {headers: 
+    { Authorization: `Bearer ${dbConfig.apiKey}`,
+    "content-type": "application/json" }
+  }, 
+  {data: {uid: uid }})
+  .then(res => {
+    dispatch({
+      type: LOGGED_IN,
+      payload: res.data.data
+    });
+  })
+  .catch( e => {
+    dispatch({
+      type: ERROR,
+      payload: e
+    });
+  });
 };
 
 export const loadUsersCollection = () => async(dispatch) => {
@@ -125,7 +163,6 @@ export const searchActivities = (search) => async(dispatch) => {
   {data: {term: `${search}`}})
   .then(res => {
     payload = res.data;
-    res.send(payload.results);
   })
   .catch( e => {
     dispatch({
@@ -147,13 +184,13 @@ export const searchActivities = (search) => async(dispatch) => {
   }
 };
 
-export const createActivity = activity => dispatch => {
+export const createActivity = (activity, uid) => dispatch => {
   axios.post("https://us-central1-we-party-210101.cloudfunctions.net/createActivity",
   {headers: 
     { Authorization: `Bearer ${dbConfig.apiKey}`,
     "content-type": "application/json" }
   }, 
-  { data: {"activity": activity, key: activity.key} })
+  { data: {"activity": activity, "key": activity.key, "uid": uid} })
   .then( r => {
     dispatch({
       type: SAVE_VENUE,
@@ -261,6 +298,16 @@ export const logout = () => dispatch => {
   firebase.auth().setPersistence.NONE;
 }
 
+/* ==========STRIPE ACTIONS=============*/
+
+export const submitPayment = (customer, stripe) => async dispatch =>  {
+  let {token} = await stripe.createToken({name: customer.name});
+  
+ 
+};
+/* ==========END STRIPE ACTIONS=============*/
+
+
 /* ==========EMAIL ACTIONS=============*/
 export const sendEmail = (email, subject, content) => dispatch => {
   // axios.post("https://us-central1-we-party-210101.cloudfunctions.net/sendEmail",
@@ -277,6 +324,7 @@ export const sendEmail = (email, subject, content) => dispatch => {
   //   });
   // });
 };
+/* ==========END EMAIL ACTIONS=============*/
 
 /* ==========CHAT ACTIONS=============*/
 export const openChatRoom = (index, activity, user) => dispatch => {
@@ -353,6 +401,7 @@ export const sendMessage = msg => dispatch => {
     });
   })
 }
+/* ==========END CHAT ACTIONS=============*/
 
 /* ==========MODAL ACTIONS=============*/
 export const clearPastMessages = () => dispatch => {
@@ -361,9 +410,4 @@ export const clearPastMessages = () => dispatch => {
     payload: []
   });
 };
-
-export const confirmModalAction = (callBack) => dispatch =>{
-  if(callBack !== undefined) {
-    callBack();
-  } 
-};
+/* ==========END MODAL ACTIONS=============*/
