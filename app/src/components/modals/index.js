@@ -1,9 +1,7 @@
 import React from "react";
-import { connect } from "react-redux";
-import { confirmModalAction } from "../../actions";
 
 
-class Modal extends React.Component {
+export default class Modal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -12,10 +10,12 @@ class Modal extends React.Component {
   };
 
   confirm = async() => {
-    await this.props.confirmModalAction(this.props.callBack);
-    this.setState({
-      isOpened: false
-    });
+    if(this.props.callback !== undefined) {
+      this.props.callback();
+      this.setState({
+        isOpened: false
+      });
+    } 
   };
 
   render() {
@@ -47,10 +47,3 @@ class Modal extends React.Component {
     );
   }
 }
-
-const mapStateToProps = (state) =>({
-  userInfo: state.userInfo
-});
-
-
-export default connect(mapStateToProps, {confirmModalAction}) (Modal);

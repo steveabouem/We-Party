@@ -105,13 +105,37 @@ export const saveUser = (userInfo) => dispatch => {
   }, 
   {data: {userInfo: userInfo }})
   .then(res => {
-    console.log(res);
+    dispatch({
+      type: ERROR,
+      payload: res.data.code
+    });
   })
   .catch( e => {
     dispatch({
       type: ERROR,
       payload: true
     })
+  });
+};
+
+export const retrieveuser = uid => dispatch => {
+  axios.post("https://us-central1-we-party-210101.cloudfunctions.net/retrieveUser", 
+  {headers: 
+    { Authorization: `Bearer ${dbConfig.apiKey}`,
+    "content-type": "application/json" }
+  }, 
+  {data: {uid: uid }})
+  .then(res => {
+    dispatch({
+      type: LOGGED_IN,
+      payload: res.data.data
+    });
+  })
+  .catch( e => {
+    dispatch({
+      type: ERROR,
+      payload: e
+    });
   });
 };
 
@@ -160,13 +184,13 @@ export const searchActivities = (search) => async(dispatch) => {
   }
 };
 
-export const createActivity = activity => dispatch => {
+export const createActivity = (activity, uid) => dispatch => {
   axios.post("https://us-central1-we-party-210101.cloudfunctions.net/createActivity",
   {headers: 
     { Authorization: `Bearer ${dbConfig.apiKey}`,
     "content-type": "application/json" }
   }, 
-  { data: {"activity": activity, key: activity.key} })
+  { data: {"activity": activity, "key": activity.key, "uid": uid} })
   .then( r => {
     dispatch({
       type: SAVE_VENUE,
@@ -274,6 +298,23 @@ export const logout = () => dispatch => {
   firebase.auth().setPersistence.NONE;
 }
 
+/* ==========STRIPE ACTIONS=============*/
+
+export const submitPayment = (customer, stripe) => async dispatch =>  {
+  let {token} = await stripe.createToken({name: customer.name});
+  console.log({token, customer, stripe});
+  
+  // let response = await fetch("/charge", {
+  //   method: "POST",
+  //   headers: {"Content-Type": "text/plain"},
+  //   body: token.id
+  // });
+
+  // if (response.ok) alert("Purchase Complete!")
+};
+/* ==========END STRIPE ACTIONS=============*/
+
+
 /* ==========EMAIL ACTIONS=============*/
 export const sendEmail = (email, subject, content) => dispatch => {
   // axios.post("https://us-central1-we-party-210101.cloudfunctions.net/sendEmail",
@@ -290,6 +331,7 @@ export const sendEmail = (email, subject, content) => dispatch => {
   //   });
   // });
 };
+/* ==========END EMAIL ACTIONS=============*/
 
 /* ==========CHAT ACTIONS=============*/
 export const openChatRoom = (index, activity, user) => dispatch => {
@@ -366,6 +408,7 @@ export const sendMessage = msg => dispatch => {
     });
   })
 }
+/* ==========END CHAT ACTIONS=============*/
 
 /* ==========MODAL ACTIONS=============*/
 export const clearPastMessages = () => dispatch => {
@@ -374,9 +417,4 @@ export const clearPastMessages = () => dispatch => {
     payload: []
   });
 };
-
-export const confirmModalAction = (callBack) => dispatch =>{
-  if(callBack !== undefined) {
-    callBack();
-  } 
-};
+/* ==========END MODAL ACTIONS=============*/

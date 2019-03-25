@@ -11,6 +11,8 @@ const dbConfig = {
   storageBucket: "we-party-210101.appspot.com",
   // messagingSenderId: tokens.firebaseSender
 };
+
+const stripe = require("stripe")("sk_test_vdtVPJ5w24tJ5zdRHLcVvxUH");
 const sgMail = require('@sendgrid/mail');
 // sgMail.setApiKey(sendGridKey);
 firebase.initializeApp(dbConfig);
@@ -101,7 +103,6 @@ exports.countSearches = functions.https.onRequest( (req, res) => {
     let uid = req.body.userInfo.uid;
     firebase.database().ref().child("users/" + uid).once("value", snapshot => {
       let currentTimesUsed = snapshot.val().timesUsed +=1;
-      console.log({currentTimesUsed});
       firebase.database().ref("users/" + uid).update({
         timesUsed: currentTimesUsed
       })
@@ -118,6 +119,41 @@ exports.countSearches = functions.https.onRequest( (req, res) => {
         });
       });
     });
+  });
+});
+
+exports.createStripeCustomer = functions.https.onRequest( (req, res) => {
+  cors( req, res, () => {
+    let customer = req.body.customer;
+    customer = stripe.customers.create({customer})
+    .then( customer => {
+      res.send({
+        code: 200,
+        userStripeinfo: {
+          balance: customer.account_balance,
+          email: customer.email,
+
+
+        }
+      });
+    })
+    .catch( e =>{
+      res.send({
+        e
+      });
+    })
+  });
+});
+
+exports.retrieveUser = functions.https.onRequest((req, res) => {
+  cors(req, res, () => {
+    let uid = req.body.uid;
+
+    firebase.database().ref().child("users/" + uid).once("value", snapshot => {
+      res.send({
+        "data": snapshot.val()
+      });
+    })
   });
 });
 
@@ -152,11 +188,25 @@ exports.searchActivities = functions.https.onRequest( (req, res) => {
 
 exports.createActivity = functions.https.onRequest( (req, res) => {
   let activity = req.body.activity,
-  key = req.body.key;
+  key = req.body.key,
+  uid = req.body.uid;
   
   cors(req, res, () => {
-    firebase.database().ref().child("activities/unmatched/" + key)
-    .set(activity);
+    firebase.database().ref().child("activities/unmatched/" + key).set(activity);
+    // ADD up the number of created activities
+    firebase.database().ref().child("users/" + uid).once("value", snapshot => {
+      let currentTimesUsed = snapshot.val().timesUsed +=1;
+      firebase.database().ref("users/" + uid).update({
+        timesUsed: currentTimesUsed
+      })
+      .catch( e => {
+        res.send({
+          "code": 500,
+          "data": "Adding up activities caused an error!"
+        });
+      });
+    });
+
     firebase.database().ref().child("activities").once("value", snapshot => {
       res.send({
         "code": 200,

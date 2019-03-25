@@ -27,7 +27,7 @@ class Activities extends React.Component {
   render(){
     return(
       <div className="activities-page">
-        <Navigation currentUser={this.state.currentUser}/>
+        <Navigation />
         {
           !this.state.currentUser ?
           <h1 className="login-prompt"> Please log in to consult this page </h1>
