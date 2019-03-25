@@ -302,15 +302,8 @@ export const logout = () => dispatch => {
 
 export const submitPayment = (customer, stripe) => async dispatch =>  {
   let {token} = await stripe.createToken({name: customer.name});
-  console.log({token, customer, stripe});
   
-  // let response = await fetch("/charge", {
-  //   method: "POST",
-  //   headers: {"Content-Type": "text/plain"},
-  //   body: token.id
-  // });
-
-  // if (response.ok) alert("Purchase Complete!")
+ 
 };
 /* ==========END STRIPE ACTIONS=============*/
 

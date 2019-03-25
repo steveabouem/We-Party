@@ -123,10 +123,6 @@ class HomePage extends React.Component {
     await this.props.retrieveJoinedProps(this.props.userInfo.userInfo);
   }
   
-  componentDidUpdate(prevProps) {
-   console.log(prevProps);
-   
-  }
 
   componentWillUnmount() {
     document.removeEventListener("keypress", this.handleKeyPress);
