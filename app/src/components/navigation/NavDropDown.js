@@ -34,6 +34,11 @@ export default class NavDropDown extends React.Component {
                 </Link>
               </li>
               <li className="nav-dropdown-item">
+                <Link to="/payment">
+                    BALANCE
+                </Link>
+              </li>
+              <li className="nav-dropdown-item">
                 {firebase.auth().currentUser ?
                   <Link to={{pathname:"/", state: {fromLogout: true }}} onClick={this.props.logout}>
                     LOGOUT

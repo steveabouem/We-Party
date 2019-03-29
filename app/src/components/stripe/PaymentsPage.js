@@ -1,6 +1,7 @@
 import React from "react";
 import {connect} from "react-redux";
 import {submitPayment} from "../../actions";
+import {Switch, Route} from "react-router-dom";
 import Navigation from "../navigation/Navigation";
 import Modal from "../modals";
 import {CardElement, injectStripe} from 'react-stripe-elements';
@@ -27,6 +28,12 @@ class PaymentsPage extends React.Component {
         return (
             <div className="payments-container">
             <Navigation currentUser={this.state.currentUser}/>
+            <div className="balance-section">
+                <h3>your account balance</h3>
+                <div>
+                    Insert account balance here. 
+                </div>
+            </div>
             <h3>Payment process</h3>
             {
               !this.state.currentUser && this.state.isModalOpened

@@ -124,16 +124,17 @@ exports.countSearches = functions.https.onRequest( (req, res) => {
 
 exports.createStripeCustomer = functions.https.onRequest( (req, res) => {
   cors( req, res, () => {
-    let customer = req.body.customer;
+    let customer = req.body.customer,
+    currentUser = firebase.database().ref().child("users/" + customer.uid);
+    
     customer = stripe.customers.create({customer})
     .then( customer => {
+      currentUser.update({balance: 0});
       res.send({
         code: 200,
         userStripeinfo: {
           balance: customer.account_balance,
           email: customer.email,
-
-
         }
       });
     })

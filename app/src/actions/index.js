@@ -21,13 +21,15 @@ export const randomKey = () => dispatch => {
   return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 }
 
-export const registerUser = (email, password) => dispatch => {
+export const registerUser = (username, email, password) => dispatch => {
   //verify firebase limit on same email registration. this works with my gmail but no longer with my hotmail
   firebase.auth().createUserWithEmailAndPassword(email, password)
   .then( () => {
-    firebase.auth().sendPasswordResetEmail(email);
+    firebase.auth().currentUser.sendEmailVerification(email);
   })
   .catch(error => {
+    console.log({error});
+    
     dispatch({
       type: ERROR	,
       payload: error
@@ -305,6 +307,19 @@ export const submitPayment = (customer, stripe) => async dispatch =>  {
   
  
 };
+
+export const createStripeCustomer = (customer) => dispatch => {
+  axios.post("https://us-central1-we-party-210101.cloudfunctions.net/createStripeCustomer",
+  {Authorization: `Bearer ${dbConfig.apiKey}`,
+  "content-type": "application/json" }, 
+  {data: {"customer": customer}})
+  .then( r => {
+    console.log({r});
+  })
+  .catch( e => {
+    console.log({e});
+  })
+}
 /* ==========END STRIPE ACTIONS=============*/
 
 
