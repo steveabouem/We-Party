@@ -1,5 +1,5 @@
 import { dbConfig } from "../config/firebase";
-import { LOGIN, LOGGED_IN, LOAD_USERS, LOAD_ACTIVITIES, SEARCH_VENUE, SAVE_VENUE, RENDER_JOINED, ERROR, OPEN_CHAT, MSG_HISTORY, NEW_MSG } from "./types";
+import { LOGIN, USER_SUMMARY, LOAD_USERS, LOAD_ACTIVITIES, SEARCH_VENUE, SAVE_VENUE, RENDER_JOINED, ERROR, OPEN_CHAT, MSG_HISTORY, NEW_MSG } from "./types";
 import axios from "axios";
 
 /* ==========GLOBAL SCOPE =============*/
@@ -129,7 +129,7 @@ export const retrieveuser = uid => dispatch => {
   {data: {uid: uid }})
   .then(res => {
     dispatch({
-      type: LOGGED_IN,
+      type: USER_SUMMARY,
       payload: res.data.data
     });
   })

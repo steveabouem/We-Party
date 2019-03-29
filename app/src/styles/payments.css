@@ -5,14 +5,21 @@
     height: 100%;
 }
 
+.payments-container button {
+    width: 20%;
+    margin: auto;
+}
+
 .payment-section {
     width: 33%;
-    margin: 0 auto;
+    margin: auto;
+    transition: all .3s;
 }
 
 .payment-form {
     flex-direction: column;
     display: flex;
+    transition: all .3s;
 }
 
 .payment-form label {
@@ -23,4 +30,23 @@
 .payment-form button {
     width: 45%;
     margin: 2% auto;
+}
+
+.balance-section {
+    margin: auto;
+    width: 70%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.balance-summary-container {
+    width: 100%;
+    margin: auto;
+}
+
+.balance-summary-container table {
+        flex-direction: c;
+        width: 70%;
+        margin: auto;
 }
