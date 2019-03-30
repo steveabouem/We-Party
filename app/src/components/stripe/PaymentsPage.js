@@ -10,23 +10,26 @@ import {Loading} from "../Loading";
 const firebase = require("firebase");
 
 class PaymentsPage extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             isModalOpened: true,
+            isPaymentModalOpen: false,
             loading: true,
-            isPaying: false,
+            isPaymentFormOpen: false,
             buttonContent: "ADD FUNDS"
         };
 
         firebase.auth().onAuthStateChanged(currentUser => {
             this.setState({ currentUser: currentUser });
+            props.retrieveuser(currentUser.uid);
         });
     }
 
     submitPayment = async (e) => {
         this.setState({
-            loading: true
+            isPaymentModalOpen: true,
+            // loading: true
         });
         let customer = {name: this.state.currentUser.displayName, email: this.state.currentUser.email, uid: this.state.currentUser.uid};
         await this.props.createStripeCustomer(customer, this.props.stripe);
@@ -38,12 +41,19 @@ class PaymentsPage extends React.Component {
     
     togglePayment = () => {
         this.setState(prevState => ({
-            isPaying: !this.state.isPaying,
-            buttonContent: prevState.buttonContent === "ADD FUNDS" ? "COLLAPSE" : "ADD FUNDS"
+            isPaymentFormOpen: !this.state.isPaymentFormOpen,
+            buttonContent: prevState.buttonContent === "ADD FUNDS" ? "VIEW BALANCE" : "ADD FUNDS"
         }));
     }
 
-    componentDidMount() {
+    closeModal = () => {
+        this.setState({
+            isModalOpened: false,
+            isPaymentModalOpen: false,
+        })
+    }
+   async componentDidMount() {
+        await this.state.currentUser;
         this.setState({
             loading: false
         });
@@ -51,81 +61,91 @@ class PaymentsPage extends React.Component {
 
     render() {
         return this.state.loading ?
-         (<Loading />) : 
-         (
+            <Loading /> 
+            : 
+            !this.state.currentUser && this.state.isModalOpened
+            ?
+            <Modal
+                isOpen={true}
+                hasConfirm={false}
+                hasCancel={true}
+                top="20%"
+                right="45%"
+                message="Please login first"
+                cancel={e=>{this.closeModal(); this.props.history.push("/");}}
+            />
+            :
+            this.state.isPaymentModalOpen ? 
+            <Modal
+                isOpen={true}
+                hasConfirm={false}
+                hasCancel={true}
+                top="20%"
+                right="45%"
+                message="Please wait while your payment is being processed..."
+                cancel={e=>{this.closeModal();}}
+            />
+            : 
             <div className="payments-container">
                 <Navigation currentUser={this.state.currentUser}/>
-                {
-                    !this.state.isPaying ?
+                <button className="button-primary" onClick={this.togglePayment}>
+                    {this.state.buttonContent}
+                </button>
+                { !this.state.isPaymentFormOpen ?
                     <div className="balance-section">
                         <h3>your account summary</h3>
                         <div className="balance-summary-container">
                             <table>
-                                <th>balance</th>
-                                <th>Groups</th>
+                                <tr className="title-row">
+                                    <th>balance</th>
+                                    <th>Groups</th>
+                                </tr>
                                 <tr>
-                                    <td>form props bal</td>
-                                    <td>form props groups</td>
+                                    <td>{this.props.userInfo.userSummary ? this.props.userInfo.userSummary.balance : <Loading /> }CAD</td>
+                                    <td>{this.props.userInfo.userSummary ? this.props.userInfo.userSummary.timesUsed : <Loading />} created</td>
                                 </tr>
                             </table>
                         </div>
                     </div>
                     :
                     <div className="payment-section">
-                        <h3>{this.state.button}</h3>
-                        <PaymentForm style={{transform: "translateY(200px)"}} submitPayment={e => {this.submitPayment(e)}}/>
+                        <div className="payment-form">
+                            <PaymentForm submitPayment={e => {this.submitPayment(e)}}/>
+                        </div>
                     </div>
                 }
-                <button className="button-primary" onClick={this.togglePayment}>
-                    {this.state.buttonContent}
-                </button>
-                {
-                    !this.state.currentUser && this.state.isModalOpened
-                    ?
-                    <Modal
-                        isOpen={true}
-                        hasConfirm={false}
-                        hasCancel={true}
-                        top="20%"
-                        right="45%"
-                        message="Please login first"
-                        cancel={e=>{this.closeModal(); this.props.history.push("/");}}
-                    />
-                        :
-                        null
-                }
             </div>
-        );
     }
 }
 
 const PaymentForm = ({submitPayment}) => {
     return (
-            <form className="payment-form">
-                <label htmlFor="card-holder">
-                    Card holder's name
-                </label>
-                <input type="text" placeholder="Jane Dough" />
+        <form  className="payment-form">
+            <label htmlFor="card-holder">
+                Card holder's name
+            </label>
+            <input type="text" placeholder="Jane Dough" />
 
-                <label htmlFor="card-number">
-                    Credit card number
-                </label>
-                <CardElement />
-                <label htmlFor="card-number-confirm">
-                    Confirm card number
-                </label>
-                <input type="number" /> 
+            <label htmlFor="card-number">
+                Credit card number
+            </label>
+            <CardElement />
+            <label htmlFor="card-number-confirm">
+                Confirm card number
+            </label>
+            <input type="number" /> 
 
-                <label htmlFor="payment-amount">
-                    Enter amount
-                </label>
-                <input type="number" />
-                <button type="button" onClick={submitPayment}>
-                    SUBMIT
-                </button>
-            </form>
+            <label htmlFor="payment-amount">
+                Enter amount
+            </label>
+            <input type="number" />
+            <button type="button" onClick={submitPayment}>
+                SUBMIT
+            </button>
+        </form>
     );
 }
+
 const mapStateToProps = (state) => ({
     userInfo: state.userInfo
 });

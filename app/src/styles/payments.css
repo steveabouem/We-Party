@@ -6,13 +6,13 @@
 }
 
 .payments-container button {
-    width: 20%;
-    margin: auto;
+    width: 15%;
+    margin: 2% auto;
 }
 
 .payment-section {
     width: 33%;
-    margin: auto;
+    margin: 0 auto;
     transition: all .3s;
 }
 
@@ -23,8 +23,15 @@
 }
 
 .payment-form label {
-    margin: 2% auto 0 auto;
+    margin: 0 auto;
     color: white;
+    background: #d35454;
+    width: 100%;
+    padding: 2%;
+}
+
+.payment-form input {
+    margin: 1% 0 5% 0;
 }
 
 .payment-form button {
@@ -33,11 +40,13 @@
 }
 
 .balance-section {
-    margin: auto;
+    margin: 1% auto;
     width: 70%;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
+    height: 70%;
+}
+
+.balance-section h3 {
+    color: white;
 }
 
 .balance-summary-container {
@@ -46,7 +55,14 @@
 }
 
 .balance-summary-container table {
-        flex-direction: c;
-        width: 70%;
-        margin: auto;
+    flex-direction: column;
+    width: 70%;
+    margin: auto;
+    background: #d35454;
+    color: white;
+}
+
+.balance-summary-container td {
+    background: white;
+    color: black;
 }

@@ -1,8 +1,8 @@
 import React from "react";
 
-export const Loading =({style}) => {
+export const Loading =({size}) => {
     return (
-    <div className="loader" style={style}>
+    <div className={"loader " + size || ""}>
         <span className="material-icons">av_timer</span>
     </div>
     );
