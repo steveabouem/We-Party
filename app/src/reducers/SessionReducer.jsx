@@ -81,7 +81,7 @@ export default function(state = initialState, action){
     case ERROR: {
       return {
         ...state,
-        message: action.payload
+        ErrorMessage: action.payload
       }
     }
     

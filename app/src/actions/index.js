@@ -22,14 +22,15 @@ export const randomKey = () => dispatch => {
 }
 
 export const registerUser = (username, email, password) => dispatch => {
-  //verify firebase limit on same email registration. this works with my gmail but no longer with my hotmail
   firebase.auth().createUserWithEmailAndPassword(email, password)
-  .then( () => {
-    firebase.auth().currentUser.sendEmailVerification(email);
+  .then( (r) => {
+    dispatch({
+      type: LOGIN,
+      payload: r.user
+    });
+    // firebase.auth().currentUser.sendEmailVerification(email);
   })
   .catch(error => {
-    console.log({error});
-    
     dispatch({
       type: ERROR	,
       payload: error

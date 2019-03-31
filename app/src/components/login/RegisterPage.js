@@ -4,13 +4,15 @@ import {Link} from "react-router-dom";
 import {sendLink, registerUser} from "../../actions";
 import Modal from "../modals";
 import GoogleButton from "./GoogleButton";
+import { Loading } from "../Loading";
 
 
 class Registration extends React.Component {
     constructor() {
         super();
         this.state = {
-            isModalOpen: false
+            isModalOpen: false,
+            loaded: false,
         };
     }
 
@@ -45,6 +47,21 @@ class Registration extends React.Component {
         });
     }
     
+    componentDidMount() {
+        this.setState({
+            loaded: true
+        });
+    }
+
+    // componentDidUpdate(prevProps) {
+    //    if(this.props.userInfo.ErrorMessage && this.props.userInfo.ErrorMessage !== prevProps.userInfo.ErrorMessage) {
+    //       this.setState({
+    //         isModalOpen: true,
+    //         modalMessage: this.props.userInfo.ErrorMessage.message ? this.props.userInfo.ErrorMessage.message : this.props.userInfo.ErrorMessage
+    //       });
+    //     }
+    //   }
+
     render() {
         return (
             <div className="landing-page registration">
@@ -66,8 +83,9 @@ class Registration extends React.Component {
                 <div className="slider-divs"/>
                 <div className="slider-divs"/>
                 <div className="white-box">
+                    { !this.state.loaded ? <Loading size="large" />  :
                     <form className="login-form">
-                        <label>Skip registration by using your google account</label>
+                        <label style={{color: "#FFD951"}}>Skip registration by using your google account</label>
                         <GoogleButton/>
                         <label>
                             Username
@@ -102,6 +120,7 @@ class Registration extends React.Component {
                                 </Link>
                         </span>
                     </form>
+                    }
                 </div>
             </div>
         );

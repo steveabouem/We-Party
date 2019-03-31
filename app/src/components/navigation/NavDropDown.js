@@ -20,17 +20,19 @@ export default class NavDropDown extends React.Component {
         document.removeEventListener("click", this.handleClick);
     }
 
-    render() {
+    render() {      
         return (
             <ul className="nav-dropdown">
+              {window.location.pathname !== "/home" ?
+                <li className="nav-dropdown-item">
+                  <Link to="/home">HOME</Link>
+                </li>
+                :
+                null
+                }
               <li className="nav-dropdown-item">
                 <Link to="/activities">
                   GROUPS
-                </Link>
-              </li>
-              <li className="nav-dropdown-item">
-                <Link to="/home">
-                    HOME
                 </Link>
               </li>
               <li className="nav-dropdown-item">

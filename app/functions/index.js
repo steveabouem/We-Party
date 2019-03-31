@@ -98,12 +98,42 @@ exports.saveUser = functions.https.onRequest((req, res) => {
   });
 });
 
+exports.updateUser = functions.https.onRequest( (req, res) => {
+  cors(req, res, () => {
+    let uid = req.body.uid,
+    update = req.body.update;
+
+    firebase.database().ref().child("users/" + uid).once("value", snapshot => {
+      if(snapshot.val()) {
+        firebase.database().ref().child("users/" + uid).update(update)
+        .then( r => {
+          res.send({
+            code: 200,
+            data: "User info changed"
+          });
+        })
+      } else {
+        res.send({
+          code: 400,
+          data: "User not found"
+        });
+      }
+    })
+    .catch( e => {
+      res.send({
+        code: 500,
+        data: e
+      });
+    })
+  });
+});
+
 exports.countSearches = functions.https.onRequest( (req, res) => {
   cors(req, res, () => {
     let uid = req.body.userInfo.uid;
     firebase.database().ref().child("users/" + uid).once("value", snapshot => {
       let currentTimesUsed = snapshot.val().timesUsed +=1;
-      firebase.database().ref("users/" + uid).update({
+      firebase.database().ref().child("users/" + uid).update({
         timesUsed: currentTimesUsed
       })
       .then( res => {

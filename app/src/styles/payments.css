@@ -13,13 +13,13 @@
 .payment-section {
     width: 33%;
     margin: 0 auto;
-    transition: all .3s;
 }
 
 .payment-form {
     flex-direction: column;
     display: flex;
     transition: all .3s;
+    animation: revealForm .5s linear;
 }
 
 .payment-form label {
@@ -39,10 +39,26 @@
     margin: 2% auto;
 }
 
+.stripe-card-input {
+    background: #fff900;
+    color: #665353;
+    padding: 5% 0;
+    font-size: 2em;
+    margin: 1% 0 5% 0;
+}
+
 .balance-section {
     margin: 1% auto;
     width: 70%;
     height: 70%;
+    transition: all .3s;
+    animation: revealForm .5s linear;
+}
+
+.title-row .material-icons {
+    color: yellow;
+    font-size: 1.2em;
+    vertical-align: text-bottom;
 }
 
 .balance-section h3 {

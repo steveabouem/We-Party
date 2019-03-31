@@ -72,6 +72,9 @@ header button:hover, header button:active  {
 .loader span {
   color: #ff6565;
   animation: rotate 1s linear infinite;
+  display: block;
+  margin: auto;
+  position: fixed
 }
 
 .small span {

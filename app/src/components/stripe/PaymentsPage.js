@@ -27,11 +27,10 @@ class PaymentsPage extends React.Component {
     }
 
     submitPayment = async (e) => {
-        this.setState({
-            isPaymentModalOpen: true,
-            // loading: true
-        });
         let customer = {name: this.state.currentUser.displayName, email: this.state.currentUser.email, uid: this.state.currentUser.uid};
+        this.setState({
+            loading: true
+        });
         await this.props.createStripeCustomer(customer, this.props.stripe);
         await this.props.retrieveuser(this.state.currentUser.uid);
         this.setState({
@@ -46,12 +45,29 @@ class PaymentsPage extends React.Component {
         }));
     }
 
+    renderModalContent = (info) => {
+        switch (info.type) {
+            case "paying":
+                return "Processing"
+                break;
+            case "paid":
+                return "Complete!"
+                break;
+            case "confirm":
+                return info.content
+                break;
+            default:
+                break;
+        }
+    }
+
     closeModal = () => {
         this.setState({
             isModalOpened: false,
             isPaymentModalOpen: false,
         })
     }
+
    async componentDidMount() {
         await this.state.currentUser;
         this.setState({
@@ -61,7 +77,7 @@ class PaymentsPage extends React.Component {
 
     render() {
         return this.state.loading ?
-            <Loading /> 
+            <Loading size="large" /> 
             : 
             !this.state.currentUser && this.state.isModalOpened
             ?
@@ -97,12 +113,14 @@ class PaymentsPage extends React.Component {
                         <div className="balance-summary-container">
                             <table>
                                 <tr className="title-row">
-                                    <th>balance</th>
-                                    <th>Groups</th>
+                                    <th><Icon name="attach_money" /> Balance</th>
+                                    <th><Icon name="group_add" /> Available Groups</th>
+                                    <th><Icon name="group" /> Total Groups</th>
                                 </tr>
                                 <tr>
-                                    <td>{this.props.userInfo.userSummary ? this.props.userInfo.userSummary.balance : <Loading /> }CAD</td>
-                                    <td>{this.props.userInfo.userSummary ? this.props.userInfo.userSummary.timesUsed : <Loading />} created</td>
+                                    <td>{this.props.userInfo.userSummary ? this.props.userInfo.userSummary.balance + " CAD" : <Loading size="small" /> }</td>
+                                    <td>{this.props.userInfo.userSummary ? "You can create up to " + this.props.userInfo.userSummary.timesUsed + " groups": <Loading size="small"/>}</td>
+                                    <td>{this.props.userInfo.userSummary ? this.props.userInfo.userSummary.timesUsed  + " created": <Loading size="small"/>}</td>
                                 </tr>
                             </table>
                         </div>
@@ -118,6 +136,10 @@ class PaymentsPage extends React.Component {
     }
 }
 
+const Icon = ({name}) => {
+    return <span className="material-icons">{name}</span>
+};
+
 const PaymentForm = ({submitPayment}) => {
     return (
         <form  className="payment-form">
@@ -129,12 +151,7 @@ const PaymentForm = ({submitPayment}) => {
             <label htmlFor="card-number">
                 Credit card number
             </label>
-            <CardElement />
-            <label htmlFor="card-number-confirm">
-                Confirm card number
-            </label>
-            <input type="number" /> 
-
+            <CardElement className="stripe-card-input" />
             <label htmlFor="payment-amount">
                 Enter amount
             </label>
