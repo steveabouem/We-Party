@@ -21,14 +21,13 @@ export const randomKey = () => dispatch => {
   return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 }
 
-export const registerUser = (username, email, password) => dispatch => {
+export const registerUser = ( email, password) => dispatch => {
   firebase.auth().createUserWithEmailAndPassword(email, password)
   .then( (r) => {
     dispatch({
       type: LOGIN,
       payload: r.user
     });
-    // firebase.auth().currentUser.sendEmailVerification(email);
   })
   .catch(error => {
     dispatch({
@@ -52,6 +51,25 @@ export const loginUser = (email, password) => dispatch => {
         payload: e
       });
     })
+};
+
+export const updateUser = update => dispatch => {
+  axios.post("https://us-central1-we-party-210101.cloudfunctions.net/updateUser", 
+  {headers: 
+    { Authorization: `Bearer ${dbConfig.apiKey}`,
+    "content-type": "application/json" }
+  }, 
+  {data: update})
+  .then(res => {
+    console.log({res});
+    
+  })
+  .catch( e => {
+    dispatch({
+      type: ERROR,
+      payload: "Update failed..."
+    })
+  });
 };
 
 export const sendLink = (email, username) => dispatch =>{

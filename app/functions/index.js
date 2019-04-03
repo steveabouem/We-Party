@@ -68,13 +68,24 @@ exports.sendEmail = functions.https.onRequest( (req, res) =>{
 
 
 exports.saveUser = functions.https.onRequest((req, res) => {
+// You need to verify by email to avoid same email having as many accounts as login mechanisms
   cors(req, res, () => {
     let userInfo = req.body.userInfo;
     let data = {displayName: userInfo.displayName, email: userInfo.email, photoURL: userInfo.photoURL, uid: userInfo.uid, timesUsed: 0};
     console.log("info received", userInfo);
-    firebase.database().ref().child("users/" + userInfo.uid).once("value", snapshot => {
-    console.log("db querried", snapshot.val());
-      if(!snapshot.val()) {
+    firebase.database().ref().child("users").once("value", snapshot => {
+      let duplicate = 0;
+      console.log("db querried", snapshot.val());
+      if(snapshot.val()) {
+        for( let key in snapshot.val()) {
+          if(snapshot.val()[key].email === userInfo.email) {
+            res.send({
+              code: 400,
+              data: "User already exists!"
+            })
+          }
+        }
+      } else if(!snapshot.val()) {
         firebase.database().ref().child("users/" + userInfo.uid).set(data)
         .then( () => {
           res.send({
@@ -88,12 +99,7 @@ exports.saveUser = functions.https.onRequest((req, res) => {
             "data": "Review saved user data."
           });
         })
-      } else {
-        res.send({
-          "code": 204,
-          "data": "User already exists!"
-        });
-      }
+      } 
     });
   });
 });

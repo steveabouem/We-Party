@@ -2,7 +2,7 @@ import React from 'react';
 import "firebase/database";
 import {connect} from "react-redux";
 import Modal from "../modals";
-import {sendLink, loginUser} from "../../actions";
+import {sendLink, loginUser, saveUser} from "../../actions";
 import {loginInfo} from "../modals/content";
 import {Loading} from "../Loading";
 const firebase = require("firebase");
@@ -46,6 +46,8 @@ class LoginForm extends React.Component {
     let email = document.getElementsByName("email-login")[0].value,
     password = document.getElementsByName("password")[0].value;
     await this.props.loginUser(email, password);
+    
+    await this.props.saveUser(firebase.auth().currentUser)
   }
 
   sendLink = (e) => {

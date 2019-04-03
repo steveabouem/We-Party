@@ -18,7 +18,7 @@ class GoogleButton extends React.Component {
       this.props.history.push("/home");
     })
     .catch( e => {
-      console.log("Google login error", e);
+      console.log("Google login error");
     });
   }
   
