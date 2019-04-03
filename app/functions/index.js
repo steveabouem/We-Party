@@ -68,13 +68,24 @@ exports.sendEmail = functions.https.onRequest( (req, res) =>{
 
 
 exports.saveUser = functions.https.onRequest((req, res) => {
+// You need to verify by email to avoid same email having as many accounts as login mechanisms
   cors(req, res, () => {
     let userInfo = req.body.userInfo;
     let data = {displayName: userInfo.displayName, email: userInfo.email, photoURL: userInfo.photoURL, uid: userInfo.uid, timesUsed: 0};
     console.log("info received", userInfo);
-    firebase.database().ref().child("users/" + userInfo.uid).once("value", snapshot => {
-    console.log("db querried", snapshot.val());
-      if(!snapshot.val()) {
+    firebase.database().ref().child("users").once("value", snapshot => {
+      let duplicate = 0;
+      console.log("db querried", snapshot.val());
+      if(snapshot.val()) {
+        for( let key in snapshot.val()) {
+          if(snapshot.val()[key].email === userInfo.email) {
+            res.send({
+              code: 400,
+              data: "User already exists!"
+            })
+          }
+        }
+      } else if(!snapshot.val()) {
         firebase.database().ref().child("users/" + userInfo.uid).set(data)
         .then( () => {
           res.send({
@@ -88,13 +99,38 @@ exports.saveUser = functions.https.onRequest((req, res) => {
             "data": "Review saved user data."
           });
         })
+      } 
+    });
+  });
+});
+
+exports.updateUser = functions.https.onRequest( (req, res) => {
+  cors(req, res, () => {
+    let uid = req.body.uid,
+    update = req.body.update;
+
+    firebase.database().ref().child("users/" + uid).once("value", snapshot => {
+      if(snapshot.val()) {
+        firebase.database().ref().child("users/" + uid).update(update)
+        .then( r => {
+          res.send({
+            code: 200,
+            data: "User info changed"
+          });
+        })
       } else {
         res.send({
-          "code": 204,
-          "data": "User already exists!"
+          code: 400,
+          data: "User not found"
         });
       }
-    });
+    })
+    .catch( e => {
+      res.send({
+        code: 500,
+        data: e
+      });
+    })
   });
 });
 
@@ -103,7 +139,7 @@ exports.countSearches = functions.https.onRequest( (req, res) => {
     let uid = req.body.userInfo.uid;
     firebase.database().ref().child("users/" + uid).once("value", snapshot => {
       let currentTimesUsed = snapshot.val().timesUsed +=1;
-      firebase.database().ref("users/" + uid).update({
+      firebase.database().ref().child("users/" + uid).update({
         timesUsed: currentTimesUsed
       })
       .then( res => {
@@ -124,23 +160,33 @@ exports.countSearches = functions.https.onRequest( (req, res) => {
 
 exports.createStripeCustomer = functions.https.onRequest( (req, res) => {
   cors( req, res, () => {
-    let customer = req.body.customer;
-    customer = stripe.customers.create({customer})
-    .then( customer => {
-      res.send({
-        code: 200,
-        userStripeinfo: {
-          balance: customer.account_balance,
-          email: customer.email,
-
-
-        }
-      });
-    })
-    .catch( e =>{
-      res.send({
-        e
-      });
+    let customer = req.body.customer,
+    currentUser = firebase.database().ref().child("users/" + customer.uid);
+    
+    currentUser.once("value", snapshot => {
+      if(!snapshot.val().balance) {
+        customer = stripe.customers.create({customer})
+        .then( customer => {
+          currentUser.update({balance: 0});
+          res.send({
+            code: 200,
+            userStripeinfo: {
+              balance: customer.account_balance,
+              email: customer.email,
+            }
+          })
+        })
+        .catch( e =>{
+          res.send({
+            e
+          });
+        });
+      } else {
+        res.send({
+          code: 201,
+          data: "USer is already registered in Stripe!"
+        })
+      }
     })
   });
 });

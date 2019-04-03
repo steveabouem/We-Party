@@ -69,6 +69,26 @@ header button:hover, header button:active  {
   text-align: center;
 }
 
+.loader span {
+  color: #ff6565;
+  animation: rotate 1s linear infinite;
+  display: block;
+  margin: auto;
+  position: fixed
+}
+
+.small span {
+  font-size: 15px;
+}
+
+
+.medium span {
+  font-size: 80px;
+}
+
+.large span {
+  font-size: 200px;
+}
 /* ===========NO DATA AND MODAL POPUPS STYLE============= */
 .login-prompt, .popup-content  {
   background: #e0dddd63;

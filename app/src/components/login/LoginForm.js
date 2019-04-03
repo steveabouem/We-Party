@@ -2,19 +2,22 @@ import React from 'react';
 import "firebase/database";
 import {connect} from "react-redux";
 import Modal from "../modals";
-import {sendLink, loginUser} from "../../actions";
+import {sendLink, loginUser, saveUser} from "../../actions";
 import {loginInfo} from "../modals/content";
+import {Loading} from "../Loading";
 const firebase = require("firebase");
 
 class LoginForm extends React.Component {
   state = {
     showPassword: false,
     isErrorModalOpened: false,
-    isInfoModalOpened: false
+    isInfoModalOpened: false,
+    infoPreview: false,
+    loaded: false,
   };
 
   emailProvider = () => {
-    let email = document.getElementsByName("email")[0].value;
+    let email = document.getElementsByName("email-link")[0].value;
     return("https://" + email.split("@")[1])
   };
 
@@ -26,14 +29,15 @@ class LoginForm extends React.Component {
 
   openInfoModal = () => {
     this.setState({
-      isInfoModalOpened: true
+      isInfoModalOpened: true,
+      infoPreview: !this.state.infoPreview
     });
   }
 
   closeModal = () => {
     this.setState({
       isErrorModalOpened: false,
-      isInfoModalOpened: false
+      isInfoModalOpened: false,
     });
   }
 
@@ -42,13 +46,14 @@ class LoginForm extends React.Component {
     let email = document.getElementsByName("email-login")[0].value,
     password = document.getElementsByName("password")[0].value;
     await this.props.loginUser(email, password);
-    await firebase.auth().currentUser;
+    
+    await this.props.saveUser(firebase.auth().currentUser)
   }
 
   sendLink = (e) => {
     e.preventDefault();
     let email = document.getElementsByName("email-link")[0].value;
-    let username = document.getElementsByName("username")[0].value;
+    let username = document.getElementsByName("username-link")[0].value;
     
     this.props.sendLink(email, username);
     if(!this.props.userInfo.message) {
@@ -59,24 +64,31 @@ class LoginForm extends React.Component {
              &nbsp;<a href={this.emailProvider()} target="_blank">here</a>
           </span>
       });
-    } else {
+    }
+  }
+
+  componentDidMount() {
+    this.setState({
+      loaded: true
+    });
+  }
+
+  componentDidUpdate(prevProps) {
+    if(firebase.auth().currentUser) {
+      this.props.history.push("/home");
+    } else if(this.props.userInfo.ErrorMessage && this.props.userInfo.ErrorMessage !== prevProps.userInfo.ErrorMessage) {
       this.setState({
-        isErrorModalOpened:true,
-        modalMessage:
-          <span>
-            Please review your input: {this.props.userInfo.message && this.props.userInfo.message}
-          </span>
+        isErrorModalOpened: true,
+        modalMessage: this.props.userInfo.ErrorMessage.message ? this.props.userInfo.ErrorMessage.message : this.props.userInfo.ErrorMessage
       });
     }
   }
 
-  componentDidUpdate() {
-    if(firebase.auth().currentUser) {
-      this.props.history.push("/home");
-    }
-  }
   render() {
-    return (
+    return !this.state.loaded ?
+      <Loading size="medium" />
+      :
+      (
       <div>
         {
           this.state.isErrorModalOpened 
@@ -93,7 +105,7 @@ class LoginForm extends React.Component {
           />
         }
         {
-            this.state.isInfoModalOpened 
+            this.state.isInfoModalOpened && this.state.infoPreview
             &&
             <Modal
               callBack={null}
@@ -121,7 +133,8 @@ class LoginForm extends React.Component {
           <label>
             Always use verification Link <br/> (no password required)
           </label>
-          <input type="email" placeholder="@" name="email-link" isrequired onClick={this.openInfoModal} />
+          <input type="text" placeholder="Enter username" name="username-link" isrequired />
+          <input type="email" placeholder="Email to send the link to" name="email-link" isrequired onClick={this.openInfoModal} />
           <button className="button-primary" onClick={e => {this.sendLink(e)}}>
             GET LINK
           </button>

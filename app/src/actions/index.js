@@ -1,5 +1,5 @@
 import { dbConfig } from "../config/firebase";
-import { LOGIN, LOGGED_IN, LOAD_USERS, LOAD_ACTIVITIES, SEARCH_VENUE, SAVE_VENUE, RENDER_JOINED, ERROR, OPEN_CHAT, MSG_HISTORY, NEW_MSG } from "./types";
+import { LOGIN, USER_SUMMARY, LOAD_USERS, LOAD_ACTIVITIES, SEARCH_VENUE, SAVE_VENUE, RENDER_JOINED, ERROR, OPEN_CHAT, MSG_HISTORY, NEW_MSG } from "./types";
 import axios from "axios";
 
 /* ==========GLOBAL SCOPE =============*/
@@ -21,11 +21,13 @@ export const randomKey = () => dispatch => {
   return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 }
 
-export const registerUser = (email, password) => dispatch => {
-  //verify firebase limit on same email registration. this works with my gmail but no longer with my hotmail
+export const registerUser = ( email, password) => dispatch => {
   firebase.auth().createUserWithEmailAndPassword(email, password)
-  .then( () => {
-    firebase.auth().sendPasswordResetEmail(email);
+  .then( (r) => {
+    dispatch({
+      type: LOGIN,
+      payload: r.user
+    });
   })
   .catch(error => {
     dispatch({
@@ -49,6 +51,25 @@ export const loginUser = (email, password) => dispatch => {
         payload: e
       });
     })
+};
+
+export const updateUser = update => dispatch => {
+  axios.post("https://us-central1-we-party-210101.cloudfunctions.net/updateUser", 
+  {headers: 
+    { Authorization: `Bearer ${dbConfig.apiKey}`,
+    "content-type": "application/json" }
+  }, 
+  {data: update})
+  .then(res => {
+    console.log({res});
+    
+  })
+  .catch( e => {
+    dispatch({
+      type: ERROR,
+      payload: "Update failed..."
+    })
+  });
 };
 
 export const sendLink = (email, username) => dispatch =>{
@@ -127,7 +148,7 @@ export const retrieveuser = uid => dispatch => {
   {data: {uid: uid }})
   .then(res => {
     dispatch({
-      type: LOGGED_IN,
+      type: USER_SUMMARY,
       payload: res.data.data
     });
   })
@@ -305,6 +326,19 @@ export const submitPayment = (customer, stripe) => async dispatch =>  {
   
  
 };
+
+export const createStripeCustomer = (customer) => dispatch => {
+  axios.post("https://us-central1-we-party-210101.cloudfunctions.net/createStripeCustomer",
+  {Authorization: `Bearer ${dbConfig.apiKey}`,
+  "content-type": "application/json" }, 
+  {data: {"customer": customer}})
+  .then( r => {
+    console.log({r});
+  })
+  .catch( e => {
+    console.log({e});
+  })
+}
 /* ==========END STRIPE ACTIONS=============*/
 
 

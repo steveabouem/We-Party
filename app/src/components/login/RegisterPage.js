@@ -1,20 +1,43 @@
 import React from "react";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
-import {sendLink, registerUser} from "../../actions";
+import {sendLink, registerUser, saveUser, updateUser} from "../../actions";
 import Modal from "../modals";
 import GoogleButton from "./GoogleButton";
+import { Loading } from "../Loading";
+const firebase = require("firebase");
 
 
 class Registration extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
-            isModalOpen: false
+            isModalOpen: false,
+            loaded: false,
         };
+        firebase.auth().onAuthStateChanged(currentUser => {
+            let username = document.getElementsByName("username");
+            if(currentUser !== null && username[0].value) {
+                currentUser.sendEmailVerification()
+                .catch( e => {
+                    this.setState({ 
+                        currentUser: currentUser,
+                        isModalOpen: true,
+                        modalMessage: "You will shortly receive a confirmation email for your registration.",
+                    });
+                    
+                });
+                this.setState({ 
+                    currentUser: currentUser,
+                    isModalOpen: true,
+                    modalMessage: "Welcome to WeParty!.",
+                    userSaved: true
+                 });
+            }
+        });
     }
 
-    registerUser = e => {
+    registerUser = async (e) => {
         e.preventDefault();
         let username = document.getElementsByName("username")[0].value,
         email = document.getElementsByName("email")[0].value,
@@ -28,14 +51,24 @@ class Registration extends React.Component {
         } else if(username.length < 3 || password.length < 6 || confirmPassword.length < 6) {
             this.setState({
                 isModalOpen: true,
-                modalMessage: "Username is less than 3 or password less than 6."
+                modalMessage: "Username is less than 3 or password less than 6 characters."
             });
         } else {
-            this.props.registerUser(username, email, password);
-            this.setState({
-                isModalOpen: true,
-                modalMessage: "Check your email"
-            });
+            console.log("processing registration");
+            this.props.registerUser(email, password);
+        }
+    }
+
+    updateUser = async e => {
+        // e.preventDefault();
+        // let username = document.getElementsByName("username")[0].value,
+        // email = document.getElementsByName("email")[0].value,
+        // currentUser = firebase.auth().currentUser;
+
+        // await props.updateUser({uid: currentUser.uid, update: {displayName: username[0].value}});
+        if(this.state.currentUser){
+            await this.props.saveUser(this.state.currentUser);
+            this.props.history.push("/home");
         }
     }
 
@@ -45,6 +78,23 @@ class Registration extends React.Component {
         });
     }
     
+    componentDidMount() {
+        this.setState({
+            loaded: true
+        });
+    }
+
+    sendVerificationLink = (email) => {
+        if(firebase.auth().currentUser && email) {
+            let emailSettings = {
+                url: 'http://localhost:3000/fulfill/?email=' + email ,
+                handleCodeInApp: true,
+            };
+
+            firebase.auth().currentUser.sendEmailVerification(emailSettings);
+        }
+    }
+
     render() {
         return (
             <div className="landing-page registration">
@@ -57,7 +107,7 @@ class Registration extends React.Component {
                     hasConfirm={false}
                     hasCancel={true}
                     message={this.state.modalMessage}
-                    cancel={this.closeModal}
+                    cancel={this.state.userSaved ? this.updateUser : this.closeModal}
                     top="20%"
                     left="33%"
                 />
@@ -66,8 +116,9 @@ class Registration extends React.Component {
                 <div className="slider-divs"/>
                 <div className="slider-divs"/>
                 <div className="white-box">
+                    { !this.state.loaded ? <Loading size="large" />  :
                     <form className="login-form">
-                        <label>Skip registration by using your google account</label>
+                        <label style={{color: "#FFD951", textAlign: "center"}}>Register using your google account</label>
                         <GoogleButton/>
                         <label>
                             Username
@@ -102,6 +153,7 @@ class Registration extends React.Component {
                                 </Link>
                         </span>
                     </form>
+                    }
                 </div>
             </div>
         );
@@ -113,4 +165,4 @@ const mapStateToProps = state => ({
 });
   
 
-export default connect(mapStateToProps, {registerUser, sendLink}) (Registration);
+export default connect(mapStateToProps, {registerUser, sendLink, saveUser, updateUser}) (Registration);

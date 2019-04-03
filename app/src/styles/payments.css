@@ -5,6 +5,11 @@
     height: 100%;
 }
 
+.payments-container button {
+    width: 15%;
+    margin: 2% auto;
+}
+
 .payment-section {
     width: 33%;
     margin: 0 auto;
@@ -13,14 +18,67 @@
 .payment-form {
     flex-direction: column;
     display: flex;
+    transition: all .3s;
+    animation: revealForm .5s linear;
 }
 
 .payment-form label {
-    margin: 2% auto 0 auto;
+    margin: 0 auto;
     color: white;
+    background: #d35454;
+    width: 100%;
+    padding: 2%;
+}
+
+.payment-form input {
+    margin: 1% 0 5% 0;
 }
 
 .payment-form button {
     width: 45%;
     margin: 2% auto;
+}
+
+.stripe-card-input {
+    background: #fff900;
+    color: #665353;
+    padding: 5% 0;
+    font-size: 2em;
+    margin: 1% 0 5% 0;
+}
+
+.balance-section {
+    margin: 1% auto;
+    width: 70%;
+    height: 70%;
+    transition: all .3s;
+    animation: revealForm .5s linear;
+}
+
+.title-row .material-icons {
+    color: yellow;
+    font-size: 1.2em;
+    vertical-align: text-bottom;
+}
+
+.balance-section h3 {
+    color: white;
+}
+
+.balance-summary-container {
+    width: 100%;
+    margin: auto;
+}
+
+.balance-summary-container table {
+    flex-direction: column;
+    width: 70%;
+    margin: auto;
+    background: #d35454;
+    color: white;
+}
+
+.balance-summary-container td {
+    background: white;
+    color: black;
 }

@@ -89,7 +89,7 @@
   }
 
   .registration >.white-box, .registration > slider-divs:nth-child(2) {
-    filter: none;
+    background-color: #80808070;
   }
   
   /* ==============MOBILE SCREENS============== */
