@@ -53,7 +53,7 @@ export const loginUser = (email, password) => dispatch => {
     })
 };
 
-export const updateUser = update => dispatch => {
+export const updateUser = (update, callback) => dispatch => {
   axios.post("https://us-central1-we-party-210101.cloudfunctions.net/updateUser", 
   {headers: 
     { Authorization: `Bearer ${dbConfig.apiKey}`,
@@ -61,8 +61,11 @@ export const updateUser = update => dispatch => {
   }, 
   {data: update})
   .then(res => {
-    console.log({res});
-    
+    callback(res);
+    dispatch({
+      type: LOGIN,
+      payload: res.data
+    });
   })
   .catch( e => {
     dispatch({

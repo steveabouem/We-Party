@@ -115,7 +115,7 @@ exports.updateUser = functions.https.onRequest( (req, res) => {
         .then( r => {
           res.send({
             code: 200,
-            data: "User info changed"
+            data: update
           });
         })
       } else {

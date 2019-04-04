@@ -148,5 +148,5 @@ const mapStateToProps = state => ({
   userInfo: state.userInfo
 });
 
-export default connect (mapStateToProps, {sendLink, loginUser})(LoginForm);
+export default connect (mapStateToProps, {sendLink, loginUser, saveUser})(LoginForm);
 
