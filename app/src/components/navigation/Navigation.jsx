@@ -33,7 +33,7 @@ class Navigation extends React.Component {
   renderUsername = () => {
     if(firebase.auth().currentUser && firebase.auth().currentUser.displayName && !this.state.newUserName) {
       return firebase.auth().currentUser.displayName;
-    } else if (firebase.auth().currentUser && !firebase.auth().currentUser.displayName && !this.state.newUserName) {
+    } else if (firebase.auth().currentUser && !firebase.auth().currentUser.displayName && !this.state.newUserName && window.location.pathname === "/home") {
       return (
         <React.Fragment>
       <input 
@@ -45,8 +45,10 @@ class Navigation extends React.Component {
       </button>
     </React.Fragment>
       );
-    } else if(this.state.newUserName){
+    } else if(this.state.newUserName && window.location.pathname === "/home"){
       return this.state.newUserName ;
+    } else if(firebase.auth().currentUser && !firebase.auth().currentUser.displayName && window.location.pathname !== "/home"){
+      return ""
     } else {
       return "Guest";
     }

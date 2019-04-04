@@ -118,9 +118,9 @@ class PaymentsPage extends React.Component {
                                     <th><Icon name="group" /> Total Groups</th>
                                 </tr>
                                 <tr>
-                                    <td>{this.props.userInfo.userSummary ? this.props.userInfo.userSummary.balance + " CAD" : <Loading size="small" /> }</td>
-                                    <td>{this.props.userInfo.userSummary ? "You can create up to " + this.props.userInfo.userSummary.timesUsed + " groups": <Loading size="small"/>}</td>
-                                    <td>{this.props.userInfo.userSummary ? this.props.userInfo.userSummary.timesUsed  + " created": <Loading size="small"/>}</td>
+                                    <td>{this.props.userInfo.userSummary ? this.props.userInfo.userSummary.balance : "0 " }CAD</td>
+                                    <td>{this.props.userInfo.userSummary ? "You can create up to " + this.props.userInfo.userSummary.timesUsed + " groups": "None created"}</td>
+                                    <td>{this.props.userInfo.userSummary ? this.props.userInfo.userSummary.timesUsed  + " created": "None"}</td>
                                 </tr>
                             </table>
                         </div>
