@@ -5,13 +5,12 @@
 }
 
 .image-holder {
-  background: url("https://images.unsplash.com/photo-1514605411468-81f98844a475?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=5bcbc9ce882d49a72824357944d4db00&auto=format&fit=crop&w=1950&q=80");
+  background: url(https://image.shutterstock.com/z/stock-photo--party-people-rock-concept-crowd-happy-and-joyful-in-club-celebration-party-festival-happiness-722111746.jpg);
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
   justify-content: center;
   display: flex;
-  background-position-y: 57%;
   height: 90vh;
   width: 100%;
 }
@@ -62,21 +61,22 @@
 
 .dropdown p {
   display: inline-block;
-  color: black;
+  color: #98806e;
 }
 
-.dropdown > button {
+.dropdown button {
   border: 0;
   padding: 0;
+  background: black;
 }
 
+.dropdown button:hover {
+  background: black;
+}
 #gender-mix {
   top:2%!important;
 }
 
-#dropdown {
-  top: 90%!important
-}
 /* LIST OF MATCHES */
 .view-groups {
   list-style: none;
@@ -121,12 +121,16 @@
   width: 25%;
 }
 
+.results-cards .button-secondary  {
+  background: black;
+} 
+
 #SEARCH_VENUE, #how-many, #restaurants-search {
-  color: black!important;
+  color: #98806e!important;
 }
 
 #search-activity-form  label {
-  color: #fd6464!important;
+  color: #ffa13d!important;
   background: black;
   margin: 0;
 }
@@ -135,6 +139,7 @@
   border: none;
   width: 90%;
   margin: 0 auto;
+  color: #98806e;
 }
 
 #search-activity-form {
@@ -235,7 +240,7 @@ input[type=date]::-webkit-outer-spin-button {
 }
 
 .perfect-match-box {
-  background: #f96262!important;
+  background: #f9be62!important;
   color: white;
 }
 
@@ -247,6 +252,14 @@ input[type=date]::-webkit-outer-spin-button {
 .perfect-match-box button:hover {
   color: white!important;
   background: black!important;
+}
+
+.perfect-match-box .material-icons {
+  float: left;
+  color: #00000080;
+  font-size: 25px;
+  z-index: 2;
+  position: sticky;
 }
 /* ==============MOBILE SCREENS============== */
 @media (max-width: 768px) {
@@ -260,7 +273,7 @@ input[type=date]::-webkit-outer-spin-button {
     margin: 0!important;
   }
   
-  #navigation-class-converter a,  {
+  #navigation-class-converter a  {
     padding: 0;
     margin: 1px;
   }
@@ -311,13 +324,5 @@ input[type=date]::-webkit-outer-spin-button {
     padding: 1%;
     
   }
-  .col-md-10 {
-    min-width: 90%;
-    max-width: 90%;
-    margin: 2% auto!important;
-  }
   
-  .card {
-    height: auto;
-  }
 }

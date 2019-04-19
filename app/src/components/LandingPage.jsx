@@ -1,6 +1,5 @@
 import React from "react";
 import {LoginSection} from "./login/LoginPage"
-import {loadUsersCollection } from "../actions";
 import {connect} from "react-redux";
 
 class HomePage extends React.Component {
@@ -18,7 +17,6 @@ class HomePage extends React.Component {
   };
 
   getUser = async (userInfo) =>  {
-    await this.props.loadUsersCollection();
     this.props.history.push("/home");
   }
 
@@ -56,4 +54,4 @@ const mapStateToProps = (state) => ({
   userInfo: state.userInfo
 });
 
-export default connect(mapStateToProps, { loadUsersCollection }) (HomePage)
+export default connect(mapStateToProps, {}) (HomePage)

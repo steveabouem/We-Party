@@ -45,9 +45,8 @@ class LoginForm extends React.Component {
     e.preventDefault();
     let email = document.getElementsByName("email-login")[0].value,
     password = document.getElementsByName("password")[0].value;
+
     await this.props.loginUser(email, password);
-    
-    await this.props.saveUser(firebase.auth().currentUser)
   }
 
   sendLink = (e) => {
@@ -129,14 +128,6 @@ class LoginForm extends React.Component {
           <input type="password" placeholder="@#*(#" name="password"/>
           <button className="button-primary" onClick={e => {this.passwordLogin(e)}}>
             BEGIN
-          </button>
-          <label>
-            Always use verification Link <br/> (no password required)
-          </label>
-          <input type="text" placeholder="Enter username" name="username-link" isrequired />
-          <input type="email" placeholder="Email to send the link to" name="email-link" isrequired onClick={this.openInfoModal} />
-          <button className="button-primary" onClick={e => {this.sendLink(e)}}>
-            GET LINK
           </button>
         </form>
       </div>

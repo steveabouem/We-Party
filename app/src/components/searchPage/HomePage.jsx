@@ -8,11 +8,10 @@ import Confirmation from "./ConfirmPopUp";
 import Modal from "../modals";
 import {
   retrieveuser, searchActivities, sendEmail,
-  createActivity, loadUsersCollection,
+  createActivity,
   loadActivitiesCollection, retrieveJoinedProps, randomKey
 } from "../../actions";
 import { connect } from "react-redux";
-import { log } from "util";
 
 
 class HomePage extends React.Component {
@@ -25,9 +24,10 @@ class HomePage extends React.Component {
       isModalOpened: false,
       noResultModal: false,
       loginModal: false,
-      paymentModal: false
+      isPaymentModalOpen: false
     }
 
+    this.resultRef = React.createRef();
     firebase.auth().onAuthStateChanged(currentUser => {
       this.setState({ currentUser: currentUser });
     });
@@ -46,7 +46,7 @@ class HomePage extends React.Component {
         noResultModal: false,
         isModalOpened: false,
         loginModal: false,
-        paymentModal: false
+        isPaymentModalOpen: false
       });
   }
   
@@ -107,25 +107,23 @@ class HomePage extends React.Component {
     this.props.createActivity(activityObject, firebase.auth().currentUser.uid);
   }
   
-  focus = async() => {
-    this.setState({
-      loginModal: true
-    });
-    let loginButton = document.getElementsByClassName('link-primary')[0];
-    loginButton.focus();
-  }
-
   async componentDidMount() {
     document.addEventListener("keypress", this.handleKeyPress);
     {firebase.auth().currentUser ? this.props.retrieveuser(firebase.auth().currentUser.uid) : null }
-    await this.props.loadUsersCollection();
-    await this.props.loadActivitiesCollection();
-    await this.props.retrieveJoinedProps(this.props.userInfo.userInfo);
+    await this.props.retrieveJoinedProps(firebase.auth().currentUser);
   }
   
 
   componentWillUnmount() {
     document.removeEventListener("keypress", this.handleKeyPress);
+  }
+
+  componentDidUpdate(prevProps) {
+    if(this.props.userInfo.ErrorMessage && (!prevProps.userInfo.ErrorMessage  || prevProps.userInfo.ErrorMessage !== this.props.userInfo.ErrorMessage)) {
+      this.setState({
+        isPaymentModalOpen: true,
+      });
+    }
   }
 
   render (){
@@ -134,16 +132,16 @@ class HomePage extends React.Component {
         <div className="home-container">
           <Navigation />
           {
-              this.state.paymentModal
+              this.state.isPaymentModalOpen
               ?
               <Modal
                 isOpen={true}
                 hasConfirm={true}
                 hasCancel={true}
-                top="20%"
+                top={window.innerHeight / 1.5 + "px"}
                 right="45%"
                 message="Pay now"
-                callback={e => {e.stopPropagation(); this.props.history.push("/payment")}}
+                callback={e => {this.props.history.push("/payment")}}
                 cancel={e=>{this.closeModal()}}
               />
                 :
@@ -156,7 +154,7 @@ class HomePage extends React.Component {
                   <span className="form-wrapper" style={{padding: "1%"}}>
                     <TextField style={{margin: "1%"}}/>
                     {!firebase.auth().currentUser?
-                      <button style={{width: "100px", height: "100%"}} id="disabled-button" onClick={this.focus}>
+                      <button style={{width: "100px", height: "100%"}} id="disabled-button">
                         Please Login
                       </button>
                       :
@@ -217,9 +215,12 @@ class HomePage extends React.Component {
             }
             {ApiResponse && ApiResponse !== "No results found:(" && ApiResponse.length > 0 ? ApiResponse.map(result => {
               return (
-              <Col md = {{ size: 10 }} key={result.alias}>
+              <Col md = {{ size: 10 }} key={result.alias} ref={this.resultRef}>
                 <Card className="result-cards">
-                  <Confirmation key = {result.id} yelpResult = {result} createActivity = {this.createActivity} activitiesList={this.props.userInfo.activitiesList} />
+                  <Confirmation key = {result.id} yelpResult = {result}
+                   createActivity = {this.createActivity} 
+                   activitiesList={this.props.userInfo.activitiesList} 
+                  />
                   <CardImg top width="100%" height="200px" src={result.image_url} />
                   <CardBody>
                     <CardTitle> Venue: <br/> {result.name} </CardTitle>
@@ -232,7 +233,6 @@ class HomePage extends React.Component {
                       <span>
                         <span className="material-icons">location_on</span>: {result.location.address1} <br/>
                       </span>
-                      distance:  {result.distance} <br/>
                     </CardText>
                     <a href={result.url} target="blank">
                       <Button className="button-secondary">Venue details...</Button>
@@ -252,5 +252,5 @@ class HomePage extends React.Component {
         userInfo: state.userInfo
       })
       
-      export default connect(mapStateToProps, { searchActivities, sendEmail, retrieveuser, createActivity, loadUsersCollection, loadActivitiesCollection, retrieveJoinedProps, randomKey}) (HomePage)
+      export default connect(mapStateToProps, { searchActivities, sendEmail, retrieveuser, createActivity, loadActivitiesCollection, retrieveJoinedProps, randomKey}) (HomePage)
       

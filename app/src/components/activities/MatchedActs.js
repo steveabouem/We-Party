@@ -70,7 +70,7 @@ class MatchedActs extends React.Component {
                       left="33%"
                     />
                   }
-                  <h3> Created by you <span className="material-icons yellow">supervised_user_circle</span></h3>
+                  <h4> Created by you <span className="material-icons yellow">account_circle</span></h4>
                   <li> 
                     <b>Member contribution</b>: { match.contribution }
                   </li>
@@ -110,20 +110,26 @@ class MatchedActs extends React.Component {
                         top="20%"
                         left="33%"
                     />}
-                  <h3> Created by {match.creator && match.creator.displayName} <span className="material-icons">supervised_user_circle</span></h3>
+                  <h4> Created by {match.creator && match.creator.displayName} <span className="material-icons">supervised_user_circle</span></h4>
                   <li> 
                     <b>Member contribution</b>: { match.contribution }
                   </li>
                   <li>
                     <b>Venue</b>: { match.venue}, {match.location}.
                   </li>
-                  <li> <b>For</b>: { match.group } {match.genders === "Random" ? "people" : match.genders === "Boyz Night Out" ? "gentlemen" :  match.genders === "Girls Night Out" ? "ladies" : ""} ({ match.group - match.members.length} missing) </li>
+                  <li> <b>For</b>: { match.group } 
+                    {match.genders === "Random" ? "people" 
+                    : match.genders === "Boyz Night Out" ? "gentlemen" 
+                    :  match.genders === "Girls Night Out" ? "ladies" 
+                    : ""} 
+                    ({ match.group - match.members.length} missing) </li>
                     <li>
                       So far there are {match.members.length -1} people joining:
-                      - {match.members.map( member => {
-                        return <span key={ key += .42}> <b>{ member.name }</b> { member.email } )</span>
+                      <br/>
+                      {match.members.map( member => {
+                        return <span key={ key += .42}> { member.displayName } ({ member.email })<br/></span>
                       })
-                    } -
+                    }
                   </li>
                   <li>
                   Event occurs on {moment(match.eventDate).format("ddd, MMM Do YY")} (in {dateDiff} {dateDiff > 1 ? " days" : " day"}) 

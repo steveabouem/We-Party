@@ -43,7 +43,7 @@ class UnmatchedActs extends React.Component {
         <h2>Activities pending match</h2>
           {this.props.userInfo.activitiesList && this.props.userInfo.activitiesList.unmatched? this.props.userInfo.activitiesList.unmatched.map(match => {
             let dateDiff = moment(match.eventDate).diff(moment().startOf('day'), "days");
-            if (match.creator.email === firebase.auth().currentUser.email) {
+            if (match.creator && match.creator.email === firebase.auth().currentUser.email) {
               return(
                 <ul className="unmatched-item" key={key += 0.43}>
                   {this.state.isModalOpened && 
@@ -56,7 +56,7 @@ class UnmatchedActs extends React.Component {
                     top="20%"
                     left="33%"
                   />}
-                  <h3> Details </h3>
+                  <h4> Details </h4>
                   <li> 
                     <b>Contribution</b>: { match.budget }
                   </li>

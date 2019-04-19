@@ -236,21 +236,29 @@ exports.createActivity = functions.https.onRequest( (req, res) => {
   let activity = req.body.activity,
   key = req.body.key,
   uid = req.body.uid;
-  
   cors(req, res, () => {
-    firebase.database().ref().child("activities/unmatched/" + key).set(activity);
     // ADD up the number of created activities
     firebase.database().ref().child("users/" + uid).once("value", snapshot => {
+      
       let currentTimesUsed = snapshot.val().timesUsed +=1;
-      firebase.database().ref("users/" + uid).update({
-        timesUsed: currentTimesUsed
-      })
-      .catch( e => {
-        res.send({
-          "code": 500,
-          "data": "Adding up activities caused an error!"
+      console.log("çounting times used up", snapshot.val(), currentTimesUsed);
+      if(currentTimesUsed < 2) {
+        firebase.database().ref().child("activities/unmatched/" + key).set(activity);
+        firebase.database().ref("users/" + uid).update({
+          timesUsed: currentTimesUsed
+        })
+        .catch( e => {
+          res.send({
+            "code": 500,
+            "data": "Adding up activities caused an error!"
+          });
         });
-      });
+      } else {
+        res.send({
+          "code": 400,
+          "data": "You have used all your free activities. Please proceed to the payments page"
+        });
+      }
     });
 
     firebase.database().ref().child("activities").once("value", snapshot => {

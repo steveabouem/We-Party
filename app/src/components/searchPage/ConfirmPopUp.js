@@ -117,6 +117,7 @@ class Confirmation extends React.Component {
                     let dateDiff = moment(match.eventDate).diff(moment().now, "days");
                       return(
                         <li key={key += 0.2101} className =  {this.isPerfectMatch(match) && "perfect-match-box"}> 
+                          {this.isPerfectMatch(match) && <span className="material-icons">stars</span>}
                           Venue: {match.venue} for {match.group} people
                           ( {match.contribution} each). 
                           <br/>
@@ -126,7 +127,7 @@ class Confirmation extends React.Component {
                           <br/>
                           Created On {match.created}.
                           <br />
-                          For {moment(match.eventDate).format("ddd-MMM-Do-YY")} (in 
+                          For {moment(match.eventDate).format("ddd, MMM Do YY")} (in 
                           {dateDiff} {dateDiff > 1 ? " days" : " day"})
                           <br/>
                           {

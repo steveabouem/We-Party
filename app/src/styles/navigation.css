@@ -19,7 +19,7 @@
   align-items: flex-end;
   font-size: 1em;
   z-index: 100;
-  color: #f66062;
+  color: #ffa13d;
   text-align: right;
   padding: 1%;
 }
@@ -27,15 +27,15 @@
 #user-icon-active {
   color: black;
   margin: 1%;
-  background: #bce4f8;
+  background: white;
   border-radius: 30px;
   padding: 0;
 }
 
 #user-icon {
-  color: rgb(0, 0, 0);
+  color: rgb(1, 0, 0);
   margin: 1%;
-  background: grey;
+  background: #8080807d;
   border-radius: 30px;
   padding: 0;
 }
@@ -47,14 +47,17 @@
 
 .user-name input {
   height: 100%;
+  background: white;
   margin: 0 10px;
+  font-size: .7em;
+  border-bottom: 5px solid #ffa13d;
 }
 
 .navigation-left {
   width: 50%;
   font-size: 200%;
   z-index: 100;
-  color: #f66062;
+  color: #ffa13d;
   text-align: left;
   padding: 1%;
 }
@@ -70,6 +73,7 @@
 
 .nav-dropdown li {
   margin: 1% auto;
+  background: #0000008f;
 }
 
 
