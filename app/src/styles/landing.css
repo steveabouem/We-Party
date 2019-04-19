@@ -16,6 +16,7 @@
   width: 33.3%;
   z-index: -1;
   background-size: cover!important;
+  filter: grayscale(1);
 }
 
 .slider-divs:nth-child(1) {
@@ -49,7 +50,6 @@
   width: 33.3%;
   height: 80%;
   color: white;
-  background-color: rgba(255, 49, 59, 0.24);
   font-weight: bold;
   text-align: justify;
   background-size: cover;
@@ -67,7 +67,7 @@
   }
   
   .tagline {
-    margin-top: 60%;
+    /* margin-top: 60%; */
   }
   
   .white-box a, .navbar-brand a {

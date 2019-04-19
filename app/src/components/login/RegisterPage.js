@@ -66,7 +66,6 @@ class Registration extends React.Component {
     redirectUser = async e => {
         e.preventDefault()
         if(this.state.currentUser){
-            await this.props.saveUser(this.state.currentUser);
             this.setState({
                 isModalOpen: true,
                 modalMessage: this.redirect,

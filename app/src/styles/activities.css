@@ -37,7 +37,7 @@
   overflow-y: overlay;
   margin: 5% 0 1% 0;
   color: white;
-  background: #0e0e0e;
+  background: #333333;
 }
 
 .unmatched-activities-container h2, .matched-activities-container h2 {
@@ -48,8 +48,8 @@
   text-align: left;
 }
 
-.unmatched-activities-container h3, .matched-activities-container h3 {
-  background: #d35454;
+.unmatched-activities-container h4, .matched-activities-container h4 {
+  background: black;
   margin: 10% 0 0 0;
 
 }
@@ -63,14 +63,16 @@
   min-width: 80%;
   list-style: none;
   text-align: left;
-  margin: 1% auto 2% auto;
+  margin: 1%;
   overflow-x: hidden;
   padding: 0;  
 }
 
 .matched-item li, .unmatched-item li {
   padding: 1%;
-  background: #a2476c!important;
+  padding: 1%;
+  background: #050000!important;
+  color: #fffbc1;
 }
 
 /* ==============MOBILE SCREENS============== */

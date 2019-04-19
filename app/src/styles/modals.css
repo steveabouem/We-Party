@@ -1,13 +1,16 @@
 .standard-modal {
   position: absolute;
-  background: rgb(241, 241, 241);
-  color: #580000;
+  background: rgba(0, 0, 0, 0.91);
+  color: #ffedc4;
   text-align: center;
   font-size: 1.2em;
   padding: 5px;
   z-index: 50;
-  height: 40vh;
-  width: 40vw;
+  height: 30vh;
+  width: 30vw;
+  -webkit-box-shadow: 4px 4px #6e50309e;
+  box-shadow: 2px 2px #6e503094;
+  border: 3px #c9965869 inset;
 }
 
 .standard-modal p, .standard-modal div {

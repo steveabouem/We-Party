@@ -6,22 +6,20 @@ body {
 /* here link on landing page should hav color #a00f0f!important on mobile */
 
 *:focus {
-  outline: none!important;
+  /* outline: 2px solid #fff558a3; */
+  outline: none;
 }
 
 /*==============ALL BUTTONS, LINKS AND LI, INCLUDING MATERIAL UI OVERRIDE============== */
 
 button {
   border: 1px solid grey;
+  background: #00000052;
 }
 
 a, button {
   transition: all 0.4s;
-  color: #ff6565!important;
-}
-
-button, li {
-  background: black!important
+  color: #ffa13d!important;
 }
 
 ul {
@@ -51,12 +49,12 @@ header button:hover, header button:active  {
 }
  
 ::-webkit-scrollbar-thumb {
-  background: #d35454; 
+  background: #ffa13d; 
   border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #d35454; 
+  background: #ffa13d; 
 }
 /* ==================END================== */
 
@@ -70,7 +68,7 @@ header button:hover, header button:active  {
 }
 
 .loader span {
-  color: #ff6565;
+  color: #ffa13d;
   animation: rotate 1s linear infinite;
   display: block;
   margin: auto;
@@ -121,7 +119,7 @@ li[class^="MuiButtonBase-root"]:hover {
 }
 
 li[class^="MuiButtonBase-root"] a { /*Navmenu link*/
-  color: #ff6565!important;
+  color: #ffa13d!important;
   text-decoration: none!important;
 }
 

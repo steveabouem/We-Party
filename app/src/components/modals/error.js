@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 class ErrorMessage extends React.Component {
   
   render () {
-    // console.log("Error message props", this.props);
     return (
       
       this.props.error? 

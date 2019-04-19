@@ -23,7 +23,14 @@ export const randomKey = () => dispatch => {
 
 export const registerUser = ( email, password) => dispatch => {
   firebase.auth().createUserWithEmailAndPassword(email, password)
-  .then( (r) => {
+  .then(r => {
+    axios.post("https://us-central1-we-party-210101.cloudfunctions.net/saveUser", 
+      {headers: 
+        { Authorization: `Bearer ${dbConfig.apiKey}`,
+        "content-type": "application/json" }
+      }, 
+      {data: {userInfo: r.user }}
+    );
     dispatch({
       type: LOGIN,
       payload: r.user
@@ -216,10 +223,18 @@ export const createActivity = (activity, uid) => dispatch => {
   }, 
   { data: {"activity": activity, "key": activity.key, "uid": uid} })
   .then( r => {
-    dispatch({
-      type: SAVE_VENUE,
-      payload: r.data
-    });
+    console.log(r.data);
+    if(r.data.code === 200) {
+      dispatch({
+        type: SAVE_VENUE,
+        payload: r.data
+      });
+    } else if(r.data.code === 400  || r.data.code === 500) {
+      dispatch({
+        type: ERROR,
+        payload: r.data.data
+      });
+    }
   });
 };
 
@@ -277,6 +292,8 @@ export const retrieveJoinedProps = user => dispatch => {
   "content-type": "application/json" }, 
   {data: {"user": user}})
   .then( r => {
+    console.log({r});
+    
     dispatch({
       type: RENDER_JOINED,
       payload: r.data.matched
