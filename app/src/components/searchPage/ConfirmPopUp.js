@@ -11,41 +11,51 @@ class Confirmation extends React.Component {
     this.state = {
       isModalOpened: false,
       modalMessage: "",
-      currentUser: firebase.auth().currentUser
+      currentUser: firebase.auth().currentUser,
+      matchesList: []
     };
   }
 
   searchMatchesList = [];
 
   isPerfectMatch = (match) => {//conditions below prevent occasional crash on reload
-    let groupTotal = document.getElementById("how-many") ? document.getElementById("how-many").value : "",
-      budget = document.getElementById("budget-selected") ? document.getElementById("budget-selected").innerHTML : "",
-      genders = document.getElementById("gender-selected") ? document.getElementById("gender-selected").innerHTML : "",
-      location = document.getElementById("SEARCH_VENUE") ? document.getElementById("SEARCH_VENUE").value : "",
-      eventDate = document.getElementById("when") ? document.getElementById("when").value : "";
+    // console.log({match});
     
-    if (
-      match.venue.toLowerCase().indexOf(location.toLowerCase() ==! -1)
-      && match.contribution == budget
-      && match.eventDate == eventDate
-      && match.group == groupTotal
-      && genders === match.genders
-    ) {
-      return true
-    }
+    // let groupTotal = document.getElementById("how-many") ? document.getElementById("how-many").value : "",
+    //   budget = document.getElementById("budget-selected") ? document.getElementById("budget-selected").innerHTML : "",
+    //   genders = document.getElementById("gender-selected") ? document.getElementById("gender-selected").innerHTML : "",
+    //   location = document.getElementById("SEARCH_VENUE") ? document.getElementById("SEARCH_VENUE").value : "",
+    //   eventDate = document.getElementById("when") ? document.getElementById("when").value : "";
+    
+    // if (
+    //   match.venue.toLowerCase().indexOf(location.toLowerCase() ==! -1)
+    //   && match.contribution == budget
+    //   && match.eventDate == eventDate
+    //   && match.group == groupTotal
+    //   && genders === match.genders
+    // ) {
+    //   return true
+    // }
 
-    return false
+    // return false
   }
 
-  retrieveSearchMatches = () => {
-    if(this.props.activitiesList && this.props.activitiesList.unmatched) { 
-      this.props.activitiesList.unmatched.forEach(match => {
-        if(match.venue === this.props.yelpResult.name && match.location === this.props.yelpResult.location.address1){
-          this.searchMatchesList.push(match);
-        }
-      })
-    }
-  };
+  renderMatchesList = async() => {
+    let matchesList = [],
+    {yelpResult, matches} = this.props;
+
+    await matches.unmatched.forEach(search => {
+      if(search && search.location === yelpResult.location.address1) {
+        matchesList.push(search);
+      }
+    });
+    await matches.matched.forEach(search => {
+      if(search && search.location === yelpResult.location.address1) {
+        matchesList.push(search);
+      }
+    });
+    this.setState({matchesList});
+  }
 
   isDuplicate = (currentUser, match) => {
     let duplicates = Object.keys(match.members).filter( key => {
@@ -82,87 +92,94 @@ class Confirmation extends React.Component {
     });
   };
 
-  componentWillMount() {
-    this.retrieveSearchMatches();
+  async componentDidMount() {
+    await this.renderMatchesList();
   }
-  
+
   render(){ 
     let key = 0;
+    const {matches, yelpResult, createActivity, showMatches} = this.props;
+    const {matchesList, isModalOpened, modalMessage} = this.state;
+    
     return(
       <div className="confirmation-container">
           <div>
-            <div>Group(s) you could join: {this.searchMatchesList.length}
-              {this.searchMatchesList.length > 0? 
-              <ul className="view-groups" >
-                {this.state.isModalOpened &&
-                  <Modal callBack={null}
-                    isOpened={this.state.isModalOpened}
-                    hasConfirm={false}
-                    hasCancel={true}
-                    message={this.state.modalMessage}
-                    cancel={this.closeModal}
-                    top="20%"
-                    left="33%"
-                    height="30%"
-                    width="80%" 
-                  />
-                }
-                  <button className="button-secondary" onClick={e=> {this.props.createActivity(e, this.props.yelpResult)}}>
+            <div>
+              <h3 className="match-title">Group(s) you could join: {matchesList.length > 0 ? matchesList.length : "N/A"}</h3>
+              {matchesList.length > 0 ? 
+                <ul className="view-groups" >
+                  {isModalOpened &&
+                    <Modal callBack={null}
+                      isOpened={isModalOpened}
+                      hasConfirm={false}
+                      hasCancel={true}
+                      message={modalMessage}
+                      cancel={this.closeModal}
+                      top="20%"
+                      left="33%"
+                      height="30%"
+                      width="80%" 
+                    />
+                  }
+                  <button className="button-secondary" onClick={e=> {createActivity(e, yelpResult)}}>
                     CREATE YOURS
                   </button>
                   <br/>
-                  Or join a group below
-                  {
-                  this.searchMatchesList.map(match => {
-                    let dateDiff = moment(match.eventDate).diff(moment().now, "days");
-                      return(
-                        <li key={key += 0.2101} className =  {this.isPerfectMatch(match) && "perfect-match-box"}> 
-                          {this.isPerfectMatch(match) && <span className="material-icons">stars</span>}
-                          Venue: {match.venue} for {match.group} people
-                          ( {match.contribution} each). 
-                          <br/>
-                          {match.members && match.members.length -1} member(s) joined!
-                          <br/>
-                          Creator: {match.creator.name}
-                          <br/>
-                          Created On {match.created}.
-                          <br />
-                          For {moment(match.eventDate).format("ddd, MMM Do YY")} (in 
-                          {dateDiff} {dateDiff > 1 ? " days" : " day"})
-                          <br/>
-                          {
-                            match.creator.email === this.state.currentUser.email ?
-                            <button type="button" className="button-secondary"
-                              onClick={ e=> this.openModal(e, "creator")}>
-                              Join Group
-                            </button>
-                            :
-                            this.isDuplicate(this.state.currentUser, match) ?
-                            <button type="button" className="button-secondary"
-                              onClick={ e=> this.openModal(e, "duplicate")}>
-                              Join Group
-                            </button>
-                            :
-                            <button type="button" className="button-secondary"
-                              onClick={ e => { this.joinGroup(e, this.state.currentUser, match) }}>
-                              Join Group
-                            </button>
-                          }
-                        </li>
-                      );
-                    })
+                  {showMatches && 
+                    <React.Fragment>
+                      <span>Or join a group below</span>
+                      
+                      {matchesList.length > 0 && matchesList.map(match => {
+                        let dateDiff = moment(match.eventDate).diff(moment().now, "days");
+                          return(
+                            <li key={key += 0.2101} className =  {this.isPerfectMatch(match) && "perfect-match-box"}> 
+                              {this.isPerfectMatch(match) && <span className="material-icons">stars</span>}
+                              Venue: {match.venue} for {match.group} people
+                              ( {match.contribution} each). 
+                              <br/>
+                              {match.members && match.members.length -1} member(s) joined!
+                              <br/>
+                              Creator: {match.creator.displayName}
+                              <br/>
+                              Created On {match.created}.
+                              <br />
+                              For {moment(match.eventDate).format("ddd, MMM Do YY")} (in 
+                              {dateDiff} {dateDiff > 1 ? " days" : " day"})
+                              <br/>
+                              {
+                                match.creator.email === this.state.currentUser.email ?
+                                <button type="button" className="button-secondary"
+                                  onClick={ e=> this.openModal(e, "creator")}>
+                                  Join Group
+                                </button>
+                                :
+                                this.isDuplicate(this.state.currentUser, match) ?
+                                <button type="button" className="button-secondary"
+                                  onClick={ e=> this.openModal(e, "duplicate")}>
+                                  Join Group
+                                </button>
+                                :
+                                <button type="button" className="button-secondary"
+                                  onClick={ e => { this.joinGroup(e, this.state.currentUser, match) }}>
+                                  Join Group
+                                </button>
+                              }
+                            </li>
+                          );
+                        })
+                      }
+                    </React.Fragment>
                   }
                 </ul>
               :
               <div>
               No group created yet.<br/>
-                <button type="button" className="button-primary" onClick={e=> {this.props.createActivity(e, this.props.yelpResult)}}>
+                <button type="button" className="button-primary" onClick={e=> {createActivity(e, yelpResult)}}>
                   CREATE!
                 </button>
               </div>
               }
             </div>
-           
       </div>
     </div>
     )

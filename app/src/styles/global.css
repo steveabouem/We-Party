@@ -27,7 +27,7 @@ ul {
 }
 
 
-button:hover, button:active, a:hover, a:active, ul:hover {
+button:hover, button:active, a:hover, a:active {
   color: white!important;
   text-decoration: none;
 }

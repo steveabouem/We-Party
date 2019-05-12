@@ -7,7 +7,6 @@ export default class Modal extends React.Component {
     this.state = {
       isOpened: props.isOpened,
     };
-    this.modalRef = React.createRef();
   };
 
   confirm = async() => {
@@ -18,13 +17,6 @@ export default class Modal extends React.Component {
       });
     } 
   };
-
-  componentDidUpdate() {
-    let modalElt = document.getElementsByClassName("standard-modal");
-    if(modalElt[0]) {
-      modalElt.scrollIntoView();
-    }
-  } 
 
   render() {
     return (

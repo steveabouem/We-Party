@@ -193,7 +193,9 @@ export const searchActivities = (search) => async(dispatch) => {
   }, 
   {data: {term: `${search}`}})
   .then(res => {
-    payload = res.data;
+    payload = res.data.data;
+    console.log({payload});
+    
   })
   .catch( e => {
     dispatch({
@@ -202,7 +204,7 @@ export const searchActivities = (search) => async(dispatch) => {
     })
   });
   
-  if(payload.data.length === 0) {
+  if(payload.results.length === 0) {
     dispatch({
       type: SEARCH_VENUE,
       payload: "No results found:("
@@ -210,7 +212,7 @@ export const searchActivities = (search) => async(dispatch) => {
   } else {
     dispatch({
       type: SEARCH_VENUE,
-      payload: payload.data
+      payload: payload
     });
   }
 };
@@ -286,17 +288,15 @@ export const pushNewMember =  ( currentUser, match) => dispatch => {
   });
 };
     
-export const retrieveJoinedProps = user => dispatch => {
+export const retrieveJoinedProps = uid => dispatch => {
   axios.post("https://us-central1-we-party-210101.cloudfunctions.net/retrieveJoined",
   {Authorization: `Bearer ${dbConfig.apiKey}`,
   "content-type": "application/json" }, 
-  {data: {"user": user}})
+  {data: {"uid": uid}})
   .then( r => {
-    console.log({r});
-    
     dispatch({
       type: RENDER_JOINED,
-      payload: r.data.matched
+      payload: r.data
     }); 
   })
   .catch( e => {

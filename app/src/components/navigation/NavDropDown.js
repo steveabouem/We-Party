@@ -31,6 +31,13 @@ export default class NavDropDown extends React.Component {
                 null
                 }
               <li className="nav-dropdown-item">
+                { firebase.auth().currentUser &&
+                  <Link to="/profile">
+                    PROFILE
+                  </Link>
+                }
+              </li>
+              <li className="nav-dropdown-item">
                 <Link to="/activities">
                   GROUPS
                 </Link>
