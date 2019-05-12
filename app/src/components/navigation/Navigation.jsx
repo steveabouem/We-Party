@@ -1,6 +1,6 @@
 import React from "react";
 import {connect} from "react-redux";
-import {logout, updateUser} from "../../actions";
+import {logout} from "../../actions";
 import NavDropDown from "./NavDropDown";
 const firebase = require("firebase");
 
@@ -24,46 +24,14 @@ class Navigation extends React.Component {
     });
   };
 
-  setNewName = name => {
-    this.setState({
-      newUserName: name
-    })
-  };
-
   renderUsername = () => {
-    if(firebase.auth().currentUser && firebase.auth().currentUser.displayName && !this.state.newUserName) {
+    let {userInfo} = this.props;
+    if(firebase.auth().currentUser && userInfo.userSummary){
+      return userInfo.userSummary.displayName;
+    } else if(firebase.auth().currentUser && !userInfo.userSummary){
       return firebase.auth().currentUser.displayName;
-    } else if (firebase.auth().currentUser && !firebase.auth().currentUser.displayName && !this.state.newUserName && window.location.pathname === "/home") {
-      return (
-        <React.Fragment>
-      <input 
-        type="text" name="edit-name" maxLength={10} className="select-name"
-        placeholder="choose a username (4 to 8)" 
-      />
-      <button type="button" className="submit-name" onClick={e => {this.updateUser(e)}}>
-        Confirm
-      </button>
-    </React.Fragment>
-      );
-    } else if(this.state.newUserName && window.location.pathname === "/home"){
-      return this.state.newUserName ;
-    } else if(firebase.auth().currentUser && !firebase.auth().currentUser.displayName && window.location.pathname !== "/home"){
-      return ""
     } else {
       return "Guest";
-    }
-  };
-
-  updateUser = async e => {
-    e.preventDefault();
-    let username = document.getElementsByName("edit-name")[0].value;
-    if(this.state.currentUser.uid) {
-      console.log("processing update on user profile");
-      
-      this.props.updateUser({uid: this.state.currentUser.uid, update: {displayName: username}}, () => {
-        console.log("updating screen");
-        return this.setNewName(username);
-      });
     }
   };
 
@@ -108,4 +76,4 @@ const mapStateToProps = (state) => ({
   userInfo: state.userInfo
 });
 
-export default connect(mapStateToProps, {logout, updateUser}) (Navigation) 
+export default connect(mapStateToProps, {logout}) (Navigation) 

@@ -24,6 +24,14 @@
   padding: 1%;
 }
 
+.gender-selected {
+  flex-direction: column;
+  display: flex;
+  margin: 0 1%;
+  align-self: center;
+  transition: all .4s;
+}
+
 #user-icon-active {
   color: black;
   margin: 1%;

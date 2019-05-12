@@ -15,115 +15,7 @@
   width: 100%;
 }
 
-.input-group {
-  height: 15%;
-  margin-top: 30%!important;
-  position: relative;
-  align-content: center;
-}
-
-.MediaCard-card-61 {
-  margin: auto;
-  margin-top: 1%;
-}
-
-.col-lg-8, .col-md-10 {
-  max-width: 80%!important;
-  margin: auto;
-  margin-top: 1%;
-}
-
-.col-md-10 {
-  flex: 1 1 100px!important;
-  min-height: 700px;
-  max-height: 700px;
-  min-width: 25%;
-  max-width: 25%!important;
-}
-
-.card {
-  max-width: 100%;
-  min-width: 100%;
-  height: 600px;
-  background: black;
-  color: #fffddd;
-}
-
-.col-md-10:hover {
-  transform: translateY(2px)
-}
-
-.dropdown { 
-  /*class dropdown, ocntainer of the $ button which then displays 
-  the #dropdown list, with .dropdown-items */
-  height: 100%;
-}
-
-.dropdown p {
-  display: inline-block;
-  color: #98806e;
-}
-
-.dropdown button {
-  border: 0;
-  padding: 0;
-  background: black;
-}
-
-.dropdown button:hover {
-  background: black;
-}
-#gender-mix {
-  top:2%!important;
-}
-
-/* LIST OF MATCHES */
-.view-groups {
-  list-style: none;
-  transition: all 1s;
-  width: 100%;
-  color: #d3f9f7;
-  font-size: 0.8rem;
-  height: 100%;
-  padding: 1% 8% 1% 1%;
-  overflow: overlay;
-  background: #595353;
-}
-
-.view-groups li {
-  padding: 1em 0;
-}
-
-.results-cards {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  flex-flow: wrap;
-  transition: all 0.4s;
-  overflow: hidden;
-  background-attachment: fixed;
-  background: black;
-}
-
-.results-cards .material-icons {
-  font-size: 1.4em;
-  color: yellow;
-}
-.results-cards div {
-  display: flex;
-  transition: all 0.4s;
-  flex-direction: column;
-  justify-content: center;
-  margin: auto;
-}
-
-.results-cards card {
-  width: 25%;
-}
-
-.results-cards .button-secondary  {
-  background: black;
-} 
+/* ========================SEARCH SECTION ======================== */
 
 #SEARCH_VENUE, #how-many, #restaurants-search {
   color: #98806e!important;
@@ -197,6 +89,95 @@ input[type=date]::-webkit-outer-spin-button {
   width: 1em;
   background: transparent;
 }
+.input-group {
+  height: 15%;
+  margin-top: 30%!important;
+  position: relative;
+  align-content: center;
+}
+
+
+.dropdown { 
+  /*class dropdown, ocntainer of the $ button which then displays 
+  the #dropdown list, with .dropdown-items */
+  height: 100%;
+}
+
+.dropdown p {
+  display: inline-block;
+  color: #98806e;
+}
+
+.dropdown button {
+  border: 0;
+  padding: 0;
+  background: black;
+}
+
+.dropdown button:hover {
+  background: black;
+}
+#gender-mix {
+  top:2%!important;
+}
+/* ======================== */
+
+/*====================== LIST OF MATCHES===================== */
+
+.result-wrap {
+  display: flex;
+  flex-direction: column;
+  width: 25%;
+  padding: 2% 1%;
+  position: relative;
+  justify-content: center;
+  min-height: 700px;
+  max-height: 700px;
+}
+
+.result-column {
+  margin: 0;
+  padding: 0;
+  top: 5px;
+  position: absolute;
+}
+
+.view-groups {
+  list-style: none;
+  transition: all 1s;
+  width: 100%;
+  color: #d3f9f7;
+  font-size: 0.8rem;
+  height: 100%;
+  padding: 2%;
+  overflow: overlay;
+  background: #595353;
+}
+
+.view-groups li {
+  padding: 1em 0;
+}
+
+.results-cards {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-flow: wrap;
+  transition: all 0.4s;
+  overflow: hidden;
+  background-attachment: fixed;
+  background: black;
+}
+
+.results-cards .material-icons {
+  font-size: 1.4em;
+  color: yellow;
+}
+
+.results-cards .button-secondary  {
+  background: black;
+} 
+
 
 .add-activity, .delete-activity {
   border: none;
@@ -261,6 +242,9 @@ input[type=date]::-webkit-outer-spin-button {
   z-index: 2;
   position: sticky;
 }
+/* ======================== */
+
+
 /* ==============MOBILE SCREENS============== */
 @media (max-width: 768px) {
   

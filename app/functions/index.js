@@ -11,11 +11,11 @@ const dbConfig = {
   storageBucket: "we-party-210101.appspot.com",
   // messagingSenderId: tokens.firebaseSender
 };
-
 const stripe = require("stripe")("sk_test_vdtVPJ5w24tJ5zdRHLcVvxUH");
 const sgMail = require('@sendgrid/mail');
 // sgMail.setApiKey(sendGridKey);
 firebase.initializeApp(dbConfig);
+const query = firebase.database().ref();
 
 exports.sendEmail = functions.https.onRequest( (req, res) =>{
   cors( req, res, () =>{
@@ -72,12 +72,12 @@ exports.saveUser = functions.https.onRequest((req, res) => {
   cors(req, res, () => {
     let userInfo = req.body.userInfo;
     let data = {displayName: userInfo.displayName, email: userInfo.email, photoURL: userInfo.photoURL, uid: userInfo.uid, timesUsed: 0};
-    console.log("info received", userInfo);
-    firebase.database().ref().child("users").once("value", snapshot => {
+
+    query.child("users").once("value", snapshot => {
       let duplicate = 0;
-      console.log("db querried", snapshot.val());
       if(snapshot.val()) {
-        for( let key in snapshot.val()) {
+        // loop through existing users to avoid dup emails
+        for(let key in snapshot.val()) {
           if(snapshot.val()[key].email === userInfo.email) {
             res.send({
               code: 400,
@@ -85,8 +85,23 @@ exports.saveUser = functions.https.onRequest((req, res) => {
             })
           }
         }
-      } else if(!snapshot.val()) {
-        firebase.database().ref().child("users/" + userInfo.uid).set(data)
+
+        // if no duplicate, create user
+        query.child("users/" + userInfo.uid).set(data)
+        .then( () => {
+          res.send({
+            "code": 200,
+            "data": "User has been saved succesfully!"
+          });
+        })
+        .catch( e => {
+          res.send({
+            "code": 500,
+            "data": "Review saved user data."
+          });
+        })
+      } else {
+        query.child("users/" + userInfo.uid).set(data)
         .then( () => {
           res.send({
             "code": 200,
@@ -109,13 +124,14 @@ exports.updateUser = functions.https.onRequest( (req, res) => {
     let uid = req.body.uid,
     update = req.body.update;
 
-    firebase.database().ref().child("users/" + uid).once("value", snapshot => {
+    query.child("users/" + uid).once("value", snapshot => {
       if(snapshot.val()) {
-        firebase.database().ref().child("users/" + uid).update(update)
-        .then( r => {
+        query.child("users/" + uid).update(update)
+        .then( () => {
+          // this update doesnt return a response
           res.send({
             code: 200,
-            data: update
+            data: snapshot.val()
           });
         })
       } else {
@@ -137,9 +153,9 @@ exports.updateUser = functions.https.onRequest( (req, res) => {
 exports.countSearches = functions.https.onRequest( (req, res) => {
   cors(req, res, () => {
     let uid = req.body.userInfo.uid;
-    firebase.database().ref().child("users/" + uid).once("value", snapshot => {
+    query.child("users/" + uid).once("value", snapshot => {
       let currentTimesUsed = snapshot.val().timesUsed +=1;
-      firebase.database().ref().child("users/" + uid).update({
+      query.child("users/" + uid).update({
         timesUsed: currentTimesUsed
       })
       .then( res => {
@@ -161,7 +177,7 @@ exports.countSearches = functions.https.onRequest( (req, res) => {
 exports.createStripeCustomer = functions.https.onRequest( (req, res) => {
   cors( req, res, () => {
     let customer = req.body.customer,
-    currentUser = firebase.database().ref().child("users/" + customer.uid);
+    currentUser = query.child("users/" + customer.uid);
     
     currentUser.once("value", snapshot => {
       if(!snapshot.val().balance) {
@@ -192,19 +208,28 @@ exports.createStripeCustomer = functions.https.onRequest( (req, res) => {
 });
 
 exports.retrieveUser = functions.https.onRequest((req, res) => {
+  let user = {};
   cors(req, res, () => {
     let uid = req.body.uid;
 
-    firebase.database().ref().child("users/" + uid).once("value", snapshot => {
-      res.send({
-        "data": snapshot.val()
-      });
+    query.child("users/" + uid).once("value", snapshot => {
+      if(snapshot.val()) {
+        user = {
+          displayName: snapshot.val().displayName, email: snapshot.val().email,
+          photoURL: snapshot.val().photoURL, timesUsed: snapshot.val().timesUsed, uid}
+          res.send({
+            "data": user
+          });
+      }
     })
   });
 });
 
 exports.searchActivities = functions.https.onRequest( (req, res) => {
-  let term = req.body.term, 
+  let term = req.body.term,
+  resultAddresses,
+  results,
+  existingGroups = {matched: [], unmatched: []};
   yelpConfig = {
     headers: { Authorization: `Bearer ${yelpKey}` },
     params: {
@@ -219,39 +244,74 @@ exports.searchActivities = functions.https.onRequest( (req, res) => {
     .get(`https://api.yelp.com/v3/businesses/search`, yelpConfig)
     .then( yelpResponse => {
       if(yelpResponse.data.businesses){
-        let results = yelpResponse.data.businesses;
-        res.send({
-          "code": 200,
-          "data": results
+        results = yelpResponse.data.businesses;
+
+        resultAddresses = results.map( result => {
+          return result.location.address1;
+        });
+
+        query.child("activities/matched").once( "value", snapshot => {
+          if(snapshot.val()) {
+            let probe = Object.keys(snapshot.val()).filter(key => {
+              if(resultAddresses.includes(snapshot.val()[key].location)){
+                existingGroups.matched.push(snapshot.val()[key]);
+              }
+              console.log({resultAddresses});
+              
+              return resultAddresses.includes(snapshot.val()[key].location);
+            });
+          }
         })
-      } 
+        .then(() => {
+          query.child("activities/unmatched").once( "value", snapshot => {
+            if(snapshot.val()) {
+              let probe = Object.keys(snapshot.val()).filter(key => {
+                if(resultAddresses.includes(snapshot.val()[key].location)){
+                  existingGroups.unmatched.push(snapshot.val()[key]);
+                }
+                return resultAddresses.includes(snapshot.val()[key].location);
+              });
+            }
+          })
+          .then(() => {
+            res.send({
+              "code": 200, 
+              "data": {results, existingGroups}
+            });
+          })
+        })
+      }
     })
-    .catch(e => {
+    .catch( e => {
+      console.log({e});
       res.send({ "code": 500, "message": "There was an issue with the search servers.", e});
-    });
+    })
   })
 });
 
 exports.createActivity = functions.https.onRequest( (req, res) => {
   let activity = req.body.activity,
-  key = req.body.key,
   uid = req.body.uid;
   cors(req, res, () => {
     // ADD up the number of created activities
-    firebase.database().ref().child("users/" + uid).once("value", snapshot => {
-      
+    query.child("users/" + uid).once("value", snapshot => {
       let currentTimesUsed = snapshot.val().timesUsed +=1;
-      console.log("çounting times used up", snapshot.val(), currentTimesUsed);
       if(currentTimesUsed < 2) {
-        firebase.database().ref().child("activities/unmatched/" + key).set(activity);
+        query.child("activities/unmatched/" + activity.id).set(activity);
         firebase.database().ref("users/" + uid).update({
           timesUsed: currentTimesUsed
         })
-        .catch( e => {
-          res.send({
-            "code": 500,
-            "data": "Adding up activities caused an error!"
+        .then(() => {
+          query.child("users/" + uid + "/activities/unmatched/" + activity.id).set({activity});
+          query.child("activities").once("value", snapshot => {
+            res.send({
+              "code": 200,
+              "data": {activity: activity, allActivities: snapshot.val()}
+            });
           });
+        })
+        .catch( e => {
+          console.log("Adding up activities caused an error!", e);
         });
       } else {
         res.send({
@@ -259,13 +319,6 @@ exports.createActivity = functions.https.onRequest( (req, res) => {
           "data": "You have used all your free activities. Please proceed to the payments page"
         });
       }
-    });
-
-    firebase.database().ref().child("activities").once("value", snapshot => {
-      res.send({
-        "code": 200,
-        "data": {activity: activity, allActivities: snapshot.val()}
-      });
     });
   })
 });
@@ -276,16 +329,17 @@ exports.joinActivity = functions.https.onRequest( (req, res) => {
     user = req.body.user,
     key = req.body.activity.key;
     
-    firebase.database().ref().child("activities/unmatched/" + key).once("value", snapshot => {
+    query.child("activities/unmatched/" + key).once("value", snapshot => {
       if(activity.members.length === parseInt(snapshot.val().group)) { //Remove the unmatched ref once the group is full
-        firebase.database().ref().child("activities/unmatched/" + key).remove();
+        query.child("activities/unmatched/" + key).remove();
       } else {
-        firebase.database().ref().child("activities/unmatched/" + key + "/members").push(user);
+        query.child("activities/unmatched/" + key + "/members").push(user);
+        query.child("users/" + user.uid + "/activities/matched").push({activity, key});
       }
     });
     
-    firebase.database().ref().child("activities/matched/" + key).set(activity);
-    firebase.database().ref().child("activities").once("value", snapshot => {
+    query.child("activities/matched/" + key).set(activity);
+    query.child("activities").once("value", snapshot => {
       res.send({
         "code": 200,
         "data": snapshot.val()
@@ -301,8 +355,8 @@ exports.deleteActivity = functions.https.onRequest( (req, res) => {
     
     switch (isMatched) {
       case "no":
-        firebase.database().ref().child("activities/unmatched/" + key).remove();
-        firebase.database().ref().child("activities").once("value", snapshot => {
+        query.child("activities/unmatched/" + key).remove();
+        query.child("activities").once("value", snapshot => {
           res.send({
             "code": 200,
             "data": snapshot.val()
@@ -317,9 +371,9 @@ exports.deleteActivity = functions.https.onRequest( (req, res) => {
         break;
 
       case "yes":
-        firebase.database().ref().child("activities/matched/" + key).remove();
-        firebase.database().ref().child("chatRooms/" + key).remove();
-        firebase.database().ref().child("activities").once("value", snapshot => {
+        query.child("activities/matched/" + key).remove();
+        query.child("chatRooms/" + key).remove();
+        query.child("activities").once("value", snapshot => {
           res.send({
             "code": 200,
             "data": snapshot.val()
@@ -338,33 +392,29 @@ exports.deleteActivity = functions.https.onRequest( (req, res) => {
 });
 
 exports.retrieveJoined = functions.https.onRequest( (req, res) => {
-  var user = req.body.user,
-  groupList = [];
+  var uid = req.body.uid;
   
   cors( req, res, () => {
-    firebase.database().ref().child("activities/matched").once( "value", snapshot => {
-      if(snapshot.val()){
-        for( let key in snapshot.val()) {
-          snapshot.val()[key].members.forEach( member => {
-            if(member && member.email === user.email) {
-              groupList.push(snapshot.val()[key]);            
-            }
-          });
-        }
+    query.child("users/" + uid).once("value", snapshot => {
+      if(snapshot.val() && snapshot.val().activities){
+        res.send({
+          "code": 200,
+          "data": snapshot.val().activities
+        })
+      } else {
+        res.send({
+          "code": 204,
+          "data": "No existing groups"
+        })
       }
     })
-    .then( r => {
-      res.send({
-        "code": 200,
-        "data": groupList
+    .catch( e => {
+      console.log(e);
+       res.send({
+        "code": 500,
+        "data": "Error in retrieving existing groups..."
       })
     })
-    .catch( e => [
-      res.send({
-        "code": 500,
-        "message": "Error while joining group", e
-      })
-    ])
   })
 });
 
@@ -373,11 +423,11 @@ exports.openChatRoom = functions.https.onRequest((req,res) => {
   let info = req.body.info;
 
   cors( req, res, () => {
-    firebase.database().ref().child("chatRooms/" + req.body.info.key)
+    query.child("chatRooms/" + req.body.info.key)
     .once("value")
     .then( snapshot => {
       if( !snapshot.val()) {
-        firebase.database().ref().child("chatRooms/" + req.body.info.key).set(info);
+        query.child("chatRooms/" + req.body.info.key).set(info);
       }
     })
     .catch( e => {
@@ -394,7 +444,7 @@ exports.getMsgHistory = functions.https.onRequest( (req, res) => {
   cors( req, res, () => {
     let roomId = req.body.id;
 
-    firebase.database().ref().child(`chatRooms/${roomId}`).once("value")
+    query.child(`chatRooms/${roomId}`).once("value")
     .then(snapshot => {
       res.send({
         "code": 200,
@@ -417,8 +467,8 @@ exports.sendMessage = functions.https.onRequest ((req, res) => {
     name = req.body.data.msgInfo.name? req.body.data.msgInfo.name : "N/A",
     email = req.body.data.msgInfo.email;
     
-    firebase.database().ref().child(`chatRooms/${roomId}/messages`).push({message, email, name});
-    firebase.database().ref().child(`chatRooms/${roomId}`).once("value")
+    query.child(`chatRooms/${roomId}/messages`).push({message, email, name});
+    query.child(`chatRooms/${roomId}`).once("value")
     .then( snapshot => {
       res.send({
         "messages":snapshot.val().messages

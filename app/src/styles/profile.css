@@ -1,0 +1,125 @@
+.profile-container {
+    height: 100%;
+    background: url(https://image.shutterstock.com/z/stock-vector-golden-glittering-dark-background-vector-luxury-background-for-posters-banners-or-cards-790334740.jpg);
+    background-position-y: 69%;
+}
+
+.profile-wrap {
+    width: 70%;
+    height: 80%;
+    display: flex;
+    flex-direction: row;
+    margin: 10% auto 0 auto;
+    background: white;
+    border: 1px solid #b6b69b;
+}
+
+.profile-inner-top {
+    width: 100%;
+    height: 15%;
+    margin: 2em 0;
+    background: black;
+    color: #ffa13d;
+    text-align: left;
+}
+
+.profile-inner-top .profile-image-wrap {
+    display: inline-flex;
+    width: 33%;
+    align-items: center;
+}
+
+.profile-image-wrap img {
+        width: 100%;
+        border-radius: 90px;
+        border: 2px solid grey;
+}
+
+.profile-summary li {
+    margin: 1em 0;
+}
+
+.profile-left {
+    overflow: hidden scroll;
+    width: 50%; 
+    border-right: 1px solid #b6b69b;
+}
+
+.profile-left h3 {
+    text-align: left;
+}
+
+.profile-right .profile-inner-top h2 {
+    width: 67%;
+}
+
+
+.profile-list-item {
+    text-align: left;
+    display: flex;
+    align-items: center;
+}
+
+.checkbox-container {
+    display: flex;
+    align-self: center;
+    transition: all .4s;
+}
+
+.checkbox-wrap {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1em;
+}
+.checkbox-wrap label {
+    min-height: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+  
+.profile-name-edit {
+    color: purple !important;
+    font-size: 1em;
+    margin: 0 5px;
+    display: inline-flex;
+    border-radius: 15px;
+    background: #fc9a32;
+    padding: 2px;
+    transition: all .3s;
+}
+
+.profile-name-edit:hover {
+    color: indigo!important;
+    transition: all .3s;
+}
+
+.select-profile-name {
+    transition: all .3s;
+    margin: 0 1em 0 0;
+}
+
+.profile-right {
+    overflow: hidden scroll;
+    width: 50%; 
+    border-left: 1px solid #b6b69b;
+}
+
+.profile-right .profile-inner-top {
+    display: inline-flex;
+}
+.profile-right h3 {
+    text-align: left;
+}
+
+.user-basics {
+    display: flex;
+    flex-direction: column;
+}
+
+
+

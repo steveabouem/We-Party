@@ -1,0 +1,6 @@
+.result-wrap {
+    margin: 60px auto 0 auto;
+    width: 70%;
+    display: flex;
+    justify-content: center;
+}
