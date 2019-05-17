@@ -1,14 +1,11 @@
 import React from "react";
 import "firebase/database";
 import firebase from "firebase";
-import { Card, CardImg, CardText, CardBody,  CardTitle, Button, Col } from "reactstrap";
 import { connect } from "react-redux";
-import {NavLink} from "react-router-dom";
 import Navigation from "../navigation/Navigation.jsx";
 import TextField from "./TextField";
 import Confirmation from "./ConfirmPopUp";
 import Modal from "../modals";
-import searchResult from "../result/SearchResult";
 import {
   retrieveuser, searchActivities, sendEmail,
   createActivity,
@@ -43,7 +40,7 @@ class HomePage extends React.Component {
   
   handleKeyPress = (e) => {
     if (e.keyCode === 13 && !this.state.isModalOpened) {
-      this.recordSearch();
+      this.processSearch();
     } else if (e.keyCode === 13 && this.state.isModalOpened) {
       this.closeModal();
     }
@@ -58,7 +55,7 @@ class HomePage extends React.Component {
       });
   }
   
-  recordSearch = async() => {
+  processSearch = async() => {
     let input = document.getElementById("SEARCH_VENUE").value,
       groupTotal = document.getElementById("how-many").value,
       budget = document.getElementById("budget-selected").innerHTML,
@@ -89,15 +86,9 @@ class HomePage extends React.Component {
     }
   }
   
-  hasMatchingSearches = () => {
-    return (
-      this.props.userInfo.searchResults.existingGroups.matched.length > 0 
-      || 
-      this.props.userInfo.searchResults.existingGroups.unmatched.length > 0
-    )
-  }
-
   createActivity = (e,object) => {
+    console.log('çreated', object);
+    
     let currentUser = this.state.currentUser,
     groupTotal = document.getElementById("how-many").value,
     budget = document.getElementById("budget-selected").innerHTML,
@@ -146,8 +137,8 @@ class HomePage extends React.Component {
 
   render (){
     const apiResponse = this.props.userInfo.searchResults;
-    const {userInfo, history} = this.props;
-    const {currentUser, isPaymentModalOpen, isModalOpened, loginModal, noResultModal, loggedIn} = this.state;
+    const {userInfo} = this.props;
+    const {currentUser, isPaymentModalOpen, isModalOpened, loginModal, noResultModal} = this.state;
     return(
       <div className="home-container">
         <Navigation />
@@ -178,7 +169,7 @@ class HomePage extends React.Component {
                       Please Login
                     </button>
                     :
-                    <button className="button-primary" style={{width: "100px", height: "100%"}} onClick={this.recordSearch}>
+                    <button className="button-primary" style={{width: "100px", height: "100%"}} onClick={this.processSearch}>
                       Find Match!
                     </button>
                   }
@@ -237,12 +228,12 @@ class HomePage extends React.Component {
             return (
             <div className="result-wrap" key={result.alias}>
               <div className="result-column">
-                {this.hasMatchingSearches() &&
-                  <Confirmation key = {result.id} yelpResult = {result}
-                  createActivity = {this.createActivity} 
-                  matches={userInfo.searchResults.existingGroups} 
-                />
-                }
+                  <span>
+                    <Confirmation key = {result.id} yelpResult = {result}
+                      createActivity = {this.createActivity} 
+                      matches={userInfo.searchResults.existingGroups} 
+                    />
+                  </span>
                 <img className="result-image" top width="100%" height="200px" src={result.image_url} />
                 <div className="result-text">
                   <h3> Venue: <br/> {result.name} </h3>
@@ -257,7 +248,7 @@ class HomePage extends React.Component {
                     </span>
                   </p>
                   <a href={result.url} target="blank">
-                    <Button className="button-secondary">Venue details...</Button>
+                    <button className="button-secondary">Venue details...</button>
                   </a>
                 </div>
               </div>

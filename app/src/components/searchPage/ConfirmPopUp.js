@@ -12,7 +12,8 @@ class Confirmation extends React.Component {
       isModalOpened: false,
       modalMessage: "",
       currentUser: firebase.auth().currentUser,
-      matchesList: []
+      matchesList: [],
+      showMatches: false,
     };
   }
 
@@ -98,8 +99,8 @@ class Confirmation extends React.Component {
 
   render(){ 
     let key = 0;
-    const {matches, yelpResult, createActivity, showMatches} = this.props;
-    const {matchesList, isModalOpened, modalMessage} = this.state;
+    const {yelpResult, createActivity} = this.props;
+    const {matchesList, isModalOpened, modalMessage, showMatches} = this.state;
     
     return(
       <div className="confirmation-container">
@@ -121,12 +122,14 @@ class Confirmation extends React.Component {
                       width="80%" 
                     />
                   }
-                  <button className="button-secondary" onClick={e=> {createActivity(e, yelpResult)}}>
-                    CREATE YOURS
-                  </button>
-                  <br/>
+                  <span className="match-top-buttons">
+                    <button className="button-secondary" onClick={e=> {createActivity(e, yelpResult)}}>
+                      CREATE YOURS
+                    </button>
+                    <div className="material-icons" onClick={e => {this.setState({showMatches: !showMatches})}}>{showMatches ? "new_releases" : "new_releases"}</div>
+                  </span>
                   {showMatches && 
-                    <React.Fragment>
+                    <div className="matching-groups">
                       <span>Or join a group below</span>
                       
                       {matchesList.length > 0 && matchesList.map(match => {
@@ -168,15 +171,17 @@ class Confirmation extends React.Component {
                           );
                         })
                       }
-                    </React.Fragment>
+                    </div>
                   }
                 </ul>
               :
               <div>
-              No group created yet.<br/>
-                <button type="button" className="button-primary" onClick={e=> {createActivity(e, yelpResult)}}>
-                  CREATE!
-                </button>
+                No group created yet.<br/>
+                <span className="match-top-buttons">
+                  <button type="button" className="button-primary" onClick={e=> {createActivity(e, yelpResult)}}>
+                    CREATE!
+                  </button>
+                </span>
               </div>
               }
             </div>
