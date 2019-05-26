@@ -186,12 +186,19 @@ input[type=date]::-webkit-outer-spin-button {
   padding: 1em 0;
 }
 
+.view-groups .tooltip-matches {
+  position: absolute;
+  left: 0!important;
+  width: 85%;
+  top: 0!important;
+}
+
 .matching-groups {
   position: absolute;
   top: 23%;
   left: 0;
   bottom: 0;
-  background: black;
+  background: #2d271d;
   animation: 	curtainDown .4s;
   overflow-y: scroll;
 }

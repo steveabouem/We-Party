@@ -1,5 +1,6 @@
 import React from "react";
 import firebase from "firebase";
+import ReactTooltip from "react-tooltip";
 import moment from "moment"
 import { connect } from "react-redux";
 import { pushNewMember, retrieveJoinedProps, sendEmail} from "../../actions";
@@ -126,7 +127,12 @@ class Confirmation extends React.Component {
                     <button className="button-secondary" onClick={e=> {createActivity(e, yelpResult)}}>
                       CREATE YOURS
                     </button>
-                    <div className="material-icons" onClick={e => {this.setState({showMatches: !showMatches})}}>{showMatches ? "new_releases" : "new_releases"}</div>
+                    <div className="material-icons" data-tip data-for={"match-alert-" + yelpResult.id} onClick={e => {this.setState({showMatches: !showMatches})}}>{showMatches ? "new_releases" : "new_releases"}</div>
+                    <ReactTooltip id={"match-alert-" + yelpResult.id} className="tooltip-matches" 
+                      place="left" type="warning" effect="solid"
+                    >
+                      <p>View Matching searches</p>
+                    </ReactTooltip>
                   </span>
                   {showMatches && 
                     <div className="matching-groups">
