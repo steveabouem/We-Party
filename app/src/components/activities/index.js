@@ -15,7 +15,7 @@ class Activities extends React.Component {
       currentUser: null,
     };
 
-    firebase.auth().onAuthStateChanged(async(currentUser) => {
+    firebase.auth().onAuthStateChanged((currentUser) => {
       if(currentUser) {
         this.setState({
           currentUser: currentUser,

@@ -351,15 +351,26 @@ exports.joinActivity = functions.https.onRequest( (req, res) => {
 exports.deleteActivity = functions.https.onRequest( (req, res) => {
   cors( req, res, ()=> {
     let key = req.body.key,
-    isMatched = req.body.isMatched;
+    isMatched = req.body.isMatched,
+    activitiesList = {matched: [], unmatched: []};
     
     switch (isMatched) {
       case "no":
         query.child("activities/unmatched/" + key).remove();
         query.child("activities").once("value", snapshot => {
+          if(snapshot.val()&& snapshot.val().unmatched){
+            Object.keys(snapshot.val().unmatched).forEach( key => {
+              activitiesList.unmatched.push(snapshot.val().unmatched[key])
+            })
+          }
+          if(snapshot.val() && snapshot.val().matched){
+            Object.keys(snapshot.val().matched).forEach( key => {
+              activitiesList.unmatched.push(snapshot.val().matched[key])
+            })
+          }
           res.send({
             "code": 200,
-            "data": snapshot.val()
+            "data": activitiesList
           });
         })
         .catch( e => {
@@ -374,9 +385,19 @@ exports.deleteActivity = functions.https.onRequest( (req, res) => {
         query.child("activities/matched/" + key).remove();
         query.child("chatRooms/" + key).remove();
         query.child("activities").once("value", snapshot => {
+          if(snapshot.val() && snapshot.val().matched){
+            Object.keys(snapshot.val().matched).forEach( key => {
+              activitiesList.unmatched.push(snapshot.val().matched[key])
+            })
+          }
+          if(snapshot.val()&& snapshot.val().unmatched){
+            Object.keys(snapshot.val().unmatched).forEach( key => {
+              activitiesList.unmatched.push(snapshot.val().unmatched[key])
+            })
+          }
           res.send({
             "code": 200,
-            "data": snapshot.val()
+            "data": activitiesList
           });
         })
         .catch( e => {

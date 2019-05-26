@@ -1,6 +1,5 @@
 import React from "react";
 
-
 export default class Modal extends React.Component {
   constructor(props) {
     super(props);
@@ -9,13 +8,11 @@ export default class Modal extends React.Component {
     };
   };
 
-  confirm = async() => {
-    if(this.props.callback !== undefined) {
-      this.props.callback();
-      this.setState({
-        isOpened: false
-      });
-    } 
+  confirm = () => {
+    this.props.callBack;
+    this.setState({
+      isOpened: false
+    });
   };
 
   render() {

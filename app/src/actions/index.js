@@ -241,22 +241,17 @@ export const createActivity = (activity, uid) => dispatch => {
 };
 
 export const deleteActivity = activity => dispatch => {
-  let payload = [];
   axios.post("https://us-central1-we-party-210101.cloudfunctions.net/deleteActivity",
   {headers: 
   { Authorization: `Bearer ${dbConfig.apiKey}`,
   "content-type": "application/json" }}, 
   { data: {"key": activity.key, "isMatched": activity.isMatched}})
   .then( r => {
-    if (activity.isMatched === "no") {
-      convertObject(r.data.data.unmatched,payload)
-    } else {
-      convertObject(r.data.data.matched,payload)
-    }
+    console.log(r.data.data);
     
     dispatch({
       type: LOAD_ACTIVITIES,
-      payload: payload
+      payload: r.data.data
     });
   })
   .catch(e => {
