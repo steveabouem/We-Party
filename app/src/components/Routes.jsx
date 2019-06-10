@@ -22,8 +22,6 @@ class Routes extends React.Component {
           <Route path = "/register" component = {Registration} />
           <Route path = "/payment" component = {PaymentsPage} />
           <Route path = "/profile" component = {ProfilePage} />
-          {/* maybe a name like venue details or smth */}
-          <Route exact path = "/result/:id" component = {SearchResult} />
           <Route component={PageNotFound} />
         </Switch>
       </main>

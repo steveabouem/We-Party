@@ -4,9 +4,9 @@ import ChatBox from "../chat/ChatBox.jsx";
 import Navigation from "../navigation/Navigation.jsx";
 import MatchedActs from "./MatchedActs";
 import UnmatchedActs from "./UnmatchedActs";
+import SurveyForm from "../survey/SurveyForm";
 import { connect } from "react-redux";
 import { retrieveJoinedProps, loadActivitiesCollection, deleteActivity } from "../../actions";
-import { success } from "../modals/content";
  
 class Activities extends React.Component {
   constructor(props) {
@@ -28,6 +28,7 @@ class Activities extends React.Component {
     return(
       <div className="activities-page">
         <Navigation />
+        <SurveyForm />
         {
           !this.state.currentUser ?
           <h1 className="login-prompt"> Please log in to consult this page </h1>

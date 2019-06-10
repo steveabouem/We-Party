@@ -1,6 +1,7 @@
 import React from "react";
 import Navigation from "../navigation/Navigation";
 import Modal from "../modals";
+import SurveyForm from "../survey/SurveyForm";
 import {Loading} from "../Loading";
 import {retrieveJoinedProps, retrieveuser, updateUser} from "../../actions";
 import {connect} from "react-redux";
@@ -49,6 +50,12 @@ class ProfilePage extends React.Component {
         console.log("Profile updated");
     }
 
+    stpanStyle = {
+        display: "inline",
+        fontSize: "50px",
+        float: "right"
+    }
+
     async componentDidMount(){
         await this.props.retrieveJoinedProps(firebase.auth().currentUser);
         this.setState({
@@ -63,152 +70,163 @@ class ProfilePage extends React.Component {
         return(
             <div className="profile-container">
                 <Navigation currentUser={currentUser || null} />
+                <SurveyForm />
                 {
                     isLoading ? <Loading />
                     :
-                    <div className="profile-wrap">
-                        <div className="profile-left">
-                            <div className="profile-inner-top">
-                                <h2>Your Profile Details</h2>
-                            </div>
-                            <ul className="profile-summary">
-                                <li>
-                                    <h3>Credits</h3>
-                                    <div className="profile-list-item">
-                                        <span>You currently have <b>1</b> credit.</span>
-                                            <a className="profile-name-edit" href="/payment">
-                                                ADD
-                                                <span className="material-icons add-credits">
-                                                    monetization_on
+                    <div className="sections-wrap">
+                        <div className="profile-wrap">
+                            <div className="profile-left">
+                                <div className="profile-inner-top">
+                                    <h2>Your Profile Details</h2>
+                                </div>
+                                <ul className="profile-summary">
+                                    <li>
+                                        <h3>Credits</h3>
+                                        <div className="profile-list-item">
+                                            <span>You currently have <b>1</b> credit.</span>
+                                                <a className="profile-name-edit" href="/payment">
+                                                    ADD
+                                                    <span className="material-icons add-credits">
+                                                        monetization_on
+                                                    </span>
+                                                </a>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <h3 htmlFor="profile-username">What you identify as</h3>
+                                        <div className="profile-list-item">
+                                            {currentUser && currentUser.uid &&
+                                                <CheckBox 
+                                                    onClick={this.handleCheckboxChange}
+                                                    selectedOption={selectedOption}
+                                                    inputOptions={this.inputOptions}
+                                                    updateName="gender"
+                                                />
+                                            }
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <h3>Your Groups and Activities</h3>
+                                        <div className="profile-list-item">
+                                            <a className="profile-name-edit" href="/activities">
+                                            VIEW
+                                                <span className="material-icons">
+                                                    visibility
                                                 </span>
                                             </a>
-                                    </div>
-                                </li>
-                                <li>
-                                    <h3 htmlFor="profile-username">What you identify as</h3>
-                                    <div className="profile-list-item">
-                                        {currentUser && currentUser.uid &&
-                                            <CheckBox 
-                                                onClick={this.handleCheckboxChange}
-                                                selectedOption={selectedOption}
-                                                inputOptions={this.inputOptions}
-                                                updateName="gender"
-                                            />
-                                        }
-                                    </div>
-                                </li>
-                                <li>
-                                    <h3>Your Groups and Activities</h3>
-                                    <div className="profile-list-item">
-                                        <ul className="profile-activities">
-                                            {userInfo.userSummary && userInfo.userSummary.activities ?
-                                                Object.keys(userInfo.userSummary.activities.unmatched).map( key => {
-                                                    let activity = userInfo.userSummary.activities.unmatched[key].activity;
-                                                    return (
-                                                        <React.Fragment>
-                                                            <li>
-                                                                Date created: {activity.created}
-                                                            </li>
-                                                            <li>
-                                                                By : {
-                                                                        activity.creator.uid === currentUser.uid ? 
-                                                                        "Yourself"
-                                                                        :
-                                                                        userInfo.userSummary.displayName
-                                                                    }
-                                                            </li>
-                                                            <li>
-                                                                Due date: {activity.eventDate}
-                                                            </li>
-                                                            <li>
-                                                                Full breakdown <a>here</a>
-                                                            </li>
-                                                        </React.Fragment>
-                                                    );
-                                                })
-                                                :
-                                                null
-                                            }
-                                        </ul>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                        <div className="profile-right">
-                            <div className="profile-inner-top">
-                                <h2>Basic Information</h2>
-                                <span className="material-icons profile-image-wrap">
-                                    {currentUser && currentUser.photoURL ?
-                                        <img src={currentUser.photoURL} />
-                                        :
-                                        "face"
-                                    }
-                                </span>
-                            </div>
-                            <ul className="profile-summary">
-                                <li>
-                                    <h3>Username</h3>
-                                    <div className="profile-list-item">
-                                        {isEditing.username ?
-                                            <React.Fragment>
-                                                <label className="select-profile-name">
-                                                    Customize
-                                                </label>
-                                                <input 
-                                                    type="text" onChange={e => {this.setState({customName: e.target.value})}}
-                                                    placeholder="Min 4 characters"    
-                                                />
-                                                <a className="profile-name-edit-cancel">
-                                                    <span className="material-icons">backspace</span>
-                                                </a>
-                                            </React.Fragment>
-                                            :
-                                            <span>
-                                                {
-                                                    currentUser && !userInfo.userSummary ? 
-                                                    currentUser.displayName :
-                                                    userInfo.userSummary ?
-                                                    userInfo.userSummary.displayName
+                                        </div>
+                                        {/* <div className="profile-list-item">
+                                            <ul className="profile-activities">
+                                                {userInfo.userSummary && userInfo.userSummary.activities ?
+                                                    Object.keys(userInfo.userSummary.activities.unmatched).map( key => {
+                                                        let activity = userInfo.userSummary.activities.unmatched[key].activity;
+                                                        return (
+                                                            <React.Fragment>
+                                                                <li>
+                                                                    Date created: {activity.created}
+                                                                </li>
+                                                                <li>
+                                                                    By : {
+                                                                            activity.creator.uid === currentUser.uid ? 
+                                                                            "Yourself"
+                                                                            :
+                                                                            userInfo.userSummary.displayName
+                                                                        }
+                                                                </li>
+                                                                <li>
+                                                                    Due date: {activity.eventDate}
+                                                                </li>
+                                                                <li>
+                                                                    Full breakdown <a>here</a>
+                                                                </li>
+                                                            </React.Fragment>
+                                                        );
+                                                    })
                                                     :
-                                                    "N/A"
+                                                    null
                                                 }
-                                            </span>
-                                        }
-                                        <a className="material-icons profile-name-edit" 
-                                            href=""
-                                            onClick={e => {
-                                                e.preventDefault(); 
-                                                this.setState({isEditing: {...this.state.isEditing, username: !this.state.isEditing.username}})
-
-                                                if(this.state.customName.length && this.state.customName.length > 4) {
-                                                    this.handleCheckboxChange({name: "displayName", value:this.state.customName});
-                                                }
-                                            }}
-                                        >
-                                            {!this.state.isEditing.username ? "EDIT" : "OK"}
-                                            <span className="material-icons add-credits">
-                                                {!this.state.isEditing.username ? "create" : "check"}
-                                            </span>
-                                        </a>
-                                    </div>
-                                </li>
-                                <li>
-                                    <h3>Declared gender</h3>
-                                    <span> 
-                                        {userInfo.userSummary && userInfo.userSummary.gender ?
-                                            userInfo.userSummary.gender     
-                                        :
-                                            'None declared.'
+                                            </ul>
+                                        </div> */}
+                                    </li>
+                                </ul>
+                            </div>
+                            <div className="profile-right">
+                                <div className="profile-inner-top">
+                                    <h2>Basic Information</h2>
+                                    <span className="material-icons profile-image-wrap" style={currentUser && !currentUser.photoURL ? this.stpanStyle : null}>
+                                        {currentUser && currentUser.photoURL ?
+                                            <img src={currentUser.photoURL} />
+                                            :
+                                            "face"
                                         }
                                     </span>
-                                </li>
-                                <li>
-                                    <h3>Your average rating</h3>
-                                    <span>0</span>
-                                </li>
-                            </ul>
+                                </div>
+                                <ul className="profile-summary">
+                                    <li>
+                                        <h3>Username</h3>
+                                        <div className="profile-list-item">
+                                            {isEditing.username ?
+                                                <React.Fragment>
+                                                    <label className="select-profile-name">
+                                                        Customize
+                                                    </label>
+                                                    <input 
+                                                        type="text" onChange={e => {this.setState({customName: e.target.value})}}
+                                                        placeholder="Min 4 characters"    
+                                                    />
+                                                    {/* <a className="profile-name-edit-cancel">
+                                                        <span className="material-icons">backspace</span>
+                                                    </a> */}
+                                                </React.Fragment>
+                                                :
+                                                <span>
+                                                    {
+                                                        currentUser && !userInfo.userSummary ? 
+                                                        currentUser.displayName :
+                                                        userInfo.userSummary ?
+                                                        userInfo.userSummary.displayName
+                                                        :
+                                                        "N/A"
+                                                    }
+                                                </span>
+                                            }
+                                            <a className="material-icons profile-name-edit" 
+                                                href=""
+                                                onClick={e => {
+                                                    e.preventDefault(); 
+                                                    this.setState({isEditing: {...this.state.isEditing, username: !this.state.isEditing.username}})
+
+                                                    if(this.state.customName.length && this.state.customName.length > 4) {
+                                                        this.handleCheckboxChange({name: "displayName", value:this.state.customName});
+                                                    }
+                                                }}
+                                            >
+                                                {!this.state.isEditing.username ? "EDIT" : "OK"}
+                                                <span className="material-icons add-credits">
+                                                    {!this.state.isEditing.username ? "create" : "check"}
+                                                </span>
+                                            </a>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <h3>Declared gender</h3>
+                                        <span> 
+                                            {userInfo.userSummary && userInfo.userSummary.gender ?
+                                                userInfo.userSummary.gender     
+                                            :
+                                                'None declared.'
+                                            }
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <h3>Your average rating</h3>
+                                        <span>0</span>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
-                    </div>
+                    </div>  
                 }
             </div>
         );

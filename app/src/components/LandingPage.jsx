@@ -36,8 +36,9 @@ class HomePage extends React.Component {
               :              
               <div>
               <h1> We-Party </h1>
-                <p className="tagline"> Our goal? Allow people to organise group activities on one single platform.
-                    Location? Prices? Suggestions? We got you covered!
+              <h3> Rediscover people!</h3>
+                <p className="tagline"> Our goal? Allow people to create connections with like minded peers by organising group activities on this platform.
+                    Location? Prices? Suggestions? We got you covered:)
                 </p>
                 <p>
                     Get started <a onClick={this.toggleForm}> here </a>. 

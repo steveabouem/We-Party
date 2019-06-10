@@ -1,0 +1,61 @@
+.survey-button-wrap {
+    position: fixed;
+    top: 10%;
+    left: 0%;
+    width: 20%;
+    padding: 10px;
+    z-index: 5;
+    background: yellow;    
+}
+
+.activities-page .survey-button-wrap{
+    right: 0;
+    left: inherit;
+}
+
+#survey-button {
+    width: 85%;
+    color: black!important;
+}
+#survey-button:hover {
+    color: white!important;
+}
+
+.survey-form {
+    position: absolute;
+    height: 50%;
+    width: 50%;
+    bottom: 1%;
+    background: white;
+    overflow: hidden scroll;
+    z-index: 2;
+}
+
+.survey-form h1 {
+    width: 100%;
+    background: grey;
+}
+
+.survey-form p {
+    width: 80%;
+    margin: 15px auto;
+    text-align: justify;
+}
+
+.survey-form form {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    margin: auto;
+    border: 1px solid;
+    padding: 5%;
+    background: #80808038;
+}
+
+.survey-form textarea {
+    margin: 0 0 15px 0;
+}
+
+.survey-form button {
+    width: 100%;
+}

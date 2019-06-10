@@ -15,6 +15,7 @@ import "./styles/modals.css";
 import "./styles/chat.css";
 import "./styles/payments.css";
 import "./styles/profile.css";
+import "./styles/survey.css";
 
 ReactDOM.render(<Root store={store} />, document.getElementById("root"));
 registerServiceWorker();

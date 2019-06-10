@@ -67,10 +67,7 @@ class Confirmation extends React.Component {
   }
 
   joinGroup = async (e, user, match) => {
-    // e.stopPropagation();
-    await this.props.pushNewMember(this.state.currentUser, match);
-    this.props.retrieveJoinedProps(this.state.currentUser);
-    
+    await this.props.pushNewMember(this.props.userInfo.userSummary, match);
   };
 
   openModal = (e, duplicate) => {

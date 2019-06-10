@@ -1,6 +1,7 @@
 import React from "react";
 import {connect} from "react-redux";
 import {retrieveJoinedProps, retrieveuser, createActivity, deleteActivity} from "../../actions";
+import SurveyForm from "../survey/SurveyForm";
 import {Loading} from "../Loading";
 import Navigation from "../navigation/Navigation";
 const firebase = require("firebase");
@@ -36,6 +37,7 @@ class SearchResult extends React.Component{
         return(
             <div className="result-page-container">
                 <Navigation />
+                <SurveyForm />
                 {
                     isLoading ? <Loading />
                 :

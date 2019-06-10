@@ -3,6 +3,7 @@ import "firebase/database";
 import firebase from "firebase";
 import { connect } from "react-redux";
 import Navigation from "../navigation/Navigation.jsx";
+import SurveyForm from "../survey/SurveyForm";
 import TextField from "./TextField";
 import Confirmation from "./ConfirmPopUp";
 import Modal from "../modals";
@@ -31,7 +32,7 @@ class HomePage extends React.Component {
     this.resultRef = React.createRef();
     firebase.auth().onAuthStateChanged(currentUser => {
       this.setState({ currentUser: currentUser });
-      if(currentUser.uid) {
+      if(currentUser && currentUser.uid) {
         props.retrieveuser(currentUser.uid);
         props.retrieveJoinedProps(currentUser.uid);
       }
@@ -87,9 +88,7 @@ class HomePage extends React.Component {
   }
   
   createActivity = (e,object) => {
-    console.log('çreated', object);
-    
-    let currentUser = this.state.currentUser,
+    let currentUser = this.props.userInfo.userSummary,
     groupTotal = document.getElementById("how-many").value,
     budget = document.getElementById("budget-selected").innerHTML,
     gender = document.getElementById("gender-selected").innerHTML,
@@ -99,18 +98,18 @@ class HomePage extends React.Component {
     created = `${dateString[0]}, ${dateString[1]} ${dateString[2]} ${dateString[3]}`,
     activityObject = {
       id: object.id,
-      creator: this.props.userInfo ? this.props.userInfo.userSummary : this.state.currentUser,
+      creator: this.props.userInfo.userSummary,
       location: object.location.address1, contact: object.phone, contribution: budget,
       group: groupTotal, members: [currentUser], genders: gender, created: created,
       eventDate: eventDate, venue: object.name
     };
 
-    for( let key in activityObject ) {//prevent DB from having empty string. 
+    for( let key in activityObject ) {
       if(activityObject[key] === "" || activityObject[key] === " " || activityObject[key] === "Pitch in") {
         activityObject[key] = null
       }
     };
-    this.props.createActivity(activityObject, firebase.auth().currentUser.uid);
+    this.props.createActivity(activityObject, this.props.userInfo.userSummary.uid);
   }
   
   async componentDidMount() {
@@ -142,6 +141,7 @@ class HomePage extends React.Component {
     return(
       <div className="home-container">
         <Navigation />
+        <SurveyForm />
         {
             isPaymentModalOpen
             ?

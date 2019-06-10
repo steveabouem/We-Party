@@ -3,6 +3,7 @@ import {connect} from "react-redux";
 import {Link} from "react-router-dom";
 import {sendLink, registerUser, saveUser} from "../../actions";
 import Modal from "../modals";
+import SurveyForm from "../survey/SurveyForm";
 import GoogleButton from "./GoogleButton";
 import { Loading } from "../Loading";
 const firebase = require("firebase");
@@ -17,22 +18,12 @@ class Registration extends React.Component {
         };
         firebase.auth().onAuthStateChanged(currentUser => {
             if(currentUser !== null) {
-                currentUser.sendEmailVerification()
-                .then( () => {
-                    this.setState({ 
-                        currentUser: currentUser,
-                        isModalOpen: true,
-                        modalMessage: "Welcome to WeParty!.",
-                        userSaved: true
-                     });
-                })
-                .catch( e => {
-                    this.setState({ 
-                        currentUser: currentUser,
-                        isModalOpen: true,
-                        modalMessage: "You will shortly receive a confirmation email for your registration.",
-                    });
-                    
+                this.setState({ 
+                    currentUser: currentUser,
+                    isModalOpen: true,
+                    hasConfirm: true,
+                    modalMessage: "Welcome to WeParty!.",
+                    userSaved: true
                 });
             }
         });
@@ -46,13 +37,9 @@ class Registration extends React.Component {
         if(confirmPassword !== password) {
             this.setState({
                 isModalOpen: true,
+                hasConfirm: true,
                 modalMessage: "Passwords do not match."
             });
-        // } else if(username.length < 3 || password.length < 6 || confirmPassword.length < 6) {
-        //     this.setState({
-        //         isModalOpen: true,
-        //         modalMessage: "Username is less than 3 or password less than 6 characters."
-        //     });
         } else {
             console.log("processing registration");
             this.props.registerUser(email, password);
@@ -68,6 +55,9 @@ class Registration extends React.Component {
         if(this.state.currentUser){
             this.setState({
                 isModalOpen: true,
+                hasLink: true,
+                hasConfirm: false,
+                link: "/home",
                 modalMessage: this.redirect,
             });
         }
@@ -95,7 +85,9 @@ class Registration extends React.Component {
                     callBack={null}
                     isOpened={this.state.isModalOpened} 
                     hasConfirm={false}
-                    hasCancel={true}
+                    hasCancel={this.state.hasConfirm}
+                    hasLink={this.state.hasLink}
+                    link={this.state.link}
                     message={this.state.modalMessage}
                     cancel={
                         this.state.userSaved ? e=>{this.redirectUser(e)} 

@@ -16,29 +16,36 @@ export default class Modal extends React.Component {
   };
 
   render() {
+    const {hasConfirm, hasLink, message, top, left, link, width, height, callBack, cancel, hasCancel} = this.props;
     return (
       <div className='standard-modal' style={{
-        top: this.props.top,
-        left:this.props.left,
-        height:this.props.height,
-        width:this.props.width}}>
-        <div>{this.props.message}</div>
+        top: top,
+        left:left,
+        height:height,
+        width:width}}>
+        <div>{message}</div>
         <span className='standard-modal-buttons'>
-          <button
-            onClick={this.props.cancel}
-            className="cancel-action"
-          >
-            {this.props.hasConfirm ? "No" : "OK"}
-          </button>
-          {this.props.hasConfirm ?
+          {hasLink && 
+            <a href={link}>
+            <button>GO</button>
+            </a>
+          }
+          {hasConfirm && 
+             <button
+             onClick={cancel}
+             className="cancel-action"
+           >
+             {hasCancel ? "YES" : "OK"}
+           </button>
+          }
+          {hasCancel &&
             <button
-              onClick={this.confirm}
-              className="confirm-action"
+              onClick={cancel}
+              className="cancel-action"
             >
-              Yes
+              {hasConfirm ? "No" : "OK"}
             </button>
-            :
-          null}
+          }
         </span>
       </div>
     );

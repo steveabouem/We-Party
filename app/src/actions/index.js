@@ -194,8 +194,6 @@ export const searchActivities = (search) => async(dispatch) => {
   {data: {term: `${search}`}})
   .then(res => {
     payload = res.data.data;
-    console.log({payload});
-    
   })
   .catch( e => {
     dispatch({
@@ -225,7 +223,6 @@ export const createActivity = (activity, uid) => dispatch => {
   }, 
   { data: {"activity": activity, "key": activity.key, "uid": uid} })
   .then( r => {
-    console.log(r.data);
     if(r.data.code === 200) {
       dispatch({
         type: SAVE_VENUE,
@@ -240,14 +237,14 @@ export const createActivity = (activity, uid) => dispatch => {
   });
 };
 
-export const deleteActivity = activity => dispatch => {
+export const deleteActivity = (activity, uid) => dispatch => {
   axios.post("https://us-central1-we-party-210101.cloudfunctions.net/deleteActivity",
   {headers: 
   { Authorization: `Bearer ${dbConfig.apiKey}`,
   "content-type": "application/json" }}, 
   { data: {"key": activity.key, "isMatched": activity.isMatched}})
   .then( r => {
-    console.log(r.data.data);
+    console.log(r.data, 'deleted?');
     
     dispatch({
       type: LOAD_ACTIVITIES,
@@ -264,12 +261,14 @@ export const deleteActivity = activity => dispatch => {
 
 export const pushNewMember =  ( currentUser, match) => dispatch => {
   match.members.push(currentUser);
+  
   axios.post("https://us-central1-we-party-210101.cloudfunctions.net/joinActivity",
   {headers: 
   { Authorization: `Bearer ${dbConfig.apiKey}`,
   "content-type": "application/json" }}, 
-  { data: {"activity": match, "user": currentUser}})
+  { data: {"group": match, "user": currentUser}})
     .then(r => {
+    console.log('ÝO',r);
     dispatch({
       type: LOAD_ACTIVITIES,
       payload: r.data
@@ -291,8 +290,8 @@ export const retrieveJoinedProps = uid => dispatch => {
   .then( r => {
     dispatch({
       type: RENDER_JOINED,
-      payload: r.data
-    }); 
+      payload: r.data.data
+    });
   })
   .catch( e => {
     dispatch({
@@ -348,7 +347,7 @@ export const createStripeCustomer = (customer) => dispatch => {
   "content-type": "application/json" }, 
   {data: {"customer": customer}})
   .then( r => {
-    console.log({r});
+    // console.log({r});
   })
   .catch( e => {
     console.log({e});
@@ -460,3 +459,18 @@ export const clearPastMessages = () => dispatch => {
   });
 };
 /* ==========END MODAL ACTIONS=============*/
+
+/* ==========FEEDBACK=============*/
+export const sendFeedback = (feedback, uid) => dispatch => {
+  console.log(feedback);
+  
+  axios.post("https://us-central1-we-party-210101.cloudfunctions.net/sendFeedback", 
+  {headers: 
+  { Authorization: `Bearer ${dbConfig.apiKey}`,
+  "content-type": "application/json" }},
+  {data:{"feedback": feedback, "uid": uid}
+  })
+  .then( r => {
+    console.log(r);
+  })
+}

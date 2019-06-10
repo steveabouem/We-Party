@@ -41,12 +41,11 @@ class UnmatchedActs extends React.Component {
 
   componentDidUpdate(prevProps) {
     if(prevProps.userInfo.activitiesList && prevProps.userInfo.activitiesList.unmatched !== this.props.userInfo.activitiesList.unmatched) {
-      this.setState({activitiesList: this.props.userInfo.activitiesList, isModalOpened:false})
+      this.setState({activitiesList: this.props.userInfo.activitiesList, isModalOpened:false});
     }
   }
 
   render(){
-    let key = 0;
     const {isModalOpened, activitiesList} = this.state;
     return(
       <div className="unmatched-activities-container">

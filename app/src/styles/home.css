@@ -5,7 +5,7 @@
 }
 
 .image-holder {
-  background: url(https://image.shutterstock.com/z/stock-photo--party-people-rock-concept-crowd-happy-and-joyful-in-club-celebration-party-festival-happiness-722111746.jpg);
+  background-image: url("https://images.unsplash.com/photo-1497911270199-1c552ee64aa4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80");
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;

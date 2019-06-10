@@ -1,9 +1,8 @@
 import React from "react";
 import {connect} from "react-redux";
-import { SlideToggle } from 'react-slide-toggle';
-import {Switch, Route} from "react-router-dom";//emlate viwbooking
 import {CardElement, injectStripe} from 'react-stripe-elements';
 import {createStripeCustomer, submitPayment, retrieveuser} from "../../actions";
+import SurveyForm from "../survey/SurveyForm";
 import Navigation from "../navigation/Navigation";
 import Modal from "../modals";
 import {Loading} from "../Loading";
@@ -104,6 +103,7 @@ class PaymentsPage extends React.Component {
             : 
             <div className="payments-container">
                 <Navigation currentUser={this.state.currentUser}/>
+                <SurveyForm />
                 <button className="button-primary" onClick={this.togglePayment}>
                     {this.state.buttonContent}
                 </button>

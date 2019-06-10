@@ -3,8 +3,9 @@
     flex-direction: column;
     justify-content: center;
     height: 100%;
-    background: url(https://image.shutterstock.com/z/stock-vector-golden-glittering-dark-background-vector-luxury-background-for-posters-banners-or-cards-790334740.jpg);
-    background-position-y: 69%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-image: url("https://images.unsplash.com/photo-1439539698758-ba2680ecadb9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80");
 }
 
 .payments-container button {

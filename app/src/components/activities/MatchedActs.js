@@ -1,10 +1,8 @@
 import React from "react";
 import moment from "moment";
-import { connect } from "react-redux";
+import {connect} from "react-redux";
 import firebase from "firebase";
-import { openChatRoom, getMsgHistory, deleteActivity, loadActivitiesCollection, retrieveJoinedProps } from "../../actions";
-import Modal from "../modals";
-
+import {openChatRoom, getMsgHistory, deleteActivity, loadActivitiesCollection, retrieveJoinedProps} from "../../actions";
 
 class MatchedActs extends React.Component {
   constructor(props) {
@@ -12,17 +10,11 @@ class MatchedActs extends React.Component {
     this.state = {
       isModalOpened: false,
       isLoading: true,
-      activitiesList: {}
+      activitiesList: []
     };
   };
 
-  currentUser = firebase.auth().currentUser;
-  joinedGroups = [];
-  index = 0;
-
-  openChatRoom = async(e, match) => {
-    e.preventDefault();
-    e.stopPropagation();
+  openChatRoom = async( match) => {
     this.index += 1;
     await this.props.openChatRoom(this.index, match, this.currentUser);
   }
@@ -40,22 +32,22 @@ class MatchedActs extends React.Component {
   };
 
   deleteActivity = async(activity) => {
-    console.log("delete",{activity});
+    console.log(this.state.activitiesList[0].matched.splice(1,activity));
     
-    await this.props.deleteActivity({key: activity.key, isMatched: "yes"});
-    this.setState({activitiesList: {...this.state.activitiesList, matched: this.state.activitiesList.unmatched.splice(1,activity)}});
+    await this.props.deleteActivity({key: activity.id, isMatched: "yes", uid: firebase.auth().currentUser.uid});
+    this.setState({activitiesList: {...this.state.activitiesList, matched: this.state.activitiesList[0].matched.splice(1,activity)}});
   };
   
   modalMessage = "Are you sure you want to delete this activity? All users will lose this information if you proceed";
 
   async componentDidMount() {
-    await this.props.loadActivitiesCollection();
-    this.setState({activitiesList: this.props.userInfo.activitiesList});
+    await this.props.retrieveJoinedProps(firebase.auth().currentUser.uid);
+    this.setState({activitiesList: this.props.userInfo.joinedList});
   }
 
   componentDidUpdate(prevProps) {
-    if(prevProps.userInfo.activitiesList && prevProps.userInfo.activitiesList.matched !== this.props.userInfo.activitiesList.matched) {
-      this.setState({activitiesList: this.props.userInfo.activitiesList, isModalOpened:false})
+    if(prevProps.userInfo.joinedList && prevProps.userInfo.joinedList !== this.props.userInfo.joinedList) {
+      this.setState({activitiesList: this.props.userInfo.joinedList, isModalOpened:false});
     }
   }
 
@@ -65,10 +57,9 @@ class MatchedActs extends React.Component {
         <div className="matched-activities-container">
         <h2> Groups Created </h2>
         {
-          activitiesList
-          && activitiesList.matched
+          activitiesList && activitiesList[0] && activitiesList[0].matched
           ?
-          activitiesList.matched.map(match => {
+          activitiesList[0].matched.map(match => {
             let dateDiff = moment(match.eventDate).diff(moment().startOf('day'), "days");
             if(match.creator && match.creator.email === firebase.auth().currentUser.email && match.members.length > 1) {
               return(
@@ -110,8 +101,8 @@ class MatchedActs extends React.Component {
                     Event occurs on {moment(match.eventDate).format("ddd, MMM Do YY")} (in {dateDiff} {dateDiff > 1 ? " days" : " day"}) 
                   </li>
                   <li>Created on { match.created }.</li>
-                  <button key={match.id + "-chat"} type="button" onClick={e => {this.openChatRoom(e, match)}}>
-                    Start Chat? <span className="material-icons">chat_bubble</span>
+                  <button key={match.id + "-chat"} type="button" onClick={e => {this.openChatRoom(match)}}>
+                    Start Chat ? <span className="material-icons">chat_bubble</span>
                   </button>
                   <button key={match.id + "-delete"} type="button" onClick={this.openModal}>
                     Delete
@@ -147,7 +138,7 @@ class MatchedActs extends React.Component {
                     <b>Venue</b>: { match.venue}, {match.location}.
                   </li>
                   <li> <b>For</b>: { match.group } 
-                    {match.genders === "Random" ? "people" 
+                    {match.genders === "Random" ? " people" 
                     : match.genders === "Boyz Night Out" ? " gentlemen" 
                     :  match.genders === "Girls Night Out" ? " ladies" 
                     : ""} 
@@ -174,7 +165,7 @@ class MatchedActs extends React.Component {
             )}
         })
         :
-        null
+        <p></p>
       }
       </div>
     )
@@ -185,4 +176,4 @@ const mapStateToProps = state => ({
   userInfo: state.userInfo
 })
 
-export default connect(mapStateToProps, {openChatRoom, getMsgHistory, deleteActivity, loadActivitiesCollection}) (MatchedActs)
+export default connect(mapStateToProps, {openChatRoom, getMsgHistory, deleteActivity, loadActivitiesCollection, retrieveJoinedProps}) (MatchedActs)

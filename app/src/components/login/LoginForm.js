@@ -121,11 +121,11 @@ class LoginForm extends React.Component {
           <label>
             Email
           </label>
-          <input type="email" placeholder="my@email.com" name="email-login"/>
+          <input type="email" name="email-login"/>
           <label>
             Password
           </label>
-          <input type="password" placeholder="@#*(#" name="password"/>
+          <input type="password" name="password"/>
           <button className="button-primary" onClick={e => {this.passwordLogin(e)}}>
             BEGIN
           </button>

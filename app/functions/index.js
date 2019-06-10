@@ -1,17 +1,18 @@
 const functions = require('firebase-functions');
+const env = functions.config();
 const cors = require('cors')({origin: true});
 const firebase = require("firebase");
 var axios = require('axios');
-const yelpKey = "woO7hOWfngBu9aeNH8cMaN0g4p7_u0IzDZ5JFvjwhu0aqAItRM-5HijZhO3JY_TwmEVq3kFpnh0Ss5yBBHYYFTZPeCtuXStFKtdmO93SILH3b-RNgeyvOisyIWpNW3Yx";
+const yelpKey = env.yelp.key;
 const dbConfig = {
-  apiKey: "AIzaSyA7YCkMaXdtsZlTpz4VFYlqoVsEr3Lg-p0",
+  apiKey: env.fb.key,
   authDomain: "we-party-210101.firebaseapp.com",
   databaseURL: "https://we-party-210101.firebaseio.com",
   projectId: "we-party-210101",
   storageBucket: "we-party-210101.appspot.com",
   // messagingSenderId: tokens.firebaseSender
 };
-const stripe = require("stripe")("sk_test_vdtVPJ5w24tJ5zdRHLcVvxUH");
+const stripe = require("stripe")(env.stripe.key);
 const sgMail = require('@sendgrid/mail');
 // sgMail.setApiKey(sendGridKey);
 firebase.initializeApp(dbConfig);
@@ -302,12 +303,10 @@ exports.createActivity = functions.https.onRequest( (req, res) => {
           timesUsed: currentTimesUsed
         })
         .then(() => {
-          query.child("users/" + uid + "/activities/unmatched/" + activity.id).set({activity});
-          query.child("activities").once("value", snapshot => {
-            res.send({
-              "code": 200,
-              "data": {activity: activity, allActivities: snapshot.val()}
-            });
+          query.child("users/" + uid + "/activities/unmatched/" + activity.id).set(activity);
+          res.send({
+            "code": 200,
+            "data": {activity: activity}
           });
         })
         .catch( e => {
@@ -325,32 +324,57 @@ exports.createActivity = functions.https.onRequest( (req, res) => {
 
 exports.joinActivity = functions.https.onRequest( (req, res) => {
   cors( req, res, () => {
-    let activity = req.body.activity,
+    let group = req.body.group,
     user = req.body.user,
-    key = req.body.activity.key;
+    uid = req.body.user.uid,
+    groupId = req.body.group.id,
+    activitiesList = {matched: [], unmatched: []};
     
-    query.child("activities/unmatched/" + key).once("value", snapshot => {
-      if(activity.members.length === parseInt(snapshot.val().group)) { //Remove the unmatched ref once the group is full
-        query.child("activities/unmatched/" + key).remove();
+    query.child("activities/unmatched/" + groupId).once("value", snapshot => {
+      if(group.members.length === parseInt(snapshot.val().group)) {
+        query.child("activities/unmatched/" + groupId).remove();
+        query.child("users/" + uid + "/activities/unmatched/" + groupId).remove();
       } else {
-        query.child("activities/unmatched/" + key + "/members").push(user);
-        query.child("users/" + user.uid + "/activities/matched").push({activity, key});
+        query.child("activities/unmatched/" + groupId + "/members").update({member: group.members});
+        query.child("users/" + uid + "/activities/matched/" + groupId).set(group);
       }
-    });
-    
-    query.child("activities/matched/" + key).set(activity);
-    query.child("activities").once("value", snapshot => {
-      res.send({
-        "code": 200,
-        "data": snapshot.val()
+    })
+    .then( () => {
+      query.child("activities/matched/" + groupId).once("value", snapshot => {
+        if(snapshot.val()) {
+          query.child("activities/matched/" + groupId + "/members").set(group.members);
+        }
       });
-    });
+    })
+    .then( () => {
+      query.child("users/" + uid + "/activities").once("value", snapshot => {
+        if(snapshot.val() && snapshot.val().unmatched){
+          Object.keys(snapshot.val().unmatched).forEach( key => {
+            activitiesList.unmatched.push(snapshot.val().unmatched[key]);
+          });
+        }
+
+        if(snapshot.val() && snapshot.val().matched){
+          Object.keys(snapshot.val().matched).forEach( key => {
+            activitiesList.matched.push(snapshot.val().matched[key]);
+          });
+        }
+        res.send({
+          "code": 200,
+          "data": activitiesList
+        });
+      });
+    })
+    .catch( e => {
+      res.send({"code": 500, "data": e});
+    })
   });
 });
 
 exports.deleteActivity = functions.https.onRequest( (req, res) => {
   cors( req, res, ()=> {
     let key = req.body.key,
+    uid = req.body.uid || null,
     isMatched = req.body.isMatched,
     activitiesList = {matched: [], unmatched: []};
     
@@ -358,16 +382,18 @@ exports.deleteActivity = functions.https.onRequest( (req, res) => {
       case "no":
         query.child("activities/unmatched/" + key).remove();
         query.child("activities").once("value", snapshot => {
-          if(snapshot.val()&& snapshot.val().unmatched){
+          if(snapshot.val() && snapshot.val().unmatched){
             Object.keys(snapshot.val().unmatched).forEach( key => {
-              activitiesList.unmatched.push(snapshot.val().unmatched[key])
-            })
+              activitiesList.unmatched.push(snapshot.val().unmatched[key]);
+            });
           }
+
           if(snapshot.val() && snapshot.val().matched){
             Object.keys(snapshot.val().matched).forEach( key => {
-              activitiesList.unmatched.push(snapshot.val().matched[key])
-            })
+              activitiesList.matched.push(snapshot.val().matched[key]);
+            });
           }
+
           res.send({
             "code": 200,
             "data": activitiesList
@@ -384,16 +410,17 @@ exports.deleteActivity = functions.https.onRequest( (req, res) => {
       case "yes":
         query.child("activities/matched/" + key).remove();
         query.child("chatRooms/" + key).remove();
-        query.child("activities").once("value", snapshot => {
+        query.child("users/" + uid + "/activities/" + key).remove();
+        query.child("user/" + uid + "/activities").once("value", snapshot => {
           if(snapshot.val() && snapshot.val().matched){
             Object.keys(snapshot.val().matched).forEach( key => {
-              activitiesList.unmatched.push(snapshot.val().matched[key])
-            })
+              activitiesList.matched.push(snapshot.val().matched[key])
+            });
           }
           if(snapshot.val()&& snapshot.val().unmatched){
             Object.keys(snapshot.val().unmatched).forEach( key => {
               activitiesList.unmatched.push(snapshot.val().unmatched[key])
-            })
+            });
           }
           res.send({
             "code": 200,
@@ -413,15 +440,26 @@ exports.deleteActivity = functions.https.onRequest( (req, res) => {
 });
 
 exports.retrieveJoined = functions.https.onRequest( (req, res) => {
-  var uid = req.body.uid;
+  const uid = req.body.uid;
+  let activitiesList = {matched: [], unmatched: []};
   
   cors( req, res, () => {
     query.child("users/" + uid).once("value", snapshot => {
       if(snapshot.val() && snapshot.val().activities){
+        if(snapshot.val().activities.unmatched) {
+          Object.keys(snapshot.val().activities.unmatched).forEach( key => {
+            activitiesList.unmatched.push(snapshot.val().activities.unmatched[key]);
+          });
+        }
+        if(snapshot.val().activities.matched) {
+          Object.keys(snapshot.val().activities.matched).forEach( key => {
+            activitiesList.matched.push(snapshot.val().activities.matched[key]);
+          });
+        }
         res.send({
           "code": 200,
-          "data": snapshot.val().activities
-        })
+          "data": activitiesList
+        });
       } else {
         res.send({
           "code": 204,
@@ -496,4 +534,21 @@ exports.sendMessage = functions.https.onRequest ((req, res) => {
       });
     });
   })
+});
+
+exports.sendFeedback = functions.https.onRequest((req,res) => {
+  let feedback = req.body.feedback,
+  uid = req.body.uid;
+  
+  cors(req, res, () => {
+    console.log("body", req.body, feedback, uid);
+    query.child("surveys/" + uid).set(feedback)
+    .then( r => {
+      res.send({data: r});
+    })
+    .catch( e => {
+      console.log(e);
+      res.send({code: 500, data: e});
+    });
+  });
 });
