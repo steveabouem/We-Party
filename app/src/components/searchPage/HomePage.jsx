@@ -151,7 +151,7 @@ class HomePage extends React.Component {
               hasCancel={true}
               top={window.innerHeight / 1.5 + "px"}
               right="45%"
-              message="Pay now"
+              message="Go Premium?"
               callback={e => {this.props.history.push("/payment")}}
               cancel={e=>{this.closeModal()}}
             />

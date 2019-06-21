@@ -25,7 +25,7 @@ class PaymentsPage extends React.Component {
         });
     }
 
-    submitPayment = async (e) => {
+    submitPayment = async () => {
         let customer = {name: this.state.currentUser.displayName, email: this.state.currentUser.email, uid: this.state.currentUser.uid};
         this.setState({
             loading: true

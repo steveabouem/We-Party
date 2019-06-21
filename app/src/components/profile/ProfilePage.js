@@ -116,38 +116,6 @@ class ProfilePage extends React.Component {
                                                 </span>
                                             </a>
                                         </div>
-                                        {/* <div className="profile-list-item">
-                                            <ul className="profile-activities">
-                                                {userInfo.userSummary && userInfo.userSummary.activities ?
-                                                    Object.keys(userInfo.userSummary.activities.unmatched).map( key => {
-                                                        let activity = userInfo.userSummary.activities.unmatched[key].activity;
-                                                        return (
-                                                            <React.Fragment>
-                                                                <li>
-                                                                    Date created: {activity.created}
-                                                                </li>
-                                                                <li>
-                                                                    By : {
-                                                                            activity.creator.uid === currentUser.uid ? 
-                                                                            "Yourself"
-                                                                            :
-                                                                            userInfo.userSummary.displayName
-                                                                        }
-                                                                </li>
-                                                                <li>
-                                                                    Due date: {activity.eventDate}
-                                                                </li>
-                                                                <li>
-                                                                    Full breakdown <a>here</a>
-                                                                </li>
-                                                            </React.Fragment>
-                                                        );
-                                                    })
-                                                    :
-                                                    null
-                                                }
-                                            </ul>
-                                        </div> */}
                                     </li>
                                 </ul>
                             </div>
